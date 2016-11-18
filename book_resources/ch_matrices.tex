@@ -1,0 +1,407 @@
+\section{ch\_matrices}\label{chux5fmatrices}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include "calfem.h"}
+
+\OtherTok{#include <cmath>}
+\OtherTok{#include <set>}
+
+\NormalTok{arma::mat hooke(TAnalysisType ptype, }\DataTypeTok{double} \NormalTok{E, }\DataTypeTok{double} \NormalTok{v)}
+\NormalTok{\{}
+    \KeywordTok{using} \KeywordTok{namespace} \NormalTok{arma;}
+    
+    \NormalTok{mat D;}
+    \KeywordTok{switch} \NormalTok{(ptype) \{}
+        \KeywordTok{case} \NormalTok{PLANE_STRESS:}
+            \NormalTok{D.resize(}\DecValTok{3}\NormalTok{,}\DecValTok{3}\NormalTok{);}
+            \NormalTok{D << }\FloatTok{1.}\DecValTok{0} \NormalTok{<< v   << }\FloatTok{0.}\DecValTok{0} \NormalTok{<< endr}
+            \NormalTok{<< v   << }\FloatTok{1.}\DecValTok{0} \NormalTok{<< }\FloatTok{0.}\DecValTok{0} \NormalTok{<< endr}
+            \NormalTok{<< }\FloatTok{0.}\DecValTok{0} \NormalTok{<< }\FloatTok{0.}\DecValTok{0} \NormalTok{<< (}\FloatTok{1.}\DecValTok{0}\NormalTok{-v)*}\FloatTok{0.}\DecValTok{5} \NormalTok{<< endr;}
+            
+            \NormalTok{D *= E/(}\DecValTok{1}\NormalTok{-v*v);}
+            
+            \KeywordTok{break}\NormalTok{;}
+        \KeywordTok{case} \NormalTok{PLANE_STRAIN:}
+            \NormalTok{D.resize(}\DecValTok{4}\NormalTok{,}\DecValTok{4}\NormalTok{);}
+            \NormalTok{D << }\FloatTok{1.}\DecValTok{0}\NormalTok{-v << v     << v     << }\FloatTok{0.}\DecValTok{0} \NormalTok{<< endr}
+            \NormalTok{<< v     << }\FloatTok{1.}\DecValTok{0}\NormalTok{-v << v     << }\FloatTok{0.}\DecValTok{0} \NormalTok{<< endr}
+            \NormalTok{<< v     << v     << }\FloatTok{1.}\DecValTok{0}\NormalTok{-v << }\FloatTok{0.}\DecValTok{0} \NormalTok{<< endr}
+            \NormalTok{<< }\FloatTok{0.}\DecValTok{0}   \NormalTok{<< }\FloatTok{0.}\DecValTok{0}   \NormalTok{<< }\FloatTok{0.}\DecValTok{0}   \NormalTok{<< }\FloatTok{0.}\DecValTok{5}\NormalTok{*(}\FloatTok{1.}\DecValTok{0-2}\NormalTok{*v) << endr;}
+            
+            \NormalTok{D *= E/((}\DecValTok{1}\NormalTok{+v)*(}\DecValTok{1-2}\NormalTok{*v));}
+            
+            \KeywordTok{break}\NormalTok{;}
+        \KeywordTok{default}\NormalTok{:}
+            \KeywordTok{break}\NormalTok{;}
+    \NormalTok{\}}
+    \KeywordTok{return} \NormalTok{D;}
+\NormalTok{\}}
+
+\NormalTok{arma::mat bar2e(arma::rowvec ex, arma::rowvec ey, arma::rowvec ep)}
+\NormalTok{\{}
+    \KeywordTok{using} \KeywordTok{namespace} \NormalTok{arma;}
+    
+    \DataTypeTok{double} \NormalTok{E = ep(}\DecValTok{0}\NormalTok{);}
+    \DataTypeTok{double} \NormalTok{A = ep(}\DecValTok{1}\NormalTok{);}
+    \DataTypeTok{double} \NormalTok{L = sqrt(pow(ex(}\DecValTok{1}\NormalTok{)-ex(}\DecValTok{0}\NormalTok{),}\DecValTok{2}\NormalTok{)+pow(ey(}\DecValTok{1}\NormalTok{)-ey(}\DecValTok{0}\NormalTok{),}\DecValTok{2}\NormalTok{));}
+    \DataTypeTok{double} \NormalTok{C = E*A/L;}
+    
+    \NormalTok{mat Ke_loc(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{);}
+
+    \NormalTok{Ke_loc <<  C << -C << endr}
+           \NormalTok{<< -C <<  C << endr;}
+    
+    \DataTypeTok{double} \NormalTok{nxx = (ex(}\DecValTok{1}\NormalTok{)-ex(}\DecValTok{0}\NormalTok{))/L;}
+    \DataTypeTok{double} \NormalTok{nyx = (ey(}\DecValTok{1}\NormalTok{)-ey(}\DecValTok{0}\NormalTok{))/L;}
+    
+    \NormalTok{mat G(}\DecValTok{2}\NormalTok{,}\DecValTok{4}\NormalTok{);}
+    
+    \NormalTok{G << nxx << nyx << }\FloatTok{0.}\DecValTok{0} \NormalTok{<< }\FloatTok{0.}\DecValTok{0} \NormalTok{<< endr}
+      \NormalTok{<< }\FloatTok{0.}\DecValTok{0} \NormalTok{<< }\FloatTok{0.}\DecValTok{0} \NormalTok{<< nxx << nyx << endr;}
+    
+    \NormalTok{mat Ke = G.t()*Ke_loc*G;}
+    \KeywordTok{return} \NormalTok{Ke;}
+\NormalTok{\}}
+
+\DataTypeTok{double} \NormalTok{bar2s(arma::rowvec ex, arma::rowvec ey, arma::rowvec ep, arma::rowvec ed)}
+\NormalTok{\{}
+    \KeywordTok{using} \KeywordTok{namespace} \NormalTok{arma;}
+    
+    \DataTypeTok{double} \NormalTok{E = ep(}\DecValTok{0}\NormalTok{);}
+    \DataTypeTok{double} \NormalTok{A = ep(}\DecValTok{1}\NormalTok{);}
+    \DataTypeTok{double} \NormalTok{L = sqrt(pow(ex(}\DecValTok{1}\NormalTok{)-ex(}\DecValTok{0}\NormalTok{),}\DecValTok{2}\NormalTok{)+pow(ey(}\DecValTok{1}\NormalTok{)-ey(}\DecValTok{0}\NormalTok{),}\DecValTok{2}\NormalTok{));}
+    \DataTypeTok{double} \NormalTok{C = E*A/L;}
+    
+    \DataTypeTok{double} \NormalTok{nxx = (ex(}\DecValTok{1}\NormalTok{)-ex(}\DecValTok{0}\NormalTok{))/L;}
+    \DataTypeTok{double} \NormalTok{nyx = (ey(}\DecValTok{1}\NormalTok{)-ey(}\DecValTok{0}\NormalTok{))/L;}
+    
+    \NormalTok{mat G(}\DecValTok{2}\NormalTok{,}\DecValTok{4}\NormalTok{);}
+    
+    \NormalTok{G << nxx << nyx << }\FloatTok{0.}\DecValTok{0} \NormalTok{<< }\FloatTok{0.}\DecValTok{0} \NormalTok{<< endr}
+    \NormalTok{<< }\FloatTok{0.}\DecValTok{0} \NormalTok{<< }\FloatTok{0.}\DecValTok{0} \NormalTok{<< nxx << nyx << endr;}
+
+    \NormalTok{rowvec temp;}
+    \NormalTok{temp << -C << C;}
+    
+    \KeywordTok{return} \NormalTok{as_scalar(temp * G * ed.t());}
+\NormalTok{\}}
+
+\DataTypeTok{void} \NormalTok{assem(arma::imat topo, arma::mat& K, arma::mat& Ke)}
+\NormalTok{\{}
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{row=}\DecValTok{0}\NormalTok{; row<Ke.n_rows; row++)}
+        \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{col=}\DecValTok{0}\NormalTok{; col<Ke.n_cols; col++)}
+            \NormalTok{K(topo(row), topo(col)) += Ke(row,col);}
+\NormalTok{\}}
+
+\DataTypeTok{void} \NormalTok{solveq(arma::mat& K, arma::mat&f, arma::irowvec& bcDofs, arma::rowvec& bcValues, arma::mat& a, arma::mat& r)}
+\NormalTok{\{}
+    \KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+    \KeywordTok{using} \KeywordTok{namespace} \NormalTok{arma;}
+    
+    \NormalTok{set<}\DataTypeTok{int}\NormalTok{> bc;}
+    
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<bcDofs.size(); i++)}
+        \NormalTok{bc.insert(bcDofs(i));}
+    
+    \NormalTok{uvec allIndices(K.n_rows-bc.size());}
+    \NormalTok{uvec colIndices;}
+    
+    \NormalTok{colIndices << }\DecValTok{0}\NormalTok{;}
+    
+    \DataTypeTok{int} \NormalTok{count = }\DecValTok{0}\NormalTok{;}
+    
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<K.n_rows; i++)}
+        \KeywordTok{if} \NormalTok{(bc.find(i)==bc.end())}
+            \NormalTok{allIndices(count++) = i;}
+    
+    \NormalTok{mat Ksolve = K(allIndices, allIndices);}
+    \NormalTok{mat fsolve = f(allIndices, colIndices);}
+    \NormalTok{mat asolve = solve(Ksolve, fsolve);}
+    
+    \NormalTok{a.zeros();}
+    \NormalTok{a(allIndices, colIndices) = asolve;}
+    
+    \CommentTok{/* Q=K*asmatrix(a)-f */}
+    
+    \NormalTok{r = K*a-f;}
+\NormalTok{\}}
+
+\DataTypeTok{void} \NormalTok{extractEldisp(arma::imat& edof, arma::mat& a, arma::mat& ed)}
+\NormalTok{\{}
+    \DataTypeTok{int} \NormalTok{nDofs = edof.n_cols;}
+    \DataTypeTok{int} \NormalTok{nElements = edof.n_rows;}
+    
+    \NormalTok{ed.resize(nElements, nDofs);}
+    
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<nElements; i++)}
+        \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{j=}\DecValTok{0}\NormalTok{; j<nDofs; j++)}
+            \NormalTok{ed(i,j) = a(edof(i,j),}\DecValTok{0}\NormalTok{);}
+\NormalTok{\}}
+
+
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <armadillo>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{arma;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{mat A = randu<mat>(}\DecValTok{4}\NormalTok{,}\DecValTok{5}\NormalTok{);}
+    \NormalTok{mat B = randu<mat>(}\DecValTok{4}\NormalTok{,}\DecValTok{5}\NormalTok{);}
+    
+    \NormalTok{cout << A*B.t() << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <armadillo>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{arma;}
+
+\KeywordTok{enum} \NormalTok{TAnalysisType \{PLANE_STRESS, PLANE_STRAIN\};}
+
+\NormalTok{mat hooke(TAnalysisType ptype, }\DataTypeTok{double} \NormalTok{E, }\DataTypeTok{double} \NormalTok{v)}
+\NormalTok{\{}
+    \NormalTok{mat D;}
+    \KeywordTok{switch} \NormalTok{(ptype) \{}
+        \KeywordTok{case} \NormalTok{PLANE_STRESS:}
+            \NormalTok{D.resize(}\DecValTok{3}\NormalTok{,}\DecValTok{3}\NormalTok{);}
+            \NormalTok{D << }\FloatTok{1.}\DecValTok{0} \NormalTok{<< v   << }\FloatTok{0.}\DecValTok{0} \NormalTok{<< endr}
+              \NormalTok{<< v   << }\FloatTok{1.}\DecValTok{0} \NormalTok{<< }\FloatTok{0.}\DecValTok{0} \NormalTok{<< endr}
+              \NormalTok{<< }\FloatTok{0.}\DecValTok{0} \NormalTok{<< }\FloatTok{0.}\DecValTok{0} \NormalTok{<< (}\FloatTok{1.}\DecValTok{0}\NormalTok{-v)*}\FloatTok{0.}\DecValTok{5} \NormalTok{<< endr;}
+            \KeywordTok{break}\NormalTok{;}
+        \KeywordTok{case} \NormalTok{PLANE_STRAIN:}
+            \NormalTok{D.resize(}\DecValTok{4}\NormalTok{,}\DecValTok{4}\NormalTok{);}
+            \NormalTok{D << }\FloatTok{1.}\DecValTok{0}\NormalTok{-v << v     << v     << }\FloatTok{0.}\DecValTok{0} \NormalTok{<< endr}
+              \NormalTok{<< v     << }\FloatTok{1.}\DecValTok{0}\NormalTok{-v << v     << }\FloatTok{0.}\DecValTok{0} \NormalTok{<< endr}
+              \NormalTok{<< v     << v     << }\FloatTok{1.}\DecValTok{0}\NormalTok{-v << }\FloatTok{0.}\DecValTok{0} \NormalTok{<< endr}
+              \NormalTok{<< }\FloatTok{0.}\DecValTok{0}   \NormalTok{<< }\FloatTok{0.}\DecValTok{0}   \NormalTok{<< }\FloatTok{0.}\DecValTok{0}   \NormalTok{<< }\FloatTok{0.}\DecValTok{5}\NormalTok{*(}\FloatTok{1.}\DecValTok{0-2}\NormalTok{*v) << endr;}
+            \KeywordTok{break}\NormalTok{;}
+        \KeywordTok{default}\NormalTok{:}
+            \KeywordTok{break}\NormalTok{;}
+    \NormalTok{\}}
+    \KeywordTok{return} \NormalTok{D;}
+\NormalTok{\}}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{mat Dpstress = hooke(PLANE_STRESS, }\FloatTok{2.1e9}\NormalTok{, }\FloatTok{0.}\DecValTok{35}\NormalTok{);}
+    \NormalTok{mat Dpstrain = hooke(PLANE_STRAIN, }\FloatTok{2.1e9}\NormalTok{, }\FloatTok{0.}\DecValTok{35}\NormalTok{);}
+    
+    \NormalTok{cout << }\StringTok{"D,pstress = "} \NormalTok{<< endl;}
+    \NormalTok{Dpstress.print();}
+    \NormalTok{cout << }\StringTok{"D,pstrain = "} \NormalTok{<< endl;}
+    \NormalTok{Dpstrain.print();}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <armadillo>}
+
+\OtherTok{#include "calfem.h"}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{arma;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{rowvec ex(}\DecValTok{2}\NormalTok{);}
+    \NormalTok{rowvec ey(}\DecValTok{2}\NormalTok{);}
+    \NormalTok{rowvec ep(}\DecValTok{2}\NormalTok{);}
+    
+    \NormalTok{ex << }\FloatTok{0.}\DecValTok{0} \NormalTok{<< }\FloatTok{1.}\DecValTok{0}\NormalTok{;}
+    \NormalTok{ey << }\FloatTok{0.}\DecValTok{0} \NormalTok{<< }\FloatTok{1.}\DecValTok{0}\NormalTok{;}
+    \NormalTok{ep << }\FloatTok{1.}\DecValTok{0} \NormalTok{<< }\FloatTok{1.}\DecValTok{0}\NormalTok{;}
+    
+    \NormalTok{mat Ke = bar2e(ex, ey, ep);}
+    
+    \NormalTok{cout << Ke << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <armadillo>}
+
+\OtherTok{#include "calfem.h"}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{arma;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{rowvec ex(}\DecValTok{2}\NormalTok{);}
+    \NormalTok{rowvec ey(}\DecValTok{2}\NormalTok{);}
+    \NormalTok{rowvec ep(}\DecValTok{2}\NormalTok{);}
+    \NormalTok{rowvec ed(}\DecValTok{4}\NormalTok{);}
+    
+    \NormalTok{ex << }\FloatTok{0.}\DecValTok{0} \NormalTok{<< }\FloatTok{1.}\DecValTok{0}\NormalTok{;}
+    \NormalTok{ey << }\FloatTok{0.}\DecValTok{0} \NormalTok{<< }\FloatTok{1.}\DecValTok{0}\NormalTok{;}
+    \NormalTok{ep << }\FloatTok{1.}\DecValTok{0} \NormalTok{<< }\FloatTok{1.}\DecValTok{0}\NormalTok{;}
+    \NormalTok{ed << }\FloatTok{0.}\DecValTok{0} \NormalTok{<< }\FloatTok{0.}\DecValTok{0} \NormalTok{<< }\FloatTok{0.}\BaseNTok{01} \NormalTok{<< }\FloatTok{0.}\BaseNTok{01}\NormalTok{;}
+    
+    \NormalTok{mat Ke = bar2e(ex, ey, ep);}
+    \NormalTok{cout << }\StringTok{"Ke="} \NormalTok{<< endl;}
+    \NormalTok{cout << Ke << endl;}
+    
+    \DataTypeTok{double} \NormalTok{N = bar2s(ex, ey, ep, ed);}
+    
+    \NormalTok{cout << }\StringTok{"N = "} \NormalTok{<< N << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <cmath>}
+\OtherTok{#include <armadillo>}
+\OtherTok{#include <set>}
+
+\OtherTok{#include "calfem.h"}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{arma;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \CommentTok{// Element topology}
+    
+    \NormalTok{imat edof(}\DecValTok{10}\NormalTok{,}\DecValTok{4}\NormalTok{);}
+    
+    \NormalTok{edof << }\DecValTok{1} \NormalTok{<< }\DecValTok{2} \NormalTok{<< }\DecValTok{5} \NormalTok{<< }\DecValTok{6} \NormalTok{<< endr}
+         \NormalTok{<< }\DecValTok{3} \NormalTok{<< }\DecValTok{4} \NormalTok{<< }\DecValTok{7} \NormalTok{<< }\DecValTok{8} \NormalTok{<< endr}
+         \NormalTok{<< }\DecValTok{5} \NormalTok{<< }\DecValTok{6} \NormalTok{<< }\DecValTok{9} \NormalTok{<< }\DecValTok{10} \NormalTok{<< endr}
+         \NormalTok{<< }\DecValTok{7} \NormalTok{<< }\DecValTok{8} \NormalTok{<< }\DecValTok{11} \NormalTok{<< }\DecValTok{12}\NormalTok{<< endr}
+         \NormalTok{<< }\DecValTok{7} \NormalTok{<< }\DecValTok{8} \NormalTok{<< }\DecValTok{5} \NormalTok{<< }\DecValTok{6} \NormalTok{<< endr}
+         \NormalTok{<< }\DecValTok{11} \NormalTok{<< }\DecValTok{12} \NormalTok{<< }\DecValTok{9} \NormalTok{<< }\DecValTok{10} \NormalTok{<< endr}
+         \NormalTok{<< }\DecValTok{3} \NormalTok{<< }\DecValTok{4} \NormalTok{<< }\DecValTok{5} \NormalTok{<< }\DecValTok{6} \NormalTok{<< endr}
+         \NormalTok{<< }\DecValTok{7} \NormalTok{<< }\DecValTok{8} \NormalTok{<< }\DecValTok{9} \NormalTok{<< }\DecValTok{10} \NormalTok{<< endr}
+         \NormalTok{<< }\DecValTok{1} \NormalTok{<< }\DecValTok{2} \NormalTok{<< }\DecValTok{7} \NormalTok{<< }\DecValTok{8} \NormalTok{<< endr}
+         \NormalTok{<< }\DecValTok{5} \NormalTok{<< }\DecValTok{6} \NormalTok{<< }\DecValTok{11} \NormalTok{<< }\DecValTok{12} \NormalTok{<< endr;}
+    
+    \NormalTok{edof -= }\DecValTok{1}\NormalTok{;}
+    
+    \CommentTok{// Stiffness matrix}
+    
+    \NormalTok{mat K(}\DecValTok{12}\NormalTok{,}\DecValTok{12}\NormalTok{);}
+    \NormalTok{K.zeros();}
+    
+    \CommentTok{// Force vector}
+    
+    \NormalTok{mat f(}\DecValTok{12}\NormalTok{,}\DecValTok{1}\NormalTok{);}
+    \NormalTok{f.zeros();}
+    \NormalTok{f(}\DecValTok{10}\NormalTok{,}\DecValTok{0}\NormalTok{) = }\FloatTok{0.5e6}\NormalTok{*sin(M_PI/}\DecValTok{6}\NormalTok{);}
+    \NormalTok{f(}\DecValTok{11}\NormalTok{,}\DecValTok{0}\NormalTok{) = }\FloatTok{-0.5e6}\NormalTok{*cos(M_PI/}\DecValTok{6}\NormalTok{);}
+    
+    \CommentTok{// Material properties}
+    
+    \DataTypeTok{double} \NormalTok{A = }\FloatTok{25.0e-4}\NormalTok{;}
+    \DataTypeTok{double} \NormalTok{E = }\FloatTok{2.1e11}\NormalTok{;}
+    
+    \NormalTok{rowvec ep(}\DecValTok{2}\NormalTok{);}
+    
+    \NormalTok{ep << E << A;}
+    
+    \CommentTok{// Element coordinates}
+    
+    \NormalTok{mat ex(}\DecValTok{10}\NormalTok{,}\DecValTok{2}\NormalTok{);}
+    \NormalTok{mat ey(}\DecValTok{10}\NormalTok{,}\DecValTok{2}\NormalTok{);}
+    
+    \NormalTok{ex << }\DecValTok{0} \NormalTok{<< }\DecValTok{2} \NormalTok{<< endr}
+       \NormalTok{<< }\DecValTok{0} \NormalTok{<< }\DecValTok{2} \NormalTok{<< endr}
+       \NormalTok{<< }\DecValTok{2} \NormalTok{<< }\DecValTok{4} \NormalTok{<< endr}
+       \NormalTok{<< }\DecValTok{2} \NormalTok{<< }\DecValTok{4} \NormalTok{<< endr}
+       \NormalTok{<< }\DecValTok{2} \NormalTok{<< }\DecValTok{2} \NormalTok{<< endr}
+       \NormalTok{<< }\DecValTok{4} \NormalTok{<< }\DecValTok{4} \NormalTok{<< endr}
+       \NormalTok{<< }\DecValTok{0} \NormalTok{<< }\DecValTok{2} \NormalTok{<< endr}
+       \NormalTok{<< }\DecValTok{2} \NormalTok{<< }\DecValTok{4} \NormalTok{<< endr}
+       \NormalTok{<< }\DecValTok{0} \NormalTok{<< }\DecValTok{2} \NormalTok{<< endr}
+       \NormalTok{<< }\DecValTok{2} \NormalTok{<< }\DecValTok{4} \NormalTok{<< endr;}
+    
+    \NormalTok{ey << }\DecValTok{2} \NormalTok{<< }\DecValTok{2} \NormalTok{<< endr}
+       \NormalTok{<< }\DecValTok{0} \NormalTok{<< }\DecValTok{0} \NormalTok{<< endr}
+       \NormalTok{<< }\DecValTok{2} \NormalTok{<< }\DecValTok{2} \NormalTok{<< endr}
+       \NormalTok{<< }\DecValTok{0} \NormalTok{<< }\DecValTok{0} \NormalTok{<< endr}
+       \NormalTok{<< }\DecValTok{0} \NormalTok{<< }\DecValTok{2} \NormalTok{<< endr}
+       \NormalTok{<< }\DecValTok{0} \NormalTok{<< }\DecValTok{2} \NormalTok{<< endr}
+       \NormalTok{<< }\DecValTok{0} \NormalTok{<< }\DecValTok{2} \NormalTok{<< endr}
+       \NormalTok{<< }\DecValTok{0} \NormalTok{<< }\DecValTok{2} \NormalTok{<< endr}
+       \NormalTok{<< }\DecValTok{2} \NormalTok{<< }\DecValTok{0} \NormalTok{<< endr}
+       \NormalTok{<< }\DecValTok{2} \NormalTok{<< }\DecValTok{0} \NormalTok{<< endr;}
+    
+    \CommentTok{// Assemble system}
+    
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<ex.n_rows; i++)}
+    \NormalTok{\{}
+        \NormalTok{mat Ke = bar2e(ex.row(i), ey.row(i), ep);}
+        \NormalTok{assem(edof.row(i), K, Ke);}
+    \NormalTok{\}}
+    
+    \CommentTok{// Boundary conditions}
+        
+    \NormalTok{irowvec bcDofs(}\DecValTok{4}\NormalTok{);}
+    \NormalTok{bcDofs << }\DecValTok{0} \NormalTok{<< }\DecValTok{1} \NormalTok{<< }\DecValTok{2} \NormalTok{<< }\DecValTok{3}\NormalTok{;}
+    
+    \NormalTok{rowvec bcValues(}\DecValTok{4}\NormalTok{);}
+    \NormalTok{bcValues << }\FloatTok{0.}\DecValTok{0} \NormalTok{<< }\FloatTok{0.}\DecValTok{0} \NormalTok{<< }\FloatTok{0.}\DecValTok{0} \NormalTok{<< }\FloatTok{0.}\DecValTok{0}\NormalTok{;}
+    
+    \CommentTok{// Solution displacment and reaction vector}
+    
+    \NormalTok{mat a(K.n_rows, }\DecValTok{1}\NormalTok{);}
+    \NormalTok{mat r(K.n_rows, }\DecValTok{1}\NormalTok{);}
+    
+    \CommentTok{// Solve equation system}
+    
+    \NormalTok{solveq(K, f, bcDofs, bcValues, a, r);}
+    
+    \CommentTok{// Displa}
+    
+    \NormalTok{cout.precision(}\DecValTok{11}\NormalTok{);}
+    \NormalTok{cout.setf(ios::fixed);}
+    
+    \NormalTok{cout << }\StringTok{"a ="} \NormalTok{<< endl;}
+    \NormalTok{a.raw_print();}
+    
+    \NormalTok{cout << }\StringTok{"r ="} \NormalTok{<< endl;}
+    \NormalTok{r.raw_print();}
+    
+    \CommentTok{// Extract element displacements}
+    
+    \NormalTok{mat ed;}
+    
+    \NormalTok{extractEldisp(edof, a, ed);}
+    
+    \NormalTok{cout << }\StringTok{"ed = "} \NormalTok{<< endl;}
+    \NormalTok{ed.raw_print();}
+    
+    \CommentTok{// Calculate element forces}
+    
+    \NormalTok{rowvec N(edof.n_rows);}
+    
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<edof.n_rows; i++)}
+        \NormalTok{N(i) = bar2s(ex.row(i), ey.row(i), ep, ed.row(i));}
+    
+    \NormalTok{cout << }\StringTok{"N = "} \NormalTok{<< endl;}
+    \NormalTok{N.raw_print();}
+    
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+

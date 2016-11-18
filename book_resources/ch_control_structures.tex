@@ -1,0 +1,97 @@
+\section{ch\_control\_structures}\label{chux5fcontrolux5fstructures}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{1}\NormalTok{; i<=}\DecValTok{10}\NormalTok{; i++)}
+    \NormalTok{\{}
+        \NormalTok{cout << }\StringTok{"i = "} \NormalTok{<< i << endl;}
+        
+        \KeywordTok{if} \NormalTok{(i==}\DecValTok{5}\NormalTok{)}
+            \NormalTok{cout << }\StringTok{"i == 5"} \NormalTok{<< endl;}
+    \NormalTok{\}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{1}\NormalTok{; i<=}\DecValTok{10}\NormalTok{; i++)}
+    \NormalTok{\{}
+        \KeywordTok{if} \NormalTok{(i==}\DecValTok{5}\NormalTok{)}
+            \NormalTok{cout << }\StringTok{"i == 5"} \NormalTok{<< endl;}
+        \KeywordTok{else}
+            \NormalTok{cout << }\StringTok{"i != 5"} \NormalTok{<< endl;}
+    \NormalTok{\}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{1}\NormalTok{; i<=}\DecValTok{10}\NormalTok{; i++)}
+    \NormalTok{\{}
+        \NormalTok{cout << }\StringTok{"i = "} \NormalTok{<< i << }\StringTok{": "}\NormalTok{;}
+        
+        \KeywordTok{if} \NormalTok{(i==}\DecValTok{5}\NormalTok{)}
+            \NormalTok{cout << }\StringTok{"i == 5"} \NormalTok{<< endl;}
+        \KeywordTok{else} \KeywordTok{if} \NormalTok{( (i>=}\DecValTok{2}\NormalTok{)&&(i<=}\DecValTok{3}\NormalTok{) )}
+            \NormalTok{cout << }\StringTok{"2 <= i <= 3"} \NormalTok{<< endl;}
+        \KeywordTok{else}
+            \NormalTok{cout << }\StringTok{"-"} \NormalTok{<< endl;}
+    \NormalTok{\}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <cstdlib>}
+\OtherTok{#include <ctime>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \KeywordTok{enum} \NormalTok{colorType \{ RED, GREEN, BLUE, YELLOW, ORANGE \};}
+    \NormalTok{srand((}\DataTypeTok{unsigned}\NormalTok{)time(}\DecValTok{0}\NormalTok{));}
+    
+    
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<}\DecValTok{4}\NormalTok{; i++)}
+    \NormalTok{\{}
+        \NormalTok{colorType color = colorType(rand()%}\DecValTok{5}\NormalTok{);}
+        \KeywordTok{switch} \NormalTok{(color)}
+        \NormalTok{\{}
+            \KeywordTok{case} \NormalTok{RED:}
+                \NormalTok{cout << }\StringTok{"Color is red."} \NormalTok{<< endl;}
+                \KeywordTok{break}\NormalTok{;}
+            \KeywordTok{case} \NormalTok{GREEN:}
+                \NormalTok{cout << }\StringTok{"Color is green."} \NormalTok{<< endl;}
+                \KeywordTok{break}\NormalTok{;}
+            \KeywordTok{default}\NormalTok{:}
+                \NormalTok{cout << }\StringTok{"Color is either BLUE, YELLOW or ORANGE."} \NormalTok{<< endl;}
+                \KeywordTok{break}\NormalTok{;}
+        \NormalTok{\}}
+    \NormalTok{\}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+

@@ -1,0 +1,79 @@
+\section{ch\_vector\_and\_lists}\label{chux5fvectorux5fandux5flists}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <vector>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{vector<}\DataTypeTok{double}\NormalTok{> vec;}
+
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<}\DecValTok{10}\NormalTok{; i++)}
+        \NormalTok{vec.push_back(i);}
+
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<}\DecValTok{10}\NormalTok{; i++)}
+        \NormalTok{cout << vec[i] << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <vector>}
+\OtherTok{#include <algorithm>}
+\OtherTok{#include <ctime>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{srand((}\DataTypeTok{unsigned}\NormalTok{)time(}\DecValTok{0}\NormalTok{));}
+
+    \NormalTok{vector<}\DataTypeTok{int}\NormalTok{> vec;}
+
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<}\DecValTok{10}\NormalTok{; i++)}
+        \NormalTok{vec.push_back(rand());}
+
+    \NormalTok{sort(vec.begin(), vec.end());}
+    \NormalTok{reverse(vec.begin(), vec.end());}
+
+    \NormalTok{vector<}\DataTypeTok{int}\NormalTok{>::iterator it;}
+
+    \KeywordTok{for} \NormalTok{(it=vec.begin(); it!=vec.end(); it++)}
+        \NormalTok{cout << *it << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <vector>}
+\OtherTok{#include <algorithm>}
+\OtherTok{#include <ctime>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{srand((}\DataTypeTok{unsigned}\NormalTok{)time(}\DecValTok{0}\NormalTok{));}
+
+    \NormalTok{vector<}\DataTypeTok{int}\NormalTok{> vec;}
+
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<}\DecValTok{10}\NormalTok{; i++)}
+        \NormalTok{vec.push_back(rand());}
+
+    \NormalTok{sort(vec.begin(), vec.end());}
+    \NormalTok{reverse(vec.begin(), vec.end());}
+
+    \KeywordTok{for} \NormalTok{(}\KeywordTok{auto} \NormalTok{v : vec)}
+        \NormalTok{cout << v << endl;}
+
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+

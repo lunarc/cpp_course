@@ -1,0 +1,1 @@
+./io3 > io3.txt 2> io3_error.txt

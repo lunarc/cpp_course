@@ -1,0 +1,614 @@
+\section{ch\_oop}\label{chux5foop}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include "circle.h"}
+
+\OtherTok{#include <iostream>}
+\OtherTok{#include <cmath>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\NormalTok{Circle::Circle(}\DataTypeTok{double} \NormalTok{x, }\DataTypeTok{double} \NormalTok{y, }\DataTypeTok{double} \NormalTok{radius)}
+\NormalTok{:Shape(x, y)}
+\NormalTok{\{}
+    \KeywordTok{this}\NormalTok{->setName(}\StringTok{"Circle"}\NormalTok{);}
+    \NormalTok{m_radius = radius;}
+\NormalTok{\}}
+
+\NormalTok{Circle::~Circle()}
+\NormalTok{\{}
+    \NormalTok{cout << }\StringTok{"Circle destructor called."} \NormalTok{<< endl;}
+\NormalTok{\}}
+
+\DataTypeTok{void} \NormalTok{Circle::print()}
+\NormalTok{\{}
+    \NormalTok{Shape::print();}
+    \NormalTok{cout << }\StringTok{"radius = "} \NormalTok{<< m_radius << endl;}
+\NormalTok{\}}
+
+\DataTypeTok{double} \NormalTok{Circle::area()}
+\NormalTok{\{}
+    \DataTypeTok{double} \NormalTok{pi = }\DecValTok{4} \NormalTok{* std::atan(}\DecValTok{1}\NormalTok{);}
+    \KeywordTok{return} \NormalTok{pow(m_radius,}\DecValTok{2}\NormalTok{)*pi;}
+\NormalTok{\}}
+
+\DataTypeTok{double} \NormalTok{Circle::radius()}
+\NormalTok{\{}
+    \KeywordTok{return} \NormalTok{m_radius;}
+\NormalTok{\}}
+
+\DataTypeTok{void} \NormalTok{Circle::setRadius(}\DataTypeTok{double} \NormalTok{radius)}
+\NormalTok{\{}
+    \NormalTok{m_radius = radius;}
+\NormalTok{\}}
+
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\KeywordTok{class} \NormalTok{Point \{}
+\KeywordTok{private}\NormalTok{:}
+    \DataTypeTok{double} \NormalTok{m_x;}
+    \DataTypeTok{double} \NormalTok{m_y;}
+\KeywordTok{public}\NormalTok{:}
+    \NormalTok{Point(}\DataTypeTok{double} \NormalTok{x, }\DataTypeTok{double} \NormalTok{y);}
+    
+    \DataTypeTok{void} \NormalTok{print();}
+    
+    \DataTypeTok{void} \NormalTok{setPosition(}\DataTypeTok{double} \NormalTok{x, }\DataTypeTok{double} \NormalTok{y);}
+    \DataTypeTok{double} \NormalTok{x();}
+    \DataTypeTok{double} \NormalTok{y();}
+\NormalTok{\};}
+
+\NormalTok{Point::Point(}\DataTypeTok{double} \NormalTok{x, }\DataTypeTok{double} \NormalTok{y)}
+\NormalTok{\{}
+    \NormalTok{m_x = x;}
+    \NormalTok{m_y = y;}
+\NormalTok{\}}
+
+\DataTypeTok{void} \NormalTok{Point::print()}
+\NormalTok{\{}
+    \NormalTok{cout << }\StringTok{"x = "} \NormalTok{<< m_x << }\StringTok{", y = "} \NormalTok{<< m_y << endl;}
+\NormalTok{\}}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{Point p0 = Point(}\FloatTok{0.}\DecValTok{0}\NormalTok{, }\FloatTok{0.}\DecValTok{0}\NormalTok{);}
+    \NormalTok{Point p1 = Point(}\FloatTok{1.}\DecValTok{0}\NormalTok{, }\FloatTok{1.}\DecValTok{0}\NormalTok{);}
+    
+    \NormalTok{p0.print();}
+    \NormalTok{p1.print();}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\KeywordTok{class} \NormalTok{Point \{}
+\KeywordTok{private}\NormalTok{:}
+    \DataTypeTok{double} \NormalTok{m_x;}
+    \DataTypeTok{double} \NormalTok{m_y;}
+\KeywordTok{public}\NormalTok{:}
+    \NormalTok{Point(}\DataTypeTok{double} \NormalTok{x, }\DataTypeTok{double} \NormalTok{y);}
+    
+    \DataTypeTok{void} \NormalTok{print();}
+    
+    \DataTypeTok{void} \NormalTok{setPosition(}\DataTypeTok{double} \NormalTok{x, }\DataTypeTok{double} \NormalTok{y);}
+    \DataTypeTok{double} \NormalTok{x();}
+    \DataTypeTok{double} \NormalTok{y();}
+\NormalTok{\};}
+
+\NormalTok{Point::Point(}\DataTypeTok{double} \NormalTok{x, }\DataTypeTok{double} \NormalTok{y)}
+\NormalTok{\{}
+    \NormalTok{m_x = x;}
+    \NormalTok{m_y = y;}
+\NormalTok{\}}
+
+\DataTypeTok{void} \NormalTok{Point::print()}
+\NormalTok{\{}
+    \NormalTok{cout << }\StringTok{"x = "} \NormalTok{<< m_x << }\StringTok{", y = "} \NormalTok{<< m_y << endl;}
+\NormalTok{\}}
+
+\DataTypeTok{void} \NormalTok{Point::setPosition(}\DataTypeTok{double} \NormalTok{x, }\DataTypeTok{double} \NormalTok{y)}
+\NormalTok{\{}
+    \NormalTok{m_x = x;}
+    \NormalTok{m_y = y;}
+\NormalTok{\}}
+
+\DataTypeTok{double} \NormalTok{Point::x()}
+\NormalTok{\{}
+    \KeywordTok{return} \NormalTok{m_x;}
+\NormalTok{\}}
+
+\DataTypeTok{double} \NormalTok{Point::y()}
+\NormalTok{\{}
+    \KeywordTok{return} \NormalTok{m_y;}
+\NormalTok{\}}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{Point p0 = Point(}\FloatTok{0.}\DecValTok{0}\NormalTok{, }\FloatTok{0.}\DecValTok{0}\NormalTok{);}
+    \NormalTok{Point p1 = Point(}\FloatTok{1.}\DecValTok{0}\NormalTok{, }\FloatTok{1.}\DecValTok{0}\NormalTok{);}
+
+    \NormalTok{cout << }\StringTok{"p0.x() = "} \NormalTok{<< p0.x() << endl;}
+    \NormalTok{cout << }\StringTok{"p0.y() = "} \NormalTok{<< p0.y() << endl;}
+  
+    \NormalTok{p1.setPosition(}\FloatTok{0.}\DecValTok{5}\NormalTok{, }\FloatTok{0.}\DecValTok{5}\NormalTok{);}
+    
+    \NormalTok{cout << }\StringTok{"p1.x() = "} \NormalTok{<< p1.x() << endl;}
+    \NormalTok{cout << }\StringTok{"p1.y() = "} \NormalTok{<< p1.y() << endl;}
+    
+    \NormalTok{Point* p3 = }\KeywordTok{new} \NormalTok{Point(}\FloatTok{2.}\DecValTok{0}\NormalTok{, }\FloatTok{2.}\DecValTok{0}\NormalTok{);}
+    \NormalTok{p3->setPosition(}\FloatTok{1.}\DecValTok{5}\NormalTok{, }\FloatTok{1.}\DecValTok{5}\NormalTok{);}
+    \NormalTok{cout << }\StringTok{"p3->x() = "} \NormalTok{<< p3->x() << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include "composite.h"}
+
+\OtherTok{#include <iostream>}
+\OtherTok{#include <cmath>}
+\OtherTok{#include <algorithm>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\NormalTok{Composite::Composite(}\DataTypeTok{double} \NormalTok{x, }\DataTypeTok{double} \NormalTok{y)}
+\NormalTok{:Shape(x, y)}
+\NormalTok{\{}
+    \KeywordTok{this}\NormalTok{->setName(}\StringTok{"Composite"}\NormalTok{);}
+\NormalTok{\}}
+
+\NormalTok{Composite::~Composite()}
+\NormalTok{\{}
+    \NormalTok{cout << }\StringTok{"Composite destructor called."} \NormalTok{<< endl;}
+    \KeywordTok{this}\NormalTok{->clear();}
+\NormalTok{\}}
+
+\DataTypeTok{void} \NormalTok{Composite::print()}
+\NormalTok{\{}
+    \NormalTok{Shape::print();}
+    \NormalTok{cout << }\StringTok{"Number of shapes = "} \NormalTok{<< m_shapes.size() << endl;}
+\NormalTok{\}}
+
+\DataTypeTok{double} \NormalTok{Composite::area()}
+\NormalTok{\{}
+    \DataTypeTok{double} \NormalTok{totalArea = }\FloatTok{0.}\DecValTok{0}\NormalTok{;}
+    
+    \NormalTok{vector<Shape*>::iterator it;}
+    
+    \KeywordTok{for} \NormalTok{(it=m_shapes.begin(); it!=m_shapes.end(); it++)}
+        \NormalTok{totalArea += (*it)->area();}
+    
+    \KeywordTok{return} \NormalTok{totalArea;}
+\NormalTok{\}}
+
+\DataTypeTok{void} \NormalTok{Composite::add(Shape* shape)}
+\NormalTok{\{}
+    \NormalTok{m_shapes.push_back(shape);}
+\NormalTok{\}}
+
+\DataTypeTok{void} \NormalTok{Composite::remove(Shape* shape)}
+\NormalTok{\{}
+    \NormalTok{vector<Shape*>::iterator it;}
+    
+    \NormalTok{it = find(m_shapes.begin(), m_shapes.end(), shape);}
+    
+    \KeywordTok{if} \NormalTok{(it!=m_shapes.end())}
+    \NormalTok{\{}
+        \NormalTok{Shape* shape = *it;}
+        \NormalTok{m_shapes.erase(it);}
+        \KeywordTok{delete} \NormalTok{shape;}
+    \NormalTok{\}}
+\NormalTok{\}}
+
+\DataTypeTok{void} \NormalTok{Composite::clear()}
+\NormalTok{\{}
+    \NormalTok{vector<Shape*>::iterator it;}
+    
+    \KeywordTok{for}\NormalTok{(it=m_shapes.begin(); it!=m_shapes.end(); it++)}
+        \KeywordTok{delete} \NormalTok{*it;}
+    
+    \NormalTok{m_shapes.clear();}
+\NormalTok{\}}
+
+\DataTypeTok{int} \NormalTok{Composite::count()}
+\NormalTok{\{}
+    \KeywordTok{return} \NormalTok{m_shapes.size();}
+\NormalTok{\}}
+
+\NormalTok{Shape* Composite::at(}\DataTypeTok{int} \NormalTok{idx)}
+\NormalTok{\{}
+    \KeywordTok{if} \NormalTok{((idx>=}\DecValTok{0}\NormalTok{)&&(idx<m_shapes.size()))}
+        \KeywordTok{return} \NormalTok{m_shapes[idx];}
+    \KeywordTok{else}
+        \KeywordTok{return} \DecValTok{0}\NormalTok{;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include "point.h"}
+
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\NormalTok{Point::Point(}\DataTypeTok{double} \NormalTok{x, }\DataTypeTok{double} \NormalTok{y)}
+\NormalTok{:Shape(x, y)}
+\NormalTok{\{}
+    \KeywordTok{this}\NormalTok{->setName(}\StringTok{"Point"}\NormalTok{);}
+\NormalTok{\}}
+
+\NormalTok{Point::~Point()}
+\NormalTok{\{}
+    \NormalTok{cout << }\StringTok{"Point destructor called."} \NormalTok{<< endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include "rectangle.h"}
+
+\OtherTok{#include <iostream>}
+\OtherTok{#include <cmath>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\NormalTok{Rectangle::Rectangle(}\DataTypeTok{double} \NormalTok{x, }\DataTypeTok{double} \NormalTok{y, }\DataTypeTok{double} \NormalTok{width, }\DataTypeTok{double} \NormalTok{height)}
+\NormalTok{:Shape(x, y)}
+\NormalTok{\{}
+    \KeywordTok{this}\NormalTok{->setName(}\StringTok{"Rectangle"}\NormalTok{);}
+    \NormalTok{m_width = width;}
+    \NormalTok{m_height = height;}
+\NormalTok{\}}
+
+\NormalTok{Rectangle::~Rectangle()}
+\NormalTok{\{}
+    \NormalTok{cout << }\StringTok{"Rectangle destructor called."} \NormalTok{<< endl;}
+\NormalTok{\}}
+
+
+\DataTypeTok{void} \NormalTok{Rectangle::print()}
+\NormalTok{\{}
+    \NormalTok{Shape::print();}
+    \NormalTok{cout << }\StringTok{"width = "} \NormalTok{<< m_width << endl;}
+    \NormalTok{cout << }\StringTok{"height = "} \NormalTok{<< m_height << endl;}
+\NormalTok{\}}
+
+\DataTypeTok{double} \NormalTok{Rectangle::area()}
+\NormalTok{\{}
+    \KeywordTok{return} \NormalTok{m_width*m_height;}
+\NormalTok{\}}
+
+\DataTypeTok{double} \NormalTok{Rectangle::width()}
+\NormalTok{\{}
+    \KeywordTok{return} \NormalTok{m_width;}
+\NormalTok{\}}
+
+\DataTypeTok{void} \NormalTok{Rectangle::setWidth(}\DataTypeTok{double} \NormalTok{width)}
+\NormalTok{\{}
+    \NormalTok{m_width = width;}
+\NormalTok{\}}
+
+\DataTypeTok{void} \NormalTok{Rectangle::setHeight(}\DataTypeTok{double} \NormalTok{height)}
+\NormalTok{\{}
+    \NormalTok{m_height = height;}
+\NormalTok{\}}
+
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include "shape.h"}
+
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\NormalTok{Shape::Shape(}\DataTypeTok{double} \NormalTok{x, }\DataTypeTok{double} \NormalTok{y)}
+\NormalTok{\{}
+    \NormalTok{cout << }\StringTok{"Shape created."} \NormalTok{<< endl;}
+    \NormalTok{m_x = x;}
+    \NormalTok{m_y = y;}
+    \NormalTok{m_name = }\StringTok{"Shape"}\NormalTok{;}
+\NormalTok{\}}
+
+\NormalTok{Shape::~Shape()}
+\NormalTok{\{}
+    \NormalTok{cout << }\StringTok{"Shape destructor called."} \NormalTok{<< endl;}
+\NormalTok{\}}
+
+\DataTypeTok{void} \NormalTok{Shape::print()}
+\NormalTok{\{}
+    \NormalTok{cout << }\StringTok{"--------------------------"} \NormalTok{<< endl;}
+    \NormalTok{cout << }\StringTok{"Shape type: "} \NormalTok{<< m_name << endl;}
+    \NormalTok{cout << }\StringTok{"x = "} \NormalTok{<< m_x << }\StringTok{", y = "} \NormalTok{<< m_y << endl;}
+    \NormalTok{cout << }\StringTok{"area = "} \NormalTok{<< }\KeywordTok{this}\NormalTok{->area() << endl;}
+\NormalTok{\}}
+
+\DataTypeTok{void} \NormalTok{Shape::setPosition(}\DataTypeTok{double} \NormalTok{x, }\DataTypeTok{double} \NormalTok{y)}
+\NormalTok{\{}
+    \NormalTok{m_x = x;}
+    \NormalTok{m_y = y;}
+\NormalTok{\}}
+
+\DataTypeTok{double} \NormalTok{Shape::x()}
+\NormalTok{\{}
+    \KeywordTok{return} \NormalTok{m_x;}
+\NormalTok{\}}
+
+\DataTypeTok{double} \NormalTok{Shape::y()}
+\NormalTok{\{}
+    \KeywordTok{return} \NormalTok{m_y;}
+\NormalTok{\}}
+
+\DataTypeTok{double} \NormalTok{Shape::area()}
+\NormalTok{\{}
+    \KeywordTok{return} \FloatTok{0.}\DecValTok{0}\NormalTok{;}
+\NormalTok{\}}
+
+\DataTypeTok{void} \NormalTok{Shape::setName(}\DataTypeTok{const} \NormalTok{std::string& name)}
+\NormalTok{\{}
+    \NormalTok{m_name = name;}
+\NormalTok{\}}
+
+\NormalTok{std::string Shape::name()}
+\NormalTok{\{}
+    \KeywordTok{return} \NormalTok{m_name;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\OtherTok{#include "point.h"}
+\OtherTok{#include "circle.h"}
+\OtherTok{#include "rectangle.h"}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{Point p0(}\FloatTok{1.}\DecValTok{0}\NormalTok{, }\FloatTok{1.}\DecValTok{0}\NormalTok{);}
+    \NormalTok{Point p1(}\FloatTok{1.}\DecValTok{0}\NormalTok{, }\FloatTok{1.}\DecValTok{0}\NormalTok{);}
+    
+    \NormalTok{p0.print();}
+    \NormalTok{p1.print();}
+    
+    \NormalTok{Circle c0(}\FloatTok{0.}\DecValTok{5}\NormalTok{, }\FloatTok{1.}\DecValTok{0}\NormalTok{, }\FloatTok{2.}\DecValTok{0}\NormalTok{);}
+    \NormalTok{c0.print();}
+    
+    \NormalTok{Rectangle r0(}\FloatTok{0.}\DecValTok{0}\NormalTok{, }\FloatTok{0.}\DecValTok{0}\NormalTok{, }\FloatTok{2.}\DecValTok{0}\NormalTok{, }\FloatTok{1.}\DecValTok{0}\NormalTok{);}
+    \NormalTok{r0.print();}
+    
+    \NormalTok{Rectangle* rect = }\KeywordTok{new} \NormalTok{Rectangle(}\FloatTok{0.}\DecValTok{0}\NormalTok{, }\FloatTok{0.}\DecValTok{0}\NormalTok{, }\FloatTok{1.}\DecValTok{0}\NormalTok{, }\FloatTok{2.}\DecValTok{0}\NormalTok{);}
+    \NormalTok{rect->print();}
+    \KeywordTok{delete} \NormalTok{rect;}
+    
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <vector>}
+\OtherTok{#include <memory>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\OtherTok{#include "point.h"}
+\OtherTok{#include "circle.h"}
+\OtherTok{#include "rectangle.h"}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{vector<Shape*> shapes;}
+    \NormalTok{vector<Shape*>::iterator si;}
+    
+    \NormalTok{cout << }\StringTok{"adding objects ---"} \NormalTok{<< endl;}
+    
+    \NormalTok{shapes.push_back(}\KeywordTok{new} \NormalTok{Point(}\FloatTok{0.}\DecValTok{0}\NormalTok{, }\FloatTok{0.}\DecValTok{0}\NormalTok{));}
+    \NormalTok{shapes.push_back(}\KeywordTok{new} \NormalTok{Circle(}\FloatTok{1.}\DecValTok{0}\NormalTok{, }\FloatTok{0.}\DecValTok{0}\NormalTok{, }\FloatTok{2.}\DecValTok{0}\NormalTok{));}
+    \NormalTok{shapes.push_back(}\KeywordTok{new} \NormalTok{Rectangle(}\FloatTok{0.}\DecValTok{0}\NormalTok{, }\FloatTok{1.}\DecValTok{0}\NormalTok{, }\FloatTok{2.}\DecValTok{0}\NormalTok{, }\FloatTok{1.}\DecValTok{0}\NormalTok{));}
+    
+    \KeywordTok{for} \NormalTok{(si=shapes.begin(); si!=shapes.end(); si++)}
+        \NormalTok{(*si)->print();}
+    
+    \KeywordTok{for} \NormalTok{(si=shapes.begin(); si!=shapes.end(); si++)}
+        \KeywordTok{delete} \NormalTok{*si;}
+    
+    \NormalTok{shapes.clear();}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <vector>}
+\OtherTok{#include <memory>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\OtherTok{#include "point.h"}
+\OtherTok{#include "circle.h"}
+\OtherTok{#include "rectangle.h"}
+\OtherTok{#include "composite.h"}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{Composite* composite = }\KeywordTok{new} \NormalTok{Composite(}\FloatTok{0.}\DecValTok{0}\NormalTok{, }\FloatTok{0.}\DecValTok{0}\NormalTok{);}
+    
+    \NormalTok{cout << }\StringTok{"adding objects ---"} \NormalTok{<< endl;}
+    
+    \NormalTok{composite->add(}\KeywordTok{new} \NormalTok{Point(}\FloatTok{0.}\DecValTok{0}\NormalTok{, }\FloatTok{0.}\DecValTok{0}\NormalTok{));}
+    \NormalTok{composite->add(}\KeywordTok{new} \NormalTok{Circle(}\FloatTok{1.}\DecValTok{0}\NormalTok{, }\FloatTok{0.}\DecValTok{0}\NormalTok{, }\FloatTok{2.}\DecValTok{0}\NormalTok{));}
+    \NormalTok{composite->add(}\KeywordTok{new} \NormalTok{Rectangle(}\FloatTok{0.}\DecValTok{0}\NormalTok{, }\FloatTok{1.}\DecValTok{0}\NormalTok{, }\FloatTok{2.}\DecValTok{0}\NormalTok{, }\FloatTok{1.}\DecValTok{0}\NormalTok{));}
+    
+    \NormalTok{composite->print();}
+    
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<composite->count(); i++)}
+        \NormalTok{composite->at(i)->print();}
+    
+    \KeywordTok{delete} \NormalTok{composite;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <vector>}
+\OtherTok{#include <memory>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\OtherTok{#include "point.h"}
+\OtherTok{#include "circle.h"}
+\OtherTok{#include "rectangle.h"}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{vector<Shape> shapes;}
+    \NormalTok{vector<Shape>::iterator si;}
+
+    \NormalTok{cout << }\StringTok{"adding objects ---"} \NormalTok{<< endl;}
+
+    \NormalTok{shapes.push_back(Point(}\FloatTok{0.}\DecValTok{0}\NormalTok{, }\FloatTok{0.}\DecValTok{0}\NormalTok{));}
+    \NormalTok{shapes.push_back(Circle(}\FloatTok{1.}\DecValTok{0}\NormalTok{, }\FloatTok{0.}\DecValTok{0}\NormalTok{, }\FloatTok{2.}\DecValTok{0}\NormalTok{));}
+    \NormalTok{shapes.push_back(Rectangle(}\FloatTok{0.}\DecValTok{0}\NormalTok{, }\FloatTok{1.}\DecValTok{0}\NormalTok{, }\FloatTok{2.}\DecValTok{0}\NormalTok{, }\FloatTok{1.}\DecValTok{0}\NormalTok{));}
+
+    \KeywordTok{for} \NormalTok{(si=shapes.begin(); si!=shapes.end(); si++)}
+        \NormalTok{(*si).print();}
+
+    \NormalTok{shapes.clear();}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <memory>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\OtherTok{#include "point.h"}
+\OtherTok{#include "circle.h"}
+\OtherTok{#include "rectangle.h"}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{Point p0(}\FloatTok{1.}\DecValTok{0}\NormalTok{, }\FloatTok{1.}\DecValTok{0}\NormalTok{);}
+    \NormalTok{Point p1(}\FloatTok{1.}\DecValTok{0}\NormalTok{, }\FloatTok{1.}\DecValTok{0}\NormalTok{);}
+
+    \NormalTok{p0.print();}
+    \NormalTok{p1.print();}
+
+    \NormalTok{Circle c0(}\FloatTok{0.}\DecValTok{5}\NormalTok{, }\FloatTok{1.}\DecValTok{0}\NormalTok{, }\FloatTok{2.}\DecValTok{0}\NormalTok{);}
+    \NormalTok{c0.print();}
+
+    \NormalTok{Rectangle r0(}\FloatTok{0.}\DecValTok{0}\NormalTok{, }\FloatTok{0.}\DecValTok{0}\NormalTok{, }\FloatTok{2.}\DecValTok{0}\NormalTok{, }\FloatTok{1.}\DecValTok{0}\NormalTok{);}
+    \NormalTok{r0.print();}
+
+    \NormalTok{Rectangle* rect = }\KeywordTok{new} \NormalTok{Rectangle(}\FloatTok{0.}\DecValTok{0}\NormalTok{, }\FloatTok{0.}\DecValTok{0}\NormalTok{, }\FloatTok{1.}\DecValTok{0}\NormalTok{, }\FloatTok{2.}\DecValTok{0}\NormalTok{);}
+    \NormalTok{rect->print();}
+    \KeywordTok{delete} \NormalTok{rect;}
+
+    \NormalTok{std::unique_ptr<Rectangle> rect2(}\KeywordTok{new} \NormalTok{Rectangle(}\FloatTok{1.}\DecValTok{0}\NormalTok{, }\FloatTok{1.}\DecValTok{0}\NormalTok{, }\FloatTok{3.}\DecValTok{0}\NormalTok{, }\FloatTok{3.}\DecValTok{0}\NormalTok{));}
+    \NormalTok{rect2->print();}
+
+    \NormalTok{std::unique_ptr<Rectangle> rect3(std::move(rect2));}
+    \NormalTok{rect3->print();}
+
+    \CommentTok{//  rect2->print();  // Not allowed}
+
+    \NormalTok{std::shared_ptr<Rectangle> rect4(}\KeywordTok{new} \NormalTok{Rectangle(}\FloatTok{2.}\DecValTok{0}\NormalTok{, }\FloatTok{2.}\DecValTok{0}\NormalTok{, }\FloatTok{4.}\DecValTok{0}\NormalTok{, }\FloatTok{4.}\DecValTok{0}\NormalTok{));}
+    \NormalTok{std::shared_ptr<Rectangle> rect5(}\KeywordTok{nullptr}\NormalTok{);}
+
+    \NormalTok{rect5 = rect4;}
+
+    \NormalTok{std::shared_ptr<Rectangle> rect6(rect5);}
+
+    \NormalTok{rect5->print();}
+    \NormalTok{rect4->print();}
+
+    \NormalTok{cout << rect4.use_count() << endl;}
+
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <memory>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\OtherTok{#include "point.h"}
+\OtherTok{#include "circle.h"}
+\OtherTok{#include "rectangle.h"}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{Point p0(}\FloatTok{1.}\DecValTok{0}\NormalTok{, }\FloatTok{1.}\DecValTok{0}\NormalTok{);}
+    \NormalTok{Point p1(}\FloatTok{1.}\DecValTok{0}\NormalTok{, }\FloatTok{1.}\DecValTok{0}\NormalTok{);}
+
+    \NormalTok{p0.print();}
+    \NormalTok{p1.print();}
+
+    \NormalTok{Circle c0(}\FloatTok{0.}\DecValTok{5}\NormalTok{, }\FloatTok{1.}\DecValTok{0}\NormalTok{, }\FloatTok{2.}\DecValTok{0}\NormalTok{);}
+    \NormalTok{c0.print();}
+
+    \NormalTok{Rectangle r0(}\FloatTok{0.}\DecValTok{0}\NormalTok{, }\FloatTok{0.}\DecValTok{0}\NormalTok{, }\FloatTok{2.}\DecValTok{0}\NormalTok{, }\FloatTok{1.}\DecValTok{0}\NormalTok{);}
+    \NormalTok{r0.print();}
+
+    \NormalTok{Rectangle* rect = }\KeywordTok{new} \NormalTok{Rectangle(}\FloatTok{0.}\DecValTok{0}\NormalTok{, }\FloatTok{0.}\DecValTok{0}\NormalTok{, }\FloatTok{1.}\DecValTok{0}\NormalTok{, }\FloatTok{2.}\DecValTok{0}\NormalTok{);}
+    \NormalTok{rect->print();}
+    \KeywordTok{delete} \NormalTok{rect;}
+
+    \NormalTok{std::unique_ptr<Rectangle> rect2(}\KeywordTok{new} \NormalTok{Rectangle(}\FloatTok{1.}\DecValTok{0}\NormalTok{, }\FloatTok{1.}\DecValTok{0}\NormalTok{, }\FloatTok{3.}\DecValTok{0}\NormalTok{, }\FloatTok{3.}\DecValTok{0}\NormalTok{));}
+    \CommentTok{//std::unique_ptr<Rectangle> rect2 = std::make_unique<Rectangle>(1.0, 1.0, 3.0, 3.0);}
+    \NormalTok{rect2->print();}
+
+    \NormalTok{std::unique_ptr<Rectangle> rect3(std::move(rect2));}
+    \NormalTok{rect3->print();}
+
+    \CommentTok{//  rect2->print();  // Not allowed}
+
+    \NormalTok{std::shared_ptr<Rectangle> rect4(}\KeywordTok{new} \NormalTok{Rectangle(}\FloatTok{2.}\DecValTok{0}\NormalTok{, }\FloatTok{2.}\DecValTok{0}\NormalTok{, }\FloatTok{4.}\DecValTok{0}\NormalTok{, }\FloatTok{4.}\DecValTok{0}\NormalTok{));}
+    \NormalTok{std::shared_ptr<Rectangle> rect5(}\KeywordTok{nullptr}\NormalTok{);}
+
+    \NormalTok{rect5 = rect4;}
+
+    \NormalTok{std::shared_ptr<Rectangle> rect6(rect5);}
+
+    \NormalTok{rect5->print();}
+    \NormalTok{rect4->print();}
+
+    \NormalTok{cout << rect4.use_count() << endl;}
+
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+

@@ -1,0 +1,111 @@
+\section{ch\_strings}\label{chux5fstrings}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <string>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{string s = }\StringTok{"hello"}\NormalTok{;}
+    \NormalTok{cout << }\StringTok{"a = '"} \NormalTok{<< s << }\StringTok{"'"} \NormalTok{<< endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <string>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{string s1 = }\StringTok{"hello"}\NormalTok{;}
+    \NormalTok{string s2 = }\StringTok{", world"}\NormalTok{;}
+    \NormalTok{string s3 = s1 + s2;}
+    \NormalTok{cout << }\StringTok{"s3 = '"} \NormalTok{<< s3 << }\StringTok{"'"} \NormalTok{<< endl;}
+    \NormalTok{cout << }\StringTok{"s3.length() = "} \NormalTok{<< s3.length() << endl;}
+    \NormalTok{cout << }\StringTok{"s3[7] = "} \NormalTok{<< s3[}\DecValTok{7}\NormalTok{] << endl;}
+    \NormalTok{cout << }\StringTok{"s3.at(7) = "} \NormalTok{<< s3.at(}\DecValTok{7}\NormalTok{) << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <string>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{string s1 = }\StringTok{"hello"}\NormalTok{;}
+    \NormalTok{string s2 = }\StringTok{", world"}\NormalTok{;}
+    \NormalTok{string s3 = s1 + s2;}
+
+    \NormalTok{s3.append(}\StringTok{". Strings in C++ are great!"}\NormalTok{);}
+    \NormalTok{cout << }\StringTok{"s3 = "} \NormalTok{<< s3 << endl;}
+    
+    \NormalTok{s3.replace(}\DecValTok{33}\NormalTok{, }\DecValTok{6}\NormalTok{, }\StringTok{"nice! "}\NormalTok{);}
+    \NormalTok{cout << }\StringTok{"s3 = "} \NormalTok{<< s3 << endl;}
+    
+    \NormalTok{s3.insert(}\DecValTok{33}\NormalTok{, }\StringTok{"great and "}\NormalTok{);}
+    \NormalTok{cout << }\StringTok{"s3 = "} \NormalTok{<< s3 << endl;}
+    
+    \NormalTok{string s4 = s3.substr(}\DecValTok{33}\NormalTok{, }\DecValTok{6}\NormalTok{);}
+    \NormalTok{cout << }\StringTok{"s4 = "} \NormalTok{<< s4 << endl;}
+    
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <string>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{string s = }\StringTok{"The quick brown fox jumps over the lazy dog."}\NormalTok{;}
+    
+    \DataTypeTok{int} \NormalTok{p0 = s.find(}\StringTok{"o"}\NormalTok{);}
+    \DataTypeTok{int} \NormalTok{p1 = s.find(}\StringTok{"o"}\NormalTok{, p0}\DecValTok{+1}\NormalTok{);}
+    
+    \NormalTok{cout << }\StringTok{"The first 'o' is at position "} \NormalTok{<< p0 << endl;}
+    \NormalTok{cout << }\StringTok{"The next 'o' is at position "} \NormalTok{<< p1 << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <cstring>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{const} \DataTypeTok{char}\NormalTok{* cString;}
+    \DataTypeTok{char} \NormalTok{cString2[}\DecValTok{128}\NormalTok{];}
+    
+    \NormalTok{string cppString = }\StringTok{"Hello, world!"}\NormalTok{;}
+    
+    \NormalTok{cString = cppString.c_str();}
+    
+    \NormalTok{cout << }\StringTok{"cString = "} \NormalTok{<< cString << endl;}
+    
+    \NormalTok{strncpy(cString2, cppString.c_str(), cppString.length()}\DecValTok{+1}\NormalTok{);}
+    
+    \NormalTok{cout << }\StringTok{"cString2 = "} \NormalTok{<< cString2 << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+

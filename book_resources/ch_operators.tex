@@ -1,0 +1,64 @@
+\section{ch\_operators}\label{chux5foperators}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{int} \NormalTok{a, b;}
+    
+    \NormalTok{a = }\DecValTok{42}\NormalTok{;}
+    \NormalTok{b = }\DecValTok{26}\NormalTok{;}
+    
+    \NormalTok{a += b; }\CommentTok{// a = a + b}
+    
+    \NormalTok{cout << }\StringTok{"a = "} \NormalTok{<< a << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{int} \NormalTok{a, b, c;}
+    
+    \NormalTok{a = }\DecValTok{42}\NormalTok{;}
+    
+    \NormalTok{b = ++a;}
+    \NormalTok{c = a++;}
+    
+    \NormalTok{cout << }\StringTok{"b = "} \NormalTok{<< b << endl;}
+    \NormalTok{cout << }\StringTok{"c = "} \NormalTok{<< c << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{int} \NormalTok{number;}
+    
+    \NormalTok{cout << }\StringTok{"Enter a number : "}\NormalTok{;}
+    
+    \NormalTok{cin >> number;}
+    
+    \DataTypeTok{int} \NormalTok{outValue = (number>}\DecValTok{50}\NormalTok{) ? }\DecValTok{42} \NormalTok{: }\DecValTok{21}\NormalTok{;}
+    
+    \NormalTok{cout << }\StringTok{"outValue = "} \NormalTok{<< outValue;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+

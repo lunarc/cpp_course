@@ -1,0 +1,91 @@
+\section{ch\_boost\_python}\label{chux5fboostux5fpython}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <boost/python.hpp>}
+
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\KeywordTok{class} \NormalTok{Particle \{}
+\KeywordTok{private}\NormalTok{:}
+    \DataTypeTok{double} \NormalTok{m_x;}
+    \DataTypeTok{double} \NormalTok{m_y;}
+    \DataTypeTok{double} \NormalTok{m_mass;}
+\KeywordTok{public}\NormalTok{:}
+    \NormalTok{Particle(}\DataTypeTok{double} \NormalTok{x, }\DataTypeTok{double} \NormalTok{y);}
+    
+    \DataTypeTok{void} \NormalTok{show();}
+    \DataTypeTok{void} \NormalTok{move(}\DataTypeTok{double} \NormalTok{dx, }\DataTypeTok{double} \NormalTok{dy);}
+    
+    \DataTypeTok{void} \NormalTok{setPosition(}\DataTypeTok{double} \NormalTok{x, }\DataTypeTok{double} \NormalTok{y);}
+    \DataTypeTok{double} \NormalTok{x();}
+    \DataTypeTok{double} \NormalTok{y();}
+    
+    \DataTypeTok{void} \NormalTok{setMass(}\DataTypeTok{double} \NormalTok{m);}
+    \DataTypeTok{double} \NormalTok{mass();}
+\NormalTok{\};}
+
+\NormalTok{Particle::Particle(}\DataTypeTok{double} \NormalTok{x, }\DataTypeTok{double} \NormalTok{y)}
+\NormalTok{\{}
+    \NormalTok{m_x = x;}
+    \NormalTok{m_y = y;}
+    \NormalTok{m_mass = }\FloatTok{1.}\DecValTok{0}\NormalTok{;}
+\NormalTok{\}}
+
+\DataTypeTok{void} \NormalTok{Particle::show()}
+\NormalTok{\{}
+    \NormalTok{cout << }\StringTok{"x = "} \NormalTok{<< m_x << }\StringTok{", y = "} \NormalTok{<< m_y << endl;}
+    \NormalTok{cout << }\StringTok{"mass = "} \NormalTok{<< m_mass << endl;}
+\NormalTok{\}}
+
+\DataTypeTok{void} \NormalTok{Particle::move(}\DataTypeTok{double} \NormalTok{dx, }\DataTypeTok{double} \NormalTok{dy)}
+\NormalTok{\{}
+    \NormalTok{m_x += dx;}
+    \NormalTok{m_y += dy;}
+\NormalTok{\}}
+
+\DataTypeTok{void} \NormalTok{Particle::setPosition(}\DataTypeTok{double} \NormalTok{x, }\DataTypeTok{double} \NormalTok{y)}
+\NormalTok{\{}
+    \NormalTok{m_x = x;}
+    \NormalTok{m_y = y;}
+\NormalTok{\}}
+
+\DataTypeTok{double} \NormalTok{Particle::x()}
+\NormalTok{\{}
+    \KeywordTok{return} \NormalTok{m_x;}
+\NormalTok{\}}
+
+\DataTypeTok{double} \NormalTok{Particle::y()}
+\NormalTok{\{}
+    \KeywordTok{return} \NormalTok{m_y;}
+\NormalTok{\}}
+
+\DataTypeTok{void} \NormalTok{Particle::setMass(}\DataTypeTok{double} \NormalTok{m)}
+\NormalTok{\{}
+    \NormalTok{m_mass = m;}
+\NormalTok{\}}
+
+\DataTypeTok{double} \NormalTok{Particle::mass()}
+\NormalTok{\{}
+    \KeywordTok{return} \NormalTok{m_mass;}
+\NormalTok{\}  }
+
+\NormalTok{BOOST_PYTHON_MODULE(particles)}
+\NormalTok{\{}
+    \KeywordTok{using} \KeywordTok{namespace} \NormalTok{boost::python;}
+    
+    \NormalTok{class_<Particle>(}\StringTok{"Particle"}\NormalTok{, init<}\DataTypeTok{double}\NormalTok{, }\DataTypeTok{double}\NormalTok{>())}
+        \NormalTok{.def(}\StringTok{"show"}\NormalTok{, &Particle::show)}
+        \NormalTok{.def(}\StringTok{"move"}\NormalTok{, &Particle::move)}
+        \NormalTok{.def(}\StringTok{"setPosition"}\NormalTok{, &Particle::setPosition)}
+        \NormalTok{.def(}\StringTok{"x"}\NormalTok{, &Particle::x)}
+        \NormalTok{.def(}\StringTok{"y"}\NormalTok{, &Particle::y)}
+        \NormalTok{.def(}\StringTok{"setMass"}\NormalTok{, &Particle::setMass)}
+        \NormalTok{.def(}\StringTok{"mass"}\NormalTok{, &Particle::mass)}
+    \NormalTok{;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+

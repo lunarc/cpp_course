@@ -1,0 +1,430 @@
+\section{ch\_variables}\label{chux5fvariables}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{int} \NormalTok{a[}\DecValTok{2}\NormalTok{];}
+    
+    \NormalTok{a[}\DecValTok{0}\NormalTok{] = }\DecValTok{1}\NormalTok{;}
+    \NormalTok{a[}\DecValTok{1}\NormalTok{] = }\DecValTok{2}\NormalTok{;}
+    
+    \NormalTok{cout << a[}\DecValTok{0}\NormalTok{] << }\StringTok{", "} \NormalTok{<< a[}\DecValTok{1}\NormalTok{] << endl;}
+     
+    \DataTypeTok{double} \NormalTok{b[] = \{ }\FloatTok{1.}\DecValTok{0}\NormalTok{, }\FloatTok{2.}\DecValTok{0}\NormalTok{, }\FloatTok{3.}\DecValTok{0}\NormalTok{, }\FloatTok{4.}\DecValTok{0} \NormalTok{\};}
+    \NormalTok{b[}\DecValTok{3}\NormalTok{] = }\FloatTok{42.}\DecValTok{0}\NormalTok{;}
+    
+    \NormalTok{cout << b[}\DecValTok{0}\NormalTok{] << }\StringTok{", "} \NormalTok{<< b[}\DecValTok{1}\NormalTok{] << }\StringTok{", "} \NormalTok{<< b[}\DecValTok{2}\NormalTok{] << }\StringTok{", "} \NormalTok{<< b[}\DecValTok{3}\NormalTok{] << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{int} \NormalTok{a[] = \{}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{\};}
+    \DataTypeTok{int}\NormalTok{* b;}
+    
+    \NormalTok{a[}\DecValTok{3}\NormalTok{] = }\DecValTok{42}\NormalTok{;}
+    
+    \NormalTok{cout << a[}\DecValTok{0}\NormalTok{] << }\StringTok{", "} \NormalTok{<< a[}\DecValTok{1}\NormalTok{] << }\StringTok{", "} \NormalTok{<< a[}\DecValTok{2}\NormalTok{] << }\StringTok{", "} \NormalTok{<< a[}\DecValTok{3}\NormalTok{] << endl;}
+    
+    \NormalTok{b = a;}
+
+    \NormalTok{cout << b[}\DecValTok{0}\NormalTok{] << }\StringTok{", "} \NormalTok{<< b[}\DecValTok{1}\NormalTok{] << }\StringTok{", "} \NormalTok{<< b[}\DecValTok{2}\NormalTok{] << }\StringTok{", "} \NormalTok{<< b[}\DecValTok{3}\NormalTok{] << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{char} \NormalTok{c;}
+    \DataTypeTok{unsigned} \DataTypeTok{char} \NormalTok{uc;}
+    \DataTypeTok{signed} \DataTypeTok{char} \NormalTok{sc;}
+    
+    \NormalTok{c = }\StringTok{'a'}\NormalTok{;}
+    \NormalTok{uc = }\DecValTok{129}\NormalTok{;}
+    \NormalTok{sc = }\DecValTok{130}\NormalTok{;}
+    
+    \NormalTok{cout << }\StringTok{"c = "} \NormalTok{<< c << }\StringTok{" int(c) = "} \NormalTok{<< }\DataTypeTok{int}\NormalTok{(c);}
+    \NormalTok{cout << }\StringTok{" sizeof(c) = "} \NormalTok{<< }\KeywordTok{sizeof}\NormalTok{(c) << endl;}
+    \NormalTok{cout << }\StringTok{"uc = "} \NormalTok{<< uc << }\StringTok{" int(uc) = "} \NormalTok{<< }\DataTypeTok{int}\NormalTok{(uc);}
+    \NormalTok{cout << }\StringTok{" sizeof(c) = "} \NormalTok{<< }\KeywordTok{sizeof}\NormalTok{(c) << endl;}
+    \NormalTok{cout << }\StringTok{"sc = "} \NormalTok{<< sc << }\StringTok{" int(sc) = "} \NormalTok{<< }\DataTypeTok{int}\NormalTok{(sc);}
+    \NormalTok{cout << }\StringTok{" sizeof(c) = "} \NormalTok{<< }\KeywordTok{sizeof}\NormalTok{(c) << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{const} \DataTypeTok{int} \NormalTok{max_size = }\DecValTok{4}\NormalTok{;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{int} \NormalTok{a[max_size];}
+    
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<max_size; i++)}
+        \NormalTok{a[i] = }\DecValTok{0}\NormalTok{;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <iomanip>}
+\OtherTok{#include <cmath>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{double} \NormalTok{pi = }\DecValTok{4} \NormalTok{* std::atan(}\DecValTok{1}\NormalTok{);}
+    
+    \DataTypeTok{float} \NormalTok{f;}
+    \DataTypeTok{double} \NormalTok{d;}
+    \DataTypeTok{long} \DataTypeTok{double} \NormalTok{ld;}
+    
+    \NormalTok{f = pi;}
+    \NormalTok{d = pi;}
+    \NormalTok{ld = pi;}
+    
+    \NormalTok{cout << setprecision(}\DecValTok{15}\NormalTok{) << }\StringTok{"f = "} \NormalTok{<< f << endl;}
+    \NormalTok{cout << setprecision(}\DecValTok{15}\NormalTok{) << }\StringTok{"d = "} \NormalTok{<< d << endl;}
+    \NormalTok{cout << setprecision(}\DecValTok{15}\NormalTok{) << }\StringTok{"ld = "} \NormalTok{<< ld << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main() }
+\NormalTok{\{}
+    \KeywordTok{enum} \NormalTok{\{ RED, GREEN, BLUE, YELLOW \};}
+    
+    \NormalTok{cout << }\StringTok{"RED = "} \NormalTok{<< RED << endl;}
+    \NormalTok{cout << }\StringTok{"GREEN = "} \NormalTok{<< GREEN << endl;}
+    \NormalTok{cout << }\StringTok{"BLUE = "} \NormalTok{<< BLUE << endl;}
+    \NormalTok{cout << }\StringTok{"YELLOW = "} \NormalTok{<< YELLOW << endl;}
+    
+    \KeywordTok{enum} \NormalTok{flavor \{ VANILLA, CHOCOLATE, ORANGE, STRAWBERRY \};}
+    
+    \NormalTok{flavor selectedFlavor = ORANGE;}
+    
+    \NormalTok{cout << }\StringTok{"selectedFlavor = "} \NormalTok{<< selectedFlavor << endl;}
+    
+    \KeywordTok{enum} \NormalTok{status \{ FINISHED = }\DecValTok{0}\NormalTok{, ERROR = }\DecValTok{15} \NormalTok{\};}
+    
+    \NormalTok{status currentStatus = ERROR;}
+    
+    \NormalTok{cout << }\StringTok{"currentStatus = "} \NormalTok{<< currentStatus << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{int} \NormalTok{a;}
+    \DataTypeTok{unsigned} \DataTypeTok{int} \NormalTok{b;}
+    \DataTypeTok{long} \DataTypeTok{int} \NormalTok{c;}
+    \DataTypeTok{unsigned} \DataTypeTok{long} \DataTypeTok{int} \NormalTok{d;}
+    
+    \NormalTok{a = }\DecValTok{-1}\NormalTok{; b = }\DecValTok{-1}\NormalTok{;}
+    \NormalTok{c = }\DecValTok{-1}\NormalTok{; d = }\DecValTok{-1}\NormalTok{;}
+    
+    \NormalTok{cout << }\StringTok{"a = "} \NormalTok{<< a << endl;}
+    \NormalTok{cout << }\StringTok{"b = "} \NormalTok{<< b << endl;}
+    \NormalTok{cout << }\StringTok{"c = "} \NormalTok{<< c << endl;}
+    \NormalTok{cout << }\StringTok{"d = "} \NormalTok{<< d << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{int} \NormalTok{a;}
+    \DataTypeTok{unsigned} \DataTypeTok{int} \NormalTok{b;}
+    \DataTypeTok{long} \DataTypeTok{int} \NormalTok{c;}
+    \DataTypeTok{unsigned} \DataTypeTok{long} \DataTypeTok{int} \NormalTok{d;}
+    
+    \NormalTok{a = }\DecValTok{-1}\NormalTok{; b = }\DecValTok{-1}\NormalTok{;}
+    \NormalTok{c = }\DecValTok{-1}\NormalTok{; d = }\DecValTok{-1}\NormalTok{;}
+    
+    \NormalTok{cout << }\StringTok{"a = "} \NormalTok{<< a << }\StringTok{", sizeof(a) = "} \NormalTok{<< }\KeywordTok{sizeof}\NormalTok{(a) << endl;}
+    \NormalTok{cout << }\StringTok{"b = "} \NormalTok{<< b << }\StringTok{", sizeof(b) = "} \NormalTok{<< }\KeywordTok{sizeof}\NormalTok{(b) << endl;}
+    \NormalTok{cout << }\StringTok{"c = "} \NormalTok{<< c << }\StringTok{", sizeof(c) = "} \NormalTok{<< }\KeywordTok{sizeof}\NormalTok{(c) << endl;}
+    \NormalTok{cout << }\StringTok{"d = "} \NormalTok{<< d << }\StringTok{", sizeof(d) = "} \NormalTok{<< }\KeywordTok{sizeof}\NormalTok{(d) << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <limits>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{cout << }\StringTok{"Max, char "} \NormalTok{<< }\DataTypeTok{int}\NormalTok{(numeric_limits<}\DataTypeTok{char}\NormalTok{>::max()) << endl;}
+    \NormalTok{cout << }\StringTok{"Min, char "} \NormalTok{<< }\DataTypeTok{int}\NormalTok{(numeric_limits<}\DataTypeTok{char}\NormalTok{>::min()) << endl;}
+    \NormalTok{cout << }\StringTok{"Is char signed "} \NormalTok{<< numeric_limits<}\DataTypeTok{char}\NormalTok{>::is_signed << endl;}
+    \NormalTok{cout << }\StringTok{"Max, unsigned char "} \NormalTok{<< }\DataTypeTok{int}\NormalTok{(numeric_limits<}\DataTypeTok{unsigned} \DataTypeTok{char}\NormalTok{>::max()) << endl;}
+    \NormalTok{cout << }\StringTok{"Min, unsigned char "} \NormalTok{<< }\DataTypeTok{int}\NormalTok{(numeric_limits<}\DataTypeTok{unsigned} \DataTypeTok{char}\NormalTok{>::min()) << endl;}
+    \NormalTok{cout << }\StringTok{"Max, short "} \NormalTok{<< numeric_limits<}\DataTypeTok{short}\NormalTok{>::max() << endl;}
+    \NormalTok{cout << }\StringTok{"Min, short "} \NormalTok{<< numeric_limits<}\DataTypeTok{short}\NormalTok{>::min() << endl;}
+    \NormalTok{cout << }\StringTok{"Max, int "} \NormalTok{<< numeric_limits<}\DataTypeTok{int}\NormalTok{>::max() << endl;}
+    \NormalTok{cout << }\StringTok{"Min, int "} \NormalTok{<< numeric_limits<}\DataTypeTok{int}\NormalTok{>::min() << endl;}
+    \NormalTok{cout << }\StringTok{"Max, long "} \NormalTok{<< numeric_limits<}\DataTypeTok{long}\NormalTok{>::max() << endl;}
+    \NormalTok{cout << }\StringTok{"Min, long "} \NormalTok{<< numeric_limits<}\DataTypeTok{long}\NormalTok{>::min() << endl;}
+    \NormalTok{cout << }\StringTok{"Max, float "} \NormalTok{<< numeric_limits<}\DataTypeTok{float}\NormalTok{>::max() << endl;}
+    \NormalTok{cout << }\StringTok{"Min, float "} \NormalTok{<< numeric_limits<}\DataTypeTok{float}\NormalTok{>::min() << endl;}
+    \NormalTok{cout << }\StringTok{"Max, double "} \NormalTok{<< numeric_limits<}\DataTypeTok{double}\NormalTok{>::max() << endl;}
+    \NormalTok{cout << }\StringTok{"Min, double "} \NormalTok{<< numeric_limits<}\DataTypeTok{double}\NormalTok{>::min() << endl;}
+    \NormalTok{cout << }\StringTok{"Max, long double "} \NormalTok{<< numeric_limits<}\DataTypeTok{long} \DataTypeTok{double}\NormalTok{>::max() << endl;}
+    \NormalTok{cout << }\StringTok{"Min, long double "} \NormalTok{<< numeric_limits<}\DataTypeTok{long} \DataTypeTok{double}\NormalTok{>::min() << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{int} \NormalTok{a;}
+    \DataTypeTok{int}\NormalTok{* b;}
+    
+    \NormalTok{a = }\DecValTok{42}\NormalTok{;}
+    \NormalTok{b = &a;}
+    
+    \NormalTok{cout << }\StringTok{"a = "} \NormalTok{<< a << endl;}
+    \NormalTok{cout << }\StringTok{"b = "} \NormalTok{<< b << endl;}
+    \NormalTok{cout << }\StringTok{"&a = "} \NormalTok{<< &a << endl;}
+    \NormalTok{cout << }\StringTok{"*b = "} \NormalTok{<< *b << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{int} \NormalTok{a[] = \{}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{\};}
+    \DataTypeTok{int}\NormalTok{* b;}
+    \DataTypeTok{int}\NormalTok{* c;}
+    
+    \NormalTok{b = a;}
+    
+    \NormalTok{cout << }\StringTok{"a = "} \NormalTok{<< a << endl;}
+    \NormalTok{cout << }\StringTok{"b = "} \NormalTok{<< b << endl;}
+    \NormalTok{cout << }\StringTok{"a[0] = "} \NormalTok{<< a[}\DecValTok{0}\NormalTok{] << endl;}
+    \NormalTok{cout << }\StringTok{"b[0] = "} \NormalTok{<< b[}\DecValTok{0}\NormalTok{] << endl;}
+    \NormalTok{cout << }\StringTok{"*b = "} \NormalTok{<< *b << endl;}
+    \NormalTok{cout << }\StringTok{"*a = "} \NormalTok{<< *a << endl;}
+    
+    \NormalTok{c = &a[}\DecValTok{2}\NormalTok{];}
+
+    \NormalTok{cout << }\StringTok{"c = "} \NormalTok{<< c << endl;}
+    \NormalTok{cout << }\StringTok{"*c = "} \NormalTok{<< *c << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{int} \NormalTok{a = }\DecValTok{42}\NormalTok{;}
+    \DataTypeTok{int}\NormalTok{& b = a;}
+    
+    \NormalTok{cout << }\StringTok{"a = "} \NormalTok{<< a << endl;}
+    \NormalTok{cout << }\StringTok{"b = "} \NormalTok{<< b << endl;}
+    \NormalTok{cout << }\StringTok{"&a = "} \NormalTok{<< &a << endl;}
+    \NormalTok{cout << }\StringTok{"&b = "} \NormalTok{<< &b << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \KeywordTok{struct} \NormalTok{coord3D \{}
+        \DataTypeTok{double} \NormalTok{x;}
+        \DataTypeTok{double} \NormalTok{y;}
+    \NormalTok{\};}
+    
+    \NormalTok{coord3D c1;}
+    \NormalTok{coord3D c2;}
+    
+    \NormalTok{c1.x = }\FloatTok{0.}\DecValTok{0}\NormalTok{;}
+    \NormalTok{c1.y = }\FloatTok{0.}\DecValTok{0}\NormalTok{;}
+    \NormalTok{c2.x = }\FloatTok{1.}\DecValTok{0}\NormalTok{;}
+    \NormalTok{c2.y = }\FloatTok{1.}\DecValTok{0}\NormalTok{;}
+    
+    \NormalTok{cout << }\StringTok{"c1.x = "} \NormalTok{<< c1.x << }\StringTok{", c1.y = "} \NormalTok{<< c1.y << endl;}
+    \NormalTok{cout << }\StringTok{"c2.x = "} \NormalTok{<< c2.x << }\StringTok{", c2.y = "} \NormalTok{<< c2.y << endl;}
+    \NormalTok{cout << }\StringTok{"sizeof(c1) = "} \NormalTok{<< }\KeywordTok{sizeof}\NormalTok{(c1) << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{int} \NormalTok{a, b, c;}
+    
+    \NormalTok{a = }\DecValTok{40}\NormalTok{;}
+    \NormalTok{b = }\DecValTok{2}\NormalTok{;}
+    
+    \NormalTok{c = a + b;}
+    
+    \NormalTok{cout << }\StringTok{"c = a + b = "} \NormalTok{<< c << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{int} \NormalTok{a, b, c;}
+    \DataTypeTok{double} \NormalTok{d, e;}
+    
+    \NormalTok{a = }\DecValTok{40}\NormalTok{;}
+    \NormalTok{b = }\DecValTok{2}\NormalTok{;}
+    \NormalTok{d = }\FloatTok{52.}\DecValTok{5654}\NormalTok{;}
+    
+    \CommentTok{// d will be truncated}
+    \NormalTok{c = a + b + d;}
+    
+    \CommentTok{// a and be will be upcasted to double}
+    \NormalTok{e = a + b + d;}
+    
+    \NormalTok{cout << }\StringTok{"c = a + b + d = "} \NormalTok{<< c << endl;}
+    \NormalTok{cout << }\StringTok{"e = a + b + d = "} \NormalTok{<< e << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{char} \NormalTok{a;}
+    \NormalTok{a = }\StringTok{'a'}\NormalTok{;}
+
+    \NormalTok{cout << a << endl;}
+    
+    \DataTypeTok{char} \NormalTok{line[] = }\StringTok{"This is a character string"}\NormalTok{;}
+    
+    \NormalTok{cout << }\StringTok{"'"} \NormalTok{<< line << }\StringTok{"'"} \NormalTok{<< endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{int} \NormalTok{a[] = \{}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{\};}
+    
+    \NormalTok{a[}\DecValTok{3}\NormalTok{] = }\DecValTok{42}\NormalTok{;}
+    
+    \NormalTok{cout << a[}\DecValTok{0}\NormalTok{] << }\StringTok{", "} \NormalTok{<< a[}\DecValTok{1}\NormalTok{] << }\StringTok{", "} \NormalTok{<< a[}\DecValTok{2}\NormalTok{] << }\StringTok{", "} \NormalTok{<< a[}\DecValTok{3}\NormalTok{] << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{int} \NormalTok{a[] = \{}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{\};}
+    \DataTypeTok{int}\NormalTok{* b;}
+    
+    \NormalTok{a[}\DecValTok{3}\NormalTok{] = }\DecValTok{42}\NormalTok{;}
+    
+    \NormalTok{cout << a[}\DecValTok{0}\NormalTok{] << }\StringTok{", "} \NormalTok{<< a[}\DecValTok{1}\NormalTok{] << }\StringTok{", "} \NormalTok{<< a[}\DecValTok{2}\NormalTok{] << }\StringTok{", "} \NormalTok{<< a[}\DecValTok{3}\NormalTok{] << endl;}
+    
+    \NormalTok{b = a;}
+
+    \NormalTok{cout << b[}\DecValTok{0}\NormalTok{] << }\StringTok{", "} \NormalTok{<< b[}\DecValTok{1}\NormalTok{] << }\StringTok{", "} \NormalTok{<< b[}\DecValTok{2}\NormalTok{] << }\StringTok{", "} \NormalTok{<< b[}\DecValTok{3}\NormalTok{] << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+

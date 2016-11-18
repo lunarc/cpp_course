@@ -1,0 +1,4 @@
+swig -c++ -python particles.swig
+g++ -fPIC -c particle.cpp -o particle.o 
+g++ -fPIC -c particles_wrap.cxx -o particles_wrap.o -I/usr/include/python2.6
+g++ -shared particle.o particles_wrap.o -o _particles.so

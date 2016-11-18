@@ -1,0 +1,6 @@
+add_executable(allocating_memory allocating_memory.cpp)
+add_executable(allocating_array allocating_array.cpp)
+add_executable(array_2d array_2d.cpp)
+add_executable(cont_array_2d cont_array_2d.cpp)
+add_executable(struct_array struct_array.cpp)
+add_executable(struct_array2 struct_array2.cpp)

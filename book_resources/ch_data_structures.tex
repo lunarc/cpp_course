@@ -1,0 +1,365 @@
+\section{ch\_data\_structures}\label{chux5fdataux5fstructures}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <vector>}
+\OtherTok{#include <string>}
+\OtherTok{#include <algorithm>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{vector<}\DataTypeTok{int}\NormalTok{> vec;}
+    \NormalTok{vector<}\DataTypeTok{int}\NormalTok{>::iterator it;}
+    
+    \NormalTok{vec.push_back(}\DecValTok{5}\NormalTok{);}
+    \NormalTok{vec.push_back(}\DecValTok{1}\NormalTok{);}
+    \NormalTok{vec.push_back(}\DecValTok{3}\NormalTok{);}
+    \NormalTok{vec.push_back(}\DecValTok{4}\NormalTok{);}
+    \NormalTok{vec.push_back(}\DecValTok{4}\NormalTok{);}
+    \NormalTok{vec.push_back(}\DecValTok{8}\NormalTok{);}
+
+    \NormalTok{it = find(vec.begin(), vec.end(), }\DecValTok{4}\NormalTok{);}
+    
+    \KeywordTok{if} \NormalTok{(it!=vec.end())}
+        \NormalTok{cout << }\StringTok{"found "} \NormalTok{<< *it << endl;}
+    \KeywordTok{else}
+        \NormalTok{cout << }\StringTok{"Value not found."} \NormalTok{<< endl;}
+
+    \NormalTok{it = find(++it, vec.end(), }\DecValTok{4}\NormalTok{);}
+
+    \KeywordTok{if} \NormalTok{(it!=vec.end())}
+        \NormalTok{cout << }\StringTok{"found "} \NormalTok{<< *it << endl;}
+    \KeywordTok{else}
+        \NormalTok{cout << }\StringTok{"Value not found."} \NormalTok{<< endl;}
+
+    \NormalTok{it = find(++it, vec.end(), }\DecValTok{4}\NormalTok{);}
+    
+    \KeywordTok{if} \NormalTok{(it!=vec.end())}
+        \NormalTok{cout << }\StringTok{"found "} \NormalTok{<< *it << endl;}
+    \KeywordTok{else}
+        \NormalTok{cout << }\StringTok{"Value not found."} \NormalTok{<< endl;}
+
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <vector>}
+\OtherTok{#include <string>}
+\OtherTok{#include <algorithm>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{void} \NormalTok{myfunc(}\DataTypeTok{int} \NormalTok{i)}
+\NormalTok{\{}
+    \NormalTok{cout << i << endl;}
+\NormalTok{\}}
+
+\DataTypeTok{bool} \NormalTok{greaterThan5(}\DataTypeTok{int} \NormalTok{i)}
+\NormalTok{\{}
+    \KeywordTok{return} \NormalTok{i>}\DecValTok{5}\NormalTok{;}
+\NormalTok{\}}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{vector<}\DataTypeTok{int}\NormalTok{> vec;}
+    \NormalTok{vector<}\DataTypeTok{int}\NormalTok{>::iterator it;}
+    
+    \NormalTok{vec.push_back(}\DecValTok{5}\NormalTok{);}
+    \NormalTok{vec.push_back(}\DecValTok{1}\NormalTok{);}
+    \NormalTok{vec.push_back(}\DecValTok{3}\NormalTok{);}
+    \NormalTok{vec.push_back(}\DecValTok{4}\NormalTok{);}
+    \NormalTok{vec.push_back(}\DecValTok{4}\NormalTok{);}
+    \NormalTok{vec.push_back(}\DecValTok{8}\NormalTok{);}
+
+    \NormalTok{for_each(vec.begin(), vec.end(), myfunc);}
+    
+    \NormalTok{it = find_if(vec.begin(), vec.end(), greaterThan5);}
+    \NormalTok{cout << }\StringTok{"found "} \NormalTok{<< *it << endl;}
+    
+    \NormalTok{sort(vec.begin(), vec.end());}
+    
+    \NormalTok{for_each(vec.begin(), vec.end(), myfunc);}
+    
+    \NormalTok{cout << }\StringTok{"max value = "} \NormalTok{<< *max_element(vec.begin(), vec.end()) << endl;}
+    
+    \NormalTok{cout << }\StringTok{"min value = "} \NormalTok{<< *min_element(vec.begin(), vec.end()) << endl;}
+    
+    \NormalTok{fill(vec.begin(), vec.end(), }\DecValTok{0}\NormalTok{);}
+
+    \NormalTok{for_each(vec.begin(), vec.end(), myfunc);    }
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <deque>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{deque<}\DataTypeTok{int}\NormalTok{> q;}
+    
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<=}\DecValTok{5}\NormalTok{; i++)}
+        \NormalTok{q.push_back(i);}
+    
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{6}\NormalTok{; i<=}\DecValTok{10}\NormalTok{; i++)}
+        \NormalTok{q.push_front(i);}
+    
+    \NormalTok{deque<}\DataTypeTok{int}\NormalTok{>::iterator it;}
+
+    \KeywordTok{for} \NormalTok{(it=q.begin(); it!=q.end(); it++)}
+        \NormalTok{cout << *it << }\StringTok{", "}\NormalTok{;}
+    
+    \NormalTok{cout << endl;}
+
+    \NormalTok{cout << }\StringTok{"q front = "} \NormalTok{<< q.front() << endl;}
+    \NormalTok{cout << }\StringTok{"pop front"} \NormalTok{<< endl;}
+    \NormalTok{q.pop_front();}
+    \NormalTok{cout << }\StringTok{"q front = "} \NormalTok{<< q.front() << endl;}
+    \NormalTok{cout << }\StringTok{"q back = "} \NormalTok{<< q.back() << endl;}
+    \NormalTok{cout << }\StringTok{"pop back"} \NormalTok{<< endl;}
+    \NormalTok{q.pop_back();}
+    \NormalTok{cout << }\StringTok{"q back = "} \NormalTok{<< q.back() << endl;}
+    \NormalTok{cout << }\StringTok{"q[3] = "} \NormalTok{<< q[}\DecValTok{3}\NormalTok{] << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <list>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{list<}\DataTypeTok{int}\NormalTok{> l;}
+    
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<=}\DecValTok{5}\NormalTok{; i++)}
+        \NormalTok{l.push_back(i);}
+    
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{6}\NormalTok{; i<=}\DecValTok{10}\NormalTok{; i++)}
+        \NormalTok{l.push_front(i);}
+    
+    \NormalTok{list<}\DataTypeTok{int}\NormalTok{>::iterator it;}
+
+    \KeywordTok{for} \NormalTok{(it=l.begin(); it!=l.end(); it++)}
+        \NormalTok{cout << *it << }\StringTok{", "}\NormalTok{;}
+    
+    \NormalTok{cout << endl;}
+
+    \NormalTok{cout << }\StringTok{"l front = "} \NormalTok{<< l.front() << endl;}
+    \NormalTok{cout << }\StringTok{"pop front"} \NormalTok{<< endl;}
+    \NormalTok{l.pop_front();}
+    \NormalTok{cout << }\StringTok{"l front = "} \NormalTok{<< l.front() << endl;}
+    \NormalTok{cout << }\StringTok{"l back = "} \NormalTok{<< l.back() << endl;}
+    \NormalTok{cout << }\StringTok{"pop back"} \NormalTok{<< endl;}
+    \NormalTok{l.pop_back();}
+    \NormalTok{cout << }\StringTok{"l back = "} \NormalTok{<< l.back() << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <map>}
+\OtherTok{#include <string>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{map<string,}\DataTypeTok{int}\NormalTok{> m;}
+    \NormalTok{map<string,}\DataTypeTok{int}\NormalTok{>::iterator it;}
+    
+    \NormalTok{m[}\StringTok{"bob"}\NormalTok{] = }\DecValTok{42}\NormalTok{;}
+    \NormalTok{m[}\StringTok{"alice"}\NormalTok{] = }\DecValTok{40}\NormalTok{;}
+    \NormalTok{m[}\StringTok{"mike"}\NormalTok{] = }\DecValTok{30}\NormalTok{;}
+    \NormalTok{m[}\StringTok{"richard"}\NormalTok{] = }\DecValTok{25}\NormalTok{;}
+    
+    \KeywordTok{for} \NormalTok{(it=m.begin(); it!=m.end(); it++)}
+        \NormalTok{cout << it->first << }\StringTok{", "} \NormalTok{<< it->second << endl;}
+    
+    \NormalTok{it = m.find(}\StringTok{"bob"}\NormalTok{);}
+    \NormalTok{cout << }\StringTok{"found: "} \NormalTok{<< it->first << }\StringTok{", "} \NormalTok{<< it->second << endl;}
+    
+    \NormalTok{it = m.find(}\StringTok{"carl"}\NormalTok{);}
+    
+    \KeywordTok{if} \NormalTok{(it!=m.end())}
+        \NormalTok{cout << }\StringTok{"found: "} \NormalTok{<< it->first << }\StringTok{", "} \NormalTok{<< it->second << endl;}
+    \KeywordTok{else}
+        \NormalTok{cout << }\StringTok{"Could not find Carl."} \NormalTok{<< endl;}
+    
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <map>}
+\OtherTok{#include <string>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{map<string,}\DataTypeTok{int}\NormalTok{> m;}
+    \NormalTok{map<string,}\DataTypeTok{int}\NormalTok{>::iterator it;}
+    
+    \NormalTok{m[}\StringTok{"bob"}\NormalTok{] = }\DecValTok{42}\NormalTok{;}
+    \NormalTok{m[}\StringTok{"alice"}\NormalTok{] = }\DecValTok{40}\NormalTok{;}
+    \NormalTok{m[}\StringTok{"mike"}\NormalTok{] = }\DecValTok{30}\NormalTok{;}
+    \NormalTok{m[}\StringTok{"richard"}\NormalTok{] = }\DecValTok{25}\NormalTok{;}
+    
+    \KeywordTok{for} \NormalTok{(it=m.begin(); it!=m.end(); it++)}
+        \NormalTok{cout << it->first << }\StringTok{", "} \NormalTok{<< it->second << endl;}
+    
+    \NormalTok{m.erase(m.find(}\StringTok{"mike"}\NormalTok{));}
+
+    \NormalTok{cout << }\StringTok{"--"} \NormalTok{<< endl;}
+    
+    \KeywordTok{for} \NormalTok{(it=m.begin(); it!=m.end(); it++)}
+        \NormalTok{cout << it->first << }\StringTok{", "} \NormalTok{<< it->second << endl;}
+    
+    \NormalTok{m.insert(pair<string,}\DataTypeTok{int}\NormalTok{>(}\StringTok{"carl"}\NormalTok{, }\DecValTok{43}\NormalTok{));}
+
+    \NormalTok{cout << }\StringTok{"--"} \NormalTok{<< endl;}
+    
+    \KeywordTok{for} \NormalTok{(it=m.begin(); it!=m.end(); it++)}
+        \NormalTok{cout << it->first << }\StringTok{", "} \NormalTok{<< it->second << endl;}
+    
+    \NormalTok{m.clear();}
+    
+    \NormalTok{cout << }\StringTok{"--"} \NormalTok{<< endl;}
+    
+    \KeywordTok{for} \NormalTok{(it=m.begin(); it!=m.end(); it++)}
+        \NormalTok{cout << it->first << }\StringTok{", "} \NormalTok{<< it->second << endl;}
+    
+    \NormalTok{cout << }\StringTok{"m.size() = "} \NormalTok{<< m.size() << endl;}
+
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <vector>}
+\OtherTok{#include <cstdlib>}
+\OtherTok{#include <ctime>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{srand((}\DataTypeTok{unsigned}\NormalTok{)time(}\DecValTok{0}\NormalTok{));}
+    
+    \NormalTok{vector<}\DataTypeTok{int}\NormalTok{> vec;}
+    
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<}\DecValTok{10}\NormalTok{; i++)}
+        \NormalTok{vec.push_back(rand());}
+
+    \KeywordTok{for} \NormalTok{(size_t i=}\DecValTok{0}\NormalTok{; i<vec.size(); i++)}
+        \NormalTok{cout << vec[i] << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <vector>}
+\OtherTok{#include <cstdlib>}
+\OtherTok{#include <ctime>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{srand((}\DataTypeTok{unsigned}\NormalTok{)time(}\DecValTok{0}\NormalTok{));}
+    
+    \NormalTok{vector<}\DataTypeTok{int}\NormalTok{> vec;}
+    
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<}\DecValTok{10}\NormalTok{; i++)}
+        \NormalTok{vec.push_back(rand());}
+    
+    \NormalTok{vector<}\DataTypeTok{int}\NormalTok{>::iterator it;}
+
+    \KeywordTok{for} \NormalTok{(it=vec.begin(); it!=vec.end(); it++)}
+        \NormalTok{cout << *it << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <vector>}
+\OtherTok{#include <cstdlib>}
+\OtherTok{#include <algorithm>}
+\OtherTok{#include <ctime>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{srand((}\DataTypeTok{unsigned}\NormalTok{)time(}\DecValTok{0}\NormalTok{));}
+    
+    \NormalTok{vector<}\DataTypeTok{int}\NormalTok{> vec;}
+    
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<}\DecValTok{10}\NormalTok{; i++)}
+        \NormalTok{vec.push_back(rand());}
+    
+    \NormalTok{sort(vec.begin(), vec.end());}
+    \NormalTok{reverse(vec.begin(), vec.end());}
+    
+    \NormalTok{vector<}\DataTypeTok{int}\NormalTok{>::iterator it;}
+
+    \KeywordTok{for} \NormalTok{(it=vec.begin(); it!=vec.end(); it++)}
+        \NormalTok{cout << *it << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <vector>}
+\OtherTok{#include <cstdlib>}
+\OtherTok{#include <algorithm>}
+\OtherTok{#include <ctime>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{srand((}\DataTypeTok{unsigned}\NormalTok{)time(}\DecValTok{0}\NormalTok{));}
+    
+    \NormalTok{vector<}\DataTypeTok{int}\NormalTok{> vec;}
+    
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<}\DecValTok{10}\NormalTok{; i++)}
+        \NormalTok{vec.push_back(rand());}
+    
+    \NormalTok{sort(vec.begin(), vec.end());}
+    \NormalTok{reverse(vec.begin(), vec.end());}
+    
+    \NormalTok{vector<}\DataTypeTok{int}\NormalTok{>::iterator it;}
+
+    \KeywordTok{for} \NormalTok{(it=vec.begin(); it!=vec.end(); it++)}
+        \NormalTok{cout << *it << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+

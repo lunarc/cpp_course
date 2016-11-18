@@ -1,0 +1,31 @@
+\section{ch\_cpp\_fortran}\label{chux5fcppux5ffortran}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <armadillo>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{arma;}
+
+\DataTypeTok{extern} \StringTok{"C"} \DataTypeTok{void} \NormalTok{multiply(}\DataTypeTok{double} \NormalTok{a[], }\DataTypeTok{double} \NormalTok{b[], }\DataTypeTok{double} \NormalTok{c[], }\DataTypeTok{int} \NormalTok{a_rows, }\DataTypeTok{int} \NormalTok{a_cols, }\DataTypeTok{int} \NormalTok{b_rows, }\DataTypeTok{int} \NormalTok{b_cols);}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{mat a = randu<mat>(}\DecValTok{5}\NormalTok{,}\DecValTok{5}\NormalTok{);}
+    \NormalTok{mat b = randu<mat>(}\DecValTok{5}\NormalTok{,}\DecValTok{5}\NormalTok{);}
+    \NormalTok{mat c(}\DecValTok{5}\NormalTok{,}\DecValTok{5}\NormalTok{);}
+
+    \NormalTok{cout << }\StringTok{"a = "} \NormalTok{<< endl;}
+    \NormalTok{a.print();}
+    \NormalTok{cout << }\StringTok{"b = "} \NormalTok{<< endl;}
+    \NormalTok{b.print();}
+    
+    \NormalTok{multiply(a.memptr(), b.memptr(), c.memptr(), a.n_rows, a.n_cols, b.n_rows, b.n_cols);}
+
+    \NormalTok{cout << }\StringTok{"c = "} \NormalTok{<< endl;}
+    \NormalTok{c.print();}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+

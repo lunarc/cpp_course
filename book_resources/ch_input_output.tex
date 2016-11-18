@@ -1,0 +1,343 @@
+\section{ch\_input\_output}\label{chux5finputux5foutput}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <fstream>}
+\OtherTok{#include <iomanip>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{ofstream myfile;}
+    \NormalTok{myfile.open(}\StringTok{"myfile.txt"}\NormalTok{);}
+    \NormalTok{myfile << }\StringTok{"Hello file!"} \NormalTok{<< endl;}
+    \NormalTok{myfile << }\StringTok{"Second line"} \NormalTok{<< endl;}
+    \NormalTok{myfile.close();}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <fstream>}
+\OtherTok{#include <iomanip>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{ofstream outfile;}
+    \NormalTok{outfile.open(}\StringTok{"myfile.txt"}\NormalTok{, ios::out);}
+    \NormalTok{outfile << }\StringTok{"Hello file!"} \NormalTok{<< endl;}
+    \NormalTok{outfile << }\StringTok{"Second line"} \NormalTok{<< endl;}
+    \NormalTok{outfile.close();}
+
+    \NormalTok{outfile.open(}\StringTok{"myfile.txt"}\NormalTok{, ios::out | ios::app);}
+    \NormalTok{outfile << }\StringTok{"Third line"} \NormalTok{<< endl;}
+    \NormalTok{outfile.close();}
+    
+    \NormalTok{ifstream infile;}
+    \NormalTok{infile.open(}\StringTok{"myfile2.txt"}\NormalTok{);}
+    \KeywordTok{if} \NormalTok{(!infile.is_open())}
+        \NormalTok{cout << }\StringTok{"Could not open file!"} \NormalTok{<< endl;}
+    \KeywordTok{else}
+        \NormalTok{infile.close();}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <fstream>}
+\OtherTok{#include <cmath>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{double} \NormalTok{pi = }\DecValTok{4} \NormalTok{* std::atan(}\DecValTok{1}\NormalTok{);}
+    \DataTypeTok{double} \NormalTok{x = }\FloatTok{0.}\DecValTok{0}\NormalTok{;}
+    \DataTypeTok{double} \NormalTok{y;}
+    \DataTypeTok{double} \NormalTok{dx = }\FloatTok{0.}\DecValTok{1}\NormalTok{;}
+
+    \NormalTok{ofstream outfile;}
+    \NormalTok{outfile.open(}\StringTok{"inputfile.dat"}\NormalTok{, ios::out);}
+    \KeywordTok{while} \NormalTok{(x<=pi*}\FloatTok{0.}\DecValTok{25}\NormalTok{)}
+    \NormalTok{\{}
+        \NormalTok{outfile << x << }\StringTok{" "} \NormalTok{<< sin(x) << endl;}
+        \NormalTok{x += dx;}
+    \NormalTok{\}}
+    \NormalTok{outfile.close();}
+        
+    \NormalTok{ifstream infile;}
+    \NormalTok{infile.open(}\StringTok{"inputfile.dat"}\NormalTok{);}
+    \KeywordTok{while} \NormalTok{(infile.good())}
+    \NormalTok{\{}
+        \NormalTok{infile >> x >> y;}
+        \NormalTok{cout << }\StringTok{"x = "} \NormalTok{<< x << }\StringTok{", y = "} \NormalTok{<< y << endl;}
+    \NormalTok{\}}
+    \NormalTok{infile.close();}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <fstream>}
+\OtherTok{#include <sstream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{string line;}
+    \NormalTok{ifstream infile;}
+    \NormalTok{infile.open(}\StringTok{"/etc/hosts"}\NormalTok{);}
+    \KeywordTok{while} \NormalTok{(infile.good())}
+    \NormalTok{\{}
+        \NormalTok{getline(infile, line);}
+        \NormalTok{string addr;}
+        \NormalTok{string host;}
+        
+        \NormalTok{istringstream linestream(line);}
+        \NormalTok{linestream >> addr >> host;}
+        
+        \NormalTok{cout << }\StringTok{"address = "} \NormalTok{<< addr << }\StringTok{", host = "} \NormalTok{<< host << endl;}
+    \NormalTok{\}}
+    \NormalTok{infile.close();}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <fstream>}
+\OtherTok{#include <sstream>}
+\OtherTok{#include <cstdlib>}
+\OtherTok{#include <ctime>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\KeywordTok{struct} \NormalTok{particle \{}
+    \DataTypeTok{double} \NormalTok{x;}
+    \DataTypeTok{double} \NormalTok{y;}
+    \DataTypeTok{double} \NormalTok{mass;}
+\NormalTok{\};}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{srand((}\DataTypeTok{unsigned}\NormalTok{)time(}\DecValTok{0}\NormalTok{));}
+    
+    \NormalTok{ofstream particlesFile(}\StringTok{"particles.dat"}\NormalTok{, ios::out | ios::binary);}
+    
+    \NormalTok{particle p;}
+    
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<}\DecValTok{10}\NormalTok{; i++)}
+    \NormalTok{\{}
+        \NormalTok{p.x = }\FloatTok{100.}\DecValTok{0}\NormalTok{*(}\DataTypeTok{double}\NormalTok{)rand()/(}\DataTypeTok{double}\NormalTok{)RAND_MAX;}
+        \NormalTok{p.y = }\FloatTok{100.}\DecValTok{0}\NormalTok{*(}\DataTypeTok{double}\NormalTok{)rand()/(}\DataTypeTok{double}\NormalTok{)RAND_MAX;}
+        \NormalTok{p.mass = }\FloatTok{1.}\DecValTok{0} \NormalTok{+ (}\DataTypeTok{double}\NormalTok{)rand()/(}\DataTypeTok{double}\NormalTok{)RAND_MAX;}
+
+        \NormalTok{particlesFile.write((}\DataTypeTok{char}\NormalTok{*)&p, }\KeywordTok{sizeof}\NormalTok{(p));}
+    \NormalTok{\}}
+    
+    \NormalTok{particlesFile.close();}
+    
+    \NormalTok{ifstream inputParticlesFile(}\StringTok{"particles.dat"}\NormalTok{, ios::in | ios::binary | ios::ate );}
+    
+    \KeywordTok{if} \NormalTok{(inputParticlesFile.is_open())}
+    \NormalTok{\{}
+        \NormalTok{inputParticlesFile.seekg(}\DecValTok{0}\NormalTok{, ios::beg);}
+        
+        \KeywordTok{while} \NormalTok{(inputParticlesFile.good())}
+        \NormalTok{\{}
+            \NormalTok{inputParticlesFile.read((}\DataTypeTok{char}\NormalTok{*)&p, }\KeywordTok{sizeof}\NormalTok{(p));}
+            \NormalTok{cout << }\StringTok{"x = "} \NormalTok{<< p.x;}
+            \NormalTok{cout << }\StringTok{", y = "} \NormalTok{<< p.y;}
+            \NormalTok{cout << }\StringTok{", m = "} \NormalTok{<< p.mass << endl;}
+        \NormalTok{\}}
+    \NormalTok{\}}
+    \KeywordTok{else}
+        \NormalTok{cout << }\StringTok{"Could not open file."} \NormalTok{<< endl;}
+    
+    \NormalTok{inputParticlesFile.close();}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <fstream>}
+\OtherTok{#include <sstream>}
+\OtherTok{#include <cstdlib>}
+\OtherTok{#include <ctime>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\KeywordTok{struct} \NormalTok{particle \{}
+    \DataTypeTok{double} \NormalTok{x;}
+    \DataTypeTok{double} \NormalTok{y;}
+    \DataTypeTok{double} \NormalTok{mass;}
+\NormalTok{\};}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{srand((}\DataTypeTok{unsigned}\NormalTok{)time(}\DecValTok{0}\NormalTok{));}
+    
+    \NormalTok{ofstream particlesFile(}\StringTok{"particles.dat"}\NormalTok{, ios::out | ios::binary);}
+    
+    \NormalTok{particle p;}
+    
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<}\DecValTok{10}\NormalTok{; i++)}
+    \NormalTok{\{}
+        \NormalTok{p.x = }\FloatTok{100.}\DecValTok{0}\NormalTok{*(}\DataTypeTok{double}\NormalTok{)rand()/(}\DataTypeTok{double}\NormalTok{)RAND_MAX;}
+        \NormalTok{p.y = }\FloatTok{100.}\DecValTok{0}\NormalTok{*(}\DataTypeTok{double}\NormalTok{)rand()/(}\DataTypeTok{double}\NormalTok{)RAND_MAX;}
+        \NormalTok{p.mass = }\FloatTok{1.}\DecValTok{0} \NormalTok{+ (}\DataTypeTok{double}\NormalTok{)rand()/(}\DataTypeTok{double}\NormalTok{)RAND_MAX;}
+        
+        \NormalTok{particlesFile.write((}\DataTypeTok{char}\NormalTok{*)&p, }\KeywordTok{sizeof}\NormalTok{(p));}
+    \NormalTok{\}}
+    
+    \NormalTok{particlesFile.close();}
+    
+    \NormalTok{ifstream inputParticlesFile(}\StringTok{"particles.dat"}\NormalTok{, ios::in | ios::binary );}
+    
+    \DataTypeTok{int} \NormalTok{recordSize = }\KeywordTok{sizeof}\NormalTok{(p);}
+    
+    \KeywordTok{if} \NormalTok{(inputParticlesFile.is_open())}
+    \NormalTok{\{}
+        \NormalTok{inputParticlesFile.seekg(}\DecValTok{0}\NormalTok{);}
+        \NormalTok{inputParticlesFile.seekg(}\DecValTok{5} \NormalTok{* recordSize);}
+        \NormalTok{inputParticlesFile.read((}\DataTypeTok{char}\NormalTok{*)&p, }\KeywordTok{sizeof}\NormalTok{(p));}
+        
+        \NormalTok{cout << }\StringTok{"x = "} \NormalTok{<< p.x;}
+        \NormalTok{cout << }\StringTok{", y = "} \NormalTok{<< p.y;}
+        \NormalTok{cout << }\StringTok{", m = "} \NormalTok{<< p.mass << endl;}
+    \NormalTok{\}}
+    \KeywordTok{else}
+        \NormalTok{cout << }\StringTok{"Could not open file."} \NormalTok{<< endl;}
+    
+    \NormalTok{inputParticlesFile.close();}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{int} \NormalTok{a = }\DecValTok{1}\NormalTok{;}
+    \DataTypeTok{int} \NormalTok{b = }\DecValTok{2}\NormalTok{;}
+    \DataTypeTok{double} \NormalTok{c = }\FloatTok{3.}\DecValTok{0}\NormalTok{;}
+    
+    \NormalTok{cout << a << }\StringTok{" "} \NormalTok{<< b;}
+    \NormalTok{cout << }\StringTok{" "} \NormalTok{<< c << endl;}
+    \NormalTok{cout << &c << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{int} \NormalTok{a;}
+    \DataTypeTok{int} \NormalTok{b;}
+    \DataTypeTok{double} \NormalTok{c;}
+    
+    \NormalTok{cin >> a >> b >> c;}
+    
+    \NormalTok{cout << }\StringTok{"a = "} \NormalTok{<< a;}
+    \NormalTok{cout << }\StringTok{", b = "} \NormalTok{<< b;}
+    \NormalTok{cout << }\StringTok{", c = "} \NormalTok{<< c << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{cout << }\StringTok{"Standard output"} \NormalTok{<< endl;}
+    \NormalTok{cerr << }\StringTok{"Standard error"} \NormalTok{<< endl;}
+    \NormalTok{clog << }\StringTok{"Standard logging"} \NormalTok{<< endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <iomanip>}
+\OtherTok{#include <cmath>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{double} \NormalTok{pi = }\DecValTok{4} \NormalTok{* std::atan(}\DecValTok{1}\NormalTok{);}
+    \DataTypeTok{double} \NormalTok{x = }\FloatTok{0.}\DecValTok{0}\NormalTok{;}
+    \DataTypeTok{double} \NormalTok{dx = }\FloatTok{0.}\DecValTok{1}\NormalTok{;}
+    
+    \NormalTok{cout << setw(}\DecValTok{15}\NormalTok{) << left << }\StringTok{"X"}\NormalTok{;}
+    \NormalTok{cout << setw(}\DecValTok{10}\NormalTok{) << right << }\StringTok{"f(x)"} \NormalTok{<< endl;}
+    \NormalTok{cout << setfill(}\StringTok{'-'}\NormalTok{);}
+    \NormalTok{cout << setw(}\DecValTok{25}\NormalTok{) << }\StringTok{""} \NormalTok{<< endl;}
+    \NormalTok{cout << setfill(}\StringTok{' '}\NormalTok{);}
+    \NormalTok{cout << setprecision(}\DecValTok{6}\NormalTok{) << fixed;}
+    \CommentTok{//cout.unsetf(ios_base::fixed);}
+    
+    \KeywordTok{while} \NormalTok{(x<=pi*}\FloatTok{0.}\DecValTok{25}\NormalTok{)}
+    \NormalTok{\{}
+        \NormalTok{cout << setw(}\DecValTok{15}\NormalTok{) << left << x;}
+        \NormalTok{cout << setw(}\DecValTok{10}\NormalTok{) << right << sin(x);}
+        \NormalTok{cout << endl;}
+        \NormalTok{x += dx;}
+    \NormalTok{\}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+\OtherTok{#include <iomanip>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{bool} \NormalTok{flag = }\KeywordTok{true}\NormalTok{;}
+    
+    \NormalTok{cout << }\StringTok{"flag = "} \NormalTok{<< flag << endl;}
+    \NormalTok{cout << boolalpha;}
+    \NormalTok{cout << }\StringTok{"flag = "} \NormalTok{<< flag << endl;}
+
+    \DataTypeTok{int} \NormalTok{n = }\DecValTok{42}\NormalTok{;}
+    
+    \NormalTok{cout << hex << }\StringTok{"n = "} \NormalTok{<< n << endl;}
+    \NormalTok{cout << hex << showbase << }\StringTok{"n = "} \NormalTok{<< n << endl;}
+    \NormalTok{cout << oct << }\StringTok{"n = "} \NormalTok{<< n << endl;}
+    \NormalTok{cout << dec << }\StringTok{"n = "} \NormalTok{<< n << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+

@@ -1,0 +1,101 @@
+\section{ch\_iterating}\label{chux5fiterating}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main() }
+\NormalTok{\{}
+    \DataTypeTok{int} \NormalTok{counter = }\DecValTok{1}\NormalTok{;}
+    
+    \KeywordTok{do}
+    \NormalTok{\{}
+        \NormalTok{cout << }\StringTok{"counter = "} \NormalTok{<< counter << endl;}
+        \NormalTok{counter = counter + }\DecValTok{1}\NormalTok{;}
+    \NormalTok{\}}
+    \KeywordTok{while} \NormalTok{(counter<=}\DecValTok{10}\NormalTok{);}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{counter = }\DecValTok{1}\NormalTok{; counter<=}\DecValTok{10}\NormalTok{; counter++)}
+        \NormalTok{cout << }\StringTok{"counter = "} \NormalTok{<< counter << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{int} \NormalTok{sum = }\DecValTok{0}\NormalTok{;}
+    
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<=}\DecValTok{10000}\NormalTok{; sum += ++i);}
+    
+    \NormalTok{cout << }\StringTok{"sum = "} \NormalTok{<< sum << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main() }
+\NormalTok{\{}
+    \DataTypeTok{int} \NormalTok{counter = }\DecValTok{1}\NormalTok{;}
+    
+    \KeywordTok{while} \NormalTok{(counter <= }\DecValTok{10}\NormalTok{) }
+    \NormalTok{\{}
+        \NormalTok{cout << }\StringTok{"counter = "} \NormalTok{<< counter << endl;}
+        
+        \KeywordTok{if} \NormalTok{(counter == }\DecValTok{5}\NormalTok{)}
+        \NormalTok{\{}
+            \NormalTok{counter = counter + }\DecValTok{2}\NormalTok{;}
+            \KeywordTok{continue}\NormalTok{;}
+        \NormalTok{\}}
+        
+        \KeywordTok{if} \NormalTok{(counter == }\DecValTok{9}\NormalTok{)}
+            \KeywordTok{break}\NormalTok{;}
+        
+        \NormalTok{counter = counter + }\DecValTok{1}\NormalTok{;}
+    \NormalTok{\}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main() }
+\NormalTok{\{}
+    \DataTypeTok{int} \NormalTok{counter = }\DecValTok{1}\NormalTok{;}
+    
+    \KeywordTok{while} \NormalTok{(counter <= }\DecValTok{10}\NormalTok{) }
+    \NormalTok{\{}
+        \NormalTok{cout << }\StringTok{"counter = "} \NormalTok{<< counter << endl;}
+        \NormalTok{counter = counter + }\DecValTok{1}\NormalTok{;}
+    \NormalTok{\}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+

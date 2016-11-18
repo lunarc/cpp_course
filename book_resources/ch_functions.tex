@@ -1,0 +1,379 @@
+\section{ch\_functions}\label{chux5ffunctions}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{void} \NormalTok{createArray(}\DataTypeTok{int}\NormalTok{**& array, }\DataTypeTok{int} \NormalTok{rows, }\DataTypeTok{int} \NormalTok{cols)}
+\NormalTok{\{}
+    \NormalTok{array = }\KeywordTok{new} \DataTypeTok{int}\NormalTok{*[rows];}
+    \NormalTok{array[}\DecValTok{0}\NormalTok{] = }\KeywordTok{new} \DataTypeTok{int}\NormalTok{[rows*cols];    }
+
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<rows; i++)}
+        \NormalTok{array[i] = &array[}\DecValTok{0}\NormalTok{][i*cols];}
+\NormalTok{\}}
+
+\DataTypeTok{void} \NormalTok{zeroArray(}\DataTypeTok{int}\NormalTok{**& array, }\DataTypeTok{int} \NormalTok{rows, }\DataTypeTok{int} \NormalTok{cols)}
+\NormalTok{\{}
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<rows; i++)}
+        \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{j=}\DecValTok{0}\NormalTok{; j<cols; j++)}
+            \NormalTok{array[i][j] = }\DecValTok{0}\NormalTok{;}
+\NormalTok{\}}
+
+\DataTypeTok{void} \NormalTok{deleteArray(}\DataTypeTok{int}\NormalTok{**& array)}
+\NormalTok{\{}
+    \KeywordTok{delete} \NormalTok{array[}\DecValTok{0}\NormalTok{];}
+    \KeywordTok{delete} \NormalTok{array;}
+\NormalTok{\}}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{int}\NormalTok{** array;}
+    
+    \NormalTok{createArray(array, }\DecValTok{4}\NormalTok{, }\DecValTok{8}\NormalTok{);}
+    \NormalTok{zeroArray(array, }\DecValTok{4}\NormalTok{, }\DecValTok{8}\NormalTok{);}
+    
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<}\DecValTok{4}\NormalTok{; i++)}
+    \NormalTok{\{}
+        \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{j=}\DecValTok{0}\NormalTok{; j<}\DecValTok{8}\NormalTok{; j++)}
+            \NormalTok{cout << array[i][j] << }\StringTok{", "}\NormalTok{;}
+        
+        \NormalTok{cout << endl;}
+    \NormalTok{\}}
+
+    \NormalTok{deleteArray(array);}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int}\NormalTok{** createArray(}\DataTypeTok{int} \NormalTok{rows, }\DataTypeTok{int} \NormalTok{cols)}
+\NormalTok{\{}
+    \DataTypeTok{int}\NormalTok{** array = }\KeywordTok{new} \DataTypeTok{int}\NormalTok{*[rows];}
+    \NormalTok{array[}\DecValTok{0}\NormalTok{] = }\KeywordTok{new} \DataTypeTok{int}\NormalTok{[rows*cols];    }
+
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<rows; i++)}
+        \NormalTok{array[i] = &array[}\DecValTok{0}\NormalTok{][i*cols];}
+    
+    \KeywordTok{return} \NormalTok{array;}
+\NormalTok{\}}
+
+\DataTypeTok{void} \NormalTok{zeroArray(}\DataTypeTok{int}\NormalTok{**& array, }\DataTypeTok{int} \NormalTok{rows, }\DataTypeTok{int} \NormalTok{cols)}
+\NormalTok{\{}
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<rows; i++)}
+        \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{j=}\DecValTok{0}\NormalTok{; j<cols; j++)}
+            \NormalTok{array[i][j] = }\DecValTok{0}\NormalTok{;}
+\NormalTok{\}}
+
+\DataTypeTok{void} \NormalTok{deleteArray(}\DataTypeTok{int}\NormalTok{**& array)}
+\NormalTok{\{}
+    \KeywordTok{delete} \NormalTok{array[}\DecValTok{0}\NormalTok{];}
+    \KeywordTok{delete} \NormalTok{array;}
+\NormalTok{\}}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{int}\NormalTok{** array;}
+    
+    \NormalTok{array = createArray(}\DecValTok{4}\NormalTok{, }\DecValTok{8}\NormalTok{);}
+    \NormalTok{zeroArray(array, }\DecValTok{4}\NormalTok{, }\DecValTok{8}\NormalTok{);}
+    
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<}\DecValTok{4}\NormalTok{; i++)}
+    \NormalTok{\{}
+        \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{j=}\DecValTok{0}\NormalTok{; j<}\DecValTok{8}\NormalTok{; j++)}
+            \NormalTok{cout << array[i][j] << }\StringTok{", "}\NormalTok{;}
+        
+        \NormalTok{cout << endl;}
+    \NormalTok{\}}
+
+    \NormalTok{deleteArray(array);}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include "array_utils.h"}
+
+\DataTypeTok{int}\NormalTok{** createArray(}\DataTypeTok{int} \NormalTok{rows, }\DataTypeTok{int} \NormalTok{cols)}
+\NormalTok{\{}
+    \DataTypeTok{int}\NormalTok{** array = }\KeywordTok{new} \DataTypeTok{int}\NormalTok{*[rows];}
+    \NormalTok{array[}\DecValTok{0}\NormalTok{] = }\KeywordTok{new} \DataTypeTok{int}\NormalTok{[rows*cols];}
+    
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<rows; i++)}
+        \NormalTok{array[i] = &array[}\DecValTok{0}\NormalTok{][i*cols];}
+    
+    \KeywordTok{return} \NormalTok{array;}
+\NormalTok{\}}
+
+\DataTypeTok{void} \NormalTok{zeroArray(}\DataTypeTok{int}\NormalTok{**& array, }\DataTypeTok{int} \NormalTok{rows, }\DataTypeTok{int} \NormalTok{cols)}
+\NormalTok{\{}
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<rows; i++)}
+        \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{j=}\DecValTok{0}\NormalTok{; j<cols; j++)}
+            \NormalTok{array[i][j] = }\DecValTok{0}\NormalTok{;}
+\NormalTok{\}}
+
+\DataTypeTok{void} \NormalTok{deleteArray(}\DataTypeTok{int}\NormalTok{**& array)}
+\NormalTok{\{}
+    \KeywordTok{delete} \NormalTok{array[}\DecValTok{0}\NormalTok{];}
+    \KeywordTok{delete} \NormalTok{array;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include "array_utils2.h"}
+
+\DataTypeTok{int}\NormalTok{** createArray(}\DataTypeTok{int} \NormalTok{rows, }\DataTypeTok{int} \NormalTok{cols)}
+\NormalTok{\{}
+    \DataTypeTok{int}\NormalTok{** array = }\KeywordTok{new} \DataTypeTok{int}\NormalTok{*[rows];}
+    \NormalTok{array[}\DecValTok{0}\NormalTok{] = }\KeywordTok{new} \DataTypeTok{int}\NormalTok{[rows*cols];}
+    
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<rows; i++)}
+        \NormalTok{array[i] = &array[}\DecValTok{0}\NormalTok{][i*cols];}
+    
+    \KeywordTok{return} \NormalTok{array;}
+\NormalTok{\}}
+
+\DataTypeTok{void} \NormalTok{zeroArray(}\DataTypeTok{int}\NormalTok{**& array, }\DataTypeTok{int} \NormalTok{rows, }\DataTypeTok{int} \NormalTok{cols)}
+\NormalTok{\{}
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<rows; i++)}
+        \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{j=}\DecValTok{0}\NormalTok{; j<cols; j++)}
+            \NormalTok{array[i][j] = }\DecValTok{0}\NormalTok{;}
+\NormalTok{\}}
+
+\DataTypeTok{void} \NormalTok{deleteArray(}\DataTypeTok{int}\NormalTok{**& array)}
+\NormalTok{\{}
+    \KeywordTok{delete} \NormalTok{array[}\DecValTok{0}\NormalTok{];}
+    \KeywordTok{delete} \NormalTok{array;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{void} \NormalTok{simple()}
+\NormalTok{\{}
+    \NormalTok{cout << }\StringTok{"Hello, from function!"} \NormalTok{<< endl;}
+\NormalTok{\}}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{simple();}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{void} \NormalTok{simple(}\DataTypeTok{int} \NormalTok{a)}
+\NormalTok{\{}
+    \NormalTok{cout << }\StringTok{"The value of a = "} \NormalTok{<< a << endl;}
+\NormalTok{\}}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \NormalTok{simple(}\DecValTok{42}\NormalTok{);}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{void} \NormalTok{simple(}\DataTypeTok{int} \NormalTok{a)}
+\NormalTok{\{}
+    \NormalTok{cout << }\StringTok{"The value of a = "} \NormalTok{<< a << endl;}
+    \NormalTok{cout << }\StringTok{"&a = "} \NormalTok{<< &a << endl;}
+\NormalTok{\}}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{int} \NormalTok{a = }\DecValTok{42}\NormalTok{;}
+    \NormalTok{simple(a);}
+    
+    \NormalTok{cout << }\StringTok{"&a = "} \NormalTok{<< &a << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{void} \NormalTok{simple(}\DataTypeTok{int}\NormalTok{* a)}
+\NormalTok{\{}
+    \NormalTok{cout << }\StringTok{"The value of a = "} \NormalTok{<< a << endl;}
+    \NormalTok{cout << }\StringTok{"*a = "} \NormalTok{<< *a << endl;}
+\NormalTok{\}}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{int} \NormalTok{a = }\DecValTok{42}\NormalTok{;}
+    \NormalTok{simple(&a);}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{void} \NormalTok{simple(}\DataTypeTok{int}\NormalTok{* a)}
+\NormalTok{\{}
+    \NormalTok{*a = }\DecValTok{43}\NormalTok{;}
+\NormalTok{\}}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{int} \NormalTok{a = }\DecValTok{42}\NormalTok{;}
+    
+    \NormalTok{cout << }\StringTok{"Before function call: a = "} \NormalTok{<< a << endl;}
+    \NormalTok{simple(&a);}
+    \NormalTok{cout << }\StringTok{"After function call : a = "} \NormalTok{<< a << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{void} \NormalTok{simple(}\DataTypeTok{int}\NormalTok{& a)}
+\NormalTok{\{}
+    \NormalTok{a = }\DecValTok{43}\NormalTok{;}
+\NormalTok{\}}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{int} \NormalTok{a = }\DecValTok{42}\NormalTok{;}
+    
+    \NormalTok{cout << }\StringTok{"Before function call: a = "} \NormalTok{<< a << endl;}
+    \NormalTok{simple(a);}
+    \NormalTok{cout << }\StringTok{"After function call : a = "} \NormalTok{<< a << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{void} \NormalTok{simple(}\DataTypeTok{int}\NormalTok{* a)}
+\NormalTok{\{}
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<}\DecValTok{4}\NormalTok{; i++)}
+        \NormalTok{cout << a[i] << }\StringTok{", "}\NormalTok{;}
+    \NormalTok{cout << endl;}
+\NormalTok{\}}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{int} \NormalTok{a[] = \{ }\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4} \NormalTok{\};}
+    \NormalTok{simple(a);}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{void} \NormalTok{simple(}\DataTypeTok{int}\NormalTok{* a)}
+\NormalTok{\{}
+    \NormalTok{a[}\DecValTok{3}\NormalTok{] = }\DecValTok{42}\NormalTok{;}
+\NormalTok{\}}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{int} \NormalTok{a[] = \{ }\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4} \NormalTok{\};}
+    \NormalTok{simple(a);}
+    \NormalTok{cout << }\StringTok{"a[3] = "} \NormalTok{<< a[}\DecValTok{3}\NormalTok{] << endl;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\OtherTok{#include "array_utils.h"}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{int}\NormalTok{** array;}
+    
+    \NormalTok{array = createArray(}\DecValTok{4}\NormalTok{, }\DecValTok{8}\NormalTok{);}
+    \NormalTok{zeroArray(array, }\DecValTok{4}\NormalTok{, }\DecValTok{8}\NormalTok{);}
+    
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<}\DecValTok{4}\NormalTok{; i++)}
+    \NormalTok{\{}
+        \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{j=}\DecValTok{0}\NormalTok{; j<}\DecValTok{8}\NormalTok{; j++)}
+            \NormalTok{cout << array[i][j] << }\StringTok{", "}\NormalTok{;}
+        
+        \NormalTok{cout << endl;}
+    \NormalTok{\}}
+
+    \NormalTok{deleteArray(array);}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{#include <iostream>}
+
+\OtherTok{#include "array_utils2.h"}
+
+\KeywordTok{using} \KeywordTok{namespace} \NormalTok{std;}
+
+\DataTypeTok{int} \NormalTok{main()}
+\NormalTok{\{}
+    \DataTypeTok{int}\NormalTok{** array;}
+    
+    \NormalTok{array = createArray(}\DecValTok{4}\NormalTok{, }\DecValTok{8}\NormalTok{);}
+    \NormalTok{zeroArray(array, }\DecValTok{4}\NormalTok{, }\DecValTok{8}\NormalTok{);}
+    
+    \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{i=}\DecValTok{0}\NormalTok{; i<}\DecValTok{4}\NormalTok{; i++)}
+    \NormalTok{\{}
+        \KeywordTok{for} \NormalTok{(}\DataTypeTok{int} \NormalTok{j=}\DecValTok{0}\NormalTok{; j<}\DecValTok{8}\NormalTok{; j++)}
+            \NormalTok{cout << array[i][j] << }\StringTok{", "}\NormalTok{;}
+        
+        \NormalTok{cout << endl;}
+    \NormalTok{\}}
+
+    \NormalTok{deleteArray(array);}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
