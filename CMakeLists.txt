@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 
-set(CMAKE_C_COMPILER /opt/local/bin/gcc)
-set(CMAKE_CXX_COMPILER /opt/local/bin/g++)
+# set(CMAKE_C_COMPILER /opt/local/bin/gcc)
+# set(CMAKE_CXX_COMPILER /opt/local/bin/g++)
 
 project(cpp_course C CXX Fortran)
 
