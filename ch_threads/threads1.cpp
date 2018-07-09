@@ -1,32 +1,39 @@
 #include <iostream>
 #include <thread>
+#include <mutex>
 
 using namespace std;
 
-static const int numThreads = 1;
+static const int numThreads = 8;
+std::mutex sumLock;
 
-void sum(int a, int b, int& sum)
+void sum(double a, double b, int id, double* sum)
 {
-    sum = 0;
-    for (int i=a; i<=b; i++)
-        sum += i;
+    double localSum = 0;
+
+    for (double i=a; i<=b; i++)
+        localSum += i;
+
+    sumLock.lock();
+    sum[id] = localSum;
+    sumLock.unlock();
 }
 
 int main() 
 {
-    int a = 0;
-    int b = 1000000000;
+    double a = 0;
+    double b = 10000000000;
 
     thread threads[numThreads];
-    int sums[numThreads];
+    double sums[numThreads];
 
     // a ---- | ---- | ---- | ---- b
 
-    int chunkSize = (b - a) / numThreads;
-    int remainder = (b - a) - chunkSize * numThreads;
+    double chunkSize = (b - a) / numThreads;
+    double remainder = (b - a) - chunkSize * numThreads;
 
-    int totalSum = 0;
-    int i0, i1;
+    double totalSum = 0;
+    double i0, i1;
 
     for (int i=0;i<numThreads; i++)
     {
@@ -35,13 +42,19 @@ int main()
         if (i == numThreads-1)
             i1 += remainder + 1;
         cout << "i0 = " << i0 << " i1 = " << i1 << endl;
-        threads[i] = thread(sum, i0, i1, totalSum);
+        threads[i] = thread(sum, i0, i1, i, sums);
     }
 
     cout << "Waiting for completion..." << endl;
 
-    for (int i=0; i<numThreads; i++)
+    for (int i = 0; i < numThreads; i++)
+    {
         threads[i].join();
+        cout << sums[i] << endl;
+        totalSum += sums[i];
+    }
+
+    cout << "Total sum = " << totalSum;
 
     return 0;
 }

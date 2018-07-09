@@ -32,3 +32,4 @@ book/build/*
 *.exe
 *.out
 *.app
+*.zip

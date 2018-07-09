@@ -6,7 +6,11 @@ else()
 
 endif()
 else()
-	link_directories( ../../libs-win32/openblas/lib )
+	if ( CMAKE_BUILD_TYPE STREQUAL "Release")
+		link_directories( ../libs-win32/lib/release )
+	else()
+		link_directories( ../libs-win32/lib/debug )
+	endif()
 endif()
 
 add_executable(matrix1 matrix1.cpp)
