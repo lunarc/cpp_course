@@ -33,3 +33,5 @@ book/build/*
 *.out
 *.app
 *.zip
+*.tar
+*.xz

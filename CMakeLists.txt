@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.0)
 
 
 
-project(cpp_course C CXX Fortran)
+project(cpp_course C CXX)
 
 if (WIN32)
     if (MINGW)
