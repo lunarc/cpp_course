@@ -23,11 +23,11 @@ if (WIN32)
 else()
 	include_directories( armadillo/include )
 
-	find_package(PythonLibs)
-	include_directories (${PYTHON_INCLUDE_DIRS})
+#	find_package(PythonLibs)
+#	include_directories (${PYTHON_INCLUDE_DIRS})
 
-	find_package(Boost 1.45.0 COMPONENTS python)
-	include_directories (${Boost_INCLUDE_DIRS})
+#	find_package(Boost 1.45.0 COMPONENTS python)
+#	include_directories (${Boost_INCLUDE_DIRS})
 endif()
 
 if (WIN32)
