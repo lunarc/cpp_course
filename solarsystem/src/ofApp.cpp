@@ -149,7 +149,7 @@ void ofApp::draw()
 
     for (int i=0; i<m_solarSystem->planetCount(); i++)
     {
-        Planet* planet = m_solarSystem->planetAt(i);
+        auto planet = m_solarSystem->planetAt(i);
         planet->location().getComponents(x, y, z);
 
         m_traces[i].addVertex(x, y, z);
@@ -171,7 +171,7 @@ void ofApp::draw()
     m_sunMaterial.begin();
     for (int i = 0; i < m_solarSystem->sunCount(); i++)
     {
-        Sun* sun = m_solarSystem->sunAt(i);
+        auto sun = m_solarSystem->sunAt(i);
         sun->location().getComponents(x, y, z);
 
         m_sphere.setPosition(x, y, z);

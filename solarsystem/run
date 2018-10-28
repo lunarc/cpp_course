@@ -1,5 +1,11 @@
 #!/bin/sh 
 
+ml load openframeworks
+
 cd bin
-VGL_NPROCS=4 VGL_PROFILE=1 VGL_READBACK=pbo VGL_VERBOSE=1 vglrun ./solarsystem
+#VGL_NPROCS=4 
+#VGL_PROFILE=1 
+#VGL_READBACK=pbo 
+#VGL_VERBOSE=1 
+vglrun ./solarsystem
 cd ..

@@ -40,14 +40,14 @@ void SolarSystem::init()
         double y = r * sin(alfa);
         double vx = -v * sin(alfa);
         double vy = v * cos(alfa);
-        Planet* planet = new Planet(random(m_planetMassMin, m_planetMassMax), x, 0.0, y);
+        auto planet = new Planet(random(m_planetMassMin, m_planetMassMax), x, 0.0, y);
         planet->setVelocity(vx, 0.0, vy);
         m_planets.push_back(planet);
     }
 
     for (int i = 0; i<m_nSuns; i++)
     {
-        Sun* sun = new Sun(random(10, 20), random(-40.0 / 2, 40.0 / 2), 0, random(-40.0 / 2, 40.0 / 2));
+        auto sun = new Sun(random(10, 20), random(-40.0 / 2, 40.0 / 2), 0, random(-40.0 / 2, 40.0 / 2));
         m_suns.push_back(sun);
     }
 }
@@ -69,9 +69,9 @@ void SolarSystem::clear()
 
 void SolarSystem::update(double dt)
 {
-    for (Planet* planet : m_planets)
+    for (auto planet : m_planets)
     {
-        for (Sun* sun : m_suns)
+        for (auto sun : m_suns)
         {
             Vec3d force = sun->attract(planet);
             planet->applyForce(force);
@@ -104,7 +104,7 @@ Planet* SolarSystem::planetAt(int idx)
         return nullptr;
 }
 
-Sun * SolarSystem::sunAt(int idx)
+Sun* SolarSystem::sunAt(int idx)
 {
     if ((idx >= 0) && (idx < m_suns.size()))
         return m_suns[idx];

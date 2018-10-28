@@ -127,8 +127,8 @@
 #
 #   Note: Leave a leading space when adding list items with the += operator
 ################################################################################
-# PROJECT_OPTIMIZATION_CFLAGS_RELEASE = 
-# PROJECT_OPTIMIZATION_CFLAGS_DEBUG = 
+PROJECT_OPTIMIZATION_CFLAGS_RELEASE = -Ofast
+PROJECT_OPTIMIZATION_CFLAGS_DEBUG = -Ofast
 
 ################################################################################
 # PROJECT COMPILERS
