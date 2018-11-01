@@ -68,7 +68,7 @@ double Particle::mass()
     return m_mass;
 }  
 
-BOOST_PYTHON_MODULE(particles)
+BOOST_PYTHON_MODULE(particle)
 {
     using namespace boost::python;
     

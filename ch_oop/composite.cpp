@@ -43,7 +43,7 @@ void Composite::add(Shape* shape)
 }
 
 void Composite::remove(Shape* shape)
-{    
+{
     for (auto it=m_shapes.begin(); it!=m_shapes.end(); it++)
     {
         if ((*it).get() == shape)
