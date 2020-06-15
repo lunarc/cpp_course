@@ -1,5 +1,4 @@
 #include <iostream>
-#include <armadillo>
 #include <Eigen/Dense>
 
 using namespace std;

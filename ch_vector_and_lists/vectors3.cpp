@@ -17,7 +17,7 @@ int main()
     sort(vec.begin(), vec.end());
     reverse(vec.begin(), vec.end());
 
-    for (auto v : vec)
+    for (auto &v : vec)
         cout << v << endl;
 
 }

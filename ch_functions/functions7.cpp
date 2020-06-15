@@ -2,7 +2,7 @@
 
 using namespace std;
 
-void simple(int* a)
+void simple(const int* a)
 {
     for (int i=0; i<4; i++)
         cout << a[i] << ", ";

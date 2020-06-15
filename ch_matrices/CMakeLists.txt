@@ -1,17 +1,17 @@
-add_executable(matrix1 matrix1.cpp)
-target_link_libraries(matrix1 armadillo ${CONAN_LIBS})
+#add_executable(matrix1 matrix1.cpp)
+#target_link_libraries(matrix1 armadillo ${CONAN_LIBS})
 
-add_executable(matrix2 matrix2.cpp)
-target_link_libraries(matrix2 armadillo ${CONAN_LIBS})
+#add_executable(matrix2 matrix2.cpp)
+#target_link_libraries(matrix2 armadillo ${CONAN_LIBS})
 
-add_executable(matrix3 matrix3.cpp calfem.h calfem.cpp)
-target_link_libraries(matrix3 armadillo ${CONAN_LIBS})
+#add_executable(matrix3 matrix3.cpp calfem.h calfem.cpp)
+#target_link_libraries(matrix3 armadillo ${CONAN_LIBS})
 
-add_executable(matrix4 matrix4.cpp calfem.h calfem.cpp)
-target_link_libraries(matrix4 armadillo ${CONAN_LIBS})
+#add_executable(matrix4 matrix4.cpp calfem.h calfem.cpp)
+#target_link_libraries(matrix4 armadillo ${CONAN_LIBS})
 
-add_executable(matrix5 matrix5.cpp calfem.h calfem.cpp)
-target_link_libraries(matrix5 armadillo ${CONAN_LIBS})
+#add_executable(matrix5 matrix5.cpp calfem.h calfem.cpp)
+#target_link_libraries(matrix5 armadillo ${CONAN_LIBS})
 
 add_executable(matrix1_eig matrix1_eig.cpp)
 target_link_libraries(matrix1_eig ${CONAN_LIBS})

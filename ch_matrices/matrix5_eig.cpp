@@ -8,6 +8,8 @@
 using namespace std;
 using namespace Eigen;
 
+constexpr auto M_PI = 3.14159265358979323846;
+
 int main()
 {
     // Element topology

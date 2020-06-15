@@ -13,9 +13,7 @@ int main()
     for (int i=6; i<=10; i++)
         l.push_front(i);
     
-    list<int>::iterator it;
-
-    for (it=l.begin(); it!=l.end(); it++)
+    for (auto it=l.begin(); it!=l.end(); it++)
         cout << *it << ", ";
     
     cout << endl;

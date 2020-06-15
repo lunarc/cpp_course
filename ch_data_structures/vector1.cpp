@@ -16,4 +16,12 @@ int main()
 
     for (size_t i=0; i<vec.size(); i++)
         cout << vec[i] << endl;
+
+    for (int& v : vec)
+        v = rand();
+
+    for (int &v : vec)
+    {
+        cout << v << endl;
+    }
 }

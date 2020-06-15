@@ -18,7 +18,6 @@ bool greaterThan5(int i)
 int main()
 {
     vector<int> vec;
-    vector<int>::iterator it;
     
     vec.push_back(5);
     vec.push_back(1);
@@ -29,7 +28,8 @@ int main()
 
     for_each(vec.begin(), vec.end(), myfunc);
     
-    it = find_if(vec.begin(), vec.end(), greaterThan5);
+    auto it = find_if(vec.begin(), vec.end(), greaterThan5);
+    
     cout << "found " << *it << endl;
     
     sort(vec.begin(), vec.end());
