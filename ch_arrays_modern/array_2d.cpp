@@ -1,9 +1,24 @@
 #include <iostream>
+#include <memory>
 
 using namespace std;
 
 const int rows = 4;
 const int cols = 8;
+
+void* operator new(size_t size)
+{
+    //void * p = ::operator new(size);
+    void * p = malloc(size); 
+    cout << "new called with size: " << size << " at " << p << endl;
+    return p;    
+}
+
+void operator delete(void * p)
+{
+    cout << "delete called for " << p << endl;
+    free(p);
+}
 
 int main()
 {

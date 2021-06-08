@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 
 using namespace std;
 
@@ -8,6 +9,6 @@ int main()
     
     *a = 42;
     
-    cout << "a = " << a << endl;
-    cout << "*a = " << *a << endl;
+    cout << "a.get() = " << a.get() << endl;
+    cout << "*a = " << *(a.get()) << endl;
 }

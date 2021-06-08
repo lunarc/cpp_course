@@ -13,9 +13,7 @@ int main()
     for (int i=6; i<=10; i++)
         q.push_front(i);
     
-    deque<int>::iterator it;
-
-    for (it=q.begin(); it!=q.end(); it++)
+    for (auto it=q.begin(); it!=q.end(); it++)
         cout << *it << ", ";
     
     cout << endl;

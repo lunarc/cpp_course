@@ -28,6 +28,6 @@ int main()
         cout << endl;
     }
 
-    delete array[0];
-    delete array;
+    delete [] array[0];
+    delete [] array;
 }

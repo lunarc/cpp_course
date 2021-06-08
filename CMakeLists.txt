@@ -37,6 +37,6 @@ if (WIN32)
         subdirs(ch_arrays ch_arrays_modern ch_control_structures ch_data_structures
                ch_functions ch_input_output ch_iterating ch_matrices ch_oop ch_operators ch_strings ch_variables ch_vector_and_lists ch_threads)
 else()
-        subdirs(ch_arrays ch_control_structures ch_cpp_fortran ch_data_structures
+        subdirs(ch_arrays ch_arrays_modern ch_control_structures ch_cpp_fortran ch_data_structures ch_modern
                ch_functions ch_input_output ch_iterating ch_matrices ch_oop ch_operators ch_strings ch_variables ch_vector_and_lists)
 endif()

@@ -9,7 +9,7 @@ int main()
     
     a = new int[10];
     
-    for (int i=0; i<10; i++)
+    for (auto i=0; i<10; i++)
         a[i] = i;
     
     b = &a[6];

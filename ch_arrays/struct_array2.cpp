@@ -13,17 +13,17 @@ int main()
     
     double counter = 0.0;
     
-    for (int i=0; i<10; i++)
+    for (auto i=0; i<10; i++)
     {
         coords[i] = new coord3D;
         coords[i]->x = counter++;
         coords[i]->y = counter++;
     }
     
-    for (int i=0; i<10; i++)
+    for (auto i=0; i<10; i++)
         cout << coords[i]->x << ", " << coords[i]->y << endl;
     
-    for (int i=0; i<10; i++)
+    for (auto i=0; i<10; i++)
         delete coords[i];
 
     delete [] coords;

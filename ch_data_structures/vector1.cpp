@@ -12,7 +12,7 @@ int main()
     vector<int> vec;
     
     for (int i=0; i<10; i++)
-        vec.push_back(rand());
+        vec.emplace_back(rand());
 
     for (size_t i=0; i<vec.size(); i++)
         cout << vec[i] << endl;
@@ -21,7 +21,5 @@ int main()
         v = rand();
 
     for (int &v : vec)
-    {
         cout << v << endl;
-    }
 }

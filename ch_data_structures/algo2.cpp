@@ -17,15 +17,8 @@ bool greaterThan5(int i)
 
 int main()
 {
-    vector<int> vec;
+    vector<int> vec = { 5, 1, 3, 4, 4, 8};
     
-    vec.push_back(5);
-    vec.push_back(1);
-    vec.push_back(3);
-    vec.push_back(4);
-    vec.push_back(4);
-    vec.push_back(8);
-
     for_each(vec.begin(), vec.end(), myfunc);
     
     auto it = find_if(vec.begin(), vec.end(), greaterThan5);

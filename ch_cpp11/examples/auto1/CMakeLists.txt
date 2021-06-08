@@ -1,1 +1,0 @@
-add_executable(auto1 main.cpp)

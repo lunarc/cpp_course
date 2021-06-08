@@ -11,7 +11,7 @@ using namespace std;
 
 int main()
 {
-    shared_ptr<Composite> composite(new Composite(0.0, 0.0));
+    shared_ptr<Composite> composite = make_shared<Composite>(0.0, 0.0);
     
     cout << "adding objects ---" << endl;
     
