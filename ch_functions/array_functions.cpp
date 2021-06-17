@@ -31,9 +31,9 @@ int main()
     createArray(array, 4, 8);
     zeroArray(array, 4, 8);
     
-    for (int i=0; i<4; i++)
+    for (auto i=0; i<4; i++)
     {
-        for (int j=0; j<8; j++)
+        for (auto j=0; j<8; j++)
             cout << array[i][j] << ", ";
         
         cout << endl;
