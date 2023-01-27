@@ -14,7 +14,7 @@ int main()
     
     cout << "cString = " << cString << endl;
     
-    strncpy(cString2, cppString.c_str(), cppString.length()+1);
+    strncpy_s(cString2, cppString.c_str(), cppString.length()+1);
     
     cout << "cString2 = " << cString2 << endl;
 }

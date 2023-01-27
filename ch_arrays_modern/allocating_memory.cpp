@@ -1,14 +1,12 @@
 #include <iostream>
 #include <memory>
 
-using namespace std;
-
 int main()
 {
-    unique_ptr<int> a(new int);
+    std::unique_ptr<int> a = std::make_unique<int>();
     
     *a = 42;
     
-    cout << "a.get() = " << a.get() << endl;
-    cout << "*a = " << *(a.get()) << endl;
+    std::cout << "a.get() = " << a.get() << "\n";
+    std::cout << "*a = " << *(a.get()) << "\n";
 }

@@ -7,16 +7,22 @@ int main()
 {
     deque<int> q;
     
-    for (int i=0; i<=5; i++)
+    for (auto i=0; i<5; i++)
         q.push_back(i);
     
-    for (int i=6; i<=10; i++)
+    for (auto i=5; i<10; i++)
         q.push_front(i);
     
     for (auto it=q.begin(); it!=q.end(); it++)
         cout << *it << ", ";
+
+    cout << "\n";
+    cout << "\n";
+
+    for (auto& i : q)
+        cout << i << ", ";
     
-    cout << endl;
+    cout << "\n";
 
     cout << "q front = " << q.front() << endl;
     cout << "pop front" << endl;

@@ -1,7 +1,5 @@
 #include <iostream>
 
-using namespace std;
-
 void createArray(int**& array, int rows, int cols)
 {
     array = new int*[rows];
@@ -34,9 +32,9 @@ int main()
     for (auto i=0; i<4; i++)
     {
         for (auto j=0; j<8; j++)
-            cout << array[i][j] << ", ";
+            std::cout << array[i][j] << ", ";
         
-        cout << endl;
+        std::cout << "\n";
     }
 
     deleteArray(array);

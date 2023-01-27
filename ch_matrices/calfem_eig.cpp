@@ -10,8 +10,8 @@ using namespace std;
 
 void removeRow(MatrixXd& matrix, unsigned int rowToRemove)
 {
-    unsigned int numRows = matrix.rows()-1;
-    unsigned int numCols = matrix.cols();
+    Index numRows = matrix.rows()-1;
+    Index numCols = matrix.cols();
 
     if( rowToRemove < numRows )
         matrix.block(rowToRemove,0,numRows-rowToRemove,numCols) = matrix.bottomRows(numRows-rowToRemove);
@@ -21,8 +21,8 @@ void removeRow(MatrixXd& matrix, unsigned int rowToRemove)
 
 void removeColumn(MatrixXd& matrix, unsigned int colToRemove)
 {
-    unsigned int numRows = matrix.rows();
-    unsigned int numCols = matrix.cols()-1;
+    Index numRows = matrix.rows();
+    Index numCols = matrix.cols()-1;
 
     if( colToRemove < numCols )
         matrix.block(0,colToRemove,numRows,numCols-colToRemove) = matrix.rightCols(numCols-colToRemove);
@@ -146,8 +146,8 @@ void solveq(const MatrixXd& K, const MatrixXd&f, const VectorXi& bcDofs, const V
 
 void extractEldisp(const MatrixXi& edof, const MatrixXd& a, MatrixXd& ed)
 {
-    int nDofs = edof.cols();
-    int nElements = edof.rows();
+    Index nDofs = edof.cols();
+    Index nElements = edof.rows();
     
     ed.resize(nElements, nDofs);
     

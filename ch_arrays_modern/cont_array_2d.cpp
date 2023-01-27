@@ -2,15 +2,13 @@
 #include <vector>
 #include <memory>
 
-using namespace std;
-
 const auto rows = 4;
 const auto cols = 8;
 
 int main()
 {
-    vector<int*> array(rows);
-    unique_ptr<int[]> memory = make_unique<int[]>(rows*cols);
+    std::vector<int*> array(rows);
+    auto memory = std::make_unique<int[]>(rows*cols);
   
     auto counter = 0;
     
@@ -26,8 +24,8 @@ int main()
     for (auto i=0; i<rows; i++)
     {
         for (auto j=0; j<cols; j++)
-            cout << array[i][j] << ", ";
+            std::cout << array[i][j] << ", ";
         
-        cout << endl;
+        std::cout << "\n";
     }
 }

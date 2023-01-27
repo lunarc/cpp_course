@@ -1,29 +1,27 @@
 #include <iostream>
 #include <list>
 
-using namespace std;
-
 int main()
 {
-    list<int> l;
+    std::list<int> l;
     
-    for (int i=0; i<=5; i++)
+    for (auto i=0; i<=5; i++)
         l.push_back(i);
     
-    for (int i=6; i<=10; i++)
+    for (auto i=6; i<=10; i++)
         l.push_front(i);
     
     for (auto it=l.begin(); it!=l.end(); it++)
-        cout << *it << ", ";
+        std::cout << *it << ", ";
     
-    cout << endl;
+    std::cout << "\n";
 
-    cout << "l front = " << l.front() << endl;
-    cout << "pop front" << endl;
+    std::cout << "l front = " << l.front() << "\n";
+    std::cout << "pop front" << "\n";
     l.pop_front();
-    cout << "l front = " << l.front() << endl;
-    cout << "l back = " << l.back() << endl;
-    cout << "pop back" << endl;
+    std::cout << "l front = " << l.front() << "\n";
+    std::cout << "l back = " << l.back() << "\n";
+    std::cout << "pop back" << "\n";
     l.pop_back();
-    cout << "l back = " << l.back() << endl;
+    std::cout << "l back = " << l.back() << "\n";
 }

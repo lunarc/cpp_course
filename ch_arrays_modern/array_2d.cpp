@@ -1,8 +1,6 @@
 #include <iostream>
 #include <memory>
 
-using namespace std;
-
 const int rows = 4;
 const int cols = 8;
 
@@ -10,25 +8,26 @@ void* operator new(size_t size)
 {
     //void * p = ::operator new(size);
     void * p = malloc(size); 
-    cout << "new called with size: " << size << " at " << p << endl;
+    std::cout << "new called with size: " << size << " at " << p << "\n";
     return p;    
 }
 
 void operator delete(void * p)
 {
-    cout << "delete called for " << p << endl;
+    std::cout << "delete called for " << p << "\n";
     free(p);
 }
 
 int main()
 {
-    unique_ptr<unique_ptr<int[]>[]> array = make_unique<unique_ptr<int[]>[]>(rows);
+    //std::unique_ptr<std::unique_ptr<int[]>[]> array = std::make_unique<std::unique_ptr<int[]>[]>(rows);
+    auto array = std::make_unique<std::unique_ptr<int[]>[]>(rows);
     
     auto counter = 0;
     
     for (auto i=0; i<rows; i++)
     {
-        array[i] = make_unique<int[]>(cols);
+        array[i] = std::make_unique<int[]>(cols);
        
         for (auto j=0; j<cols; j++)
             array[i][j] = counter++;
@@ -37,8 +36,8 @@ int main()
     for (auto i=0; i<rows; i++)
     {
         for (auto j=0; j<cols; j++)
-            cout << array[i][j] << ", ";
+            std::cout << array[i][j] << ", ";
         
-        cout << endl;
+        std::cout << "\n";
     }
 }

@@ -1,18 +1,17 @@
 #include <iostream>
 #include <memory>
 
-using namespace std;
-
 int main()
 {
-    shared_ptr<int[]> a(new int[10]);
-    shared_ptr<int[]> b = a;
+    //shared_ptr<int[]> a = std::make_shared<int[]>(10);
+    auto a = std::make_shared<int[]>(10);
+    auto b = a;
     
     for (int i=0; i<10; i++)
         a[i] = i;
      
-    cout << "a.get() = " << a.get() << endl;
-    cout << "a[5] = " << a[5] << endl;
-    cout << "b.get() = " << b.get() << endl;
-    cout << "*b = " << *(b.get()) << endl;
+    std::cout << "a.get() = " << a.get() << "\n";
+    std::cout << "a[5] = " << a[5] << "\n";
+    std::cout << "b.get() = " << b.get() << "\n";
+    std::cout << "*b = " << *(b.get()) << "\n";
 }

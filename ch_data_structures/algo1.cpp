@@ -3,31 +3,29 @@
 #include <string>
 #include <algorithm>
 
-using namespace std;
-
 int main()
 {
-    vector<int> vec = {5, 1, 3, 4, 4, 8};
+    std::vector<int> vec = { 5, 1, 3, 4, 4, 8 };
     
-    auto it = find(vec.begin(), vec.end(), 4);
+    auto it = std::find(vec.begin(), vec.end(), 4);
     
     if (it!=vec.end())
-        cout << "found " << *it << endl;
+        std::cout << "found " << *it << "\n";
     else
-        cout << "Value not found." << endl;
+        std::cout << "Value not found." << "\n";
 
     it = find(++it, vec.end(), 4);
 
     if (it!=vec.end())
-        cout << "found " << *it << endl;
+        std::cout << "found " << *it << "\n";
     else
-        cout << "Value not found." << endl;
+        std::cout << "Value not found." << "\n";
 
-    it = find(++it, vec.end(), 4);
+    it = std::find(++it, vec.end(), 4);
     
     if (it!=vec.end())
-        cout << "found " << *it << endl;
+        std::cout << "found " << *it << "\n";
     else
-        cout << "Value not found." << endl;
+        std::cout << "Value not found." << "\n";
 
 }

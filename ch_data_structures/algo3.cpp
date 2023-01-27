@@ -3,27 +3,25 @@
 #include <string>
 #include <algorithm>
 
-using namespace std;
-
 int main()
 {
-    vector<int> vec = { 5, 1, 3, 4, 4, 8};
+    std::vector<int> vec = { 5, 1, 3, 4, 4, 8 };
     
-    for_each(vec.begin(), vec.end(), [](int i){cout << i << endl;} );
+    std::for_each(vec.begin(), vec.end(), [](auto i){std::cout << i << "\n";} );
     
     auto it = find_if(vec.begin(), vec.end(), [](int i){return i>5;} );
     
-    cout << "found " << *it << endl;
+    std::cout << "found " << *it << "\n";
     
-    sort(vec.begin(), vec.end());
+    std::sort(vec.begin(), vec.end());
     
-    for_each(vec.begin(), vec.end(), [](int i){cout << i << endl;});
+    std::for_each(vec.begin(), vec.end(), [](int i){ std::cout << i << "\n"; });
     
-    cout << "max value = " << *max_element(vec.begin(), vec.end()) << endl;
+    std::cout << "max value = " << *max_element(vec.begin(), vec.end()) << "\n";
     
-    cout << "min value = " << *min_element(vec.begin(), vec.end()) << endl;
+    std::cout << "min value = " << *min_element(vec.begin(), vec.end()) << "\n";
     
-    fill(vec.begin(), vec.end(), 0);
+    std::fill(vec.begin(), vec.end(), 0);
 
-    for_each(vec.begin(), vec.end(), [](int i){cout << i << endl;});    
+    std::for_each(vec.begin(), vec.end(), [](int i){std::cout << i << "\n";});    
 }

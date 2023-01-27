@@ -3,23 +3,23 @@
 #include <cstdlib>
 #include <ctime>
 
-using namespace std;
-
 int main()
 {
     srand((unsigned)time(0));
     
-    vector<int> vec;
+    std::vector<int> vec;
     
-    for (int i=0; i<10; i++)
+    for (auto i=0; i<10; i++)
         vec.emplace_back(rand());
 
     for (size_t i=0; i<vec.size(); i++)
-        cout << vec[i] << endl;
+        std::cout << vec[i] << "\n";
 
-    for (int& v : vec)
+    std::cout << "\n";
+
+    for (auto& v : vec)
         v = rand();
 
-    for (int &v : vec)
-        cout << v << endl;
+    for (auto& v : vec)
+        std::cout << v << "\n";
 }

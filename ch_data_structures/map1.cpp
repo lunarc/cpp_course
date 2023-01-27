@@ -2,11 +2,9 @@
 #include <map>
 #include <string>
 
-using namespace std;
-
 int main()
 {
-    map<string,int> m;
+    std::map<std::string,int> m;
     
     m["bob"] = 42;
     m["alice"] = 40;
@@ -14,16 +12,27 @@ int main()
     m["richard"] = 25;
     
     for (auto it=m.begin(); it!=m.end(); it++)
-        cout << it->first << ", " << it->second << endl;
+        std::cout << it->first << ", " << it->second << "\n";
+
+    std::cout << "\n";
+
+    for (auto& item : m)
+        std::cout << item.first << ", " << item.second << "\n";
+
+    std::cout << "\n";
+
+    for (auto& [key, value] : m)
+        std::cout << key << ", " << value << "\n";
     
+    std::cout << "\n";
+
     auto it = m.find("bob");
-    cout << "found: " << it->first << ", " << it->second << endl;
+    std::cout << "found: " << it->first << ", " << it->second << "\n";
     
     it = m.find("carl");
     
     if (it!=m.end())
-        cout << "found: " << it->first << ", " << it->second << endl;
+        std::cout << "found: " << it->first << ", " << it->second << "\n";
     else
-        cout << "Could not find Carl." << endl;
-    
+        std::cout << "Could not find Carl." << std::endl;    
 }

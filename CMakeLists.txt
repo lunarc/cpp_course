@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.10)
 
 # set(CMAKE_C_COMPILER /opt/local/bin/gcc)
 # set(CMAKE_CXX_COMPILER /opt/local/bin/g++)
@@ -7,8 +7,11 @@ cmake_minimum_required(VERSION 3.0)
 
 project(cpp_course C CXX)
 
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup()
+include_directories(${PROJECT_SOURCE_DIR}/include)
+set(CMAKE_CXX_STANDARD 20)
+
+#include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+#conan_basic_setup()
 
 #if (WIN32)
 #    if (MINGW)

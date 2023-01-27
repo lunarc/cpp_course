@@ -3,19 +3,17 @@
 #include <cstdlib>
 #include <ctime>
 
-using namespace std;
-
 int main()
 {
     srand((unsigned)time(0));
     
-    vector<int> vec;
+    std::vector<int> vec;
     
-    for (int i=0; i<10; i++)
+    for (auto i=0; i<10; i++)
         vec.emplace_back(rand());
     
-    vector<int>::iterator it;
+    std::vector<int>::iterator it;
 
     for (it=vec.begin(); it!=vec.end(); it++)
-        cout << *it << endl;
+        std::cout << *it << "\n";
 }

@@ -59,7 +59,7 @@ void Composite::clear()
     m_shapes.clear();
 }
 
-int Composite::count()
+size_t Composite::count()
 {
     return m_shapes.size();
 }
