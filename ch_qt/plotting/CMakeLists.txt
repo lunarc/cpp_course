@@ -1,4 +1,4 @@
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_AUTOMOC ON)
@@ -9,7 +9,7 @@ if(CMAKE_VERSION VERSION_LESS "3.7.0")
     set(CMAKE_INCLUDE_CURRENT_DIR ON)
 endif()
 
-find_package(Qt5 COMPONENTS Core Widgets Gui Qml Quick Qml REQUIRED)
+find_package(Qt6 COMPONENTS Core Widgets Gui Qml Quick Qml REQUIRED)
 
 #message(${Qt5_FIND_COMPONENTS})
 
@@ -21,4 +21,4 @@ add_executable(plotting
 
 # resources.qrc
 
-target_link_libraries(plotting Qt5::Widgets Qt5::Core Qt5::Gui Qt5::Qml Qt5::Quick)
+target_link_libraries(plotting Qt6::Widgets Qt6::Core Qt6::Gui Qt6::Qml Qt6::Quick)

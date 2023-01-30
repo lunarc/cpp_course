@@ -3,8 +3,9 @@
 
 int main()
 {
+    /*
     //shared_ptr<int[]> a = std::make_shared<int[]>(10);
-    auto a = std::make_shared<int[]>(10);
+    auto a = new int[10];
     auto b = a;
     
     for (int i=0; i<10; i++)
@@ -14,4 +15,5 @@ int main()
     std::cout << "a[5] = " << a[5] << "\n";
     std::cout << "b.get() = " << b.get() << "\n";
     std::cout << "*b = " << *(b.get()) << "\n";
+    */
 }
