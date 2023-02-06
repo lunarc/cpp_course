@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 9.0.1, 2023-02-06T18:15:04. -->
+<!-- Written by QtCreator 9.0.1, 2023-02-06T21:39:23. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
-  <value type="QByteArray">{a332f88b-177e-4bec-b78b-d9167f17d615}</value>
+  <value type="QByteArray">{123a86d5-3180-4c13-bbd9-f5154af64e77}</value>
  </data>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
@@ -75,7 +75,7 @@
     <value type="bool" key="ClangTools.AnalyzeOpenFiles">true</value>
     <value type="bool" key="ClangTools.BuildBeforeAnalysis">true</value>
     <value type="QString" key="ClangTools.DiagnosticConfig">Builtin.DefaultTidyAndClazy</value>
-    <value type="int" key="ClangTools.ParallelJobs">4</value>
+    <value type="int" key="ClangTools.ParallelJobs">6</value>
     <valuelist type="QVariantList" key="ClangTools.SelectedDirs"/>
     <valuelist type="QVariantList" key="ClangTools.SelectedFiles"/>
     <valuelist type="QVariantList" key="ClangTools.SuppressedDiagnostics"/>
@@ -87,12 +87,12 @@
   <variable>ProjectExplorer.Project.Target.0</variable>
   <valuemap type="QVariantMap">
    <value type="QString" key="DeviceType">Desktop</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop Qt 6.4.2 MinGW 64-bit</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop Qt 6.4.2 MinGW 64-bit</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">qt.qt6.642.win64_mingw_kit</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop Qt 6.4.0 MinGW 64-bit</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop Qt 6.4.0 MinGW 64-bit</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">qt.qt6.640.win64_mingw_kit</value>
    <value type="qlonglong" key="ProjectExplorer.Target.ActiveBuildConfiguration">0</value>
    <value type="qlonglong" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
-   <value type="qlonglong" key="ProjectExplorer.Target.ActiveRunConfiguration">98</value>
+   <value type="qlonglong" key="ProjectExplorer.Target.ActiveRunConfiguration">97</value>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
     <value type="QString" key="CMake.Build.Type">Debug</value>
     <value type="bool" key="CMake.Configure.ClearSystemEnvironment">false</value>
@@ -105,7 +105,7 @@
 -DCMAKE_CXX_COMPILER:FILEPATH=%{Compiler:Executable:Cxx}
 -DCMAKE_CXX_FLAGS_INIT:STRING=%{Qt:QML_DEBUG_FLAG}</value>
     <value type="int" key="EnableQmlDebugging">0</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:\Users\Jonas Lindemann\Development\cpp_course\..\build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">D:\Users\Jonas\Development\cpp_course\..\build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="QString" key="CMakeProjectManager.MakeStep.BuildPreset"></value>
@@ -159,7 +159,7 @@
 -DCMAKE_C_COMPILER:FILEPATH=%{Compiler:Executable:C}
 -DCMAKE_CXX_COMPILER:FILEPATH=%{Compiler:Executable:Cxx}
 -DCMAKE_CXX_FLAGS_INIT:STRING=%{Qt:QML_DEBUG_FLAG}</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:\Users\Jonas Lindemann\Development\cpp_course\..\build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Release</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">D:\Users\Jonas\Development\cpp_course\..\build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Release</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="QString" key="CMakeProjectManager.MakeStep.BuildPreset"></value>
@@ -211,7 +211,7 @@
 -DCMAKE_C_COMPILER:FILEPATH=%{Compiler:Executable:C}
 -DCMAKE_CXX_COMPILER:FILEPATH=%{Compiler:Executable:Cxx}
 -DCMAKE_CXX_FLAGS_INIT:STRING=%{Qt:QML_DEBUG_FLAG}</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:\Users\Jonas Lindemann\Development\cpp_course\..\build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-RelWithDebInfo</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">D:\Users\Jonas\Development\cpp_course\..\build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-RelWithDebInfo</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="QString" key="CMakeProjectManager.MakeStep.BuildPreset"></value>
@@ -264,7 +264,7 @@
 -DCMAKE_CXX_COMPILER:FILEPATH=%{Compiler:Executable:Cxx}
 -DCMAKE_CXX_FLAGS_INIT:STRING=%{Qt:QML_DEBUG_FLAG}</value>
     <value type="int" key="EnableQmlDebugging">0</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:\Users\Jonas Lindemann\Development\cpp_course\..\build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Profile</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">D:\Users\Jonas\Development\cpp_course\..\build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Profile</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="QString" key="CMakeProjectManager.MakeStep.BuildPreset"></value>
@@ -316,7 +316,7 @@
 -DCMAKE_C_COMPILER:FILEPATH=%{Compiler:Executable:C}
 -DCMAKE_CXX_COMPILER:FILEPATH=%{Compiler:Executable:Cxx}
 -DCMAKE_CXX_FLAGS_INIT:STRING=%{Qt:QML_DEBUG_FLAG}</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">C:\Users\Jonas Lindemann\Development\cpp_course\..\build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-MinSizeRel</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">D:\Users\Jonas\Development\cpp_course\..\build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-MinSizeRel</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="QString" key="CMakeProjectManager.MakeStep.BuildPreset"></value>
@@ -386,7 +386,7 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_data_structures</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_data_structures</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.1">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -403,7 +403,7 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_data_structures</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_data_structures</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.10">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -420,7 +420,7 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_functions</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_functions</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.100">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -429,15 +429,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt3</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.qt3</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">qt3</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">vector3</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.vector3</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">vector3</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_qt/qt3</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_data_structures</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.101">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -446,15 +446,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt4</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.qt4</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">qt4</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">vector4</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.vector4</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">vector4</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_qt/qt4</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_data_structures</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.102">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -463,15 +463,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt5</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.qt5</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">qt5</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">vectors1</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.vectors1</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">vectors1</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_qt/qt5</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_vector_and_lists</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.103">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -480,15 +480,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt6</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.qt6</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">qt6</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">vectors2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.vectors2</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">vectors2</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_qt/qt6</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_vector_and_lists</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.104">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -497,15 +497,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt7</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.qt7</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">qt7</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">vectors3</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.vectors3</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">vectors3</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_qt/qt7</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_vector_and_lists</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.105">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -514,15 +514,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt8</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.qt8</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">qt8</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">while_statement</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.while_statement</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">while_statement</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_qt/qt8</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_iterating</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.11">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -539,7 +539,7 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_variables</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_variables</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.12">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -556,9 +556,26 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_variables</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_variables</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.13">
+    <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
+    <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
+    <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
+    <valuelist type="QVariantList" key="CustomOutputParsers"/>
+    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">calculator</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.calculator</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">calculator</value>
+    <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
+    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+    <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
+    <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
+    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_qt/calculator</value>
+   </valuemap>
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.14">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -573,9 +590,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_variables</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_variables</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.14">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.15">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -590,9 +607,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_oop</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_oop</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.15">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.16">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -607,9 +624,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_oop</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_oop</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.16">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.17">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -624,9 +641,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_variables</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_variables</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.17">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.18">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -641,9 +658,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_arrays</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_arrays</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.18">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.19">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -658,24 +675,7 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_arrays</value>
-   </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.19">
-    <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
-    <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
-    <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
-    <valuelist type="QVariantList" key="CustomOutputParsers"/>
-    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
-    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">cont_array_2d_modern</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.cont_array_2d_modern</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">cont_array_2d_modern</value>
-    <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
-    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
-    <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
-    <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
-    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_arrays_modern</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_arrays</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.2">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -692,9 +692,26 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_data_structures</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_data_structures</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.20">
+    <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
+    <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
+    <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
+    <valuelist type="QVariantList" key="CustomOutputParsers"/>
+    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">cont_array_2d_modern</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.cont_array_2d_modern</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">cont_array_2d_modern</value>
+    <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
+    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+    <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
+    <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
+    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_arrays_modern</value>
+   </valuemap>
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.21">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -709,9 +726,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_data_structures</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_data_structures</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.21">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.22">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -726,9 +743,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_iterating</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_iterating</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.22">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.23">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -743,9 +760,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_variables</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_variables</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.23">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.24">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -760,9 +777,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_variables</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_variables</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.24">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.25">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -777,9 +794,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_input_output</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_input_output</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.25">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.26">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -794,9 +811,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_input_output</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_input_output</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.26">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.27">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -811,9 +828,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_input_output</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_input_output</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.27">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.28">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -828,9 +845,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_input_output</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_input_output</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.28">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.29">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -845,24 +862,7 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_input_output</value>
-   </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.29">
-    <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
-    <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
-    <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
-    <valuelist type="QVariantList" key="CustomOutputParsers"/>
-    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
-    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">files6</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.files6</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">files6</value>
-    <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
-    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
-    <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
-    <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
-    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_input_output</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_input_output</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.3">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -879,9 +879,26 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_arrays</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_arrays</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.30">
+    <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
+    <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
+    <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
+    <valuelist type="QVariantList" key="CustomOutputParsers"/>
+    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">files6</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.files6</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">files6</value>
+    <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
+    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+    <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
+    <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
+    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_input_output</value>
+   </valuemap>
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.31">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -896,9 +913,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_iterating</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_iterating</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.31">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.32">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -913,9 +930,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_iterating</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_iterating</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.32">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.33">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -930,9 +947,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_functions</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_functions</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.33">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.34">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -947,9 +964,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_functions</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_functions</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.34">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.35">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -964,9 +981,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_functions</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_functions</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.35">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.36">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -981,9 +998,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_functions</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_functions</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.36">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.37">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -998,9 +1015,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_functions</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_functions</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.37">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.38">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -1015,9 +1032,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_functions</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_functions</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.38">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.39">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -1032,24 +1049,7 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_functions</value>
-   </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.39">
-    <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
-    <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
-    <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
-    <valuelist type="QVariantList" key="CustomOutputParsers"/>
-    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
-    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">functions8</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.functions8</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">functions8</value>
-    <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
-    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
-    <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
-    <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
-    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_functions</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_functions</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.4">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -1066,9 +1066,26 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_arrays_modern</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_arrays_modern</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.40">
+    <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
+    <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
+    <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
+    <valuelist type="QVariantList" key="CustomOutputParsers"/>
+    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">functions8</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.functions8</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">functions8</value>
+    <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
+    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+    <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
+    <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
+    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_functions</value>
+   </valuemap>
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.41">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -1083,9 +1100,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_functions</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_functions</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.41">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.42">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -1100,9 +1117,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_functions</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_functions</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.42">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.43">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -1117,9 +1134,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_control_structures</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_control_structures</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.43">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.44">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -1134,9 +1151,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_control_structures</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_control_structures</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.44">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.45">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -1151,9 +1168,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_control_structures</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_control_structures</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.45">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.46">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -1168,9 +1185,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_variables</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_variables</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.46">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.47">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -1185,9 +1202,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_variables</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_variables</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.47">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.48">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -1202,9 +1219,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_input_output</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_input_output</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.48">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.49">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -1219,24 +1236,7 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_input_output</value>
-   </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.49">
-    <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
-    <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
-    <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
-    <valuelist type="QVariantList" key="CustomOutputParsers"/>
-    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
-    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">io3</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.io3</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">io3</value>
-    <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
-    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
-    <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
-    <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
-    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_input_output</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_input_output</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.5">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -1253,9 +1253,26 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_arrays</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_arrays</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.50">
+    <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
+    <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
+    <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
+    <valuelist type="QVariantList" key="CustomOutputParsers"/>
+    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">io3</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.io3</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">io3</value>
+    <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
+    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+    <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
+    <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
+    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_input_output</value>
+   </valuemap>
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.51">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -1270,9 +1287,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_input_output</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_input_output</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.51">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.52">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -1287,9 +1304,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_input_output</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_input_output</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.52">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.53">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -1304,9 +1321,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_iterating</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_iterating</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.53">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.54">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -1321,9 +1338,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_data_structures</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_data_structures</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.54">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.55">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -1338,9 +1355,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_data_structures</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_data_structures</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.55">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.56">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -1355,9 +1372,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_matrices</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_matrices</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.56">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.57">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -1372,9 +1389,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_matrices</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_matrices</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.57">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.58">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -1389,9 +1406,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_matrices</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_matrices</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.58">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.59">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -1406,24 +1423,7 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_matrices</value>
-   </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.59">
-    <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
-    <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
-    <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
-    <valuelist type="QVariantList" key="CustomOutputParsers"/>
-    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
-    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">matrix5_eig</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.matrix5_eig</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">matrix5_eig</value>
-    <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
-    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
-    <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
-    <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
-    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_matrices</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_matrices</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.6">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -1440,9 +1440,26 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_arrays_modern</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_arrays_modern</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.60">
+    <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
+    <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
+    <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
+    <valuelist type="QVariantList" key="CustomOutputParsers"/>
+    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">matrix5_eig</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.matrix5_eig</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">matrix5_eig</value>
+    <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
+    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+    <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
+    <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
+    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_matrices</value>
+   </valuemap>
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.61">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -1457,9 +1474,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_variables</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_variables</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.61">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.62">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -1474,9 +1491,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_data_structures</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_data_structures</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.62">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.63">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -1491,9 +1508,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_operators</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_operators</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.63">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.64">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -1508,9 +1525,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_operators</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_operators</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.64">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.65">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -1525,9 +1542,26 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_operators</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_operators</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.65">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.66">
+    <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
+    <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
+    <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
+    <valuelist type="QVariantList" key="CustomOutputParsers"/>
+    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">plotting</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.plotting</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">plotting</value>
+    <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
+    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+    <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
+    <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
+    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_qt/plotting</value>
+   </valuemap>
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.67">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -1542,9 +1576,9 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_variables</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_variables</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.66">
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.68">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
@@ -1559,41 +1593,7 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_variables</value>
-   </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.67">
-    <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
-    <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
-    <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
-    <valuelist type="QVariantList" key="CustomOutputParsers"/>
-    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
-    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">reference_type</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.reference_type</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">reference_type</value>
-    <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
-    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
-    <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
-    <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
-    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_variables</value>
-   </valuemap>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.68">
-    <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
-    <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
-    <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
-    <valuelist type="QVariantList" key="CustomOutputParsers"/>
-    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
-    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">shapes1</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.shapes1</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">shapes1</value>
-    <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
-    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
-    <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
-    <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
-    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_oop</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_variables</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.69">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -1602,15 +1602,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">shapes2</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.shapes2</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">shapes2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt1</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.qt1</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">qt1</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_oop</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_qt/qt1</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.7">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -1627,7 +1627,7 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_arrays</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_arrays</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.70">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -1636,15 +1636,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">shapes3</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.shapes3</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">shapes3</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.qt2</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">qt2</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_oop</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_qt/qt2</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.71">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -1653,15 +1653,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">shapes4</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.shapes4</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">shapes4</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt3</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.qt3</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">qt3</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_oop</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_qt/qt3</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.72">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -1670,15 +1670,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">shapes5</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.shapes5</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">shapes5</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt4</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.qt4</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">qt4</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_oop</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_qt/qt4</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.73">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -1687,15 +1687,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">shapes6</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.shapes6</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">shapes6</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt5</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.qt5</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">qt5</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_oop</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_qt/qt5</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.74">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -1704,15 +1704,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">std_array1</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.std_array1</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">std_array1</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt6</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.qt6</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">qt6</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_arrays_modern</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_qt/qt6</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.75">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -1721,15 +1721,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">std_array2</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.std_array2</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">std_array2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt7</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.qt7</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">qt7</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_arrays_modern</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_qt/qt7</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.76">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -1738,15 +1738,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">strings1</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.strings1</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">strings1</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt8</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.qt8</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">qt8</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_strings</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_qt/qt8</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.77">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -1755,15 +1755,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">strings2</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.strings2</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">strings2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">reference_type</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.reference_type</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">reference_type</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_strings</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_variables</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.78">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -1772,15 +1772,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">strings3</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.strings3</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">strings3</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">shapes1</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.shapes1</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">shapes1</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_strings</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_oop</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.79">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -1789,15 +1789,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">strings4</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.strings4</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">strings4</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">shapes2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.shapes2</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">shapes2</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_strings</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_oop</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.8">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -1814,7 +1814,7 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_arrays_modern</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_arrays_modern</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.80">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -1823,15 +1823,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">strings5</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.strings5</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">strings5</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">shapes3</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.shapes3</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">shapes3</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_strings</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_oop</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.81">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -1840,15 +1840,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">struct_array</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.struct_array</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">struct_array</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">shapes4</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.shapes4</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">shapes4</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_arrays</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_oop</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.82">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -1857,15 +1857,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">struct_array2</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.struct_array2</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">struct_array2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">shapes5</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.shapes5</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">shapes5</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_arrays</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_oop</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.83">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -1874,15 +1874,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">struct_array2_modern</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.struct_array2_modern</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">struct_array2_modern</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">shapes6</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.shapes6</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">shapes6</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_arrays_modern</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_oop</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.84">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -1891,15 +1891,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">struct_array_modern</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.struct_array_modern</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">struct_array_modern</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">std_array1</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.std_array1</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">std_array1</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_arrays_modern</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_arrays_modern</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.85">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -1908,15 +1908,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">strucutured_type</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.strucutured_type</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">strucutured_type</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">std_array2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.std_array2</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">std_array2</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_variables</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_arrays_modern</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.86">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -1925,15 +1925,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">switch_statement</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.switch_statement</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">switch_statement</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">strings1</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.strings1</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">strings1</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_control_structures</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_strings</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.87">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -1942,15 +1942,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">threads1</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.threads1</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">threads1</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">strings2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.strings2</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">strings2</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_threads</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_strings</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.88">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -1959,15 +1959,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">vector1</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.vector1</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">vector1</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">strings3</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.strings3</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">strings3</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_data_structures</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_strings</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.89">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -1976,15 +1976,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">vector2</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.vector2</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">vector2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">strings4</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.strings4</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">strings4</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_data_structures</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_strings</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.9">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -2001,7 +2001,7 @@
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_functions</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_functions</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.90">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -2010,15 +2010,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">vector3</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.vector3</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">vector3</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">strings5</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.strings5</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">strings5</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_data_structures</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_strings</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.91">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -2027,15 +2027,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">vector4</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.vector4</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">vector4</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">struct_array</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.struct_array</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">struct_array</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_data_structures</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_arrays</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.92">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -2044,15 +2044,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">vectors1</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.vectors1</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">vectors1</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">struct_array2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.struct_array2</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">struct_array2</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_vector_and_lists</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_arrays</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.93">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -2061,15 +2061,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">vectors2</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.vectors2</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">vectors2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">struct_array2_modern</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.struct_array2_modern</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">struct_array2_modern</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_vector_and_lists</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_arrays_modern</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.94">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -2078,15 +2078,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">vectors3</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.vectors3</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">vectors3</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">struct_array_modern</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.struct_array_modern</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">struct_array_modern</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_vector_and_lists</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_arrays_modern</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.95">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -2095,15 +2095,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">while_statement</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.while_statement</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">while_statement</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">strucutured_type</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.strucutured_type</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">strucutured_type</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_iterating</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_variables</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.96">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -2112,15 +2112,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt1</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.qt1</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">qt1</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">switch_statement</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.switch_statement</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">switch_statement</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_qt/qt1</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_control_structures</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.97">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -2129,15 +2129,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">calculator</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.calculator</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">calculator</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">threads1</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.threads1</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">threads1</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_qt/calculator</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_threads</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.98">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -2146,15 +2146,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">plotting</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.plotting</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">plotting</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">vector1</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.vector1</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">vector1</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_qt/plotting</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_data_structures</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.99">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
@@ -2163,15 +2163,15 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt2</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.qt2</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">qt2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">vector2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.vector2</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">vector2</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/Jonas Lindemann/Development/build-cpp_course-Desktop_Qt_6_4_2_MinGW_64_bit-Debug/ch_qt/qt2</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Users/Jonas/Development/build-cpp_course-Desktop_Qt_6_4_0_MinGW_64_bit-Debug/ch_data_structures</value>
    </valuemap>
    <value type="qlonglong" key="ProjectExplorer.Target.RunConfigurationCount">106</value>
   </valuemap>
