@@ -9,16 +9,17 @@ if(CMAKE_VERSION VERSION_LESS "3.7.0")
     set(CMAKE_INCLUDE_CURRENT_DIR ON)
 endif()
 
-find_package(Qt6 COMPONENTS Core Widgets Gui Qml Quick Qml REQUIRED)
+find_package(Qt6 COMPONENTS Core Widgets Gui Qml Quick Qml Charts REQUIRED)
 
 #message(${Qt5_FIND_COMPONENTS})
 
 add_executable(plotting
     mainwindow.ui
     mainwindow.cpp
+    mainwindow.h
     main.cpp
 )
 
 # resources.qrc
 
-target_link_libraries(plotting Qt6::Widgets Qt6::Core Qt6::Gui Qt6::Qml Qt6::Quick)
+target_link_libraries(plotting Qt6::Widgets Qt6::Core Qt6::Gui Qt6::Qml Qt6::Quick Qt6::Charts)

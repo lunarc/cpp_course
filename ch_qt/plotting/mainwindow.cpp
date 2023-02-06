@@ -1,13 +1,32 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <QJSEngine>
+#include <iostream>
+
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    m_minX{-6.28},
+    m_maxX{6.28},
+    m_minY{-1.2},
+    m_maxY{1.2}
 {
     ui->setupUi(this);
+
+    m_chart = new QChart();
+
+    m_chartView = new QChartView(m_chart);
+
+    ui->centralWidget->layout()->addWidget(m_chartView);
+
+    m_series = new QLineSeries(m_chart);
+    m_series->setName("function");
+    m_chart->addSeries(m_series);
+    m_chartView->setRenderHint(QPainter::Antialiasing);
+
+    this->setData();
 }
 
 MainWindow::~MainWindow()
@@ -15,97 +34,113 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::modify_expression(const QString c)
+void MainWindow::setData()
 {
-    ui->expression_edit->setText(ui->expression_edit->text()+c);
+    ui->x_min_text->setText(QString::number(m_minX));
+    ui->x_max_text->setText(QString::number(m_maxX));
+    ui->y_min_text->setText(QString::number(m_minY));
+    ui->y_max_text->setText(QString::number(m_maxY));
 }
 
-void MainWindow::on_equal_button_clicked()
+void MainWindow::getData()
 {
-    QJSEngine engine;
-    QJSValue value = engine.evaluate(ui->expression_edit->text());
-    ui->result_edit->setText(value.toString());
+    m_minX = toDouble(ui->x_min_text->text(), m_minX);
+    m_maxX = toDouble(ui->x_max_text->text(), m_maxX);
+    m_minY = toDouble(ui->y_min_text->text(), m_minY);
+    m_maxY = toDouble(ui->y_max_text->text(), m_maxY);
+    this->setData();
 }
 
-void MainWindow::on_one_button_clicked()
+double MainWindow::toDouble(const QString &str, double defValue)
 {
-    modify_expression("1");
+    bool ok;
+    double value = str.toDouble(&ok);
+    if (ok)
+        return value;
+    else
+        return defValue;
 }
 
-void MainWindow::on_two_button_clicked()
+void MainWindow::update_plot()
 {
-    modify_expression("2");
+    QString expression = ui->expression_edit->text();
+    QString modified_expr = expression;
+
+    this->getData();
+
+    double x = 0.0;
+    double y = 0.0;
+
+    m_series->clear();
+
+    x = m_minX;
+
+    while (x<m_maxX)
+    {
+        // To be able to use math expressions we prefix them with Math.
+
+        QString modified_expr = expression;
+        modified_expr.replace("x", QString::number(x));
+        modified_expr.replace("sin(", "Math.sin(");
+        modified_expr.replace("cos(", "Math.cos(");
+        modified_expr.replace("tan(", "Math.tan(");
+        modified_expr.replace("sqrt(", "Math.sqrt(");
+        modified_expr.replace("abs(", "Math.abs(");
+        modified_expr.replace("pow(", "Math.pow(");
+
+        // Evaluate expression using the QJSEngine
+
+        QJSValue value = m_jsEngine.evaluate(modified_expr);
+        if (value.isError())
+        {
+            QMessageBox::warning(this, "Error", "Could not evaluate expression.");
+            return;
+        }
+
+        double v = value.toNumber();
+        m_series->append(x, v);
+        x += 0.01;
+    }
+
+    // Update chart parameters
+
+    m_series->setName("function of "+expression);
+    m_chart->createDefaultAxes();
+    m_chart->axes(Qt::Horizontal).first()->setRange(m_minX, m_maxX);
+    m_chart->axes(Qt::Vertical).first()->setRange(m_minY, m_maxY);
+
+    m_chartView->update();
 }
 
-void MainWindow::on_three_button_clicked()
+void MainWindow::on_plot_button_clicked()
 {
-    modify_expression("3");
+    this->update_plot();
 }
 
-void MainWindow::on_four_button_clicked()
+void MainWindow::on_expression_edit_editingFinished()
 {
-    modify_expression("4");
+    this->update_plot();
 }
 
-void MainWindow::on_five_button_clicked()
+void MainWindow::on_x_min_text_editingFinished()
 {
-    modify_expression("5");
+    this->update_plot();
 }
 
-void MainWindow::on_six_button_clicked()
+void MainWindow::on_x_max_text_editingFinished()
 {
-    modify_expression("6");
+    this->update_plot();
 }
 
-void MainWindow::on_seven_button_clicked()
+void MainWindow::on_y_min_text_editingFinished()
 {
-    modify_expression("7");
+    this->update_plot();
 }
 
-void MainWindow::on_eight_button_clicked()
+void MainWindow::on_y_max_text_editingFinished()
 {
-    modify_expression("8");
+    this->update_plot();
 }
 
-void MainWindow::on_nine_button_clicked()
-{
-    modify_expression("9");
-}
-
-void MainWindow::on_zero_button_clicked()
-{
-    modify_expression("0");
-}
-
-void MainWindow::on_clear_button_clicked()
-{
-    ui->expression_edit->setText("");
-    ui->result_edit->setText("");
-}
-
-void MainWindow::on_decimal_button_clicked()
-{
-    modify_expression(".");
-}
-
-void MainWindow::on_plus_button_clicked()
-{
-    modify_expression("+");
-}
-
-void MainWindow::on_minus_button_clicked()
-{
-    modify_expression("-");
-}
-
-void MainWindow::on_multiply_button_clicked()
-{
-    modify_expression("*");
-}
-
-void MainWindow::on_divide_button_clicked()
-{
-    modify_expression("/");
-}
 
 
