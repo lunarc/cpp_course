@@ -26,7 +26,7 @@
   <customwidget>
    <class>RenderArea</class>
    <extends>QWidget</extends>
-   <header location="global">render_area.h</header>
+   <header>render_area.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
