@@ -1,2 +1,2 @@
-subdirs(qt1 qt2 qt3 qt4 qt5 qt6 qt7 qt8 calculator plotting drawing1)
+subdirs(qt1 qt2 qt3 qt4 qt5 qt6 qt7 qt8 calculator plotting drawing1 qt3d1 beam_app)
 #subdirs(qt1)
