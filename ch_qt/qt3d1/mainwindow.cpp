@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+ #include "mainwindow.h"
 #include "qscreen.h"
 #include "ui_mainwindow.h"
 

@@ -14,6 +14,7 @@ find_package(Qt6 COMPONENTS Core Widgets Gui Qml Quick Qml Charts REQUIRED)
 #message(${Qt5_FIND_COMPONENTS})
 
 add_executable(beam_app
+    beam_app_resource.qrc
     beam_model.h
     beam_model.cpp
     beam_view.h
@@ -25,5 +26,6 @@ add_executable(beam_app
 )
 
 # resources.qrc
+
 
 target_link_libraries(beam_app Qt6::Widgets Qt6::Core Qt6::Gui Qt6::Qml Qt6::Quick Qt6::Charts)
