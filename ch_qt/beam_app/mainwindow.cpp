@@ -39,11 +39,14 @@ void MainWindow::updateControls()
     if (ui->beamView->selectedBeam()!=-1)
     {
         auto beam = m_beamModel->beam(ui->beamView->selectedBeam());
-        ui->EEdit->setText(QString::number(beam->E()));
-        ui->AEdit->setText(QString::number(beam->A()));
-        ui->IyEdit->setText(QString::number(beam->I()));
-        ui->qEdit->setText(QString::number(beam->q()));
-        ui->lengthEdit->setText(QString::number(beam->l()));
+        if (beam!=nullptr)
+        {
+            ui->EEdit->setText(QString::number(beam->E()));
+            ui->AEdit->setText(QString::number(beam->A()));
+            ui->IyEdit->setText(QString::number(beam->I()));
+            ui->qEdit->setText(QString::number(beam->q()));
+            ui->lengthEdit->setText(QString::number(beam->l()));
+        }
     }
     else
     {
@@ -64,11 +67,14 @@ void MainWindow::updateModel()
     if (ui->beamView->selectedBeam()!=-1)
     {
         auto beam = m_beamModel->beam(ui->beamView->selectedBeam());
-        beam->l(toDouble(ui->lengthEdit->text(), beam->l()));
-        beam->E(toDouble(ui->EEdit->text(), beam->E()));
-        beam->A(toDouble(ui->AEdit->text(), beam->A()));
-        beam->I(toDouble(ui->IyEdit->text(), beam->I()));
-        beam->q(toDouble(ui->qEdit->text(), beam->q()));
+        if (beam!=nullptr)
+        {
+            beam->l(toDouble(ui->lengthEdit->text(), beam->l()));
+            beam->E(toDouble(ui->EEdit->text(), beam->E()));
+            beam->A(toDouble(ui->AEdit->text(), beam->A()));
+            beam->I(toDouble(ui->IyEdit->text(), beam->I()));
+            beam->q(toDouble(ui->qEdit->text(), beam->q()));
+        }
     }
 }
 
