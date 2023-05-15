@@ -6,6 +6,10 @@
 --8<-- "../hello_world/hello.cpp"
 ```
 
+``` cpp
+--8<-- "index.md"
+```
+
 ## Variable names
 
 * Letters a-z, A-Z (not Å, Ä, Ö) 
