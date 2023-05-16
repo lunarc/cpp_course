@@ -85,8 +85,7 @@
     c = -1, sizeof(c) = 8
     d = 18446744073709551615, sizeof(d) = 8
 
-Character types
----------------
+## Character types
 
 * represents a character in the implementation character set
 * 8-bits on most systems
@@ -108,8 +107,7 @@ Code output:
     uc = \201 int(uc) = 129 sizeof(c) = 1
     sc = \202 int(sc) = -126 sizeof(c) = 1
 
-Floating point types
---------------------
+## Floating point types
 
 * float – single precision
 * double – double precision 
@@ -128,8 +126,7 @@ Code output:
     d = 3.14159265358979
     ld = 3.14159265358979
 
-Numerical limits
-----------------
+## Numerical limits
 
 * Use header file #include <limits>
 * Can return platform data type limits
@@ -140,11 +137,13 @@ Numerical limits
   * numeric_limit<datatype>::is_signed()
 
 
+### Example
+
 ``` cpp
 --8<-- "../ch_variables/numerical_limits.cpp"
 ```
 
-Code output:
+### Code output
 
     Max, char 127
     Min, char -128
@@ -164,8 +163,7 @@ Code output:
     Max, long double 1.18973e+4932
     Min, long double 3.3621e-4932
 
-Enumeration types
------------------
+## Enumeration types
 
 * Defines different kinds of enumerations
 * Can be used as an integer type
@@ -174,12 +172,13 @@ Enumeration types
 * An enumeration can be a distinct data type.
 * Converted to integers in expressions
 
+### Example
+
 ``` cpp
 --8<-- "../ch_variables/enum_types.cpp"
 ```
 
-Arrays
-------
+## Arrays
 
 * “List of elements with a specific data type”
 * Indexed from 0 … size - 1
@@ -190,17 +189,18 @@ Arrays
 
 * Contigous multidimensional array not supported with indices. Tricks and OO can solve this 
 
+### Example
+
 ``` cpp
 --8<-- "../ch_variables/array_types1.cpp"
 ```
 
-Code output:
+### Code output
 
     1, 2
     1, 2, 3, 42
     
-Pointers
---------
+## Pointers
 
 * Declared with the * operator
 * Can be typed and untyped (void*)
@@ -213,11 +213,13 @@ Pointers
 * & operator can be used to return a memory address for a non-pointer variable. 
 
 
+### Example
+
 ``` cpp
 --8<-- "../ch_variables/pointers1.cpp"
 ```
 
-Code output:
+## Code output
 
     a = 42
     b = 0x7fff5fbff6bc
@@ -230,8 +232,7 @@ Code output:
 
 \*b is the value stored at memory location b 
 
-Array pointer duality
----------------------
+## Array pointer duality
 
 * Array and pointers are very related in C/C++
 * Pointer types can be accessed using array notation
@@ -240,11 +241,13 @@ Array pointer duality
 * Increases risk of errors as well
 
 
+### Example
+
 ``` cpp
 --8<-- "../ch_variables/pointers2.cpp"
 ```
 
-Code output:
+### Code output
 
     a = 0x7fff5fbff6a0
     b = 0x7fff5fbff6a0
@@ -259,8 +262,7 @@ Code output:
 <img src="../images/pointers1-3.svg" width="50%">
 
 
-Constants
----------
+## Constants
 
 * A way of defining data that is not changed during program execution
 * Use instead of numeric constants in the code
@@ -273,11 +275,13 @@ Constants
   * Precomputing expressions at compile time
   * Reduce memory usage
 
-.. literalinclude:: ../../ch_variables/const_types.cpp
-    :language: C++
+### Example
 
-References
-----------
+``` cpp
+--8<-- "../ch_variables/const_types.cpp"
+```
+
+## References
 
 * Alternative names for a variables
 * Mainly used in function arguments
@@ -285,11 +289,13 @@ References
 
   * Defines a reference to another variable of the same data type
 
+### Example
 
-.. literalinclude:: ../../ch_variables/reference_type.cpp
-    :language: C++
+``` cpp
+--8<-- "../ch_variables/reference_type.cpp"
+```
 
-Code output: ::
+### Code output
 
     a = 42
     b = 42
@@ -300,8 +306,7 @@ Code output: ::
 
 * b can be used as a normal variable after it has been initialised 
 
-Structured data types
----------------------
+## Structured data types
 
 * Data type consisting of a mix of other data types
 * Compare entries in a database
@@ -314,63 +319,53 @@ Structured data types
 * Declared using the struct keyword
 * Members are accessed with . (dot) or -> operators
 
-.. literalinclude:: ../../ch_variables/structured_type.cpp
-    :language: C++
 
-Code output: ::
+### Example
+
+``` cpp
+--8<-- "../ch_variables/structured_type.cpp"
+```
+
+### Code output
 
     c1.x = 0, c1.y = 0
     c2.x = 1, c2.y = 1
     sizeof(c1) = 16
 
-Expressions and operators
-=========================
+# Expressions and operators
 
-Arithmetic operators
---------------------
+## Arithmetic operators
 
-+----------+---------------------+
 | Operator | Description         |
-+==========+=====================+
+|----------|---------------------|
 | (+/-)x   | Unary sign operator |
-+----------+---------------------+
-| \*       | Multiplication      |
-+----------+---------------------+
+| *        | Multiplication      |
 | /        | Division            |
-+----------+---------------------+
-| \+       | Addition            |
-+----------+---------------------+
-| \-       | Subtraction         |
-+----------+---------------------+
+| +        | Addition            |
+| -        | Subtraction         |
 | %        | Modulo              |
-+----------+---------------------+
 
-Compound assignment operators
------------------------------
+## Compound assignment operators
 
-+----------+-------------+------------+
 | Operator | Description |            |
-+==========+=============+============+
+|----------|-------------|------------|
 | +=       | a += b      | a = a + b  |
-+----------+-------------+------------+
 | -=       | a -= b      | a = a - b  |
-+----------+-------------+------------+
 | /=       | a /= b      | a = a / b  |
-+----------+-------------+------------+
 | \*=      | a \*= b     | a = a \* b |
-+----------+-------------+------------+
 | %=       | a %= b      | a = a % b  |
-+----------+-------------+------------+
 
-.. literalinclude:: ../../ch_operators/operators1.cpp
-    :language: C++
+### Example
 
-Code output: ::
+``` cpp
+--8<-- "../ch_operators/operators1.cpp"
+```
+
+### Code output
 
     a = 68
 
-Increment and decrement operators (++/--)
------------------------------------------
+## Increment and decrement operators (++/--)
 
 * Increase / decrease variables by 1
 * Can be used both prefix and postfix
@@ -381,17 +376,18 @@ Increment and decrement operators (++/--)
 * Prefix version increases/decreases the value before returning result
 * Postfix version increases/decreases the value after returning the result
 
+### Example
 
-.. literalinclude:: ../../ch_operators/operators2.cpp
-    :language: C++
+``` cpp
+--8<-- "../ch_operators/operators2.cpp"
+```
 
-Code output: ::
+### Code output
 
     b = 43
     c = 43
 
-Conditional operator ?
-----------------------
+## Conditional operator ?
 
 * Evaluates an expression, returning a value depending on the evaluation
 
@@ -399,10 +395,13 @@ Conditional operator ?
   * returns result1 if condition == true
   * returns result2 if condition == false
 
-.. literalinclude:: ../../ch_operators/operators3.cpp
-    :language: C++
+### Example
 
-Code output: ::
+``` cpp
+--8<-- "../ch_operators/operators3.cpp"
+```
+
+### Code output
 
     Enter a number : 45
     outValue = 21
@@ -410,48 +409,45 @@ Code output: ::
     Enter a number : 55
     outValue = 42
 
-Expressions
------------
+## Expressions
 
-.. code-block:: C++
-
-    -a + b + c1
+``` cpp
+-a + b + c1
+```
 
 Evaluates from left to right as:
 
-.. code-block:: C++
-
-    ((-a) + b) + c
+``` cpp
+((-a) + b) + c
+```
 
 The expression:
 
-.. code-block:: C++
-
-    -a + b * c 
+``` cpp
+-a + b * c 
+```
 
 Evaluates as from left to right as:
 
-.. code-block:: C++
-
+``` cpp
     (-a) + (b * c)
+```
 
-Mixed-mode expressions
-----------------------
+## Mixed-mode expressions
 
 * Numeric expressions with operands of differing datatypes
 * Weaker of to datatypes will be coerced to the stronger one
 * Result will be of the stronger type
 
-.. code-block:: C++
-
+``` cpp
     double a;
     int i;
     double b;
 
     b = a * i // i is coerced to double_types1
+```
 
-C++ Strings
-===========
+# C++ Strings
 
 * Can use same strings as in C (char*)
 * This course will use the std::string data type
@@ -463,17 +459,21 @@ C++ Strings
 
 * Requires the #include <string> 
 
-Declaring and using C++ strings
--------------------------------
+## Declaring and using C++ strings
 
-.. literalinclude:: ../../ch_strings/strings1.cpp
-    :language: C++
+
+### Example
+
+``` cpp
+--8<-- "../ch_strings/strings1.cpp"
+```
+
+### Code output
+
+    a = 'hello'
 
 .. note:: :cpp:`std::string` is the real variable type as it is part of the :cpp:`std` namespace 
 
-Code output: ::
-
-    a = 'hello'
 
 String operations
 -----------------
@@ -485,18 +485,21 @@ String operations
   * [index] operator
   * at(index) method
 
-.. literalinclude:: ../../ch_strings/strings2.cpp
-    :language: C++
+### Example
 
-Code output: ::
+``` cpp
+--8<-- "../ch_strings/strings2.cpp"
+```
+
+### Code output: ::
 
     s3 = 'hello, world'
     s3.length() = 12
     s3[7] = w
     s3.at(7) = w
 
-C++ String methods
-------------------
+## C++ String methods
+
 
 * Methods for manipulating string content
 * .append(string) can be used instead of the + operator to append strings to an existing string
@@ -504,33 +507,37 @@ C++ String methods
 * .insert(pos, string) – inserts string at position pos
 * .substr(pos, n) – extracts n characters at position pos
 
-.. literalinclude:: ../../ch_strings/strings3.cpp
-    :language: C++
+### Example
 
-Code output: ::
+``` cpp
+--8<-- "../ch_strings/strings3.cpp"
+```
+
+### Code output
 
     s3 = hello, world. Strings in C++ are great!
     s3 = hello, world. Strings in C++ are nice! 
     s3 = hello, world. Strings in C++ are great and nice! 
     s4 = great 
 
-Searching C++ strings
----------------------
+## Searching C++ strings
 
 * The find() method can be used to return position of substrings
 * .find(string) – find first position of string
 * .find(string, startpos) – find first position of string starting at startpos
 
-.. literalinclude:: ../../ch_strings/strings4.cpp
-    :language: C++
+### Example
 
-Code output: ::
+``` cpp
+--8<-- "../ch_strings/strings4.cpp"
+```
+
+### Code output
 
     The first 'o' is at position 12
     The next 'o' is at position 17
 
-Compatibility with C strings (char*)
-------------------------------------
+## Compatibility with C strings (char*)
 
 * A std::string can be assigned a char* string
 
@@ -541,24 +548,26 @@ Compatibility with C strings (char*)
 
   * returns a const char* pointer wichi can be passed to functions and for assigning C style strings
 
-.. literalinclude:: ../../ch_strings/strings5.cpp
-    :language: C++
+
+### Example
+
+``` cpp
+--8<-- "../ch_strings/strings5.cpp"
+```
 
 .. note:: Allow for an extra position for the #0 character in the :cpp:`strncpy` call.  
 
 .. note:: :cpp:`strncpy` is a overflow safe version of the C :cpp:`strcpy` function. 
  
 
-Code output: ::
+### Code output
 
     cString = Hello, world!
     cString2 = Hello, world!
 
-Control structures
-==================
+# Control structures
 
-Statements and compound statements
-----------------------------------
+## Statements and compound statements
 
 * C++ has 2 kind of statements
 
@@ -571,8 +580,7 @@ Statements and compound statements
   * Conditional expressions
   * Iteration structures
 
-Iteration
----------
+## Iteration
 
 * There are 3 iteration statements in C++
 
@@ -588,31 +596,15 @@ Iteration
   * return
   * exit() function
 
-while-statement
----------------
+## while-statement
 
-.. literalinclude:: ../../ch_iterating/while_statement.cpp
-    :language: C++
+### Example
 
-Code output: ::
+``` cpp
+--8<-- "../ch_iterating/while_statement.cpp"
+```
 
-    counter = 1
-    counter = 2
-    counter = 3
-    counter = 4
-    counter = 5
-    counter = 7
-    counter = 8
-    counter = 9
-    counter = 10
-
-do-statement
-------------
-
-.. literalinclude:: ../../ch_iterating/do_statement.cpp
-    :language: C++
-
-Code output: ::
+### Code output
 
     counter = 1
     counter = 2
@@ -624,8 +616,27 @@ Code output: ::
     counter = 9
     counter = 10
 
-for-statement
--------------
+## do-statement
+
+### Example
+
+``` cpp
+--8<-- "../ch_iterating/do_statement.cpp"
+```
+
+### Code output
+
+    counter = 1
+    counter = 2
+    counter = 3
+    counter = 4
+    counter = 5
+    counter = 7
+    counter = 8
+    counter = 9
+    counter = 10
+
+## for-statement
 
 * Compact version of the do/while-statements
 * for([start expression]; [conditional expression]; [step expression]
@@ -636,10 +647,14 @@ for-statement
 
 * Creates more readable code compare to do/while-constructs
 
-.. literalinclude:: ../../ch_iterating/for_statement.cpp
-    :language: C++
 
-Code output: ::
+### Example
+
+``` cpp
+--8<-- "../ch_iterating/for_statement.cpp"
+```
+
+### Code output
 
     counter = 1
     counter = 2
@@ -651,20 +666,26 @@ Code output: ::
     counter = 9
     counter = 10
 
-.. literalinclude:: ../../ch_iterating/for_statement2.cpp
-    :language: C++
+### Example
 
-Code output: ::
+``` cpp
+--8<-- "../ch_iterating/for_statement2.cpp"
+```
+
+## Code output: ::
 
     sum = 1656437623
 
-Controlling iteration
+## Controlling iteration
 ---------------------
 
-.. literalinclude:: ../../ch_iterating/iteration_control.cpp
-    :language: C++
+### Example
 
-Code output: ::
+``` cpp
+--8<-- "../ch_iterating/for_statement.cpp"
+```
+
+### Code output
 
     counter = 1
     counter = 2
@@ -675,55 +696,40 @@ Code output: ::
     counter = 8
     counter = 9
 
-Conditional statements
-----------------------
+## Conditional statements
 
 * There are 2 main conditional statements in C++
   
   * if-then-else – single or multiple conditions
   * switch – multiple path single condition
 
-Relational operators
---------------------
+## Relational operators
 
-+----------+-----------------------+--------+
 | Operator | Meaning               | Python |
-+==========+=======================+========+
+|----------|-----------------------|--------|
 | <        | less than             | <      |
-+----------+-----------------------+--------+
-| <=       | less than or equal    | <=     |
-+----------+-----------------------+--------+
+| <        | less than or equal    | <=     |
 | ==       | equal                 | ==     |
-+----------+-----------------------+--------+
 | !=       | not equal             | !=     |
-+----------+-----------------------+--------+
 | >=       | greater than or equal | >=     |
-+----------+-----------------------+--------+
 
-Logical operators
------------------
+## Logical operators
 
-+----------+---------+--------+
 | Operator | Meaning | Python |
-+==========+=========+========+
+|----------|---------|--------|
 | &&       | and     | and    |
-+----------+---------+--------+
-| ||       | or      | or     |
-+----------+---------+--------+
+| \|\|     | or      | or     |
 | !        | not     | not    |
-+----------+---------+--------+
 
-if-statement
-------------
+## if-statement
 
-.. literalinclude:: ../../ch_control_structures/if_statement1.cpp
-    :language: C++
-    :emphasize-lines: 12
+### Example
 
-Code output:
+``` cpp
+--8<-- "../ch_control_structures/if_statement1.cpp"
+```
 
-.. code-block:: none
-    :emphasize-lines: 6
+### Code output
 
     i = 1
     i = 2
@@ -737,14 +743,11 @@ Code output:
     i = 9
     i = 10
 
-.. literalinclude:: ../../ch_control_structures/if_statement2.cpp
-    :language: C++
-    :emphasize-lines: 12
+``` cpp
+--8<-- "../ch_control_structures/if_statement2.cpp"
+```
 
-Code output:
-
-.. code-block:: none
-    :emphasize-lines: 1-5,7-11
+### Code output
 
     i != 5
     i != 5
@@ -758,14 +761,13 @@ Code output:
     i != 5
     i != 5
 
-.. literalinclude:: ../../ch_control_structures/if_statement3.cpp
-    :language: C++
-    :emphasize-lines: 14
+### Example
 
-Code output:
+``` cpp
+--8<-- "../ch_control_structures/if_statement3.cpp"
+```
 
-.. code-block:: none
-    :emphasize-lines: 2-3
+### Code output:
 
     i = 1: -
     i = 2: 2 <= i <= 3
@@ -778,13 +780,15 @@ Code output:
     i = 9: -
     i = 10: -
 
-switch-statement
-----------------
+## switch-statement
 
-.. literalinclude:: ../../ch_control_structures/if_statement3.cpp
-    :language: C++
+### Example
 
-Code output: ::
+``` cpp
+--8<-- "../ch_control_structures/switch_statement.cpp"
+```
+
+### Code output
 
     Color is green.
     Color is either BLUE, YELLOW or ORANGE.
