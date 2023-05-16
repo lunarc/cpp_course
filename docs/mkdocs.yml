@@ -19,7 +19,8 @@ theme:
     - navigation.tabs
     - navigation.top
     - header.autohide
-
+    - content.code.copy
+    
 markdown_extensions:
   - admonition
   - attr_list
