@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Function plotter</string>
+   <string>Beam calculator</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -22,7 +22,7 @@
      <number>8</number>
     </property>
     <property name="topMargin">
-     <number>2</number>
+     <number>8</number>
     </property>
     <property name="rightMargin">
      <number>8</number>
@@ -46,24 +46,40 @@
         <string notr="true">background: rgb(255, 255, 255);</string>
        </property>
       </widget>
-      <widget class="QGroupBox" name="groupBox">
+      <widget class="QGroupBox" name="sectionPropGroup">
        <property name="maximumSize">
         <size>
          <width>200</width>
          <height>16777215</height>
         </size>
        </property>
+       <property name="font">
+        <font>
+         <bold>true</bold>
+        </font>
+       </property>
        <property name="title">
         <string>Properties</string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
        <property name="flat">
         <bool>true</bool>
+       </property>
+       <property name="checkable">
+        <bool>false</bool>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <layout class="QGridLayout" name="gridLayout">
           <item row="0" column="0">
            <widget class="QLabel" name="label">
+            <property name="font">
+             <font>
+              <bold>false</bold>
+             </font>
+            </property>
             <property name="text">
              <string>length (m)</string>
             </property>
@@ -71,6 +87,11 @@
           </item>
           <item row="6" column="0">
            <widget class="QLabel" name="label_5">
+            <property name="font">
+             <font>
+              <bold>false</bold>
+             </font>
+            </property>
             <property name="text">
              <string>q (N/m)</string>
             </property>
@@ -78,6 +99,11 @@
           </item>
           <item row="0" column="1">
            <widget class="QLineEdit" name="lengthEdit">
+            <property name="font">
+             <font>
+              <bold>false</bold>
+             </font>
+            </property>
             <property name="clearButtonEnabled">
              <bool>false</bool>
             </property>
@@ -85,6 +111,11 @@
           </item>
           <item row="4" column="0">
            <widget class="QLabel" name="label_4">
+            <property name="font">
+             <font>
+              <bold>false</bold>
+             </font>
+            </property>
             <property name="text">
              <string>Iy (m4)</string>
             </property>
@@ -92,6 +123,11 @@
           </item>
           <item row="3" column="0">
            <widget class="QLabel" name="label_3">
+            <property name="font">
+             <font>
+              <bold>false</bold>
+             </font>
+            </property>
             <property name="text">
              <string>A (m2)</string>
             </property>
@@ -108,23 +144,52 @@
            </widget>
           </item>
           <item row="4" column="1">
-           <widget class="QLineEdit" name="IyEdit"/>
+           <widget class="QLineEdit" name="IyEdit">
+            <property name="font">
+             <font>
+              <bold>false</bold>
+             </font>
+            </property>
+           </widget>
           </item>
           <item row="3" column="1">
-           <widget class="QLineEdit" name="AEdit"/>
+           <widget class="QLineEdit" name="AEdit">
+            <property name="font">
+             <font>
+              <bold>false</bold>
+             </font>
+            </property>
+           </widget>
           </item>
           <item row="6" column="1">
-           <widget class="QLineEdit" name="qEdit"/>
+           <widget class="QLineEdit" name="qEdit">
+            <property name="font">
+             <font>
+              <bold>false</bold>
+             </font>
+            </property>
+           </widget>
           </item>
           <item row="2" column="0">
            <widget class="QLabel" name="label_2">
+            <property name="font">
+             <font>
+              <bold>false</bold>
+             </font>
+            </property>
             <property name="text">
              <string>E (Pa)</string>
             </property>
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="QLineEdit" name="EEdit"/>
+           <widget class="QLineEdit" name="EEdit">
+            <property name="font">
+             <font>
+              <bold>false</bold>
+             </font>
+            </property>
+           </widget>
           </item>
           <item row="5" column="1">
            <widget class="Line" name="line_2">
@@ -197,7 +262,7 @@
     border-width: 1px;
     border-bottom-style: solid;
 	border-top-style: solid;
-    /*border-color: rgb(226, 226, 226);*/
+    border-color: rgb(226, 226, 226);
 }</string>
    </property>
    <property name="movable">
@@ -295,6 +360,13 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>lengthEdit</tabstop>
+  <tabstop>EEdit</tabstop>
+  <tabstop>AEdit</tabstop>
+  <tabstop>IyEdit</tabstop>
+  <tabstop>qEdit</tabstop>
+ </tabstops>
  <resources>
   <include location="beam_app_resource.qrc"/>
  </resources>

@@ -15,6 +15,8 @@ find_package(Qt6 COMPONENTS Core Widgets Gui Qml Quick Qml Charts REQUIRED)
 
 add_executable(beam_app
     beam_app_resource.qrc
+    calfem_eig.h
+    calfem_eig.cpp
     beam_model.h
     beam_model.cpp
     beam_view.h

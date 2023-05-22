@@ -47,6 +47,8 @@ void MainWindow::updateControls()
             ui->qEdit->setText(QString::number(beam->q()));
             ui->lengthEdit->setText(QString::number(beam->l()));
         }
+
+        ui->sectionPropGroup->setTitle("Beam "+QString::number(ui->beamView->selectedBeam()+1)+" ");
     }
     else
     {
