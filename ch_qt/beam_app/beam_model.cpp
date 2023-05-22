@@ -68,6 +68,50 @@ BeamNodePtr Beam::n1()
     return m_node1;
 }
 
+void Beam::setResults(Eigen::MatrixXd &es, Eigen::MatrixXd &edi, Eigen::MatrixXd &eci)
+{
+    m_es = es;
+    m_edi = edi;
+    m_eci = eci;
+}
+
+int Beam::evalCount()
+{
+    return m_es.rows();
+}
+
+double Beam::M(int idx)
+{
+    if ((idx>=0)&&(idx<this->evalCount()))
+        return m_es(idx,0);
+    else
+        return 0.0;
+}
+
+double Beam::V(int idx)
+{
+    if ((idx>=0)&&(idx<this->evalCount()))
+        return m_es(idx,1);
+    else
+        return 0.0;
+}
+
+double Beam::v(int idx)
+{
+    if ((idx>=0)&&(idx<this->evalCount()))
+        return m_edi(idx,0);
+    else
+        return 0.0;
+}
+
+double Beam::x(int idx)
+{
+    if ((idx>=0)&&(idx<this->evalCount()))
+        return m_eci(idx,0);
+    else
+        return 0.0;
+}
+
 double Beam::l()
 {
     return m_l;
@@ -311,6 +355,9 @@ void BeamModel::solve()
         ed << a(beam->n0()->dof(0) - 1), a(beam->n0()->dof(1) - 1), a(beam->n1()->dof(0) - 1),
             a(beam->n1()->dof(1) - 1);
 
-        beam1s(ex, ep, ed, eq, nep, es, edi, eci);
+        MatrixXd es, edi, eci;
+        beam1s(ex, ep, ed, eq, 100, es, edi, eci);
+
+        beam->setResults(es, edi, eci);
     }
 }

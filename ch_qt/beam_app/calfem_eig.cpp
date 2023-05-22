@@ -174,7 +174,47 @@ void beam1e(const Eigen::Vector2d &ex, const Eigen::Vector2d &ep, Eigen::Matrix4
     fe << qy * L / 2, qy * L * L / 12, qy * L / 2, -qy * L * L / 12;
 }
 
-void beam1s(const Eigen::Vector2d &ex, const Eigen::Vector2d &ep, const Eigen::Vector4d &ed, double eq, int nep,
+void beam1s(const Eigen::VectorXd &ex, const Eigen::VectorXd &ep, const Eigen::VectorXd &ed, double eq, int nep,
+            Eigen::MatrixXd &es, Eigen::MatrixXd &edi, Eigen::MatrixXd &eci)
+{
+    double EI = ep[0] * ep[1];
+    double L = ex[1] - ex[0];
+
+    Eigen::MatrixXd Cinv(4, 4);
+    Cinv << 1, 0, 0, 0, 0, 1, 0, 0, -3 / (L * L), -2 / L, 3 / (L * L), -1 / L, 2 / (L * L * L), 1 / (L * L),
+        -2 / (L * L * L), 1 / (L * L);
+
+    Eigen::MatrixXd Ca = Cinv * ed;
+
+    int ne = nep != 0 ? nep : 2;
+
+    Eigen::VectorXd x = Eigen::VectorXd::LinSpaced(ne, 0.0, L);
+    Eigen::VectorXd zero = Eigen::VectorXd::Zero(ne);
+    Eigen::VectorXd one = Eigen::VectorXd::Ones(ne);
+
+    Eigen::MatrixXd v(ne, 1);
+    Eigen::MatrixXd d2v(ne, 1);
+    Eigen::MatrixXd d3v(ne, 1);
+
+    for (int i = 0; i < ne; ++i)
+    {
+        double xi = x[i];
+        v(i) = one(i) * Ca(0) + xi * Ca(1) + xi * xi * Ca(2) + xi * xi * xi * Ca(3) +
+               eq / (24 * EI) * (std::pow(xi, 4) - 2 * L * std::pow(xi, 3) + L * L * std::pow(xi, 2));
+        d2v(i) = zero(i) + zero(i) + 2 * one(i) + 6 * xi + eq / (2 * EI) * (std::pow(xi, 2) - L * xi + L * L / 12);
+        d3v(i) = zero(i) + zero(i) + zero(i) + 6 * one(i) - eq * (xi - L / 2);
+    }
+
+    Eigen::MatrixXd M = EI * d2v;
+    Eigen::MatrixXd V = -EI * d3v;
+    edi = v;
+    eci = x;
+    es.resize(ne, 2);
+    es << V, M;
+}
+
+/*
+void beam1s(const Eigen::Vector2d &ex, const Eigen::Vector2d &ep, Eigen::Vector4d &ed, double eq, int nep,
             Eigen::MatrixXd &es, Eigen::VectorXd &edi, Eigen::VectorXd &eci)
 {
     auto E = ep(0);
@@ -192,12 +232,13 @@ void beam1s(const Eigen::Vector2d &ex, const Eigen::Vector2d &ep, const Eigen::V
     C2 << 1., 0., 0., 0., 0., 1., 0., 0., -3 / L * L, -2 / L, 3 / L * L, -1 / L, 2 / L * L * L, 1 / L * L,
         -2 / L * L * L, 1 / L * L;
 
-    Matrix4d C2a;
-    C2a = Matrix4d::Zero();
+    Vector4d C2a;
 
-    C2a = C2 * ed.reshaped(4, 1);
+    C2a = C2 * ed;
 
-    MatrixXd X = VectorXd::LinSpaced(nep, 0.0, L).reshaped(nep, 1);
+    MatrixXd X(nep,1);
+    X = VectorXd::LinSpaced(nep, 0.0, L).reshaped(nep, 1);
+
     MatrixXd zero(nep, 1);
     zero = MatrixXd::Zero(nep, 1);
     MatrixXd one(nep, 1);
@@ -206,8 +247,8 @@ void beam1s(const Eigen::Vector2d &ex, const Eigen::Vector2d &ep, const Eigen::V
     MatrixXd v(nep, 4);
     v.col(0) = one;
     v.col(1) = X;
-    v.col(2) = X * X;
-    v.col(3) = X * X * X;
+    v.col(2) = X.array() * X.array();
+    v.col(3) = X.array() * X.array() * X.array();
 
     v = v * C2a;
 
@@ -247,3 +288,4 @@ void beam1s(const Eigen::Vector2d &ex, const Eigen::Vector2d &ep, const Eigen::V
     eci.resize(nep);
     eci = X;
 }
+*/

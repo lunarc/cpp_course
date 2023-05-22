@@ -5,12 +5,14 @@
 #include <string>
 #include <vector>
 
+#include <Eigen/Dense>
+
 class BeamNode
 {
-  private:
+private:
     int m_dofs[2];
 
-  public:
+public:
     BeamNode();
 
     static std::shared_ptr<BeamNode> create();
@@ -25,7 +27,7 @@ typedef std::shared_ptr<BeamNode> BeamNodePtr;
 
 class Beam
 {
-  private:
+private:
     double m_l;
     double m_E;
     double m_A;
@@ -35,7 +37,11 @@ class Beam
     BeamNodePtr m_node0;
     BeamNodePtr m_node1;
 
-  public:
+    Eigen::MatrixXd m_es;
+    Eigen::MatrixXd m_edi;
+    Eigen::MatrixXd m_eci;
+
+public:
     Beam(double l = 1.0, double E = 2.1e9, double A = 0.01, double I = 8.33e-6, double q = 1.0e3);
 
     static std::shared_ptr<Beam> create(double l = 1.0, double E = 2.1e9, double A = 0.01, double I = 8.33e-6,
@@ -44,6 +50,14 @@ class Beam
     void setNodes(BeamNodePtr &n0, BeamNodePtr &n1);
     BeamNodePtr n0();
     BeamNodePtr n1();
+
+    void setResults(Eigen::MatrixXd& es, Eigen::MatrixXd& edi, Eigen::MatrixXd& eci);
+
+    int evalCount();
+    double M(int idx);
+    double V(int idx);
+    double v(int idx);
+    double x(int idx);
 
     double l();
     void l(double value);
@@ -65,13 +79,13 @@ typedef std::shared_ptr<Beam> BeamPtr;
 
 class BeamModel
 {
-  private:
+private:
     std::vector<BeamPtr> m_beams;
     std::vector<BeamNodePtr> m_nodes;
 
     void init_beams(int nBeams);
 
-  public:
+public:
     BeamModel(int nBeams);
 
     static std::shared_ptr<BeamModel> create(int nBeams);

@@ -12,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     m_beamModel = BeamModel::create(3);
+    m_beamModel->connect();
+    m_beamModel->solve();
 
     ui->beamView->setBeamModel(m_beamModel);
     this->updateList();
@@ -77,6 +79,8 @@ void MainWindow::updateModel()
             beam->I(toDouble(ui->IyEdit->text(), beam->I()));
             beam->q(toDouble(ui->qEdit->text(), beam->q()));
         }
+        m_beamModel->connect();
+        m_beamModel->solve();
     }
 }
 

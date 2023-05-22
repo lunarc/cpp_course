@@ -2,40 +2,40 @@
 
 #include "beam_model.h"
 
-#include <QWidget>
 #include <QBrush>
 #include <QPen>
+#include <QWidget>
 
 class BeamView : public QWidget
 {
     Q_OBJECT
-public:
+  public:
     explicit BeamView(QWidget *parent = nullptr);
 
     void setBeamModel(BeamModelPtr model);
 
     int selectedBeam();
 
-protected:
-    void paintEvent(QPaintEvent* event) override;
-    void mouseMoveEvent(QMouseEvent* event) override;
-    void mousePressEvent(QMouseEvent* event) override;
+  protected:
+    void paintEvent(QPaintEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
 
-signals:
+  signals:
     void beamSelected(int idx);
 
-private:
-
+  private:
     int to_sx(double x);
     int to_sy(double y);
 
     double to_x(int x);
     double to_y(int x);
 
-    void drawBeams(QPainter& painter);
-    void drawSupports(QPainter& painter);
-    void drawLoads(QPainter& painter);
-    void drawDimensions(QPainter& painter);
+    void drawBeams(QPainter &painter);
+    void drawSupports(QPainter &painter);
+    void drawLoads(QPainter &painter);
+    void drawDimensions(QPainter &painter);
+    void drawDeflections(QPainter &painter);
 
     QBrush m_brush;
     QPen m_pen;

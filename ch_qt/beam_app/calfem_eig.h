@@ -16,8 +16,8 @@ double bar2s(const Eigen::Vector2d &ex, const Eigen::Vector2d &ey, const Eigen::
 
 void beam1e(const Eigen::Vector2d &ex, const Eigen::Vector2d &ep, Eigen::Matrix4d &Ke, Eigen::Vector4d &fe,
             double eq = 0.0);
-void beam1s(const Eigen::Vector2d &ex, const Eigen::Vector2d &ep, const Eigen::Vector4d &ed, double eq, int nep,
-            Eigen::MatrixXd &es, Eigen::VectorXd &edi, Eigen::VectorXd &eci);
+void beam1s(const Eigen::VectorXd& ex, const Eigen::VectorXd& ep, const Eigen::VectorXd& ed, double eq, int nep,
+            Eigen::MatrixXd& es, Eigen::MatrixXd& edi, Eigen::MatrixXd& eci);
 
 void assem(const Eigen::VectorXi &topo, Eigen::MatrixXd &K, const Eigen::MatrixXd &Ke, Eigen::MatrixXd &f,
            const Eigen::MatrixXd &fe);

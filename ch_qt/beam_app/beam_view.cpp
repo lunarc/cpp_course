@@ -6,12 +6,7 @@
 #include <cmath>
 
 BeamView::BeamView(QWidget *parent)
-    : QWidget{parent},
-      m_margins{ 0.2 },
-      m_scaleFactor{ 1.0 },
-      m_loadScaleFactor{ 1.0 },
-      m_selectedBeam{-1},
-      m_overBeam{-1},
+    : QWidget{parent}, m_margins{0.2}, m_scaleFactor{1.0}, m_loadScaleFactor{1.0}, m_selectedBeam{-1}, m_overBeam{-1},
       m_prevOverBeam{-1}
 {
     m_pen.setColor(Qt::black);
@@ -49,33 +44,34 @@ void BeamView::paintEvent(QPaintEvent *event)
 
     painter.drawRect(0, 0, this->width(), this->height());
 
-    //painter.drawLine(this->rect().bottomLeft(), this->rect().topRight());
-    //painter.drawLine(this->rect().topLeft(), this->rect().bottomRight());
-    //painter.drawEllipse(this->width()/2.0-20, this->height()/2.0-20, 40, 40);
+    // painter.drawLine(this->rect().bottomLeft(), this->rect().topRight());
+    // painter.drawLine(this->rect().topLeft(), this->rect().bottomRight());
+    // painter.drawEllipse(this->width()/2.0-20, this->height()/2.0-20, 40, 40);
 
     auto totalLength = m_beamModel->length();
 
-    m_scaleFactor = this->width()*(1.0-m_margins)/totalLength;
-    m_loadScaleFactor = this->height()*0.1/m_beamModel->maxLoad();
+    m_scaleFactor = this->width() * (1.0 - m_margins) / totalLength;
+    m_loadScaleFactor = this->height() * 0.1 / m_beamModel->maxLoad();
 
     drawLoads(painter);
     drawDimensions(painter);
     drawSupports(painter);
     drawBeams(painter);
+    drawDeflections(painter);
 }
 
 void BeamView::mouseMoveEvent(QMouseEvent *event)
 {
-    m_overBeam = m_beamModel->beam_pos_from_x(to_x(event->pos().x())+m_beamModel->length()/2.0);
-    if (m_prevOverBeam!=m_overBeam)
+    m_overBeam = m_beamModel->beam_pos_from_x(to_x(event->pos().x()) + m_beamModel->length() / 2.0);
+    if (m_prevOverBeam != m_overBeam)
         this->repaint();
     m_prevOverBeam = m_overBeam;
 }
 
 void BeamView::mousePressEvent(QMouseEvent *event)
 {
-    auto pressed_beam = m_beamModel->beam_pos_from_x(to_x(event->pos().x())+m_beamModel->length()/2.0);
-    if (pressed_beam!=-1)
+    auto pressed_beam = m_beamModel->beam_pos_from_x(to_x(event->pos().x()) + m_beamModel->length() / 2.0);
+    if (pressed_beam != -1)
     {
         m_selectedBeam = pressed_beam;
         this->repaint();
@@ -85,32 +81,32 @@ void BeamView::mousePressEvent(QMouseEvent *event)
 
 int BeamView::to_sx(double x)
 {
-    return this->width()/2.0 + std::round(x*m_scaleFactor);
+    return this->width() / 2.0 + std::round(x * m_scaleFactor);
 }
 
 int BeamView::to_sy(double y)
 {
-    return this->height()/2.0 - std::round(y*m_scaleFactor);
+    return this->height() / 2.0 - std::round(y * m_scaleFactor);
 }
 
 double BeamView::to_x(int x)
 {
-    return (x-this->width()/2)/m_scaleFactor;
+    return (x - this->width() / 2) / m_scaleFactor;
 }
 
 double BeamView::to_y(int x)
 {
-    return (x-this->height()/2)/m_scaleFactor;
+    return (x - this->height() / 2) / m_scaleFactor;
 }
 
 void BeamView::drawBeams(QPainter &painter)
 {
-    auto x = -m_beamModel->length()/2.0;
+    auto x = -m_beamModel->length() / 2.0;
     auto y = 0.0;
 
     auto i = 0;
 
-    for (auto& beam : m_beamModel->beams())
+    for (auto &beam : m_beamModel->beams())
     {
         if (m_selectedBeam == i)
             painter.setPen(m_selectedBeamPen);
@@ -128,47 +124,69 @@ void BeamView::drawBeams(QPainter &painter)
 
 void BeamView::drawSupports(QPainter &painter)
 {
-    auto x = -m_beamModel->length()/2.0;
+    auto x = -m_beamModel->length() / 2.0;
     auto y = 0.0;
 
-    for (auto& beam : m_beamModel->beams())
+    for (auto &beam : m_beamModel->beams())
     {
         auto sx = to_sx(x);
         auto sy = to_sy(y);
 
-        painter.drawEllipse(sx-5, sy, 10, 10);
-        painter.drawLine(sx-10, sy+10, sx+10, sy+10);
+        painter.drawEllipse(sx - 5, sy, 10, 10);
+        painter.drawLine(sx - 10, sy + 10, sx + 10, sy + 10);
 
         x += beam->l();
     }
     auto sx = to_sx(x);
     auto sy = to_sy(y);
 
-    painter.drawEllipse(sx-5, sy, 10, 10);
-    painter.drawLine(sx-10, sy+10, sx+10, sy+10);
+    painter.drawEllipse(sx - 5, sy, 10, 10);
+    painter.drawLine(sx - 10, sy + 10, sx + 10, sy + 10);
 }
 
 void BeamView::drawLoads(QPainter &painter)
 {
-    auto x = -m_beamModel->length()/2.0;
+    auto x = -m_beamModel->length() / 2.0;
     auto y = 0.0;
 
-    for (auto& beam : m_beamModel->beams())
+    for (auto &beam : m_beamModel->beams())
     {
         auto sx = to_sx(x);
         auto sy = to_sy(y);
 
-        painter.drawRect(sx, sy-20-beam->q()*m_loadScaleFactor, beam->l()*m_scaleFactor, beam->q()*m_loadScaleFactor);
+        painter.drawRect(sx, sy - 20 - beam->q() * m_loadScaleFactor, beam->l() * m_scaleFactor,
+                         beam->q() * m_loadScaleFactor);
 
         x += beam->l();
     }
     auto sx = to_sx(x);
     auto sy = to_sy(y);
 
-    painter.drawEllipse(sx-5, sy, 10, 10);
+    painter.drawEllipse(sx - 5, sy, 10, 10);
 }
 
 void BeamView::drawDimensions(QPainter &painter)
 {
+}
 
+void BeamView::drawDeflections(QPainter &painter)
+{
+    auto x = -m_beamModel->length() / 2.0;
+    auto y = 0.0;
+
+    for (auto &beam : m_beamModel->beams())
+    {
+        for (auto i=0; i<beam->evalCount()-1; i++)
+        {
+            //auto M = beam->M(i);
+            //auto V = beam->V(i);
+            auto ly0 = beam->v(i);
+            auto lx0 = beam->x(i);
+            auto ly1 = beam->v(i+1);
+            auto lx1 = beam->x(i+1);
+            painter.drawLine(to_sx(x+lx0), 100 + to_sy(500*ly0), to_sx(x+lx1), 100 + to_sy(500*ly1));
+        }
+
+        x += beam->l();
+    }
 }
