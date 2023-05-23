@@ -1,10 +1,11 @@
 #include "beam_model.h"
 
-#include "calfem_eig.h"
+#include "calfem.h"
 
 #include <QDebug>
 
 using namespace Eigen;
+using namespace calfem;
 
 BeamNode::BeamNode()
 {
@@ -356,8 +357,8 @@ void BeamModel::solve()
         auto eq = beam->q();
         topo << beam->n0()->dof(0) - 1, beam->n0()->dof(1) - 1, beam->n1()->dof(0) - 1, beam->n1()->dof(1) - 1;
 
-        beam1e(ex, ep, Ke, fe, eq);
-        assem(topo, K, Ke, f, fe);
+        calfem::beam1e(ex, ep, Ke, fe, eq);
+        calfem::assem(topo, K, Ke, f, fe);
     }
 
     // | )     | )     | )     | )
@@ -385,7 +386,7 @@ void BeamModel::solve()
     MatrixXd R(nDofs, 1);
     R = MatrixXd::Zero(nDofs, 1);
 
-    solveq(K, f, bcDofs, bcValues, a, R);
+    calfem::solveq(K, f, bcDofs, bcValues, a, R);
 
     for (auto i = 0; i < nDofs; i++)
         std::cout << a(i) << "\n";
@@ -408,7 +409,7 @@ void BeamModel::solve()
             a(beam->n1()->dof(1) - 1);
 
         MatrixXd es, edi, eci;
-        beam1s(ex, ep, ed, eq, 100, es, edi, eci);
+        calfem::beam1s(ex, ep, ed, es, edi, eci, eq, 100);
 
         beam->setResults(es, edi, eci);
     }

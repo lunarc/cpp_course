@@ -47,6 +47,14 @@ class BeamView : public QWidget
     QPen m_selectedBeamPen;
     QPen m_overBeamPen;
 
+    QPen m_momentPen;
+    QBrush m_momentBrush;
+
+    QPen m_shearPen;
+    QBrush m_shearBrush;
+
+    QPen m_deflectionPen;
+
     BeamModelPtr m_beamModel;
 
     double m_margins;

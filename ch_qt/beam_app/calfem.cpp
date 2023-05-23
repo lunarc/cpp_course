@@ -1,4 +1,4 @@
-#include "calfem_eig.h"
+#include "calfem.h"
 
 #include <cmath>
 #include <set>
@@ -7,6 +7,9 @@ using namespace Eigen;
 using namespace std;
 
 // https://stackoverflow.com/questions/13290395/how-to-remove-a-certain-row-or-column-while-using-eigen-library-c
+
+namespace calfem
+{
 
 void removeRow(MatrixXd &matrix, unsigned int rowToRemove)
 {
@@ -174,43 +177,71 @@ void beam1e(const Eigen::Vector2d &ex, const Eigen::Vector2d &ep, Eigen::Matrix4
     fe << qy * L / 2, qy * L * L / 12, qy * L / 2, -qy * L * L / 12;
 }
 
-void beam1s(const Eigen::VectorXd &ex, const Eigen::VectorXd &ep, const Eigen::VectorXd &ed, double eq, int nep,
-            Eigen::MatrixXd &es, Eigen::MatrixXd &edi, Eigen::MatrixXd &eci)
+void beam1s(const Eigen::VectorXd &ex, const Eigen::VectorXd &ep, const Eigen::VectorXd &ed, Eigen::MatrixXd &es,
+            Eigen::MatrixXd &edi, Eigen::MatrixXd &eci, double eq, int nep)
 {
-    double EI = ep[0] * ep[1];
-    double L = ex[1] - ex[0];
+    double E = ep(0);
+    double I = ep(1);
+    double DEI = E * I;
 
-    Eigen::MatrixXd Cinv(4, 4);
-    Cinv << 1, 0, 0, 0, 0, 1, 0, 0, -3 / (L * L), -2 / L, 3 / (L * L), -1 / L, 2 / (L * L * L), 1 / (L * L),
-        -2 / (L * L * L), 1 / (L * L);
+    double qY = 0.0;
 
-    Eigen::MatrixXd Ca = Cinv * ed;
+    qY = eq;
 
-    int ne = nep != 0 ? nep : 2;
+    int ne = 2;
+    if (nep != -1)
+        ne = nep;
 
-    Eigen::VectorXd x = Eigen::VectorXd::LinSpaced(ne, 0.0, L);
-    Eigen::VectorXd zero = Eigen::VectorXd::Zero(ne);
-    Eigen::VectorXd one = Eigen::VectorXd::Ones(ne);
+    double x1 = ex(0);
+    double x2 = ex(1);
+    double dx = x2 - x1;
+    double L = std::abs(dx);
 
-    Eigen::MatrixXd v(ne, 1);
-    Eigen::MatrixXd d2v(ne, 1);
-    Eigen::MatrixXd d3v(ne, 1);
+    Eigen::VectorXd a2 = ed;
 
-    for (int i = 0; i < ne; ++i)
+    Eigen::MatrixXd C2(4, 4);
+    C2 << 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, -3.0 / (L * L), -2.0 / L, 3.0 / (L * L), -1.0 / L, 2.0 / (L * L * L),
+        1.0 / (L * L), -2.0 / (L * L * L), 1.0 / (L * L);
+
+    Eigen::VectorXd C2a = C2 * a2;
+
+    int numPoints = ne;
+    Eigen::VectorXd X = Eigen::VectorXd::LinSpaced(numPoints, 0.0, L);
+    Eigen::VectorXd zero = Eigen::VectorXd::Zero(numPoints);
+    Eigen::VectorXd one = Eigen::VectorXd::Ones(numPoints);
+
+    Eigen::MatrixXd v(numPoints, 4);
+    v << one, X, X.array().pow(2), X.array().pow(3);
+    v = v * C2a;
+
+    Eigen::MatrixXd d2v(numPoints, 4);
+    d2v << zero, zero, 2 * one, 6 * X;
+    d2v = d2v * C2a;
+
+    Eigen::MatrixXd d3v(numPoints, 4);
+    d3v << zero, zero, zero, 6 * one;
+    d3v = d3v * C2a;
+
+    if (DEI != 0.0)
     {
-        double xi = x[i];
-        v(i) = one(i) * Ca(0) + xi * Ca(1) + xi * xi * Ca(2) + xi * xi * xi * Ca(3) +
-               eq / (24 * EI) * (std::pow(xi, 4) - 2 * L * std::pow(xi, 3) + L * L * std::pow(xi, 2));
-        d2v(i) = zero(i) + zero(i) + 2 * one(i) + 6 * xi + eq / (2 * EI) * (std::pow(xi, 2) - L * xi + L * L / 12);
-        d3v(i) = zero(i) + zero(i) + zero(i) + 6 * one(i) - eq * (xi - L / 2);
+        v = (v.array() + (X.array().pow(4) - 2 * L * X.array().pow(3) + L * L * X.array().pow(2)) * qY / (24 * DEI))
+                .matrix();
+        d2v =
+            (d2v.array() + (6 * X.array().pow(2) - 6 * L * X.array() + L * L * one.array()) * qY / (12 * DEI)).matrix();
+        d3v = (d3v.array() + (2 * X.array() - L * one.array()) * qY / (2 * DEI)).matrix();
     }
 
-    Eigen::MatrixXd M = EI * d2v;
-    Eigen::MatrixXd V = -EI * d3v;
+    Eigen::MatrixXd M = DEI * d2v;
+    Eigen::MatrixXd V = -DEI * d3v;
+
+    es.resize(numPoints, 2);
+    es << M, V;
+
+    if (nep == -1)
+        return;
+
     edi = v;
-    eci = x;
-    es.resize(ne, 2);
-    es << V, M;
+    eci = X;
 }
 
 /*
@@ -289,3 +320,4 @@ void beam1s(const Eigen::Vector2d &ex, const Eigen::Vector2d &ep, Eigen::Vector4
     eci = X;
 }
 */
+} // namespace calfem

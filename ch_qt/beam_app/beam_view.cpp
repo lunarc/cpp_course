@@ -14,6 +14,15 @@ BeamView::BeamView(QWidget *parent)
     m_brush.setColor(Qt::white);
     m_brush.setStyle(Qt::SolidPattern);
 
+    m_momentPen.setColor(Qt::darkRed);
+    m_momentPen.setWidth(2);
+
+    m_momentBrush.setColor(Qt::red);
+    m_momentBrush.setStyle(Qt::SolidPattern);
+
+    m_shearBrush.setColor(Qt::blue);
+    m_shearBrush.setStyle(Qt::SolidPattern);
+
     m_selectedBeamPen.setColor(Qt::red);
     m_selectedBeamPen.setWidth(1);
 
@@ -233,15 +242,24 @@ void BeamView::drawM(QPainter &painter)
         pl.clear();
         for (auto i = 0; i < beam->evalCount(); i++)
         {
-            // auto M = beam->M(i);
-            // auto V = beam->V(i);
+
             auto lx0 = beam->x(i);
 
-            QPointF p(to_sx(x + lx0), to_sy(0.0) - beam->M(i) * m_MscaleFactor);
+            QPointF p(to_sx(x + lx0), to_sy(0.0) + beam->M(i) * m_MscaleFactor);
             pl << p;
-            std::cout << "M " << beam->M(i) << std::endl;
         }
-        painter.drawPolyline(pl);
+        pl << QPointF(to_sx(x + beam->x(beam->evalCount() - 1)), to_sy(0.0));
+        pl << QPointF(to_sx(x + beam->x(0)), to_sy(0.0));
+
+        painter.setPen(Qt::NoPen);
+        painter.setBrush(m_momentBrush);
+
+        painter.setOpacity(0.4);
+        painter.drawPolygon(pl);
+        painter.setOpacity(1.0);
+
+        painter.setPen(m_pen);
+        painter.setBrush(m_brush);
 
         x += beam->l();
     }
@@ -262,10 +280,21 @@ void BeamView::drawV(QPainter &painter)
             // auto V = beam->V(i);
             auto lx0 = beam->x(i);
 
-            QPointF p(to_sx(x + lx0), to_sy(0.0) - beam->V(i) * m_VscaleFactor);
+            QPointF p(to_sx(x + lx0), to_sy(0.0) + beam->V(i) * m_VscaleFactor);
             pl << p;
         }
-        painter.drawPolyline(pl);
+        pl << QPointF(to_sx(x + beam->x(beam->evalCount() - 1)), to_sy(0.0));
+        pl << QPointF(to_sx(x + beam->x(0)), to_sy(0.0));
+
+        painter.setPen(Qt::NoPen);
+        painter.setBrush(m_shearBrush);
+
+        painter.setOpacity(0.4);
+        painter.drawPolygon(pl);
+        painter.setOpacity(1.0);
+
+        painter.setPen(m_pen);
+        painter.setBrush(m_brush);
 
         x += beam->l();
     }
