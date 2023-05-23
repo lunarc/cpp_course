@@ -25,17 +25,21 @@ class BeamView : public QWidget
     void beamSelected(int idx);
 
   private:
-    int to_sx(double x);
-    int to_sy(double y);
+    double to_sx(double x);
+    double to_sy(double y);
 
-    double to_x(int x);
-    double to_y(int x);
+    double to_x(double x);
+    double to_y(double x);
+
+    void drawLineWithArrow(QPainter &painter, int x0, int y0, int x1, int y1);
 
     void drawBeams(QPainter &painter);
     void drawSupports(QPainter &painter);
     void drawLoads(QPainter &painter);
     void drawDimensions(QPainter &painter);
     void drawDeflections(QPainter &painter);
+    void drawM(QPainter &painter);
+    void drawV(QPainter &painter);
 
     QBrush m_brush;
     QPen m_pen;
@@ -48,6 +52,9 @@ class BeamView : public QWidget
     double m_margins;
     double m_scaleFactor;
     double m_loadScaleFactor;
+    double m_deflectionScaleFactor;
+    double m_MscaleFactor;
+    double m_VscaleFactor;
 
     int m_selectedBeam;
     int m_overBeam;

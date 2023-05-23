@@ -1,13 +1,14 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
 #include <QJSEngine>
+#include <QMainWindow>
 
 #include "beam_model.h"
 #include "beam_view.h"
 
-namespace Ui {
+namespace Ui
+{
 class MainWindow;
 }
 
@@ -15,20 +16,19 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-public:
+  public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-private:
-
-    double toDouble(const QString& str, double defValue);
+  private:
+    double toDouble(const QString &str, double defValue);
 
     void updateControls();
     void updateList();
 
     void updateModel();
 
-private slots:
+  private slots:
     void on_addSectionAction_triggered();
     void on_removeSectionAction_triggered();
     void on_sectionList_currentRowChanged(int currentRow);
@@ -45,10 +45,13 @@ private slots:
 
     void on_beamView_beamSelected(int idx);
 
-private:
+    void on_lengthSpin_valueChanged(double arg1);
+
+    void on_qSpin_valueChanged(double arg1);
+
+  private:
     Ui::MainWindow *ui;
     BeamModelPtr m_beamModel;
-
 };
 
 #endif // MAINWINDOW_H

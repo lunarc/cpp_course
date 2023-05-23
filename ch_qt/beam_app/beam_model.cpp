@@ -73,6 +73,10 @@ void Beam::setResults(Eigen::MatrixXd &es, Eigen::MatrixXd &edi, Eigen::MatrixXd
     m_es = es;
     m_edi = edi;
     m_eci = eci;
+
+    m_maxM = std::max(std::abs(m_es.col(0).maxCoeff()), std::abs(m_es.col(0).minCoeff()));
+    m_maxV = std::max(std::abs(m_es.col(1).maxCoeff()), std::abs(m_es.col(1).minCoeff()));
+    m_maxv = std::max(std::abs(m_edi.maxCoeff()), std::abs(m_edi.minCoeff()));
 }
 
 int Beam::evalCount()
@@ -82,34 +86,49 @@ int Beam::evalCount()
 
 double Beam::M(int idx)
 {
-    if ((idx>=0)&&(idx<this->evalCount()))
-        return m_es(idx,0);
+    if ((idx >= 0) && (idx < this->evalCount()))
+        return m_es(idx, 0);
     else
         return 0.0;
 }
 
 double Beam::V(int idx)
 {
-    if ((idx>=0)&&(idx<this->evalCount()))
-        return m_es(idx,1);
+    if ((idx >= 0) && (idx < this->evalCount()))
+        return m_es(idx, 1);
     else
         return 0.0;
 }
 
 double Beam::v(int idx)
 {
-    if ((idx>=0)&&(idx<this->evalCount()))
-        return m_edi(idx,0);
+    if ((idx >= 0) && (idx < this->evalCount()))
+        return m_edi(idx, 0);
     else
         return 0.0;
 }
 
 double Beam::x(int idx)
 {
-    if ((idx>=0)&&(idx<this->evalCount()))
-        return m_eci(idx,0);
+    if ((idx >= 0) && (idx < this->evalCount()))
+        return m_eci(idx, 0);
     else
         return 0.0;
+}
+
+double Beam::maxM()
+{
+    return m_maxM;
+}
+
+double Beam::maxV()
+{
+    return m_maxV;
+}
+
+double Beam::maxv()
+{
+    return m_maxv;
 }
 
 double Beam::l()
@@ -223,6 +242,39 @@ double BeamModel::maxLoad()
             max_q = std::abs(beam->q());
 
     return max_q;
+}
+
+double BeamModel::maxM()
+{
+    auto maxM = -1e300;
+
+    for (auto &beam : m_beams)
+        if (std::abs(beam->maxM()) > maxM)
+            maxM = std::abs(beam->maxM());
+
+    return maxM;
+}
+
+double BeamModel::maxV()
+{
+    auto maxV = -1e300;
+
+    for (auto &beam : m_beams)
+        if (std::abs(beam->maxV()) > maxV)
+            maxV = std::abs(beam->maxV());
+
+    return maxV;
+}
+
+double BeamModel::maxv()
+{
+    auto maxv = -1e300;
+
+    for (auto &beam : m_beams)
+        if (std::abs(beam->maxv()) > maxv)
+            maxv = std::abs(beam->maxv());
+
+    return maxv;
 }
 
 const std::vector<BeamPtr> &BeamModel::beams()

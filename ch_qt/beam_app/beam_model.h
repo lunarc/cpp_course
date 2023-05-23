@@ -9,10 +9,10 @@
 
 class BeamNode
 {
-private:
+  private:
     int m_dofs[2];
 
-public:
+  public:
     BeamNode();
 
     static std::shared_ptr<BeamNode> create();
@@ -27,7 +27,7 @@ typedef std::shared_ptr<BeamNode> BeamNodePtr;
 
 class Beam
 {
-private:
+  private:
     double m_l;
     double m_E;
     double m_A;
@@ -41,23 +41,31 @@ private:
     Eigen::MatrixXd m_edi;
     Eigen::MatrixXd m_eci;
 
-public:
-    Beam(double l = 1.0, double E = 2.1e9, double A = 0.01, double I = 8.33e-6, double q = 1.0e3);
+    double m_maxM;
+    double m_maxV;
+    double m_maxv;
+
+  public:
+    Beam(double l = 1.0, double E = 2.1e9, double A = 0.01, double I = 8.33e-6, double q = -1.0e3);
 
     static std::shared_ptr<Beam> create(double l = 1.0, double E = 2.1e9, double A = 0.01, double I = 8.33e-6,
-                                        double q = 1.0e3);
+                                        double q = -1.0e3);
 
     void setNodes(BeamNodePtr &n0, BeamNodePtr &n1);
     BeamNodePtr n0();
     BeamNodePtr n1();
 
-    void setResults(Eigen::MatrixXd& es, Eigen::MatrixXd& edi, Eigen::MatrixXd& eci);
+    void setResults(Eigen::MatrixXd &es, Eigen::MatrixXd &edi, Eigen::MatrixXd &eci);
 
     int evalCount();
     double M(int idx);
     double V(int idx);
     double v(int idx);
     double x(int idx);
+
+    double maxM();
+    double maxV();
+    double maxv();
 
     double l();
     void l(double value);
@@ -79,13 +87,13 @@ typedef std::shared_ptr<Beam> BeamPtr;
 
 class BeamModel
 {
-private:
+  private:
     std::vector<BeamPtr> m_beams;
     std::vector<BeamNodePtr> m_nodes;
 
     void init_beams(int nBeams);
 
-public:
+  public:
     BeamModel(int nBeams);
 
     static std::shared_ptr<BeamModel> create(int nBeams);
@@ -95,6 +103,9 @@ public:
 
     double length();
     double maxLoad();
+    double maxM();
+    double maxV();
+    double maxv();
 
     const std::vector<BeamPtr> &beams();
 

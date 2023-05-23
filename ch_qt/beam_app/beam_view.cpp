@@ -52,12 +52,18 @@ void BeamView::paintEvent(QPaintEvent *event)
 
     m_scaleFactor = this->width() * (1.0 - m_margins) / totalLength;
     m_loadScaleFactor = this->height() * 0.1 / m_beamModel->maxLoad();
+    m_deflectionScaleFactor = this->height() * 0.1 / m_beamModel->maxv();
+
+    m_MscaleFactor = this->height() * 0.1 / m_beamModel->maxM();
+    m_VscaleFactor = this->height() * 0.1 / m_beamModel->maxV();
 
     drawLoads(painter);
     drawDimensions(painter);
+    drawDeflections(painter);
+    drawM(painter);
+    drawV(painter);
     drawSupports(painter);
     drawBeams(painter);
-    drawDeflections(painter);
 }
 
 void BeamView::mouseMoveEvent(QMouseEvent *event)
@@ -79,24 +85,42 @@ void BeamView::mousePressEvent(QMouseEvent *event)
     }
 }
 
-int BeamView::to_sx(double x)
+double BeamView::to_sx(double x)
 {
-    return this->width() / 2.0 + std::round(x * m_scaleFactor);
+    return this->width() / 2.0 + x * m_scaleFactor;
 }
 
-int BeamView::to_sy(double y)
+double BeamView::to_sy(double y)
 {
-    return this->height() / 2.0 - std::round(y * m_scaleFactor);
+    return this->height() / 2.0 - y * m_scaleFactor;
 }
 
-double BeamView::to_x(int x)
+double BeamView::to_x(double x)
 {
     return (x - this->width() / 2) / m_scaleFactor;
 }
 
-double BeamView::to_y(int x)
+double BeamView::to_y(double x)
 {
     return (x - this->height() / 2) / m_scaleFactor;
+}
+
+void BeamView::drawLineWithArrow(QPainter &painter, int x0, int y0, int x1, int y1)
+{
+    qreal arrowSize = 10; // size of head
+
+    QLineF line(QPointF(x1, y1), QPointF(x0, y0));
+
+    double angle = std::atan2(-line.dy(), line.dx());
+    QPointF arrowP1 = line.p1() + QPointF(sin(angle + M_PI / 3) * arrowSize, cos(angle + M_PI / 3) * arrowSize);
+    QPointF arrowP2 =
+        line.p1() + QPointF(sin(angle + M_PI - M_PI / 3) * arrowSize, cos(angle + M_PI - M_PI / 3) * arrowSize);
+
+    QPolygonF arrowHead;
+    arrowHead.clear();
+    arrowHead << line.p1() << arrowP1 << arrowP2;
+    painter.drawLine(line);
+    painter.drawPolygon(arrowHead);
 }
 
 void BeamView::drawBeams(QPainter &painter)
@@ -154,15 +178,20 @@ void BeamView::drawLoads(QPainter &painter)
         auto sx = to_sx(x);
         auto sy = to_sy(y);
 
-        painter.drawRect(sx, sy - 20 - beam->q() * m_loadScaleFactor, beam->l() * m_scaleFactor,
-                         beam->q() * m_loadScaleFactor);
+        painter.drawRect(sx, sy - 50 - std::abs(beam->q()) * m_loadScaleFactor, beam->l() * m_scaleFactor,
+                         std::abs(beam->q()) * m_loadScaleFactor);
+
+        if (beam->q() > 0)
+            this->drawLineWithArrow(painter, to_sx(x + beam->l() / 2.0), sy - 50, to_sx(x + beam->l() / 2.0),
+                                    sy - 50 - std::abs(beam->q()) * m_loadScaleFactor);
+        else
+            this->drawLineWithArrow(painter, to_sx(x + beam->l() / 2.0),
+                                    sy - 50 - std::abs(beam->q()) * m_loadScaleFactor, to_sx(x + beam->l() / 2.0),
+                                    sy - 50);
 
         x += beam->l();
     }
-    auto sx = to_sx(x);
-    auto sy = to_sy(y);
-
-    painter.drawEllipse(sx - 5, sy, 10, 10);
+    // painter.drawEllipse(sx - 5, sy, 10, 10);
 }
 
 void BeamView::drawDimensions(QPainter &painter)
@@ -176,16 +205,67 @@ void BeamView::drawDeflections(QPainter &painter)
 
     for (auto &beam : m_beamModel->beams())
     {
-        for (auto i=0; i<beam->evalCount()-1; i++)
+        QPolygonF pl;
+        pl.clear();
+        for (auto i = 0; i < beam->evalCount(); i++)
         {
-            //auto M = beam->M(i);
-            //auto V = beam->V(i);
-            auto ly0 = beam->v(i);
+            // auto M = beam->M(i);
+            // auto V = beam->V(i);
             auto lx0 = beam->x(i);
-            auto ly1 = beam->v(i+1);
-            auto lx1 = beam->x(i+1);
-            painter.drawLine(to_sx(x+lx0), 100 + to_sy(500*ly0), to_sx(x+lx1), 100 + to_sy(500*ly1));
+
+            QPointF p(to_sx(x + lx0), to_sy(0.0) - beam->v(i) * m_deflectionScaleFactor);
+            pl << p;
         }
+        painter.drawPolyline(pl);
+
+        x += beam->l();
+    }
+}
+
+void BeamView::drawM(QPainter &painter)
+{
+    auto x = -m_beamModel->length() / 2.0;
+    auto y = 0.0;
+
+    for (auto &beam : m_beamModel->beams())
+    {
+        QPolygonF pl;
+        pl.clear();
+        for (auto i = 0; i < beam->evalCount(); i++)
+        {
+            // auto M = beam->M(i);
+            // auto V = beam->V(i);
+            auto lx0 = beam->x(i);
+
+            QPointF p(to_sx(x + lx0), to_sy(0.0) - beam->M(i) * m_MscaleFactor);
+            pl << p;
+            std::cout << "M " << beam->M(i) << std::endl;
+        }
+        painter.drawPolyline(pl);
+
+        x += beam->l();
+    }
+}
+
+void BeamView::drawV(QPainter &painter)
+{
+    auto x = -m_beamModel->length() / 2.0;
+    auto y = 0.0;
+
+    for (auto &beam : m_beamModel->beams())
+    {
+        QPolygonF pl;
+        pl.clear();
+        for (auto i = 0; i < beam->evalCount(); i++)
+        {
+            // auto M = beam->M(i);
+            // auto V = beam->V(i);
+            auto lx0 = beam->x(i);
+
+            QPointF p(to_sx(x + lx0), to_sy(0.0) - beam->V(i) * m_VscaleFactor);
+            pl << p;
+        }
+        painter.drawPolyline(pl);
 
         x += beam->l();
     }

@@ -1,8 +1,0 @@
-[requires]
-eigen/3.3.7
-openblas/0.3.13
-armadillo/10.5.1@bmjl/stable
-
-
-[generators]
-cmake

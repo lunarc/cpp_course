@@ -73,18 +73,6 @@
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <layout class="QGridLayout" name="gridLayout">
-          <item row="0" column="0">
-           <widget class="QLabel" name="label">
-            <property name="font">
-             <font>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="text">
-             <string>length (m)</string>
-            </property>
-           </widget>
-          </item>
           <item row="6" column="0">
            <widget class="QLabel" name="label_5">
             <property name="font">
@@ -97,15 +85,47 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="lengthEdit">
+          <item row="1" column="2">
+           <widget class="Line" name="line">
+            <property name="lineWidth">
+             <number>0</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label">
             <property name="font">
              <font>
               <bold>false</bold>
              </font>
             </property>
-            <property name="clearButtonEnabled">
-             <bool>false</bool>
+            <property name="text">
+             <string>length (m)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_2">
+            <property name="font">
+             <font>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>E (Pa)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="2">
+           <widget class="Line" name="line_2">
+            <property name="lineWidth">
+             <number>0</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
             </property>
            </widget>
           </item>
@@ -133,18 +153,37 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
-           <widget class="Line" name="line">
-            <property name="lineWidth">
-             <number>0</number>
+          <item row="0" column="1">
+           <widget class="QDoubleSpinBox" name="lengthSpin">
+            <property name="maximum">
+             <double>20.000000000000000</double>
             </property>
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+            <property name="singleStep">
+             <double>0.100000000000000</double>
+            </property>
+            <property name="value">
+             <double>1.000000000000000</double>
             </property>
            </widget>
           </item>
-          <item row="4" column="1">
-           <widget class="QLineEdit" name="IyEdit">
+          <item row="6" column="1">
+           <widget class="QDoubleSpinBox" name="qSpin">
+            <property name="minimum">
+             <double>-100000.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>100000.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>100.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>-1000.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="EEdit">
             <property name="font">
              <font>
               <bold>false</bold>
@@ -161,43 +200,12 @@
             </property>
            </widget>
           </item>
-          <item row="6" column="1">
-           <widget class="QLineEdit" name="qEdit">
+          <item row="4" column="1">
+           <widget class="QLineEdit" name="IyEdit">
             <property name="font">
              <font>
               <bold>false</bold>
              </font>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_2">
-            <property name="font">
-             <font>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="text">
-             <string>E (Pa)</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="EEdit">
-            <property name="font">
-             <font>
-              <bold>false</bold>
-             </font>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="1">
-           <widget class="Line" name="line_2">
-            <property name="lineWidth">
-             <number>0</number>
-            </property>
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
             </property>
            </widget>
           </item>
@@ -228,7 +236,7 @@
      <x>0</x>
      <y>0</y>
      <width>728</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -360,13 +368,6 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <tabstops>
-  <tabstop>lengthEdit</tabstop>
-  <tabstop>EEdit</tabstop>
-  <tabstop>AEdit</tabstop>
-  <tabstop>IyEdit</tabstop>
-  <tabstop>qEdit</tabstop>
- </tabstops>
  <resources>
   <include location="beam_app_resource.qrc"/>
  </resources>
