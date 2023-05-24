@@ -5,6 +5,8 @@
 
 #include <cmath>
 
+using namespace BeamAnalysis;
+
 BeamView::BeamView(QWidget *parent)
     : QWidget{parent}, m_margins{0.2}, m_scaleFactor{1.0}, m_loadScaleFactor{1.0}, m_selectedBeam{-1}, m_overBeam{-1},
       m_prevOverBeam{-1}

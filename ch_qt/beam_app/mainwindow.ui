@@ -38,7 +38,7 @@
       <property name="handleWidth">
        <number>10</number>
       </property>
-      <widget class="BeamView" name="beamView" native="true">
+      <widget class="BeamAnalysis::BeamView" name="beamView" native="true">
        <property name="autoFillBackground">
         <bool>false</bool>
        </property>
@@ -236,7 +236,7 @@
      <x>0</x>
      <y>0</y>
      <width>728</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -414,7 +414,7 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>BeamView</class>
+   <class>BeamAnalysis::BeamView</class>
    <extends>QWidget</extends>
    <header>beam_view.h</header>
    <container>1</container>

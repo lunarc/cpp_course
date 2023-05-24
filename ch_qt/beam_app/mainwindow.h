@@ -5,7 +5,6 @@
 #include <QMainWindow>
 
 #include "beam_model.h"
-#include "beam_view.h"
 
 namespace Ui
 {
@@ -16,11 +15,11 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-  public:
+public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-  private:
+private:
     double toDouble(const QString &str, double defValue);
 
     void updateControls();
@@ -28,7 +27,7 @@ class MainWindow : public QMainWindow
 
     void updateModel();
 
-  private slots:
+private slots:
     void on_addSectionAction_triggered();
     void on_removeSectionAction_triggered();
     void on_sectionList_currentRowChanged(int currentRow);
@@ -49,9 +48,9 @@ class MainWindow : public QMainWindow
 
     void on_qSpin_valueChanged(double arg1);
 
-  private:
+private:
     Ui::MainWindow *ui;
-    BeamModelPtr m_beamModel;
+    BeamAnalysis::BeamModelPtr m_beamModel;
 };
 
 #endif // MAINWINDOW_H

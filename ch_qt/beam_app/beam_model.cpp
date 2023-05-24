@@ -5,27 +5,27 @@
 #include <QDebug>
 
 using namespace Eigen;
-using namespace calfem;
+using namespace BeamAnalysis;
 
-BeamNode::BeamNode()
+Node::Node()
 {
     m_dofs[0] = 1;
     m_dofs[1] = 2;
 }
 
-std::shared_ptr<BeamNode> BeamNode::create()
+std::shared_ptr<Node> Node::create()
 {
-    return std::make_shared<BeamNode>();
+    return std::make_shared<Node>();
 }
 
-int BeamNode::enumDofs(int startDof)
+int Node::enumDofs(int startDof)
 {
     m_dofs[0] = startDof++;
     m_dofs[1] = startDof++;
     return startDof;
 }
 
-int BeamNode::dof(int idx)
+int Node::dof(int idx)
 {
     if ((idx >= 0) && (idx < 2))
         return m_dofs[idx];
@@ -33,7 +33,7 @@ int BeamNode::dof(int idx)
         return -1;
 }
 
-void BeamNode::setDof(int idx, int value)
+void Node::setDof(int idx, int value)
 {
     if ((idx >= 0) && (idx < 2))
         m_dofs[idx] = value;
@@ -53,18 +53,18 @@ std::shared_ptr<Beam> Beam::create(double l, double E, double A, double I, doubl
     return std::make_shared<Beam>(l, E, A, I, q);
 }
 
-void Beam::setNodes(BeamNodePtr &n0, BeamNodePtr &n1)
+void Beam::setNodes(NodePtr &n0, NodePtr &n1)
 {
     m_node0 = n0;
     m_node1 = n1;
 }
 
-BeamNodePtr Beam::n0()
+NodePtr Beam::n0()
 {
     return m_node0;
 }
 
-BeamNodePtr Beam::n1()
+NodePtr Beam::n1()
 {
     return m_node1;
 }
@@ -194,10 +194,10 @@ void BeamModel::init_beams(int nBeams)
 
     for (auto i = 0; i < nBeams; i++)
     {
-        m_nodes.emplace_back(BeamNode::create());
+        m_nodes.emplace_back(Node::create());
         m_beams.emplace_back(Beam::create());
     }
-    m_nodes.emplace_back(BeamNode::create());
+    m_nodes.emplace_back(Node::create());
 }
 
 std::shared_ptr<BeamModel> BeamModel::create(int nBeams)
@@ -208,7 +208,7 @@ std::shared_ptr<BeamModel> BeamModel::create(int nBeams)
 void BeamModel::add(double l)
 {
     m_beams.emplace_back(Beam::create(l));
-    m_nodes.emplace_back(BeamNode::create());
+    m_nodes.emplace_back(Node::create());
     this->connect();
     this->solve();
 }
@@ -323,17 +323,12 @@ void BeamModel::connect()
     for (auto &beam : m_beams)
     {
         beam->setNodes(m_nodes[i], m_nodes[i + 1]);
-        qDebug() << "Beam " << i << ": " << beam->n0()->dof(0) << ", " << beam->n0()->dof(1) << " --- "
-                 << beam->n1()->dof(0) << ", " << beam->n1()->dof(1);
         i++;
     }
 }
 
 void BeamModel::solve()
 {
-    // | )     | )     | )     | )
-    // o ----- o ----- o ----- o
-
     auto nDofs = (m_beams.size() + 1) * 2;
 
     MatrixXd K(nDofs, nDofs);
@@ -361,9 +356,6 @@ void BeamModel::solve()
         calfem::assem(topo, K, Ke, f, fe);
     }
 
-    // | )     | )     | )     | )
-    // o ----- o ----- o ----- o
-
     auto nBcDofs = m_beams.size() + 1;
 
     VectorXi bcDofs(nBcDofs);
@@ -387,11 +379,6 @@ void BeamModel::solve()
     R = MatrixXd::Zero(nDofs, 1);
 
     calfem::solveq(K, f, bcDofs, bcValues, a, R);
-
-    for (auto i = 0; i < nDofs; i++)
-        std::cout << a(i) << "\n";
-
-    std::cout << std::endl;
 
     auto nep = 100;
 

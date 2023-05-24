@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 {
     ui->setupUi(this);
 
-    m_beamModel = BeamModel::create(3);
+    m_beamModel = BeamAnalysis::BeamModel::create(3);
     m_beamModel->connect();
     m_beamModel->solve();
 

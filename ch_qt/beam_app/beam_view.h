@@ -6,25 +6,28 @@
 #include <QPen>
 #include <QWidget>
 
+namespace BeamAnalysis
+{
+
 class BeamView : public QWidget
 {
     Q_OBJECT
-  public:
+public:
     explicit BeamView(QWidget *parent = nullptr);
 
     void setBeamModel(BeamModelPtr model);
 
     int selectedBeam();
 
-  protected:
+protected:
     void paintEvent(QPaintEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
 
-  signals:
+signals:
     void beamSelected(int idx);
 
-  private:
+private:
     double to_sx(double x);
     double to_sy(double y);
 
@@ -68,3 +71,5 @@ class BeamView : public QWidget
     int m_overBeam;
     int m_prevOverBeam;
 };
+
+} // namespace BeamAnalysis
