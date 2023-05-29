@@ -58,7 +58,8 @@ void MainWindow::updateControls()
             ui->lengthSpin->setValue(beam->l());
         }
 
-        ui->sectionPropGroup->setTitle("Beam " + QString::number(ui->beamView->selectedBeam() + 1) + " ");
+        // ui->sectionPropGroup->setTitle("Beam " + QString::number(ui->beamView->selectedBeam() + 1) + " ");
+        ui->dockWidget->setWindowTitle("Beam " + QString::number(ui->beamView->selectedBeam() + 1) + " ");
         ui->resultTableView->viewport()->update();
     }
     else
