@@ -9,7 +9,7 @@ using namespace BeamAnalysis;
 
 BeamView::BeamView(QWidget *parent)
     : QWidget{parent}, m_margins{0.2}, m_scaleFactor{1.0}, m_loadScaleFactor{1.0}, m_selectedBeam{-1}, m_overBeam{-1},
-      m_prevOverBeam{-1}
+      m_prevOverBeam{-1}, m_showLoads{true}, m_showMoments{true}, m_showShear{true}, m_showDeflections{true}
 {
     m_pen.setColor(Qt::black);
     m_pen.setWidth(1);
@@ -45,15 +45,57 @@ int BeamView::selectedBeam()
     return m_selectedBeam;
 }
 
+void BeamView::showMoments(bool flag)
+{
+    m_showMoments = flag;
+}
+
+void BeamView::showShear(bool flag)
+{
+    m_showShear = flag;
+}
+
+void BeamView::showDeflections(bool flag)
+{
+    m_showDeflections = flag;
+}
+
+void BeamView::showLoads(bool flag)
+{
+    m_showLoads = flag;
+}
+
+bool BeamView::showLoads()
+{
+    return m_showLoads;
+}
+
+bool BeamView::showShear()
+{
+    return m_showShear;
+}
+
+bool BeamView::showMoments()
+{
+    return m_showMoments;
+}
+
+bool BeamView::showDeflections()
+{
+    return m_showDeflections;
+}
+
 void BeamView::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
 
-    painter.setPen(m_pen);
+    painter.setPen(Qt::NoPen);
     painter.setBrush(m_brush);
 
     painter.drawRect(0, 0, this->width(), this->height());
+
+    painter.setPen(m_pen);
 
     // painter.drawLine(this->rect().bottomLeft(), this->rect().topRight());
     // painter.drawLine(this->rect().topLeft(), this->rect().bottomRight());
@@ -68,11 +110,20 @@ void BeamView::paintEvent(QPaintEvent *event)
     m_MscaleFactor = this->height() * 0.1 / m_beamModel->maxM();
     m_VscaleFactor = this->height() * 0.1 / m_beamModel->maxV();
 
-    drawLoads(painter);
+    if (m_showLoads)
+        drawLoads(painter);
+
     drawDimensions(painter);
-    drawDeflections(painter);
-    drawM(painter);
-    drawV(painter);
+
+    if (m_showDeflections)
+        drawDeflections(painter);
+
+    if (m_showMoments)
+        drawM(painter);
+
+    if (m_showShear)
+        drawV(painter);
+
     drawSupports(painter);
     drawBeams(painter);
 }

@@ -182,7 +182,7 @@ void Beam::q(double value)
     m_q = value;
 }
 
-BeamModel::BeamModel(int nBeams)
+BeamModel::BeamModel(int nBeams) : m_selectedBeam{nullptr}
 {
     this->init_beams(nBeams);
 }
@@ -289,6 +289,16 @@ BeamPtr BeamModel::beam(int idx)
         return m_beams[idx];
     else
         return BeamPtr();
+}
+
+void BeamModel::setSelectedBeam(int idx)
+{
+    m_selectedBeam = this->beam(idx);
+}
+
+BeamPtr BeamModel::selectedBeam()
+{
+    return m_selectedBeam;
 }
 
 int BeamModel::beam_pos_from_x(double x)

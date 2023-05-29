@@ -12,38 +12,8 @@ namespace BeamAnalysis
 class BeamView : public QWidget
 {
     Q_OBJECT
-public:
-    explicit BeamView(QWidget *parent = nullptr);
-
-    void setBeamModel(BeamModelPtr model);
-
-    int selectedBeam();
-
-protected:
-    void paintEvent(QPaintEvent *event) override;
-    void mouseMoveEvent(QMouseEvent *event) override;
-    void mousePressEvent(QMouseEvent *event) override;
-
-signals:
-    void beamSelected(int idx);
 
 private:
-    double to_sx(double x);
-    double to_sy(double y);
-
-    double to_x(double x);
-    double to_y(double x);
-
-    void drawLineWithArrow(QPainter &painter, int x0, int y0, int x1, int y1);
-
-    void drawBeams(QPainter &painter);
-    void drawSupports(QPainter &painter);
-    void drawLoads(QPainter &painter);
-    void drawDimensions(QPainter &painter);
-    void drawDeflections(QPainter &painter);
-    void drawM(QPainter &painter);
-    void drawV(QPainter &painter);
-
     QBrush m_brush;
     QPen m_pen;
 
@@ -70,6 +40,52 @@ private:
     int m_selectedBeam;
     int m_overBeam;
     int m_prevOverBeam;
+
+    bool m_showMoments;
+    bool m_showShear;
+    bool m_showDeflections;
+    bool m_showLoads;
+
+    double to_sx(double x);
+    double to_sy(double y);
+
+    double to_x(double x);
+    double to_y(double x);
+
+    void drawLineWithArrow(QPainter &painter, int x0, int y0, int x1, int y1);
+
+    void drawBeams(QPainter &painter);
+    void drawSupports(QPainter &painter);
+    void drawLoads(QPainter &painter);
+    void drawDimensions(QPainter &painter);
+    void drawDeflections(QPainter &painter);
+    void drawM(QPainter &painter);
+    void drawV(QPainter &painter);
+
+public:
+    explicit BeamView(QWidget *parent = nullptr);
+
+    void setBeamModel(BeamModelPtr model);
+
+    int selectedBeam();
+
+    void showMoments(bool flag);
+    void showShear(bool flag);
+    void showDeflections(bool flag);
+    void showLoads(bool flag);
+
+    bool showLoads();
+    bool showShear();
+    bool showMoments();
+    bool showDeflections();
+
+protected:
+    void paintEvent(QPaintEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+
+signals:
+    void beamSelected(int idx);
 };
 
 } // namespace BeamAnalysis

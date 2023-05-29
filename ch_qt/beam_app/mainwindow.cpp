@@ -5,7 +5,7 @@
 
 #include <QMessageBox>
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow), m_resultTableModel{nullptr}
 {
     ui->setupUi(this);
 
@@ -16,6 +16,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->beamView->setBeamModel(m_beamModel);
     this->updateList();
     this->updateControls();
+
+    m_resultTableModel = new ResultTableModel(this, m_beamModel);
+
+    ui->resultTableView->setModel(m_resultTableModel);
+
+    m_beamModel->setSelectedBeam(0);
+
+    ui->actionShowDeflections->setChecked(ui->beamView->showDeflections());
+    ui->actionShowMoments->setChecked(ui->beamView->showMoments());
+    ui->actionShowShear->setChecked(ui->beamView->showShear());
 }
 
 MainWindow::~MainWindow()
@@ -49,6 +59,7 @@ void MainWindow::updateControls()
         }
 
         ui->sectionPropGroup->setTitle("Beam " + QString::number(ui->beamView->selectedBeam() + 1) + " ");
+        ui->resultTableView->viewport()->update();
     }
     else
     {
@@ -86,6 +97,7 @@ void MainWindow::on_addSectionAction_triggered()
     ui->beamView->repaint();
     this->updateControls();
     this->updateList();
+    ui->resultTableView->viewport()->update();
 }
 
 void MainWindow::on_removeSectionAction_triggered()
@@ -99,52 +111,80 @@ void MainWindow::on_removeSectionAction_triggered()
 void MainWindow::on_sectionList_currentRowChanged(int currentRow)
 {
     std::cout << currentRow << std::endl;
+    ui->resultTableView->viewport()->update();
     this->updateControls();
 }
 
 void MainWindow::on_lengthEdit_textChanged(const QString &arg1)
 {
     this->updateModel();
+    ui->resultTableView->viewport()->update();
     ui->beamView->repaint();
 }
 
 void MainWindow::on_EEdit_textChanged(const QString &arg1)
 {
     this->updateModel();
+    ui->resultTableView->viewport()->update();
     ui->beamView->repaint();
 }
 
 void MainWindow::on_AEdit_textChanged(const QString &arg1)
 {
     this->updateModel();
+    ui->resultTableView->viewport()->update();
     ui->beamView->repaint();
 }
 
 void MainWindow::on_IyEdit_textChanged(const QString &arg1)
 {
     this->updateModel();
+    ui->resultTableView->viewport()->update();
     ui->beamView->repaint();
 }
 
 void MainWindow::on_qEdit_textChanged(const QString &arg1)
 {
     this->updateModel();
+    ui->resultTableView->viewport()->update();
     ui->beamView->repaint();
 }
 
 void MainWindow::on_beamView_beamSelected(int idx)
 {
+    m_beamModel->setSelectedBeam(idx);
+    ui->resultTableView->viewport()->update();
     this->updateControls();
 }
 
 void MainWindow::on_lengthSpin_valueChanged(double arg1)
 {
     this->updateModel();
+    ui->resultTableView->viewport()->update();
     ui->beamView->repaint();
 }
 
 void MainWindow::on_qSpin_valueChanged(double arg1)
 {
     this->updateModel();
+    ui->resultTableView->viewport()->update();
+    ui->beamView->repaint();
+}
+
+void MainWindow::on_actionShowMoments_triggered(bool checked)
+{
+    ui->beamView->showMoments(checked);
+    ui->beamView->repaint();
+}
+
+void MainWindow::on_actionShowShear_triggered(bool checked)
+{
+    ui->beamView->showShear(checked);
+    ui->beamView->repaint();
+}
+
+void MainWindow::on_actionShowDeflections_triggered(bool checked)
+{
+    ui->beamView->showDeflections(checked);
     ui->beamView->repaint();
 }

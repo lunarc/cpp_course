@@ -21,6 +21,8 @@ add_executable(beam_app
     beam_model.cpp
     beam_view.h
     beam_view.cpp
+    result_table_model.h
+    result_table_model.cpp
     mainwindow.ui
     mainwindow.cpp
     mainwindow.h

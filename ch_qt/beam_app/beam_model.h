@@ -94,6 +94,8 @@ private:
     std::vector<BeamPtr> m_beams;
     std::vector<NodePtr> m_nodes;
 
+    BeamPtr m_selectedBeam;
+
     void init_beams(int nBeams);
 
 public:
@@ -113,6 +115,9 @@ public:
     const std::vector<BeamPtr> &beams();
 
     BeamPtr beam(int idx);
+
+    void setSelectedBeam(int idx);
+    BeamPtr selectedBeam();
 
     int beam_pos_from_x(double x);
 

@@ -5,6 +5,7 @@
 #include <QMainWindow>
 
 #include "beam_model.h"
+#include "result_table_model.h"
 
 namespace Ui
 {
@@ -48,9 +49,16 @@ private slots:
 
     void on_qSpin_valueChanged(double arg1);
 
+    void on_actionShowMoments_triggered(bool checked);
+
+    void on_actionShowShear_triggered(bool checked);
+
+    void on_actionShowDeflections_triggered(bool checked);
+
 private:
     Ui::MainWindow *ui;
     BeamAnalysis::BeamModelPtr m_beamModel;
+    ResultTableModel *m_resultTableModel;
 };
 
 #endif // MAINWINDOW_H
