@@ -1,31 +1,33 @@
-#include <iostream>
-#include <vector>
-#include <string>
 #include <algorithm>
+#include <iostream>
+#include <string>
+#include <vector>
 
 int main()
 {
-    std::vector<int> vec = { 5, 1, 3, 4, 4, 8 };
-    
+    std::vector<int> vec{5, 1, 3, 4, 4, 8};
+
     auto it = std::find(vec.begin(), vec.end(), 4);
-    
-    if (it!=vec.end())
+
+    if (it != vec.end())
         std::cout << "found " << *it << "\n";
     else
-        std::cout << "Value not found." << "\n";
+        std::cout << "Value not found."
+                  << "\n";
 
     it = find(++it, vec.end(), 4);
 
-    if (it!=vec.end())
+    if (it != vec.end())
         std::cout << "found " << *it << "\n";
     else
-        std::cout << "Value not found." << "\n";
+        std::cout << "Value not found."
+                  << "\n";
 
     it = std::find(++it, vec.end(), 4);
-    
-    if (it!=vec.end())
+
+    if (it != vec.end())
         std::cout << "found " << *it << "\n";
     else
-        std::cout << "Value not found." << "\n";
-
+        std::cout << "Value not found."
+                  << "\n";
 }
