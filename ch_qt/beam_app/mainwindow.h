@@ -28,6 +28,9 @@ private:
 
     void updateModel();
 
+protected:
+    void resizeEvent(QResizeEvent *event) override;
+
 private slots:
     void on_addSectionAction_triggered();
     void on_removeSectionAction_triggered();

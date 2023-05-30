@@ -92,6 +92,11 @@ void MainWindow::updateModel()
     }
 }
 
+void MainWindow::resizeEvent(QResizeEvent *event)
+{
+    QMainWindow::resizeEvent(event);
+}
+
 void MainWindow::on_addSectionAction_triggered()
 {
     m_beamModel->add();
