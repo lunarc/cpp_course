@@ -2,13 +2,30 @@
 
 #include <QPainter>
 
-RenderArea::RenderArea(QWidget *parent)
-    : QWidget{parent}
+float rnd()
+{
+    return static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+}
+
+RenderArea::RenderArea(QWidget *parent) : QWidget{parent}
 {
     m_pen.setColor(Qt::red);
     m_pen.setWidth(2);
     m_brush.setColor(Qt::green);
     m_brush.setStyle(Qt::SolidPattern);
+
+    m_shapes = DrawingKit::Group::create();
+
+    for (auto i = 0; i < 100; i++)
+    {
+        auto ellipse = DrawingKit::Ellipse::create();
+        auto r = rnd() * 150;
+        ellipse->setSize(r, r);
+        ellipse->setPos(rnd() * 400.0, rnd() * 400.0);
+        ellipse->setFillColor(255, 255, 0);
+
+        m_shapes->add(ellipse);
+    }
 }
 
 void RenderArea::paintEvent(QPaintEvent *event)
@@ -16,10 +33,5 @@ void RenderArea::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
 
-    painter.setPen(m_pen);
-    painter.setBrush(m_brush);
-
-    painter.drawLine(this->rect().bottomLeft(), this->rect().topRight());
-    painter.drawLine(this->rect().topLeft(), this->rect().bottomRight());
-    painter.drawEllipse(this->width()/2.0-20, this->height()/2.0-20, 40, 40);
+    m_shapes->draw(painter);
 }

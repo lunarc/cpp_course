@@ -1,8 +1,10 @@
 #pragma once
 
-#include <QWidget>
 #include <QBrush>
 #include <QPen>
+#include <QWidget>
+
+#include "drawing_kit.h"
 
 class RenderArea : public QWidget
 {
@@ -19,4 +21,5 @@ private:
     QBrush m_brush;
     QPen m_pen;
 
+    DrawingKit::GroupPtr m_shapes;
 };

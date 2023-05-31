@@ -14,6 +14,8 @@ find_package(Qt6 COMPONENTS Core Widgets Gui Qml Quick Qml Charts REQUIRED)
 #message(${Qt5_FIND_COMPONENTS})
 
 add_executable(drawing1
+    drawing_kit.h
+    drawing_kit.cpp
     render_area.h
     render_area.cpp
     mainwindow.ui
