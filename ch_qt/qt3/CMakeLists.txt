@@ -10,6 +10,9 @@ if(CMAKE_VERSION VERSION_LESS "3.7.0")
 endif()
 
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
+if (NOT Qt6_FOUND)
+    find_package(Qt5 5.15 REQUIRED COMPONENTS Widgets)
+endif()
 
 add_executable(qt3
     mainwindow.ui
@@ -19,4 +22,4 @@ add_executable(qt3
 
 # resources.qrc
 
-target_link_libraries(qt3 Qt6::Widgets)
+target_link_libraries(qt3 Qt::Widgets)

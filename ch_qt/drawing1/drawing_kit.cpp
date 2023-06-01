@@ -144,42 +144,42 @@ void Group::doDraw(QPainter &painter)
 
 Rectangle::Rectangle()
 {
-
 }
 
-std::shared_ptr<Ellipse> Rectangle::create()
+std::shared_ptr<Rectangle> Rectangle::create()
 {
-
+    return std::make_shared<Rectangle>();
 }
 
 void Rectangle::setSize(float width, float height)
 {
-
+    m_width = width;
+    m_height = height;
 }
 
 float Rectangle::width()
 {
-
+    return m_width;
 }
 
 float Rectangle::height()
 {
-
+    return m_height;
 }
 
 void Rectangle::width(float value)
 {
-
+    m_width = value;
 }
 
 void Rectangle::height(float value)
 {
-
+    m_height = value;
 }
 
 void Rectangle::doDraw(QPainter &painter)
 {
-
+    painter.drawRect(-m_width / 2.0, m_height / 2.0, m_width, m_height);
 }
 
 }; // namespace DrawingKit

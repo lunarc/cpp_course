@@ -5,12 +5,12 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-#if(CMAKE_VERSION VERSION_LESS "3.7.0")
-    set(CMAKE_INCLUDE_CURRENT_DIR ON)
-#endif()
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 find_package(Qt6 COMPONENTS Core Widgets Gui Qml Quick Qml Charts REQUIRED)
-
+if (NOT Qt6_FOUND)
+    find_package(Qt5 5.15 REQUIRED COMPONENTS Core Widgets Gui Qml Quick Qml Charts)
+endif()
 #message(${Qt5_FIND_COMPONENTS})
 
 add_executable(drawing1
@@ -26,4 +26,4 @@ add_executable(drawing1
 
 # resources.qrc
 
-target_link_libraries(drawing1 Qt6::Widgets Qt6::Core Qt6::Gui Qt6::Qml Qt6::Quick Qt6::Charts)
+target_link_libraries(drawing1 Qt::Widgets Qt::Core Qt::Gui Qt::Qml Qt::Quick Qt::Charts)
