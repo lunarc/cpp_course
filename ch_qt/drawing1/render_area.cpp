@@ -7,7 +7,7 @@ float rnd()
     return static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
 }
 
-float randint(float start, float end)
+float randfloat(float start, float end)
 {
     auto d = end - start;
     return start + d * rnd();
@@ -15,23 +15,18 @@ float randint(float start, float end)
 
 int randint(int start, int end)
 {
-    return int((randint(float(start), float(end))));
+    return int((randfloat(float(start), float(end))));
 }
 
 RenderArea::RenderArea(QWidget *parent) : QWidget{parent}
 {
-    m_pen.setColor(Qt::red);
-    m_pen.setWidth(2);
-    m_brush.setColor(Qt::green);
-    m_brush.setStyle(Qt::SolidPattern);
-
     m_shapes = DrawingKit::Group::create();
 
     for (auto i = 0; i < 100; i++)
     {
-        auto r = rnd() * 150;
-        auto w = rnd() * 150;
-        auto h = rnd() * 150;
+        auto r = randfloat(50.0, 150.0);
+        auto w = randfloat(50.0, 150.0);
+        auto h = randfloat(50.0, 150.0);
 
         if (rnd() < 0.5)
         {
@@ -56,6 +51,12 @@ void RenderArea::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
-
+    
     m_shapes->draw(painter);
+}
+
+void RenderArea::resizeEvent(QResizeEvent *event)
+{
+    this->resizeEvent(event);
+
 }

@@ -19,6 +19,7 @@
 #include <QtCharts/QAreaSeries>
 #include <QtCharts/QLegend>
 #include <QtCharts/QValueAxis>
+#include <QtCharts/QChart>
 
 
 namespace Ui {
@@ -59,9 +60,9 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QChart* m_chart;
-    QChartView* m_chartView;
-    QLineSeries* m_series;
+    QtCharts::QChart* m_chart;
+    QtCharts::QChartView* m_chartView;
+    QtCharts::QLineSeries* m_series;
     QJSEngine m_jsEngine;
 
 };

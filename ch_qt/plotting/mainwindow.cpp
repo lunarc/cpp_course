@@ -15,13 +15,13 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    m_chart = new QChart();
+    m_chart = new QtCharts::QChart();
 
-    m_chartView = new QChartView(m_chart);
+    m_chartView = new QtCharts::QChartView(m_chart);
 
     ui->centralWidget->layout()->addWidget(m_chartView);
 
-    m_series = new QLineSeries(m_chart);
+    m_series = new QtCharts::QLineSeries(m_chart);
     m_series->setName("function");
     m_chart->addSeries(m_series);
     m_chartView->setRenderHint(QPainter::Antialiasing);

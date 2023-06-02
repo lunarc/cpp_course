@@ -7,9 +7,13 @@ set(CMAKE_AUTOUIC ON)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-find_package(Qt6 COMPONENTS Widgets REQUIRED)
-if (NOT Qt6_FOUND)
-    find_package(Qt5 5.15 REQUIRED COMPONENTS Widgets)
+if (UNIX)
+    find_package(Qt5 5.15 REQUIRED COMPONENTS Core Widgets Gui Qml Quick Qml Charts)
+else()
+    find_package(Qt6 COMPONENTS Core Widgets Gui Qml Quick Qml Charts REQUIRED)
+    if (NOT Qt6_FOUND)
+        find_package(Qt5 5.15 REQUIRED COMPONENTS Core Widgets Gui Qml Quick Qml Charts)
+    endif()
 endif()
 
 add_executable(qt5
