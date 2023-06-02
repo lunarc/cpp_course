@@ -5,11 +5,12 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-if(CMAKE_VERSION VERSION_LESS "3.7.0")
-    set(CMAKE_INCLUDE_CURRENT_DIR ON)
-endif()
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
+if (NOT Qt6_FOUND)
+    find_package(Qt5 5.15 REQUIRED COMPONENTS Widgets)
+endif()
 
 add_executable(qt4
     mainwindow.ui
@@ -19,4 +20,4 @@ add_executable(qt4
 
 # resources.qrc
 
-target_link_libraries(qt4 Qt6::Widgets)
+target_link_libraries(qt4 Qt::Widgets)
