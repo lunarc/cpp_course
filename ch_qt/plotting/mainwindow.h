@@ -1,28 +1,28 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
 #include <QJSEngine>
+#include <QMainWindow>
 
-#include <QtCharts/QChartGlobal>
-#include <QtCharts/QChartView>
-#include <QtCharts/QPieSeries>
-#include <QtCharts/QPieSlice>
 #include <QtCharts/QAbstractBarSeries>
-#include <QtCharts/QPercentBarSeries>
-#include <QtCharts/QStackedBarSeries>
+#include <QtCharts/QAreaSeries>
 #include <QtCharts/QBarSeries>
 #include <QtCharts/QBarSet>
-#include <QtCharts/QLineSeries>
-#include <QtCharts/QSplineSeries>
-#include <QtCharts/QScatterSeries>
-#include <QtCharts/QAreaSeries>
-#include <QtCharts/QLegend>
-#include <QtCharts/QValueAxis>
 #include <QtCharts/QChart>
+#include <QtCharts/QChartGlobal>
+#include <QtCharts/QChartView>
+#include <QtCharts/QLegend>
+#include <QtCharts/QLineSeries>
+#include <QtCharts/QPercentBarSeries>
+#include <QtCharts/QPieSeries>
+#include <QtCharts/QPieSlice>
+#include <QtCharts/QScatterSeries>
+#include <QtCharts/QSplineSeries>
+#include <QtCharts/QStackedBarSeries>
+#include <QtCharts/QValueAxis>
 
-
-namespace Ui {
+namespace Ui
+{
 class MainWindow;
 }
 
@@ -31,11 +31,10 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget* parent = 0);
     ~MainWindow();
 
 private:
-
     double m_minX;
     double m_maxX;
     double m_minY;
@@ -57,14 +56,12 @@ private slots:
     void on_y_min_text_editingFinished();
     void on_y_max_text_editingFinished();
 
-
 private:
-    Ui::MainWindow *ui;
-    QtCharts::QChart* m_chart;
-    QtCharts::QChartView* m_chartView;
-    QtCharts::QLineSeries* m_series;
+    Ui::MainWindow* ui;
+    QChart* m_chart;
+    QChartView* m_chartView;
+    QLineSeries* m_series;
     QJSEngine m_jsEngine;
-
 };
 
 #endif // MAINWINDOW_H

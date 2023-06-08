@@ -11,13 +11,13 @@ namespace DrawingKit
 
 class DrawableBase
 {
-  private:
+private:
     float m_x;
     float m_y;
     QPen m_pen;
     QBrush m_brush;
 
-  public:
+public:
     DrawableBase();
 
     void setPos(float x, float y);
@@ -31,33 +31,34 @@ class DrawableBase
 
     void setPenColor(int r, int g, int b, int a = 255);
     void setFillColor(int r, int g, int b, int a = 255);
+    void setPenWidth(float width);
 
-    void draw(QPainter &painter);
+    void draw(QPainter& painter);
 
-  protected:
-    virtual void doDraw(QPainter &painter);
+protected:
+    virtual void doDraw(QPainter& painter);
 };
 
 typedef std::shared_ptr<DrawableBase> DrawableBasePtr;
 
 class Point : public DrawableBase
 {
-  public:
+public:
     static std::shared_ptr<Point> create();
 
-  protected:
-    virtual void doDraw(QPainter &painter) override;
+protected:
+    virtual void doDraw(QPainter& painter) override;
 };
 
 typedef std::shared_ptr<Point> PointPtr;
 
 class Ellipse : public DrawableBase
 {
-  private:
+private:
     float m_width;
     float m_height;
 
-  public:
+public:
     Ellipse();
 
     static std::shared_ptr<Ellipse> create();
@@ -68,17 +69,17 @@ class Ellipse : public DrawableBase
     void width(float value);
     void height(float value);
 
-  protected:
-    virtual void doDraw(QPainter &painter) override;
+protected:
+    virtual void doDraw(QPainter& painter) override;
 };
 
 class Rectangle : public DrawableBase
 {
-  private:
+private:
     float m_width;
     float m_height;
 
-  public:
+public:
     Rectangle();
 
     static std::shared_ptr<Rectangle> create();
@@ -89,25 +90,25 @@ class Rectangle : public DrawableBase
     void width(float value);
     void height(float value);
 
-  protected:
-    virtual void doDraw(QPainter &painter) override;
+protected:
+    virtual void doDraw(QPainter& painter) override;
 };
 
 typedef std::shared_ptr<Ellipse> EllipsePtr;
 
 class Group : public DrawableBase
 {
-  private:
+private:
     std::vector<DrawableBasePtr> m_shapes;
 
-  public:
+public:
     static std::shared_ptr<Group> create();
 
     void add(DrawableBasePtr shape);
     void clear();
 
-  protected:
-    virtual void doDraw(QPainter &painter) override;
+protected:
+    virtual void doDraw(QPainter& painter) override;
 };
 
 typedef std::shared_ptr<Group> GroupPtr;

@@ -5,23 +5,23 @@
 
 #include <QMessageBox>
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    m_minX{-6.28},
-    m_maxX{6.28},
-    m_minY{-1.2},
-    m_maxY{1.2}
+MainWindow::MainWindow(QWidget* parent)
+    : QMainWindow(parent)
+    , ui(new Ui::MainWindow)
+    , m_minX { -6.28 }
+    , m_maxX { 6.28 }
+    , m_minY { -1.2 }
+    , m_maxY { 1.2 }
 {
     ui->setupUi(this);
 
-    m_chart = new QtCharts::QChart();
+    m_chart = new QChart();
 
-    m_chartView = new QtCharts::QChartView(m_chart);
+    m_chartView = new QChartView(m_chart);
 
     ui->centralWidget->layout()->addWidget(m_chartView);
 
-    m_series = new QtCharts::QLineSeries(m_chart);
+    m_series = new QLineSeries(m_chart);
     m_series->setName("function");
     m_chart->addSeries(m_series);
     m_chartView->setRenderHint(QPainter::Antialiasing);
@@ -51,7 +51,7 @@ void MainWindow::getData()
     this->setData();
 }
 
-double MainWindow::toDouble(const QString &str, double defValue)
+double MainWindow::toDouble(const QString& str, double defValue)
 {
     bool ok;
     double value = str.toDouble(&ok);
@@ -75,7 +75,7 @@ void MainWindow::update_plot()
 
     x = m_minX;
 
-    while (x<m_maxX)
+    while (x < m_maxX)
     {
         // To be able to use math expressions we prefix them with Math.
 
@@ -104,7 +104,7 @@ void MainWindow::update_plot()
 
     // Update chart parameters
 
-    m_series->setName("function of "+expression);
+    m_series->setName("function of " + expression);
     m_chart->createDefaultAxes();
     m_chart->axes(Qt::Horizontal).first()->setRange(m_minX, m_maxX);
     m_chart->axes(Qt::Vertical).first()->setRange(m_minY, m_maxY);
@@ -141,6 +141,3 @@ void MainWindow::on_y_max_text_editingFinished()
 {
     this->update_plot();
 }
-
-
-

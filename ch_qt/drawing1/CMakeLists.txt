@@ -19,8 +19,10 @@ endif()
 add_executable(drawing1
     drawing_kit.h
     drawing_kit.cpp
-    render_area.h
-    render_area.cpp
+    drawing_area.h
+    drawing_area.cpp
+    shape_drawing_area.h
+    shape_drawing_area.cpp
     mainwindow.ui
     mainwindow.cpp
     mainwindow.h

@@ -2,6 +2,7 @@
 armadillo/*
 build/*
 book/build/*
+docs/site/*
 *~
 *.xml
 .idea/

@@ -1,14 +1,45 @@
 # Language elements
 
+The following sections will go through the basic language element of C++.
+
 ## Example of C++ code
 
-``` cpp
---8<-- "../hello_world/hello.cpp"
+An example of a simple C++ program is shown in the following example.
+
+``` c++ 
+#include <>
 ```
 
-``` cpp
---8<-- "index.md"
-```
+
+!!! example
+
+    === "Code"
+
+        ``` c++
+        --8<-- "../hello_world/hello.cpp"
+        ```
+
+    === "Output"
+
+        ```
+        0
+        1
+        2
+        3
+        4
+        5
+        6
+        7
+        8
+        9
+        Hello, C++
+        ```
+
+The example starts by including the **iostream** header, which provide means to output text in the terminal. The **using namespace std** statement just tells the compiler that the default namespace for the C++ standard library, **std**, will be used as the default, making it possible to omit the **std::**-prefix in front of all functions and objects. Namespaces will be covered later in the course.
+
+**int main()** is the C++ main function, which will be called when the application starts. It is sometimes also called the application entry point.
+
+**cout** is a special predefined object in C++ that can be used to output text and variables to the terminal. The **<<**-operator is used to send data to the **cout** object which will be sent to standard output for display in the terminal.
 
 ## Variable names
 
@@ -37,7 +68,6 @@
 * Sizes of variables types depend on platform and compiler
 
 ## Integer types
--------------
 
 * Integer
 
@@ -52,16 +82,22 @@
 
 * Use unsigned to represent bit patterns
 
-``` cpp
---8<-- "../ch_variables/int_types1.cpp"
-```
+!!! example
 
-### Code output
+    === "Code"
 
-    a = -1
-    b = 4294967295
-    c = -1
-    d = 18446744073709551615
+        ``` cpp
+        --8<-- "../ch_variables/int_types1.cpp"
+        ```
+
+    === "Output"
+
+        ```
+        a = -1
+        b = 4294967295
+        c = -1
+        d = 18446744073709551615
+        ```
 
 ### Size of integer types
 
@@ -74,17 +110,22 @@
 * sizeof(float) ≤ sizeof(double) ≤ sizeof(long double)
 * sizeof(N) = sizeof(signed N) = sizeof(unsigned N)
 
-``` cpp
---8<-- "../ch_variables/int_types2.cpp"
-```
+!!! example
 
-### Code output
+    === "Code"
 
-    a = -1, sizeof(a) = 4
-    b = 4294967295, sizeof(b) = 4
-    c = -1, sizeof(c) = 8
-    d = 18446744073709551615, sizeof(d) = 8
+        ``` cpp
+        --8<-- "../ch_variables/int_types2.cpp"
+        ```
+    === "Output"
 
+        ```
+        a = -1, sizeof(a) = 4
+        b = 4294967295, sizeof(b) = 4
+        c = -1, sizeof(c) = 8
+        d = 18446744073709551615, sizeof(d) = 8
+        ```
+        
 ## Character types
 
 * represents a character in the implementation character set
@@ -96,16 +137,21 @@
 * char is dependent on implementation
 * int(c) can return both variants
 
+!!! example
 
-``` cpp
---8<-- "../ch_variables/char_types1.cpp"
-```
+    === "Code"
 
-Code output:
+        ``` cpp
+        --8<-- "../ch_variables/char_types1.cpp"
+        ```
 
-    c = a int(c) = 97 sizeof(c) = 1
-    uc = \201 int(uc) = 129 sizeof(c) = 1
-    sc = \202 int(sc) = -126 sizeof(c) = 1
+    === "Output"
+
+        ```
+        c = a int(c) = 97 sizeof(c) = 1
+        uc = \201 int(uc) = 129 sizeof(c) = 1
+        sc = \202 int(sc) = -126 sizeof(c) = 1
+        ```
 
 ## Floating point types
 
@@ -116,15 +162,21 @@ Code output:
 * use double if unsure
 * Long double can be inefficient due to processor architecture
 
-``` cpp
---8<-- "../ch_variables/double_types1.cpp"
-```
+!!! example
 
-Code output:
+    === "Code"
 
-    f = 3.14159274101257
-    d = 3.14159265358979
-    ld = 3.14159265358979
+        ``` cpp
+        --8<-- "../ch_variables/double_types1.cpp"
+        ```
+
+    === "Output"
+
+        ```
+        f = 3.14159274101257
+        d = 3.14159265358979
+        ld = 3.14159265358979
+        ```
 
 ## Numerical limits
 
@@ -137,31 +189,35 @@ Code output:
   * numeric_limit<datatype>::is_signed()
 
 
-### Example
+!!! example
 
-``` cpp
---8<-- "../ch_variables/numerical_limits.cpp"
-```
+    === "Code"
 
-### Code output
+        ``` cpp
+        --8<-- "../ch_variables/numerical_limits.cpp"
+        ```
 
-    Max, char 127
-    Min, char -128
-    Is char signed 1
-    Max, unsigned char 255
-    Min, unsigned char 0
-    Max, short 32767
-    Min, short -32768
-    Max, int 2147483647
-    Min, int -2147483648
-    Max, long 9223372036854775807
-    Min, long -9223372036854775808
-    Max, float 3.40282e+38
-    Min, float 1.17549e-38
-    Max, double 1.79769e+308
-    Min, double 2.22507e-308
-    Max, long double 1.18973e+4932
-    Min, long double 3.3621e-4932
+    === "Output"
+
+        ```
+        Max, char 127
+        Min, char -128
+        Is char signed 1
+        Max, unsigned char 255
+        Min, unsigned char 0
+        Max, short 32767
+        Min, short -32768
+        Max, int 2147483647
+        Min, int -2147483648
+        Max, long 9223372036854775807
+        Min, long -9223372036854775808
+        Max, float 3.40282e+38
+        Min, float 1.17549e-38
+        Max, double 1.79769e+308
+        Min, double 2.22507e-308
+        Max, long double 1.18973e+4932
+        Min, long double 3.3621e-4932
+        ```
 
 ## Enumeration types
 
@@ -172,11 +228,24 @@ Code output:
 * An enumeration can be a distinct data type.
 * Converted to integers in expressions
 
-### Example
+!!! example
 
-``` cpp
---8<-- "../ch_variables/enum_types.cpp"
-```
+    === "Code"
+
+        ``` cpp
+        --8<-- "../ch_variables/enum_types.cpp"
+        ```
+
+    === "Output"
+
+        ```
+        RED = 0
+        GREEN = 1
+        BLUE = 2
+        YELLOW = 3
+        selectedFlavor = 2
+        currentStatus = 15
+        ```
 
 ## Arrays
 
@@ -189,16 +258,20 @@ Code output:
 
 * Contigous multidimensional array not supported with indices. Tricks and OO can solve this 
 
-### Example
+!!! example
 
-``` cpp
---8<-- "../ch_variables/array_types1.cpp"
-```
+    === "Code"
 
-### Code output
+        ``` cpp
+        --8<-- "../ch_variables/array_types1.cpp"
+        ```
 
-    1, 2
-    1, 2, 3, 42
+    === "Output"
+
+        ```
+        1, 2
+        1, 2, 3, 42
+        ```
     
 ## Pointers
 
@@ -212,19 +285,22 @@ Code output:
 * * operator is also used to dereference pointer and retrieve value at memory location
 * & operator can be used to return a memory address for a non-pointer variable. 
 
+!!! example
 
-### Example
+    === "Code"
 
-``` cpp
---8<-- "../ch_variables/pointers1.cpp"
-```
+        ``` cpp
+        --8<-- "../ch_variables/pointers1.cpp"
+        ```
 
-## Code output
+    === "Output"
 
-    a = 42
-    b = 0x7fff5fbff6bc
-    &a = 0x7fff5fbff6bc
-    *b = 42
+        ```
+        a = 42
+        b = 0x7fff5fbff6bc
+        &a = 0x7fff5fbff6bc
+        *b = 42
+        ```
 
 <img src="../images/pointers1.svg" width="50%">
 
@@ -240,23 +316,26 @@ Code output:
 * Increases flexibility in algorithm design
 * Increases risk of errors as well
 
+!!! example
 
-### Example
+    === "Code"
 
-``` cpp
---8<-- "../ch_variables/pointers2.cpp"
-```
+        ``` cpp
+        --8<-- "../ch_variables/pointers2.cpp"
+        ```
 
-### Code output
+    === "Output"
 
-    a = 0x7fff5fbff6a0
-    b = 0x7fff5fbff6a0
-    a[0] = 0
-    b[0] = 0
-    *b = 0
-    *a = 0
-    c = 0x7fff5fbff6a8
-    *c = 2
+        ```
+        a = 0x7fff5fbff6a0
+        b = 0x7fff5fbff6a0
+        a[0] = 0
+        b[0] = 0
+        *b = 0
+        *a = 0
+        c = 0x7fff5fbff6a8
+        *c = 2
+        ```
 
 
 <img src="../images/pointers1-3.svg" width="50%">
@@ -275,12 +354,14 @@ Code output:
   * Precomputing expressions at compile time
   * Reduce memory usage
 
-### Example
+!!! example
 
-``` cpp
---8<-- "../ch_variables/const_types.cpp"
-```
+    === "Code"
 
+        ``` cpp
+        --8<-- "../ch_variables/const_types.cpp"
+        ```
+    
 ## References
 
 * Alternative names for a variables
@@ -289,18 +370,22 @@ Code output:
 
   * Defines a reference to another variable of the same data type
 
-### Example
+!!! example
 
-``` cpp
---8<-- "../ch_variables/reference_type.cpp"
-```
+    === "Code"
 
-### Code output
+        ``` cpp
+        --8<-- "../ch_variables/reference_type.cpp"
+        ```
 
-    a = 42
-    b = 42
-    &a = 0x7fff5fbff6bc
-    &b = 0x7fff5fbff6bc
+    === "Output"
+
+        ```
+        a = 42
+        b = 42
+        &a = 0x7fff5fbff6bc
+        &b = 0x7fff5fbff6bc
+        ```
 
 * b points to the same memory location as a
 
@@ -319,18 +404,21 @@ Code output:
 * Declared using the struct keyword
 * Members are accessed with . (dot) or -> operators
 
+!!! example
 
-### Example
+    === "Code"
 
-``` cpp
---8<-- "../ch_variables/structured_type.cpp"
-```
+        ``` cpp
+        --8<-- "../ch_variables/structured_type.cpp"
+        ```
 
-### Code output
+    === "Output"
 
-    c1.x = 0, c1.y = 0
-    c2.x = 1, c2.y = 1
-    sizeof(c1) = 16
+        ```
+        c1.x = 0, c1.y = 0
+        c2.x = 1, c2.y = 1
+        sizeof(c1) = 16
+        ```
 
 # Expressions and operators
 
@@ -447,7 +535,7 @@ Evaluates as from left to right as:
     b = a * i // i is coerced to double_types1
 ```
 
-# C++ Strings
+# Strings
 
 * Can use same strings as in C (char*)
 * This course will use the std::string data type

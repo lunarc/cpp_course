@@ -5,13 +5,16 @@
 namespace DrawingKit
 {
 
-void DrawableBase::doDraw(QPainter &painter)
+void DrawableBase::doDraw(QPainter& painter)
 {
 }
 
-DrawableBase::DrawableBase() : m_x{0.0}, m_y{0.0}
+DrawableBase::DrawableBase()
+    : m_x { 0.0 }
+    , m_y { 0.0 }
 {
     m_pen.setColor(QColor(0, 0, 0));
+    m_pen.setWidth(2);
     m_brush.setColor(QColor(255, 255, 255));
     m_brush.setStyle(Qt::SolidPattern);
 }
@@ -62,7 +65,12 @@ void DrawableBase::setFillColor(int r, int g, int b, int a)
     m_brush.setColor(QColor(r, g, b, a));
 }
 
-void DrawableBase::draw(QPainter &painter)
+void DrawableBase::setPenWidth(float width)
+{
+    m_pen.setWidth(width);
+}
+
+void DrawableBase::draw(QPainter& painter)
 {
     painter.setBrush(m_brush);
     painter.setPen(m_pen);
@@ -76,12 +84,14 @@ std::shared_ptr<Point> Point::create()
     return std::make_shared<Point>();
 }
 
-void Point::doDraw(QPainter &painter)
+void Point::doDraw(QPainter& painter)
 {
     painter.drawPoint(0, 0);
 }
 
-Ellipse::Ellipse() : m_width{50.0}, m_height{50.0}
+Ellipse::Ellipse()
+    : m_width { 50.0 }
+    , m_height { 50.0 }
 {
 }
 
@@ -116,7 +126,7 @@ void Ellipse::height(float value)
     m_height = value;
 }
 
-void Ellipse::doDraw(QPainter &painter)
+void Ellipse::doDraw(QPainter& painter)
 {
     painter.drawEllipse(0, 0, m_width, m_height);
 }
@@ -136,7 +146,7 @@ void Group::clear()
     m_shapes.clear();
 }
 
-void Group::doDraw(QPainter &painter)
+void Group::doDraw(QPainter& painter)
 {
     for (auto shape : m_shapes)
         shape->draw(painter);
@@ -177,7 +187,7 @@ void Rectangle::height(float value)
     m_height = value;
 }
 
-void Rectangle::doDraw(QPainter &painter)
+void Rectangle::doDraw(QPainter& painter)
 {
     painter.drawRect(-m_width / 2.0, m_height / 2.0, m_width, m_height);
 }

@@ -1,4 +1,4 @@
-#include "render_area.h"
+#include "drawing_area.h"
 
 #include <QPainter>
 
@@ -18,10 +18,36 @@ int randint(int start, int end)
     return int((randfloat(float(start), float(end))));
 }
 
-RenderArea::RenderArea(QWidget *parent) : QWidget{parent}
+DrawingArea::DrawingArea(QWidget* parent)
+    : QWidget { parent }
+    , m_firstTime { true }
 {
-    m_shapes = DrawingKit::Group::create();
+    qDebug() << "constructor";
 
+    m_shapes = DrawingKit::Group::create();
+}
+
+void DrawingArea::paintEvent(QPaintEvent* event)
+{
+    this->onDraw();
+}
+
+void DrawingArea::resizeEvent(QResizeEvent* event)
+{
+    qDebug() << "resizeEvent";
+    QWidget::resizeEvent(event);
+
+    if (m_firstTime)
+    {
+        this->onSetup();
+        m_firstTime = false;
+    }
+
+    this->onResize();
+}
+
+void DrawingArea::onSetup()
+{
     for (auto i = 0; i < 100; i++)
     {
         auto r = randfloat(50.0, 150.0);
@@ -32,7 +58,7 @@ RenderArea::RenderArea(QWidget *parent) : QWidget{parent}
         {
             auto ellipse = DrawingKit::Ellipse::create();
             ellipse->setSize(r, r);
-            ellipse->setPos(rnd() * 400.0, rnd() * 400.0);
+            ellipse->setPos(rnd() * this->width(), rnd() * this->height());
             ellipse->setFillColor(randint(0, 255), randint(0, 255), randint(0, 255), randint(0, 255));
             m_shapes->add(ellipse);
         }
@@ -40,23 +66,21 @@ RenderArea::RenderArea(QWidget *parent) : QWidget{parent}
         {
             auto rect = DrawingKit::Rectangle::create();
             rect->setSize(w, h);
-            rect->setPos(rnd() * 400.0, rnd() * 400.0);
+            rect->setPos(rnd() * this->width(), rnd() * this->height());
             rect->setFillColor(randint(0, 255), randint(0, 255), randint(0, 255), randint(0, 255));
             m_shapes->add(rect);
         }
     }
 }
 
-void RenderArea::paintEvent(QPaintEvent *event)
+void DrawingArea::onDraw()
 {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
-    
+
     m_shapes->draw(painter);
 }
 
-void RenderArea::resizeEvent(QResizeEvent *event)
+void DrawingArea::onResize()
 {
-    this->resizeEvent(event);
-
 }

@@ -16,7 +16,7 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="RenderArea" name="widget" native="true"/>
+     <widget class="DrawingArea" name="widget" native="true"/>
     </item>
    </layout>
   </widget>
@@ -24,9 +24,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>RenderArea</class>
+   <class>DrawingArea</class>
    <extends>QWidget</extends>
-   <header>render_area.h</header>
+   <header>drawing_area.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
