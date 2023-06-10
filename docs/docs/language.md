@@ -1,4 +1,4 @@
-# Language elements
+# Language
 
 The following sections will go through the basic language element of C++.
 
@@ -6,34 +6,27 @@ The following sections will go through the basic language element of C++.
 
 An example of a simple C++ program is shown in the following example.
 
-``` c++ 
-#include <>
-```
+=== "Code"
 
+    ``` c++
+    --8<-- "../hello_world/hello.cpp"
+    ```
 
-!!! example
+=== "Output"
 
-    === "Code"
-
-        ``` c++
-        --8<-- "../hello_world/hello.cpp"
-        ```
-
-    === "Output"
-
-        ```
-        0
-        1
-        2
-        3
-        4
-        5
-        6
-        7
-        8
-        9
-        Hello, C++
-        ```
+    ```
+    0
+    1
+    2
+    3
+    4
+    5
+    6
+    7
+    8
+    9
+    Hello, C++
+    ```
 
 The example starts by including the **iostream** header, which provide means to output text in the terminal. The **using namespace std** statement just tells the compiler that the default namespace for the C++ standard library, **std**, will be used as the default, making it possible to omit the **std::**-prefix in front of all functions and objects. Namespaces will be covered later in the course.
 
@@ -41,7 +34,9 @@ The example starts by including the **iostream** header, which provide means to 
 
 **cout** is a special predefined object in C++ that can be used to output text and variables to the terminal. The **<<**-operator is used to send data to the **cout** object which will be sent to standard output for display in the terminal.
 
-## Variable names
+## Variables
+
+### Variable names
 
 * Letters a-z, A-Z (not Å, Ä, Ö) 
 * Numbers 0-9 
@@ -49,7 +44,7 @@ The example starts by including the **iostream** header, which provide means to 
 * First character must be a letter
 * Lower case letters are not equivalent with upper case letters. Case sensitive language
 
-## Variable types
+### Variable types
 
 | Type   | Description          |
 |--------|----------------------|
@@ -67,7 +62,7 @@ The example starts by including the **iostream** header, which provide means to 
 
 * Sizes of variables types depend on platform and compiler
 
-## Integer types
+### Integer types
 
 * Integer
 
@@ -82,24 +77,22 @@ The example starts by including the **iostream** header, which provide means to 
 
 * Use unsigned to represent bit patterns
 
-!!! example
+=== "Code"
 
-    === "Code"
+    ``` cpp
+    --8<-- "../ch_variables/int_types1.cpp"
+    ```
 
-        ``` cpp
-        --8<-- "../ch_variables/int_types1.cpp"
-        ```
+=== "Output"
 
-    === "Output"
+    ```
+    a = -1
+    b = 4294967295
+    c = -1
+    d = 18446744073709551615
+    ```
 
-        ```
-        a = -1
-        b = 4294967295
-        c = -1
-        d = 18446744073709551615
-        ```
-
-### Size of integer types
+#### Size of integer types
 
 * Depends on compiler and platform
 * Actual size can be determined by sizeof operator
@@ -110,23 +103,21 @@ The example starts by including the **iostream** header, which provide means to 
 * sizeof(float) ≤ sizeof(double) ≤ sizeof(long double)
 * sizeof(N) = sizeof(signed N) = sizeof(unsigned N)
 
-!!! example
+=== "Code"
 
-    === "Code"
+    ``` cpp
+    --8<-- "../ch_variables/int_types2.cpp"
+    ```
+=== "Output"
 
-        ``` cpp
-        --8<-- "../ch_variables/int_types2.cpp"
-        ```
-    === "Output"
-
-        ```
-        a = -1, sizeof(a) = 4
-        b = 4294967295, sizeof(b) = 4
-        c = -1, sizeof(c) = 8
-        d = 18446744073709551615, sizeof(d) = 8
-        ```
+    ```
+    a = -1, sizeof(a) = 4
+    b = 4294967295, sizeof(b) = 4
+    c = -1, sizeof(c) = 8
+    d = 18446744073709551615, sizeof(d) = 8
+    ```
         
-## Character types
+### Character types
 
 * represents a character in the implementation character set
 * 8-bits on most systems
@@ -137,23 +128,21 @@ The example starts by including the **iostream** header, which provide means to 
 * char is dependent on implementation
 * int(c) can return both variants
 
-!!! example
+=== "Code"
 
-    === "Code"
+    ``` cpp
+    --8<-- "../ch_variables/char_types1.cpp"
+    ```
 
-        ``` cpp
-        --8<-- "../ch_variables/char_types1.cpp"
-        ```
+=== "Output"
 
-    === "Output"
+    ```
+    c = a int(c) = 97 sizeof(c) = 1
+    uc = \201 int(uc) = 129 sizeof(c) = 1
+    sc = \202 int(sc) = -126 sizeof(c) = 1
+    ```
 
-        ```
-        c = a int(c) = 97 sizeof(c) = 1
-        uc = \201 int(uc) = 129 sizeof(c) = 1
-        sc = \202 int(sc) = -126 sizeof(c) = 1
-        ```
-
-## Floating point types
+### Floating point types
 
 * float – single precision
 * double – double precision 
@@ -162,23 +151,21 @@ The example starts by including the **iostream** header, which provide means to 
 * use double if unsure
 * Long double can be inefficient due to processor architecture
 
-!!! example
+=== "Code"
 
-    === "Code"
+    ``` cpp
+    --8<-- "../ch_variables/double_types1.cpp"
+    ```
 
-        ``` cpp
-        --8<-- "../ch_variables/double_types1.cpp"
-        ```
+=== "Output"
 
-    === "Output"
+    ```
+    f = 3.14159274101257
+    d = 3.14159265358979
+    ld = 3.14159265358979
+    ```
 
-        ```
-        f = 3.14159274101257
-        d = 3.14159265358979
-        ld = 3.14159265358979
-        ```
-
-## Numerical limits
+### Numerical limits
 
 * Use header file #include <limits>
 * Can return platform data type limits
@@ -189,37 +176,35 @@ The example starts by including the **iostream** header, which provide means to 
   * numeric_limit<datatype>::is_signed()
 
 
-!!! example
+=== "Code"
 
-    === "Code"
+    ``` cpp
+    --8<-- "../ch_variables/numerical_limits.cpp"
+    ```
 
-        ``` cpp
-        --8<-- "../ch_variables/numerical_limits.cpp"
-        ```
+=== "Output"
 
-    === "Output"
+    ```
+    Max, char 127
+    Min, char -128
+    Is char signed 1
+    Max, unsigned char 255
+    Min, unsigned char 0
+    Max, short 32767
+    Min, short -32768
+    Max, int 2147483647
+    Min, int -2147483648
+    Max, long 9223372036854775807
+    Min, long -9223372036854775808
+    Max, float 3.40282e+38
+    Min, float 1.17549e-38
+    Max, double 1.79769e+308
+    Min, double 2.22507e-308
+    Max, long double 1.18973e+4932
+    Min, long double 3.3621e-4932
+    ```
 
-        ```
-        Max, char 127
-        Min, char -128
-        Is char signed 1
-        Max, unsigned char 255
-        Min, unsigned char 0
-        Max, short 32767
-        Min, short -32768
-        Max, int 2147483647
-        Min, int -2147483648
-        Max, long 9223372036854775807
-        Min, long -9223372036854775808
-        Max, float 3.40282e+38
-        Min, float 1.17549e-38
-        Max, double 1.79769e+308
-        Min, double 2.22507e-308
-        Max, long double 1.18973e+4932
-        Min, long double 3.3621e-4932
-        ```
-
-## Enumeration types
+### Enumeration types
 
 * Defines different kinds of enumerations
 * Can be used as an integer type
@@ -228,26 +213,24 @@ The example starts by including the **iostream** header, which provide means to 
 * An enumeration can be a distinct data type.
 * Converted to integers in expressions
 
-!!! example
+=== "Code"
 
-    === "Code"
+    ``` cpp
+    --8<-- "../ch_variables/enum_types.cpp"
+    ```
 
-        ``` cpp
-        --8<-- "../ch_variables/enum_types.cpp"
-        ```
+=== "Output"
 
-    === "Output"
+    ```
+    RED = 0
+    GREEN = 1
+    BLUE = 2
+    YELLOW = 3
+    selectedFlavor = 2
+    currentStatus = 15
+    ```
 
-        ```
-        RED = 0
-        GREEN = 1
-        BLUE = 2
-        YELLOW = 3
-        selectedFlavor = 2
-        currentStatus = 15
-        ```
-
-## Arrays
+### Arrays
 
 * “List of elements with a specific data type”
 * Indexed from 0 … size - 1
@@ -258,22 +241,20 @@ The example starts by including the **iostream** header, which provide means to 
 
 * Contigous multidimensional array not supported with indices. Tricks and OO can solve this 
 
-!!! example
+=== "Code"
 
-    === "Code"
+    ``` cpp
+    --8<-- "../ch_variables/array_types1.cpp"
+    ```
 
-        ``` cpp
-        --8<-- "../ch_variables/array_types1.cpp"
-        ```
+=== "Output"
 
-    === "Output"
-
-        ```
-        1, 2
-        1, 2, 3, 42
-        ```
+    ```
+    1, 2
+    1, 2, 3, 42
+    ```
     
-## Pointers
+### Pointers
 
 * Declared with the * operator
 * Can be typed and untyped (void*)
@@ -285,22 +266,20 @@ The example starts by including the **iostream** header, which provide means to 
 * * operator is also used to dereference pointer and retrieve value at memory location
 * & operator can be used to return a memory address for a non-pointer variable. 
 
-!!! example
+=== "Code"
 
-    === "Code"
+    ``` cpp
+    --8<-- "../ch_variables/pointers1.cpp"
+    ```
 
-        ``` cpp
-        --8<-- "../ch_variables/pointers1.cpp"
-        ```
+=== "Output"
 
-    === "Output"
-
-        ```
-        a = 42
-        b = 0x7fff5fbff6bc
-        &a = 0x7fff5fbff6bc
-        *b = 42
-        ```
+    ```
+    a = 42
+    b = 0x7fff5fbff6bc
+    &a = 0x7fff5fbff6bc
+    *b = 42
+    ```
 
 <img src="../images/pointers1.svg" width="50%">
 
@@ -308,7 +287,7 @@ The example starts by including the **iostream** header, which provide means to 
 
 \*b is the value stored at memory location b 
 
-## Array pointer duality
+### Array pointer duality
 
 * Array and pointers are very related in C/C++
 * Pointer types can be accessed using array notation
@@ -316,32 +295,30 @@ The example starts by including the **iostream** header, which provide means to 
 * Increases flexibility in algorithm design
 * Increases risk of errors as well
 
-!!! example
+=== "Code"
 
-    === "Code"
+    ``` cpp
+    --8<-- "../ch_variables/pointers2.cpp"
+    ```
 
-        ``` cpp
-        --8<-- "../ch_variables/pointers2.cpp"
-        ```
+=== "Output"
 
-    === "Output"
-
-        ```
-        a = 0x7fff5fbff6a0
-        b = 0x7fff5fbff6a0
-        a[0] = 0
-        b[0] = 0
-        *b = 0
-        *a = 0
-        c = 0x7fff5fbff6a8
-        *c = 2
-        ```
+    ```
+    a = 0x7fff5fbff6a0
+    b = 0x7fff5fbff6a0
+    a[0] = 0
+    b[0] = 0
+    *b = 0
+    *a = 0
+    c = 0x7fff5fbff6a8
+    *c = 2
+    ```
 
 
 <img src="../images/pointers1-3.svg" width="50%">
 
 
-## Constants
+### Constants
 
 * A way of defining data that is not changed during program execution
 * Use instead of numeric constants in the code
@@ -354,15 +331,13 @@ The example starts by including the **iostream** header, which provide means to 
   * Precomputing expressions at compile time
   * Reduce memory usage
 
-!!! example
+=== "Code"
 
-    === "Code"
-
-        ``` cpp
-        --8<-- "../ch_variables/const_types.cpp"
-        ```
+    ``` cpp
+    --8<-- "../ch_variables/const_types.cpp"
+    ```
     
-## References
+### References
 
 * Alternative names for a variables
 * Mainly used in function arguments
@@ -370,28 +345,26 @@ The example starts by including the **iostream** header, which provide means to 
 
   * Defines a reference to another variable of the same data type
 
-!!! example
+=== "Code"
 
-    === "Code"
+    ``` cpp
+    --8<-- "../ch_variables/reference_type.cpp"
+    ```
 
-        ``` cpp
-        --8<-- "../ch_variables/reference_type.cpp"
-        ```
+=== "Output"
 
-    === "Output"
-
-        ```
-        a = 42
-        b = 42
-        &a = 0x7fff5fbff6bc
-        &b = 0x7fff5fbff6bc
-        ```
+    ```
+    a = 42
+    b = 42
+    &a = 0x7fff5fbff6bc
+    &b = 0x7fff5fbff6bc
+    ```
 
 * b points to the same memory location as a
 
 * b can be used as a normal variable after it has been initialised 
 
-## Structured data types
+### Structured data types
 
 * Data type consisting of a mix of other data types
 * Compare entries in a database
@@ -404,25 +377,23 @@ The example starts by including the **iostream** header, which provide means to 
 * Declared using the struct keyword
 * Members are accessed with . (dot) or -> operators
 
-!!! example
+=== "Code"
 
-    === "Code"
+    ``` cpp
+    --8<-- "../ch_variables/structured_type.cpp"
+    ```
 
-        ``` cpp
-        --8<-- "../ch_variables/structured_type.cpp"
-        ```
+=== "Output"
 
-    === "Output"
+    ```
+    c1.x = 0, c1.y = 0
+    c2.x = 1, c2.y = 1
+    sizeof(c1) = 16
+    ```
 
-        ```
-        c1.x = 0, c1.y = 0
-        c2.x = 1, c2.y = 1
-        sizeof(c1) = 16
-        ```
+## Expressions and operators
 
-# Expressions and operators
-
-## Arithmetic operators
+### Arithmetic operators
 
 | Operator | Description         |
 |----------|---------------------|
@@ -433,7 +404,7 @@ The example starts by including the **iostream** header, which provide means to 
 | -        | Subtraction         |
 | %        | Modulo              |
 
-## Compound assignment operators
+### Compound assignment operators
 
 | Operator | Description |            |
 |----------|-------------|------------|
@@ -443,17 +414,19 @@ The example starts by including the **iostream** header, which provide means to 
 | \*=      | a \*= b     | a = a \* b |
 | %=       | a %= b      | a = a % b  |
 
-### Example
+=== "Code"
 
-``` cpp
---8<-- "../ch_operators/operators1.cpp"
-```
+    ``` cpp
+    --8<-- "../ch_operators/operators1.cpp"
+    ```
 
-### Code output
+=== "Output"
 
+    ```
     a = 68
+    ```
 
-## Increment and decrement operators (++/--)
+### Increment and decrement operators (++/--)
 
 * Increase / decrease variables by 1
 * Can be used both prefix and postfix
@@ -464,18 +437,20 @@ The example starts by including the **iostream** header, which provide means to 
 * Prefix version increases/decreases the value before returning result
 * Postfix version increases/decreases the value after returning the result
 
-### Example
+=== "Code"
 
-``` cpp
---8<-- "../ch_operators/operators2.cpp"
-```
+    ``` cpp
+    --8<-- "../ch_operators/operators2.cpp"
+    ```
 
-### Code output
+=== "Output"
 
+    ```
     b = 43
     c = 43
+    ```
 
-## Conditional operator ?
+### Conditional operator ?
 
 * Evaluates an expression, returning a value depending on the evaluation
 
@@ -483,21 +458,23 @@ The example starts by including the **iostream** header, which provide means to 
   * returns result1 if condition == true
   * returns result2 if condition == false
 
-### Example
+=== "Example"
 
-``` cpp
---8<-- "../ch_operators/operators3.cpp"
-```
+    ``` cpp
+    --8<-- "../ch_operators/operators3.cpp"
+    ```
 
-### Code output
+=== "Output"
 
+    ```
     Enter a number : 45
     outValue = 21
 
     Enter a number : 55
     outValue = 42
+    ```
 
-## Expressions
+### Expressions
 
 ``` cpp
 -a + b + c1
@@ -518,24 +495,24 @@ The expression:
 Evaluates as from left to right as:
 
 ``` cpp
-    (-a) + (b * c)
+(-a) + (b * c)
 ```
 
-## Mixed-mode expressions
+### Mixed-mode expressions
 
 * Numeric expressions with operands of differing datatypes
 * Weaker of to datatypes will be coerced to the stronger one
 * Result will be of the stronger type
 
 ``` cpp
-    double a;
-    int i;
-    double b;
+double a;
+int i;
+double b;
 
-    b = a * i // i is coerced to double_types1
+b = a * i // i is coerced to double_types1
 ```
 
-# Strings
+## Strings
 
 * Can use same strings as in C (char*)
 * This course will use the std::string data type
@@ -547,24 +524,25 @@ Evaluates as from left to right as:
 
 * Requires the #include <string> 
 
-## Declaring and using C++ strings
+### Declaring and using C++ strings
 
+=== "Example"
 
-### Example
+    ``` cpp
+    --8<-- "../ch_strings/strings1.cpp"
+    ```
+=== "Output"
 
-``` cpp
---8<-- "../ch_strings/strings1.cpp"
-```
-
-### Code output
-
+    ```
     a = 'hello'
+    ```
 
-.. note:: :cpp:`std::string` is the real variable type as it is part of the :cpp:`std` namespace 
+!!! Note
+
+    `std::string` is the real variable type as it is part of the :`std` namespace. 
 
 
-String operations
------------------
+### String operations
 
 * Strings can be appended using the + operator
 * Length of a string variable is returned by the .length() method
@@ -573,21 +551,22 @@ String operations
   * [index] operator
   * at(index) method
 
-### Example
+=== "Example"
 
-``` cpp
---8<-- "../ch_strings/strings2.cpp"
-```
+    ``` cpp
+    --8<-- "../ch_strings/strings2.cpp"
+    ```
 
-### Code output: ::
+=== "Output"
 
+    ```
     s3 = 'hello, world'
     s3.length() = 12
     s3[7] = w
     s3.at(7) = w
+    ```
 
-## C++ String methods
-
+### C++ String methods
 
 * Methods for manipulating string content
 * .append(string) can be used instead of the + operator to append strings to an existing string
@@ -595,37 +574,41 @@ String operations
 * .insert(pos, string) – inserts string at position pos
 * .substr(pos, n) – extracts n characters at position pos
 
-### Example
+=== "Example"
 
-``` cpp
---8<-- "../ch_strings/strings3.cpp"
-```
+    ``` cpp
+    --8<-- "../ch_strings/strings3.cpp"
+    ```
 
-### Code output
+=== "Output"
 
+    ```
     s3 = hello, world. Strings in C++ are great!
     s3 = hello, world. Strings in C++ are nice! 
     s3 = hello, world. Strings in C++ are great and nice! 
     s4 = great 
+    ```
 
-## Searching C++ strings
+### Searching C++ strings
 
 * The find() method can be used to return position of substrings
 * .find(string) – find first position of string
 * .find(string, startpos) – find first position of string starting at startpos
 
-### Example
+=== "Example"
 
-``` cpp
---8<-- "../ch_strings/strings4.cpp"
-```
+    ``` cpp
+    --8<-- "../ch_strings/strings4.cpp"
+    ```
 
-### Code output
+=== "Output"
 
+    ```
     The first 'o' is at position 12
     The next 'o' is at position 17
+    ```
 
-## Compatibility with C strings (char*)
+### Compatibility with C strings (char*)
 
 * A std::string can be assigned a char* string
 
@@ -637,25 +620,33 @@ String operations
   * returns a const char* pointer wichi can be passed to functions and for assigning C style strings
 
 
-### Example
+=== "Example"
 
-``` cpp
---8<-- "../ch_strings/strings5.cpp"
-```
+    ``` cpp
+    --8<-- "../ch_strings/strings5.cpp"
+    ```
 
-.. note:: Allow for an extra position for the #0 character in the :cpp:`strncpy` call.  
+=== "Output"
 
-.. note:: :cpp:`strncpy` is a overflow safe version of the C :cpp:`strcpy` function. 
- 
-
-### Code output
-
+    ```
     cString = Hello, world!
     cString2 = Hello, world!
+    ```
 
-# Control structures
 
-## Statements and compound statements
+!!! note
+
+    Allow for an extra position for the #0 character in the `strncpy` call.  
+
+!!! note
+
+    `strncpy` is a overflow safe version of the C `strcpy` function. 
+ 
+
+
+## Control structures
+
+### Statements and compound statements
 
 * C++ has 2 kind of statements
 
@@ -668,7 +659,7 @@ String operations
   * Conditional expressions
   * Iteration structures
 
-## Iteration
+### Iteration
 
 * There are 3 iteration statements in C++
 
@@ -684,16 +675,17 @@ String operations
   * return
   * exit() function
 
-## while-statement
+### while-statement
 
-### Example
+=== "Example"
 
-``` cpp
---8<-- "../ch_iterating/while_statement.cpp"
-```
+    ``` cpp
+    --8<-- "../ch_iterating/while_statement.cpp"
+    ```
 
-### Code output
+=== "Output"
 
+    ```
     counter = 1
     counter = 2
     counter = 3
@@ -703,17 +695,19 @@ String operations
     counter = 8
     counter = 9
     counter = 10
+    ```
 
-## do-statement
+### do-statement
 
-### Example
+=== "Example"
 
-``` cpp
---8<-- "../ch_iterating/do_statement.cpp"
-```
+    ``` cpp
+    --8<-- "../ch_iterating/do_statement.cpp"
+    ```
 
-### Code output
+=== "Output"
 
+    ```
     counter = 1
     counter = 2
     counter = 3
@@ -723,8 +717,9 @@ String operations
     counter = 8
     counter = 9
     counter = 10
+    ```
 
-## for-statement
+### for-statement
 
 * Compact version of the do/while-statements
 * for([start expression]; [conditional expression]; [step expression]
@@ -736,14 +731,15 @@ String operations
 * Creates more readable code compare to do/while-constructs
 
 
-### Example
+=== "Example"
 
-``` cpp
---8<-- "../ch_iterating/for_statement.cpp"
-```
+    ``` cpp
+    --8<-- "../ch_iterating/for_statement.cpp"
+    ```
 
-### Code output
+=== "Output"
 
+    ```
     counter = 1
     counter = 2
     counter = 3
@@ -753,28 +749,31 @@ String operations
     counter = 8
     counter = 9
     counter = 10
+    ```
 
-### Example
+=== "Example"
 
-``` cpp
---8<-- "../ch_iterating/for_statement2.cpp"
-```
+    ``` cpp
+    --8<-- "../ch_iterating/for_statement2.cpp"
+    ```
 
-## Code output: ::
+=== "Output"
 
+    ```
     sum = 1656437623
+    ```
 
-## Controlling iteration
----------------------
+### Controlling iteration
 
-### Example
+=== "Example"
 
-``` cpp
---8<-- "../ch_iterating/for_statement.cpp"
-```
+    ``` cpp
+    --8<-- "../ch_iterating/for_statement.cpp"
+    ```
 
-### Code output
+=== "Output"
 
+    ```
     counter = 1
     counter = 2
     counter = 3
@@ -783,15 +782,16 @@ String operations
     counter = 7
     counter = 8
     counter = 9
+    ```
 
-## Conditional statements
+### Conditional statements
 
 * There are 2 main conditional statements in C++
   
   * if-then-else – single or multiple conditions
   * switch – multiple path single condition
 
-## Relational operators
+### Relational operators
 
 | Operator | Meaning               | Python |
 |----------|-----------------------|--------|
@@ -801,7 +801,7 @@ String operations
 | !=       | not equal             | !=     |
 | >=       | greater than or equal | >=     |
 
-## Logical operators
+### Logical operators
 
 | Operator | Meaning | Python |
 |----------|---------|--------|
@@ -809,16 +809,17 @@ String operations
 | \|\|     | or      | or     |
 | !        | not     | not    |
 
-## if-statement
+### if-statement
 
-### Example
+=== "Example"
 
-``` cpp
---8<-- "../ch_control_structures/if_statement1.cpp"
-```
+    ``` cpp
+    --8<-- "../ch_control_structures/if_statement1.cpp"
+    ```
 
-### Code output
+=== "Output"
 
+    ```
     i = 1
     i = 2
     i = 3
@@ -830,13 +831,17 @@ String operations
     i = 8
     i = 9
     i = 10
+    ```
 
-``` cpp
---8<-- "../ch_control_structures/if_statement2.cpp"
-```
+=== "Example"
 
-### Code output
+    ``` cpp
+    --8<-- "../ch_control_structures/if_statement2.cpp"
+    ```
 
+=== "Output"
+
+    ```
     i != 5
     i != 5
     i != 5
@@ -848,15 +853,17 @@ String operations
     i != 5
     i != 5
     i != 5
+    ```
 
-### Example
+=== "Example"
 
-``` cpp
---8<-- "../ch_control_structures/if_statement3.cpp"
-```
+    ``` cpp
+    --8<-- "../ch_control_structures/if_statement3.cpp"
+    ```
 
-### Code output:
+=== "Output"
 
+    ```
     i = 1: -
     i = 2: 2 <= i <= 3
     i = 3: 2 <= i <= 3
@@ -867,19 +874,41 @@ String operations
     i = 8: -
     i = 9: -
     i = 10: -
+    ```
 
-## switch-statement
+### switch-statement
 
-### Example
+=== "Example"
 
-``` cpp
---8<-- "../ch_control_structures/switch_statement.cpp"
-```
+    ``` cpp
+    --8<-- "../ch_control_structures/switch_statement.cpp"
+    ```
 
-### Code output
+=== "Output"
 
+    ```
     Color is green.
     Color is either BLUE, YELLOW or ORANGE.
     Color is either BLUE, YELLOW or ORANGE.
     Color is red.
+    ```
+
+## Functions
+
+### Function parameters
+
+## Memory allocation
+
+### Memory allocation in C++
+
+### Dynamic memory allocation
+
+### Two-dimensional arrays C++ Style
+
+### Two-dimensional array Fortran Style
+
+### Functions for 2D arrays
+
+### Dynamic arrays of struct
+
 
