@@ -895,7 +895,138 @@ b = a * i // i is coerced to double_types1
 
 ## Functions
 
+* Use functions to modularise a program
+* Format:
+    - return type name(parameters) { statements } 
+* Return type can be specified as void if nothing is to be returned
+* Call a function by giving the name and parameters
+    - variable = myfunc(parameters)
+    - myfunc2(parameters)
+
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_functions/functions1.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    Hello, from function!
+    ```
+
 ### Function parameters
+
+* By default a parameter is passed by value
+    - void myfunc(double a)
+    - a will be a copy of the variable passed in the call
+
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_functions/functions2.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    The value of a = 42
+    ```
+
+Pass by value:
+
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_functions/functions3.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    The value of a = 42
+    &a = 0x7fff5fbff69c
+    &a = 0x7fff5fbff6bc
+    ```
+
+### Scalar parameters by reference
+
+* Pass pointer to variable
+    - void myfunc(double* a)
+* Send address of variable in call
+    - myfunc(&a)
+* In function variable must be derefenced using the * operator
+    - *a = 42
+
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_functions/functions4.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    The value of a = 0x7fff5fbff6bc
+    *a = 42
+    ```
+
+* Better solution using the reference operator &
+* Pass by reference
+    - void myfunc(double& a)
+* Call function with actual variable
+    - myfunc(a)
+* No need for dereferencing a refers to passed variable
+    - a = 42
+
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_functions/functions5.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    Before function call: a = 42
+    After function call : a = 43
+    ```
+
+### Passing arrays
+
+* Arrays can be passed by pointer operator * or [] index operator
+    - Equivalent 
+* By pointer operator
+    - void myfunc(int* array)
+* By bracket operator
+    - void myfunc(int array[])
+
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_functions/functions7.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    1, 2, 3, 4, 
+    ```
+
+Using bracket operators:
+
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_functions/functions8.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    1, 2, 3, 4, 
+    ```
+
 
 ## Memory allocation
 
