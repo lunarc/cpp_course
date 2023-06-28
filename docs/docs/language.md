@@ -1,6 +1,6 @@
 # Language
 
-The following sections will go through the basic language element of C++.
+This chapter will go through the language elements of C++, 
 
 ## Example of C++ code
 
@@ -36,13 +36,44 @@ The example starts by including the **iostream** header, which provide means to 
 
 ## Variables
 
+Variables are references to data stored in memory and give you a way of referencing the data using a name instead of an address. Care should be given when assigning variable names so that they are self-explanatory.  
+
+A naming convention that is often used in C++ is CamelCase. In this convention, names are formed by combining multiple words into single names, capitalizing the first letter of each word. Variables start with a lower case letter. Class names are all upper case. Examples can be:
+
+``` cpp
+class EquationSolver; // Classes are nouns. Start with upper case.
+double length;        // variables start with lower case.
+int totalNumber;      // variable with two words with camel case.
+void myFunction();    // Functions and methods lower case CamelCase.
+```
+
 ### Variable names
+
+The C++ language also defines some rules regarding variable naming. Variables in C++ should consist of:
 
 * Letters a-z, A-Z (not Å, Ä, Ö) 
 * Numbers 0-9 
 * Underscore _ 
-* First character must be a letter
-* Lower case letters are not equivalent with upper case letters. Case sensitive language
+* First character must be a letter or an underscore.
+* Lower case letters are not equivalent with upper case letters. Case sensitive language.
+
+The following variable names are correct:
+
+``` cpp
+int i, j;
+double x, y;
+double z0;
+bool correct_answer;
+```
+
+The following variable names are not correct:
+
+``` cpp
+int 0i;
+double å0;
+```
+
+
 
 ### Variable types
 
