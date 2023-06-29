@@ -1,6 +1,6 @@
 # Language
 
-This chapter will go through the language elements of C++, 
+This chapter will go through the language elements of C++. To understand the language we will start with the fundamentals and transition to more modern features as we continue through this book. 
 
 ## Example of C++ code
 
@@ -73,40 +73,80 @@ int 0i;
 double å0;
 ```
 
+### Declaring variables
 
+C++ is a strongly type language and all variables needs to be declared with a type. A variable is declared by specifying the type followed by the variable name as shown in the following example:
+
+``` cpp 
+int a;
+double c;
+float x;
+```
+
+
+In this example, an integer variable a, a double variable c and a float variable x is declared. 
+
+!!! note
+
+    Values of declared undefined until they have been initialized.  
+
+### Variable initialisation
+
+Before a variable is used it should be initialized, that is given a value. There are 2 ways of initialising a variable in C++. As C++ inherits a lot from C, variables can be initialised just like in C by assigning a value when the variable is declared using the equal (=) operator. In the following example we initialise variables at the same time as they are created using C style initialisation.
+
+``` cpp 
+int i = 0;
+float x = 0.0;
+```
+
+Another way of initializing variables is using constructor-based initialization, which is specific to the C++ language. In this method, the variable is initialized by specifying the initial value in parenthesis:
+
+``` cpp
+int i(0);
+float x(0.0);
+```
+
+The final way of initializing values is using uniform initialization. This is also specific to the C++ language and uses curly brackets to assign initial values to variables. 
+
+``` cpp
+int i{0};
+float x{0.0};
+```
+
+All these ways of initializing variables are equivalent. You will see some different ways of initializing variables in this book. Which type of initialization is chosen depends on the situation. In certain situations one method can be more efficient than others. In other cases the code can be more readable using a certain example.
 
 ### Variable types
 
-| Type   | Description          |
-|--------|----------------------|
-| bool   | boolean type         |
-| char   | character type       |
-| int    | integer numbers      |
-| double | floating point type  |
-| float  | floatiung point type |
-| long   | integer type         |
+In C++ there are 7 fundamental datatypes that can be used. 
 
-* Most basic types are available in different flavors
+ * Character types - **char**, **char16_t**, **char32_t**, **wchar_t**
+ * Signed integer types - **short**, **int**, **long**, **long long**
+ * Unsigned integer type - **unsigned short**, **unsigned int**, **unsigned long**, **unsigned long long**.
+ * Floating point types - **float**, **double**, **long double**
+ * Boolean type - **bool**
+ * void type - **void**
+ * nullptr - **decltype(nullptr)**
 
-  * size
-  * unsigned / signed
+Sizes of variables types depend on platform and compiler. C++ only specifies sizes relative to other types with at least number of bits.
 
-* Sizes of variables types depend on platform and compiler
+In the following chapters we will cover these datatypes in more details.
 
 ### Integer types
 
-* Integer
+Integer datatypes come in two flavors signed and unsigned. The basic signed integer type is **int**, which corresponds to **signed int**. The corresponding unsigned variable type is **unsigned int**. Unsigned variables always require the prefix **unsigned**. The available datatypes with increasing size:
 
-  * basic type – int (signed)
-  * short int, int and long int
-  * unsigned and signed  
-  * Short forms: long, short, int
+ * **signed char** / **unsigned char**
+ * **short int** / **unsigned short int**
+ * **int** / **unsigned int** 
+ * **long int** / **unsigned long**
 
-* Don’t use unsigned to prevent negative values
+!!! note
 
-  * Problems in conversions later
+    Don't use unsigned to prevent negative values. This can lead to conversion errors later on.
 
-* Use unsigned to represent bit patterns
+Unsigned integers can be used to represent bit patterns.
+
+The following code shows how different integer types are delcared and assigned. Please note what happens if you assign a negative value to an unsigned integer.
 
 === "Code"
 
@@ -123,16 +163,11 @@ double å0;
     d = 18446744073709551615
     ```
 
-#### Size of integer types
+The size of an integer depends on the compiler and platform. C++ just provides relative guarantees between the different datatypes. The actual size of a datatype can be queried using the **std::sizeof()** function. This function returns the size in multiples of sizeof(char)=1. The relationship between the integer datatypes are:
 
-* Depends on compiler and platform
-* Actual size can be determined by sizeof operator
-* returns size measured in sizeof(char) = 1
-* 1 = sizeof(char) ≤ sizeof(short) ≤ sizeof(int) ≤ sizeof(long)
-* 1 ≤ sizeof(bool) ≤ sizeof(long)
-* sizeof(char) ≤ sizeof(wchar_t) ≤ sizeof(long)
-* sizeof(float) ≤ sizeof(double) ≤ sizeof(long double)
-* sizeof(N) = sizeof(signed N) = sizeof(unsigned N)
+> 1 = sizeof(char) ≤ sizeof(short) ≤ sizeof(int) ≤ sizeof(long)
+
+In the code below the **std::sizeof()** to query the exact size of the datatypes on the current platform.
 
 === "Code"
 
@@ -150,14 +185,13 @@ double å0;
         
 ### Character types
 
-* represents a character in the implementation character set
-* 8-bits on most systems
-* Character sets often guaranteed to contain numeric characters, 26 letters of the english alphabet and common delimiters
-* Check implementation
-* signed char -128..127
-* unsigned char 0..255
-* char is dependent on implementation
-* int(c) can return both variants
+Character types contain values that correspond to the values from a character set. Character sets are guaranteed to contain numeric characters, 26 letters of the english alphabet and common delimiters. The smallest character type is **char**, which should be at least 8 bits (0..255). This can vary from different systems. The default type, **char**, is unsigned. There is also a signed version (-128..127). To support additional character sets there are alos additional character types:
+
+ * **char16_t** - at least 16 bits
+ * **char32_t** - at least 32 bits
+ * **wchar_t** - supporting the largest character set
+ 
+It is possible to convert from **char** to integer using the **int()** function.
 
 === "Code"
 
@@ -169,18 +203,26 @@ double å0;
 
     ```
     c = a int(c) = 97 sizeof(c) = 1
-    uc = \201 int(uc) = 129 sizeof(c) = 1
-    sc = \202 int(sc) = -126 sizeof(c) = 1
+    uc = ª int(uc) = 170 sizeof(c) = 1
+    sc = ‚ int(sc) = -126 sizeof(c) = 1
+    c16 = b int(c16) = 98 sizeof(c16) = 2
+    c32 = c int(c32) = 99 sizeof(c32) = 2
+    w32 = d int(w32) = 100 sizeof(w32) = 2
     ```
+
+!!! note 
+
+    **cout** does not support unicode characters or **char16_t** or **char32_t**, which requires us to use the **wcout** operator instead and make a conversion to **wchar_t** instead.
 
 ### Floating point types
 
-* float – single precision
-* double – double precision 
-* long double – extended precision
-* Actual size depends on hardware and compiler
-* use double if unsure
-* Long double can be inefficient due to processor architecture
+Floating point datatypes are the essential buildingblocks of compuational codes. C++ support 3 floating point types:
+
+ * **float** - single precision
+ * **double** - double precision. Higher precision than float.
+ * **long double** - extended precision. Higher precision that double.
+
+If your computational relies on precision use **double**. The actual size of the types is compiler dependent. Usually the **long double** can be inefficient as this datatype is often not implemented in the processor architecture and the compiler will have to generate special CPU code for working with this datatype.
 
 === "Code"
 
