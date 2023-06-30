@@ -238,15 +238,27 @@ If your computational relies on precision use **double**. The actual size of the
     ld = 3.14159265358979
     ```
 
+### Floating point literals
+
+When assigning values to variables in C++ in can sometimes be required/benficial to specify the datatype of the scalar value specified in the source code (floating point literal). This can be done using suffixes on the value in the code. If no suffix is given on a value the datatype is assumed to be **double**. The following example illustrates the use of suffixes when specifying floating point literals: 
+
+``` cpp
+float a = 1.0f;       // 1.0f is float
+double b = 1.0;       // 1.0 is assumed to be double
+long double c = 1.0l; // 1.0l is long double
+```
+
+It is also possible to use literals with suffixes for literals in scientific notation:
+
+``` cpp
+float d = 1e300f;          // float
+double e = 1e-300;         // double
+long double f = 42.0e-40l; // long double
+```
+
 ### Numerical limits
 
-* Use header file #include <limits>
-* Can return platform data type limits
-* General use:
-
-  * numeric_limit<datatype>::max()
-  * numeric_limit<datatype>::min()
-  * numeric_limit<datatype>::is_signed()
+To query the capabilites of datatypes, C++ provides functions for this in the **<limits>** include file. Using the functions in this module it is possible to query max and min ranges for any standard data types. To query the largest value of a datatype use the **std::numeric_limits<[datatype]>::max()** function. In the same way query the lowest value using the **std::numeric_limits<[datatype]>::min()** function. It is also possible to check if a datatype is signed using the **std::numeric_limits<[datatype]>::is_signed** flag. The follwing example show how the functions are used:
 
 
 === "Code"
@@ -302,6 +314,9 @@ If your computational relies on precision use **double**. The actual size of the
     selectedFlavor = 2
     currentStatus = 15
     ```
+
+### Class enumerations
+
 
 ### Arrays
 
