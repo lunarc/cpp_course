@@ -1,4 +1,4 @@
-# Language
+# The C++ Language
 
 This chapter will go through the language elements of C++. To understand the language we will start with the fundamentals and transition to more modern features as we continue through this book. 
 
@@ -291,12 +291,33 @@ To query the capabilites of datatypes, C++ provides functions for this in the **
 
 ### Enumeration types
 
-* Defines different kinds of enumerations
-* Can be used as an integer type
-* By default enumeration constants are given integer values in the order they are defined
-* Specific values can be given to the enumeration constants.
-* An enumeration can be a distinct data type.
-* Converted to integers in expressions
+Another important datatype in C++ is the enumeration type. Enumerations are similar to integers, but only have a limited set of predefined constants that can be assigned to an enumeration variable. Enumeration constant can also map to integer values. Which integer value that is mapped to a constant is determined by the order in which the constants are defined. It is also possible to assign specific values to the constants if that is desired. Enumerations can also be defined as distinct datatypes. If used in integer expressions they are converted to integers.
+
+A simple enumeration is shown in the following example:
+
+``` cpp
+enum { Low, Medium, High };
+
+int level = Medium;
+```
+
+We can also define an enumeration as a datatype in a similar way:
+
+``` cpp
+enum Level { Low, Medium, High };
+
+Level level = Medium;
+```
+
+As said before enum constants can be assigned specific integer values as well:
+
+``` cpp
+enum Level { Low = -1, Medium = 0, High = 1 };
+
+Level level = Medium;
+```
+
+A more complete example of how to use enums is shown below:
 
 === "Code"
 
@@ -317,17 +338,78 @@ To query the capabilites of datatypes, C++ provides functions for this in the **
 
 ### Class enumerations
 
+The standard enum type in C++ can be error-prone due to its direct mapping to integers. In C++ 11 the enum class was introduced to solve these problems. Enum class names are local to the enum and can't be converted implicitly to other datatypes. Also, a name in a standard enum can't be reused in the same scope.
+
+A class enum is declared with the **enum class** keyword. The name must also be specified using the enum class name as a prefix, as shown below:
+
+``` cpp
+enum class Fruit = { Banana, Orange, Apple };
+
+Fruit selectedFruit = Fruit::Banana;
+```
+
+A complete example is shown below.
+
+=== "Code"
+
+    ``` cpp
+    --8<-- "../ch_variables/class_enum.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    Color is Cyan
+    ```
 
 ### Arrays
 
-* “List of elements with a specific data type”
-* Indexed from 0 … size - 1
-* Brackets [ ] is used for accessing individual elements
-* Declaration
+Arrays are collections of elements with a shared datatype. Elements in the array are accessed using an index 0 ... n-1, where n is the size of the array. Indices are given in brackets. A simple array is declared as follows:
 
-  * [data type] name[size] [ = { list of values} ]
+``` cpp
+int a[10];
+```
 
-* Contigous multidimensional array not supported with indices. Tricks and OO can solve this 
+In this example an array, **a**, with 10 integer elements is declared. A value in the array can be accessed by specifying an index in a bracket as shown in the following code:
+
+``` cpp
+cout << a[4] << endl;
+```
+
+Here the value in position 5 of the array is printed on the screen. 
+
+Accessing an array outside its defined range can lead to undefined behavior and ultimately crash the program.
+
+An array can be initialised with values using initialiser lists or by direct assignment of values specifying its index. Initialiser assignment is shown below:
+
+``` cpp
+a = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+```
+
+Direct assignment using indices is shown below:
+
+``` cpp
+for (int i=0; i<10; i++)
+    a[i] = i;
+```
+
+Values of an unassigned array is considered to be undefined and can contain any values that corresponds to the values in the memory location of the variable.
+
+If an array is initialised with a initialiser list, the size of the array can be omitted.
+
+``` cpp
+int c[] = { 7, 6, 5, 4, 3, 2, 1 }; // equivalent to int c[7]
+```
+
+Multidimensional arrays can also be created by specifying 2 or more dimensions when declaring the array:
+
+``` cpp
+int b[2][2] = { { 1, 2 }, { 3, 4 } };
+```
+
+!!! note
+
+    Contigous multidimensional arrays are not directly supported in C++. It however possible to create a similar datatype using some tricks, but this is covered in later sections.
 
 === "Code"
 
@@ -342,17 +424,84 @@ To query the capabilites of datatypes, C++ provides functions for this in the **
     1, 2, 3, 42
     ```
     
+### C Strings
+
+As C++ is a superset of C it supports the creation of C based strings. A C string is very similar to an array and is declared in the same way:
+
+> char name[size]
+
+Size is the number of characters the string can have. It is important that strings in C are terminated with a null character #0 or "\n". You should always declare a string length with one more the required length.
+
+Intialising C strings can be done either directly at creation or using an assignment later in the code.
+
+The easiest assignment is when declaring the variable:
+
+``` cpp
+char myString[] = "This is my string.";
+```
+
+Just like arrays we don't have to specify the size if the variable is initialised directly. When initialising like this an null character is automatically added. It is also possible to declare a string with a specified length.
+
+``` cpp
+char myString[50] = "This is my string.";
+```
+
+Here storage space for 50 characters is allocated and initialised with a predefined string. This string can now be reassigned strings up to 50 characters.
+
+For international support there are also additional character types available in the standard such as **char16_t**, **char32_t** and **wchar_t** which has been mentioned before. 
+
+We will not go too deep into C strings as C++ has a built-in string type, **std::string**, which is much easier and safer to use.
+
 ### Pointers
 
-* Declared with the * operator
-* Can be typed and untyped (void*)
-* Declaration
+Pointers are variables that store memory references to locations in memory. Pointer in C++ can be both typed and untyped. A pointer variable is declared with a star operator (*). The syntax for a pointer declaration is:
 
-  * [data type]* name
+> [datatype]* name;
 
-* Pointer variable contains a memory address
-* * operator is also used to dereference pointer and retrieve value at memory location
-* & operator can be used to return a memory address for a non-pointer variable. 
+The following code shows a typical pointer declaration:
+
+``` cpp
+int* a;
+```
+
+**a** is pointer to a memory location containing an integer.
+
+To get a pointer to a non-pointer variable the **&** operator can be used. In  the following example we assigne the memory location of **b** to the pointer variable **a**.
+
+``` cpp
+int* a;
+int b;
+
+a = &b; // a now points to the memory location of b
+```
+
+If we want to get the value of the memory location the pointer variable references we can use the star (*) operator dereference the pointer.
+
+``` cpp
+int* a;
+int b = 42;
+
+a = &b;
+
+cout << *a << "\n"; // Dereferencing pointer a,
+                    // Displaying the value a points to
+```
+
+In this example the value of **a** is printed, which actually is value of b.
+
+In C++ we can also declare an untyped pointer using the void datatype. This pointer can be assigned any typed pointer. However assigning a non-typed pointer to a typed pointer requires a type cast. 
+
+``` cpp
+int* a;
+int b = 42;
+void* c;
+
+a = &b;
+c = a;  // OK assigning a typed pointer to a non-typed.
+
+a = static_cast<int*>(c); // Assigning a non-typed pointer to 
+                          // an typed pointer requires a cast.
+```
 
 === "Code"
 
@@ -364,24 +513,118 @@ To query the capabilites of datatypes, C++ provides functions for this in the **
 
     ```
     a = 42
-    b = 0x7fff5fbff6bc
-    &a = 0x7fff5fbff6bc
+    b = 0x291bfffb4c
+    &a = 0x291bfffb4c
     *b = 42
+    c = 0x291bfffb4c
     ```
 
-<img src="../images/pointers1.svg" width="50%">
+The following figures illustrate how pointers are assigned in the previous code example:
 
-<img src="../images/pointers1-2.svg" width="50%">
+<figure markdown>
+<img src="../images/pointers1.svg" width="100%">
+  <figcaption>Assigning pointer b with the & operator</figcaption>
+</figure>
 
-\*b is the value stored at memory location b 
+<figure markdown>
+<img src="../images/pointers1-2.svg" width="100%">
+  <figcaption>\*b is the value stored at memory location b </figcaption>
+</figure>
 
 ### Array pointer duality
 
-* Array and pointers are very related in C/C++
-* Pointer types can be accessed using array notation
-* Arrays can be accessed like pointers
-* Increases flexibility in algorithm design
-* Increases risk of errors as well
+Arrays and pointers are very closely related in C++. Pointer types can be accessed using array notation and arrays can be accessed with pointers. This enables both flexibility as well as increasing the risk for errors. The concept is best illustrated with an example.
+
+First we declare an array **a** with some values.
+
+``` cpp
+int a[] = {0, 1, 2, 3};
+```
+
+Next we declare a pointer variable **b**.
+
+``` cpp
+int* b;
+```
+
+An array variable can be directly assigned to a pointer variable of the same datatype like this:
+
+``` cpp
+b = a;
+```
+
+The pointer variable **b** now points to the first element of the **a** array. If we print out these variables we get:
+
+``` cpp
+cout << "a = " << a << "\n";
+cout << "b = " << b << "\n";
+```
+
+```
+a = 0x7fff5fbff6a0
+b = 0x7fff5fbff6a0
+```
+
+Both the array **a** and the pointer variable **b** point to the same address. Also, **a** when printing does not print the array but the memory address. This is the C++ array/pointer duality.
+
+Both **a** and **b** can accessed using array notation. Printing **a[0]** and **b[0]** should give the same values.
+
+``` cpp
+cout << "a[0] = " << a[0] << "\n";
+cout << "b[0] = " << b[0] << "\n";
+```
+
+```
+a[0] = 0
+b[0] = 0
+```
+
+So array and pointer declarations are equivalent except that an is allocated a memory location for the provided values.
+
+It is also possible to get a pointer to a specific element of an array using a combination of the **&** operator and array notation.
+
+``` cpp
+int* c;
+
+c = &a[2];
+```
+
+**c** now stores a pointer to the third value of the **a** array. We can also use some pointer arithmetic to do the same thing by using the **+** operator on a pointer variable.
+
+``` cpp
+int* d;
+
+d = b + 2;
+```
+
+**d** now points to a location 2 integers from the memory location of **b**. **c** and **b** points to the same locations.
+
+``` cpp
+c = &a[2];
+
+cout << "c = " << c << "\n";
+cout << "*c = " << *c << "\n";
+
+d = b + 2;
+
+cout << "d = " << d << "\n";
+cout << "*d = " << *d << "\n";
+```
+
+```
+c = 0x156bdff8a8
+*c = 2
+d = 0x156bdff8a8
+*d = 2
+```
+
+Pointer variables can be modified using the **++**, **--**, **+** and **-** operators. Increments are done in multiples of the size of the actual datatype. 
+
+!!! note
+
+    It is important to make sure that the location a pointer variable references is a valid memory location. Dereferencing a memory location that has not been allocated memory often leads to crashes and undefined behavior.
+
+Below is the complete example in this section.
 
 === "Code"
 
@@ -402,36 +645,29 @@ To query the capabilites of datatypes, C++ provides functions for this in the **
     *c = 2
     ```
 
+<figure markdown>
+<img src="../images/pointers1-3.svg" width="100%">
+  <figcaption>Pointer operations in the previous example.</figcaption>
+</figure>
 
-<img src="../images/pointers1-3.svg" width="50%">
-
-
-### Constants
-
-* A way of defining data that is not changed during program execution
-* Use instead of numeric constants in the code
-
-  * Easier to update code in a later stage
-
-* Prevents accidental modification of variables
-* Gives hints to the compiler on optmisations
-
-  * Precomputing expressions at compile time
-  * Reduce memory usage
-
-=== "Code"
-
-    ``` cpp
-    --8<-- "../ch_variables/const_types.cpp"
-    ```
-    
 ### References
 
-* Alternative names for a variables
-* Mainly used in function arguments
-* [data type]& name
+References are alternative names for variables of the same data type. It is mainly used for return parameters in functions, but can also be used as variables. A reference variable defined by using the **&** operator after the datatype declaration. The syntax is:
 
-  * Defines a reference to another variable of the same data type
+> [data type]& name
+
+A reference variable must be initialised and can't be declared without an initialisation. The following code shows an example of how a reference variable can be declared.
+
+``` cpp
+int a = 42;
+int& b = a;
+```
+
+In this code **b** is a reference to **a** and can be used just like the **a** variable.
+
+We will look more on this when declaring functions.
+
+A complete example on how references are used is shown below:
 
 === "Code"
 
@@ -448,22 +684,77 @@ To query the capabilites of datatypes, C++ provides functions for this in the **
     &b = 0x7fff5fbff6bc
     ```
 
-* b points to the same memory location as a
+### Constants
 
-* b can be used as a normal variable after it has been initialised 
+Constants can be seen as read-only variables that can't be changed during program execution. Can be used to replace numeric constants in the source code, making code more easily updatable by placing these values in a single place. 
 
+Constants can also be used to precompute expressions at compile time, preventing it to be calculated at run-time, to save computations. 
+
+A constant is declared with the **const** keyword with the following syntax:
+
+> const [datatype] name = value
+
+An example of this can be:
+
+``` cpp
+const int v = 42;
+``` 
+
+This declares a constant **v** with the value 42.
+
+In later versions of C++ the notion of constants have been expanded, so that the compiler can execute functions and generate code at compile time using the **constexpr**-keyword. 
+
+A complete example of how to use constants is given below:
+
+=== "Code"
+
+    ``` cpp
+    --8<-- "../ch_variables/const_types.cpp"
+    ```
+    
 ### Structured data types
 
-* Data type consisting of a mix of other data types
-* Compare entries in a database
+In many application it can be beneficial to combine several datatypes into a custom data type. In C++ this can be achieved using the **struct** datatype. In a struct a set of fields of different datatypes can be combined into a structured datatype. I it similar to a records in a database. In the followin code a number of fields are combined into an **Employee** **struct**.
 
-  * first name
-  * last name
-  * street
-  * ...
-  
-* Declared using the struct keyword
-* Members are accessed with . (dot) or -> operators
+``` cpp
+struct Employee {
+    char[15] firstName;
+    char[15] lastName;
+    char[30] address;
+}
+```
+
+The defined **Employee** struct can now be declared and used like any other datatype in C++. A **svea** Employee variable is declared 
+
+``` cpp
+Employee svea;
+```
+
+To assign values to the inner records dot-notation can be used.
+
+``` cpp
+svea.firstName = "Svea";
+svea.lastName = "Svensson";
+svea.address = "Unknown";
+``` 
+
+It is also possible to create arrays of structs.
+
+``` cpp
+Employee employees[10];
+```
+
+Access to the individual records is done using the following code:
+
+``` cpp
+employee[0].firstName = "Fredrik";
+```
+
+If the **Employee** variable is dynamically allocated individual records needs to be accessed using the **->** operator.
+
+``` cpp
+svea->firstName = "Dynamo";
+```
 
 === "Code"
 
@@ -478,6 +769,137 @@ To query the capabilites of datatypes, C++ provides functions for this in the **
     c2.x = 1, c2.y = 1
     sizeof(c1) = 16
     ```
+
+## Strings
+
+To overcome many of the limitations of the C based string, C++ provides its own string type, **std::string**. This is a very flexible string type that also provides more safety. The string type also provides compatibility with the C string by providing a special method for passing it as character string using the **.c_str()** method.
+
+To use the C++ string type we need to add the following include:
+
+``` cpp
+#include <string>
+```
+
+A **std::string** is declared just like any normal C++ datatype.
+
+``` cpp
+std::string s1 = "My first string.";
+std::string s2{"My second string."};
+```
+
+A more complete example is given below:
+
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_strings/strings1.cpp"
+    ```
+=== "Output"
+
+    ```
+    a = 'hello'
+    ```
+
+!!! Note
+
+    `std::string` is the real variable type as it is part of the :`std` namespace. 
+
+
+### String operations
+
+The benefits of using **std::string** is how you can use it with standard C++ operators to create new strings.
+
+``` cpp
+std::string s1 = "C++";
+std::string s2 = "is";
+std::string s3 = "fun";
+std::string fun = s1 + " " + s2 + " " + s3;
+```
+
+In the above example 3 strings are combined together to a new string, **fun**, which is automatically resized to the size of all strings and spaces.
+
+The length of a string can be queried using the **.length()** method.
+
+``` cpp
+cout << fun.lentgth() << "\n"; // Prints the string length
+```
+
+Individual string characters can be accessed using the bracket operator or using the **.at()** method.
+
+``` cpp
+cout << fun[0] << "\n";    // Prints first character
+cout << fun.at(1) << "\n"; // Prints second character
+```
+
+The following example illustrates more string operations.
+
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_strings/strings2.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    s3 = 'hello, world'
+    s3.length() = 12
+    s3[7] = w
+    s3.at(7) = w
+    ```
+
+### C++ String methods
+
+* Methods for manipulating string content
+* .append(string) can be used instead of the + operator to append strings to an existing string
+* .replace(pos, n, string) – replaces n characters at position pos with the contents of string
+* .insert(pos, string) – inserts string at position pos
+* .substr(pos, n) – extracts n characters at position pos
+
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_strings/strings3.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    s3 = hello, world. Strings in C++ are great!
+    s3 = hello, world. Strings in C++ are nice! 
+    s3 = hello, world. Strings in C++ are great and nice! 
+    s4 = great 
+    ```
+
+### Searching C++ strings
+
+* The find() method can be used to return position of substrings
+* .find(string) – find first position of string
+* .find(string, startpos) – find first position of string starting at startpos
+
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_strings/strings4.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    The first 'o' is at position 12
+    The next 'o' is at position 17
+    ```
+
+### Compatibility with C strings (char*)
+
+* A std::string can be assigned a char* string
+
+  * The opposite is not directly possible
+
+* std::string:s can’t be directly used with C function requiring a char* argument.
+* .c_str() method to the rescue
+
+  * returns a const char* pointer wichi can be passed to functions and for assigning C style strings
 
 ## Expressions and operators
 
@@ -600,112 +1022,6 @@ double b;
 b = a * i // i is coerced to double_types1
 ```
 
-## Strings
-
-* Can use same strings as in C (char*)
-* This course will use the std::string data type
-* Very efficient and flexible string type
-* Included in the C++ standard library
-* Compatible with char* strings
-
-  * can be passed as standard char* strings to legacy code (.c_str() method)
-
-* Requires the #include <string> 
-
-### Declaring and using C++ strings
-
-=== "Example"
-
-    ``` cpp
-    --8<-- "../ch_strings/strings1.cpp"
-    ```
-=== "Output"
-
-    ```
-    a = 'hello'
-    ```
-
-!!! Note
-
-    `std::string` is the real variable type as it is part of the :`std` namespace. 
-
-
-### String operations
-
-* Strings can be appended using the + operator
-* Length of a string variable is returned by the .length() method
-* Individual characters in the strings can be accessed by 
-
-  * [index] operator
-  * at(index) method
-
-=== "Example"
-
-    ``` cpp
-    --8<-- "../ch_strings/strings2.cpp"
-    ```
-
-=== "Output"
-
-    ```
-    s3 = 'hello, world'
-    s3.length() = 12
-    s3[7] = w
-    s3.at(7) = w
-    ```
-
-### C++ String methods
-
-* Methods for manipulating string content
-* .append(string) can be used instead of the + operator to append strings to an existing string
-* .replace(pos, n, string) – replaces n characters at position pos with the contents of string
-* .insert(pos, string) – inserts string at position pos
-* .substr(pos, n) – extracts n characters at position pos
-
-=== "Example"
-
-    ``` cpp
-    --8<-- "../ch_strings/strings3.cpp"
-    ```
-
-=== "Output"
-
-    ```
-    s3 = hello, world. Strings in C++ are great!
-    s3 = hello, world. Strings in C++ are nice! 
-    s3 = hello, world. Strings in C++ are great and nice! 
-    s4 = great 
-    ```
-
-### Searching C++ strings
-
-* The find() method can be used to return position of substrings
-* .find(string) – find first position of string
-* .find(string, startpos) – find first position of string starting at startpos
-
-=== "Example"
-
-    ``` cpp
-    --8<-- "../ch_strings/strings4.cpp"
-    ```
-
-=== "Output"
-
-    ```
-    The first 'o' is at position 12
-    The next 'o' is at position 17
-    ```
-
-### Compatibility with C strings (char*)
-
-* A std::string can be assigned a char* string
-
-  * The opposite is not directly possible
-
-* std::string:s can’t be directly used with C function requiring a char* argument.
-* .c_str() method to the rescue
-
-  * returns a const char* pointer wichi can be passed to functions and for assigning C style strings
 
 
 === "Example"

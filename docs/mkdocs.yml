@@ -3,7 +3,7 @@ nav:
 - Introduction: index.md
 - History: history.md
 - Building and running: build_and_run.md
-- Language: language.md
+- The C++ language: language.md
 - Organising code: code_org.md
 - Input and output: input_output.md
 - Data structures and algorithms: data_structures_algorithms.md
@@ -38,7 +38,7 @@ theme:
       danger: fontawesome/solid/skull
       bug: fontawesome/solid/robot
       example: fontawesome/solid/flask
-      quote: fontawesome/solid/quote-left    
+      quote: fontawesome/solid/quote-left
 
 markdown_extensions:
   - admonition
@@ -58,3 +58,4 @@ markdown_extensions:
       emoji_generator: !!python/name:materialx.emoji.to_svg
   - meta
   - tables
+
