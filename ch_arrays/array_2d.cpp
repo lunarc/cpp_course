@@ -26,6 +26,13 @@ int main()
         
         cout << endl;
     }
+
+    // Deleting row arrays
+
+    for (auto i=0; i<rows; i++)
+        delete [] array[i];
+
+    // Delete main array.
     
     delete [] array;
 }

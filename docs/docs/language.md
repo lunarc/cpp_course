@@ -850,11 +850,9 @@ The following example illustrates more string operations.
 
 ### C++ String methods
 
-* Methods for manipulating string content
-* .append(string) can be used instead of the + operator to append strings to an existing string
-* .replace(pos, n, string) – replaces n characters at position pos with the contents of string
-* .insert(pos, string) – inserts string at position pos
-* .substr(pos, n) – extracts n characters at position pos
+**std::string** is an class that has many methods for interacting with the string. The **.length()** method was mentioned in previous sections, but there are many more methods available. The **.append(string)**-method appends a string to an existing string. Corresponds to the + operator. It is also possible to use **.replace(pos, n, string)**-method to replace *n* characters at position *pos* with *string*. The **.insert(pos, string)**-method inserts *string* at position *pos* in the string. Finally the **.substr(pos, n)**-method extract *n* characters from position *pos*.
+
+In the following example these methods are illustrated.
 
 === "Example"
 
@@ -871,11 +869,11 @@ The following example illustrates more string operations.
     s4 = great 
     ```
 
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/qP9WdGf7x){ .md-button .md-button--primary .target="_blank"}
+
 ### Searching C++ strings
 
-* The find() method can be used to return position of substrings
-* .find(string) – find first position of string
-* .find(string, startpos) – find first position of string starting at startpos
+A very common tasks when using string is searching for specific characters or substrings in a string. In **std::string** the **.find()**-method can be used for this purpose. The first version of this method **.find(string)** finds the first occurrence of *string* and returns the position in the string. In the second version of this method **.find(string, startpos)** the search is performed from the *startpos* position and the next occurrence is returned. If *string* is not found the method returns **std::string::npos**. The use of this method is shown in the following example:
 
 === "Example"
 
@@ -890,139 +888,26 @@ The following example illustrates more string operations.
     The next 'o' is at position 17
     ```
 
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/hzferG7d3){ .md-button .md-button--primary .target="_blank"} 
+
 ### Compatibility with C strings (char*)
 
-* A std::string can be assigned a char* string
-
-  * The opposite is not directly possible
-
-* std::string:s can’t be directly used with C function requiring a char* argument.
-* .c_str() method to the rescue
-
-  * returns a const char* pointer wichi can be passed to functions and for assigning C style strings
-
-## Expressions and operators
-
-### Arithmetic operators
-
-| Operator | Description         |
-|----------|---------------------|
-| (+/-)x   | Unary sign operator |
-| *        | Multiplication      |
-| /        | Division            |
-| +        | Addition            |
-| -        | Subtraction         |
-| %        | Modulo              |
-
-### Compound assignment operators
-
-| Operator | Description |            |
-|----------|-------------|------------|
-| +=       | a += b      | a = a + b  |
-| -=       | a -= b      | a = a - b  |
-| /=       | a /= b      | a = a / b  |
-| \*=      | a \*= b     | a = a \* b |
-| %=       | a %= b      | a = a % b  |
-
-=== "Code"
-
-    ``` cpp
-    --8<-- "../ch_operators/operators1.cpp"
-    ```
-
-=== "Output"
-
-    ```
-    a = 68
-    ```
-
-### Increment and decrement operators (++/--)
-
-* Increase / decrease variables by 1
-* Can be used both prefix and postfix
-
-  * ++a and a++
-  * --a and a—
-
-* Prefix version increases/decreases the value before returning result
-* Postfix version increases/decreases the value after returning the result
-
-=== "Code"
-
-    ``` cpp
-    --8<-- "../ch_operators/operators2.cpp"
-    ```
-
-=== "Output"
-
-    ```
-    b = 43
-    c = 43
-    ```
-
-### Conditional operator ?
-
-* Evaluates an expression, returning a value depending on the evaluation
-
-  * condition ? result1 : result2
-  * returns result1 if condition == true
-  * returns result2 if condition == false
-
-=== "Example"
-
-    ``` cpp
-    --8<-- "../ch_operators/operators3.cpp"
-    ```
-
-=== "Output"
-
-    ```
-    Enter a number : 45
-    outValue = 21
-
-    Enter a number : 55
-    outValue = 42
-    ```
-
-### Expressions
+In many cases, it is required to interface with existing C code or call APIs that require a C-based string (char\*). A **std::string** is not directly compatible with a C-string, but can be easily interfaced with them. A **std::string** can be assigned a C-string directly as shown in the following example:
 
 ``` cpp
--a + b + c1
+char cstr[] = "This is a C-string";
+std::string s = cstr;
 ```
 
-Evaluates from left to right as:
+The opposite is not directly possible. However, **std::string** provides a special method, **.c_str()**, that return a C-string (char\*) that can be used to copy it to a C-string or given to a call to a function that requires it. In the following example we create a C++ string which we copy to a C-string using the **strcpy()** function which is available in the **```#include <cstring>```** header.
 
 ``` cpp
-((-a) + b) + c
+string s = "This is a C++ string.";
+char cstr[255] = "";
+strcpy(cstr, s.c_str());
 ```
 
-The expression:
-
-``` cpp
--a + b * c 
-```
-
-Evaluates as from left to right as:
-
-``` cpp
-(-a) + (b * c)
-```
-
-### Mixed-mode expressions
-
-* Numeric expressions with operands of differing datatypes
-* Weaker of to datatypes will be coerced to the stronger one
-* Result will be of the stronger type
-
-``` cpp
-double a;
-int i;
-double b;
-
-b = a * i // i is coerced to double_types1
-```
-
-
+A more complete example of the use of **.c_str()** is given below:
 
 === "Example"
 
@@ -1045,41 +930,271 @@ b = a * i // i is coerced to double_types1
 !!! note
 
     `strncpy` is a overflow safe version of the C `strcpy` function. 
- 
 
+## Expressions and operators
+
+In C++ expressions can be created using the many available operators. For the basic data types in C++ the operators work just like in any other language. Operators can also be used with other datatypes, however, the operations can be quite different from those defined for the basic data types. The order of precedence is as follows:
+
+1. Increment operators a++, a--
+1. Increment operators ++a, --a
+1. Unary sign operators +a, -a
+1. Multiplication a * b
+1. Division a / b
+1. Modulus a % b
+1. Addition a + b 
+1. Subtraction a - b
+
+### Arithmetic operators
+
+The arithmetic operators are defined in the following table in order of precedence:
+
+| Operator | Description         |
+|----------|---------------------|
+| (+/-)x   | Unary sign operator |
+| *        | Multiplication      |
+| /        | Division            |
+| %        | Modulo              |
+| +        | Addition            |
+| -        | Subtraction         |
+
+### Relational operators
+
+Relational operators are used to compare different variables or values. They return either *true* or *false*. They are typically used in **if**-statements or similar, which are described in the following sections.
+
+| Operator | Meaning               | Python |
+|----------|-----------------------|--------|
+| <        | less than             | <      |
+| <        | less than or equal    | <=     |
+| ==       | equal                 | ==     |
+| !=       | not equal             | !=     |
+| >=       | greater than or equal | >=     |
+
+### Logical operators
+
+Logical operators are used for logical comparisons of boolean expressions. The operators take either *true* or *false as input and return either *true* or *false*. They are also typically used in **if**-statements or similar, which are described in the following sections.
+
+| Operator | Meaning | Python |
+|----------|---------|--------|
+| &&       | and     | and    |
+| \|\|     | or      | or     |
+| !        | not     | not    |
+
+### Compound assignment operators
+
+Compound assignment operators simplify some operations to reduce the complexity of an expression as well as increase efficiency.
+
+| Operator | Description | Equivalent to |
+|----------|-------------|------------|
+| +=       | a += b      | a = a + b  |
+| -=       | a -= b      | a = a - b  |
+| /=       | a /= b      | a = a / b  |
+| \*=      | a \*= b     | a = a \* b |
+| %=       | a %= b      | a = a % b  |
+
+The following code shows the usage of a compound assignment operator.
+
+=== "Code"
+
+    ``` cpp
+    --8<-- "../ch_operators/operators1.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    a = 68
+    ```
+
+### Increment and decrement operators (++/--)
+
+A common operation on basic data types is to increment or decrement a variable by 1. C++ defines special increment (++) and decrement (--) operators for this purpoose. The operators exist in 2 versions, a prefix (++a/--a) and a postfix (a++/a--) version. The difference is that the prefix version will return the updated value when evaluated in an expression. The postfix version will return the existing value when evaluated in an expression.
+
+In the following example, **b**, will be assigned the value of **a** after it has been updated by the increment operator, giving it the value of **43**. **c** will be assigned the value of **a** before it is updated by the increment operator, giving it the value of **43**. The final value of **a** will be **44**.
+
+=== "Code"
+
+    ``` cpp
+    --8<-- "../ch_operators/operators2.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    b = 43
+    c = 43
+    ```
+
+### Conditional operator ?
+
+There is also a special operator that can return different values depending on a given condition. The syntax is as follows:
+
+> condition ? result_if_true : result_if_false
+
+If *condition* is true the result of the expression will be *result_if_true* otherwise *result_if_false*. 
+
+!!! warning
+
+    This operator should be used with caution as it can lead to code that is difficult to read.
+
+The following example shows how the operator can be used. The user is asked for a number, *number*. The *outValue* variable is assigned **42** if *number* is greater than or equal to 50 otherwise it is assigned **21**.
+
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_operators/operators3.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    Enter a number : 45
+    outValue = 21
+
+    Enter a number : 55
+    outValue = 42
+    ```
+
+### Expressions
+
+To illustrate the precedence rules the following example
+
+``` cpp
+-a + b + c1
+```
+
+is evaluated from left to right as.
+
+``` cpp
+((-a) + b) + c
+```
+
+The expression 
+
+``` cpp
+-a + b * c 
+```
+
+is evaluates from left to right as
+
+``` cpp
+(-a) + (b * c)
+```
+
+!!! note
+
+    If uncertain it is never wrong to add a parenthesis. 
+
+!!! note
+
+    If functions are used in expressions they are evaluated before any other operators.
+
+
+### Mixed-mode expressions
+
+If expressions are constructed with operands of many different datatypes, weaker datatypes are coerced to the stronger one. Results will be of the stronger type. This is illustrated in the following example where the **i** integer variable is coerced to **double**.
+
+
+``` cpp
+double a;
+int i;
+double b;
+
+b = a * i // i is coerced to double_types1
+```
+
+## Statements and code structure
+
+Code in C++ consists of statements that form the code of an application or a library. There are two types of statements in C++, normal statements separated by semicolons (;) and compound statements grouped with curly brackets { }. The below code consists of normal statements:
+
+```cpp
+int a = 42;    // statement 1
+int b = 21;    // statement 2
+int c = a + b; // statement 3
+```
+
+Compound statements or code blocks are mostly used in function/class definitions, conditional expressions and iteration structures. All variables declared in a compound statement will be automatically removed when execution exits the statement. The following code illustrates this:
+
+```cpp hl_lines="8"
+int main()
+{
+    int a = 0;     // normal statement
+
+    // compound statement
+
+    {              
+        int b = 1;
+        int c = 2;
+    }
+
+    int d = b;     // Error, b is not available here    
+}
+```
+
+Standalone compound statements can be used to force the automatic cleanup of variables and dereference shared pointers, which is described later in this book. However, their main use is to define the structure of your application by defining functions and logical statements of the application.
+
+In the following sections, we will go through the basic building blocks that define the behavior of your code.
 
 ## Control structures
 
-### Statements and compound statements
-
-* C++ has 2 kind of statements
-
-  * Normal statements separated by ;
-  * Compound statements – normal statements grouped by { } (curly brackets)
-
-* Compound statemtens are used in:
-
-  * Function definitions
-  * Conditional expressions
-  * Iteration structures
+Control structures are constructs that control the flow of your application. It can be constructs for iterating code, taking different routes depending on the state of variables (branching) or defining reusable parts of code (functions). 
 
 ### Iteration
 
-* There are 3 iteration statements in C++
+One of the more important control structures is for repeating some code several times or until a specific condition is met (iteration). There are 3 major iteration statements in C++
 
-  * while – Condition before iteration statements
-  * do – Condition after iteration statements
-  * for – Compact version of the while-statement
+  * **while** – Condition before iteration statements
+  * **do** – Condition after iteration statements
+  * **for** – Compact version of the while-statement
 
-* Iterations can be controlled by 
+All iterations statements are controlled using the same methods. The **break**-statement can be used to exit an iteration statement. The **continue**-statement can be used to continue to the next iteration. A **return**-statement will also exit a loop, but also a function. The **exit()**-statement will also terminal a loop and the entire application.
 
-  * break-statement – exit a loop
-  * continue – continue to next iteration
-  * (goto-label statement)
-  * return
-  * exit() function
+The following example uses a **for**-statement to illustrate the use of **break** and **continue** to control the flow in an iteration statement.
+
+=== "Example"
+
+    ``` cpp hl_lines="10 13" linenums="1"
+    #include <iostream>
+
+    using namespace std;
+
+    int main()
+    {
+        for (auto i=0; i<20; i++)
+        {
+            if (i==6)
+                continue;
+
+            if (i==10)
+                break;
+
+            cout << i << "\n";
+        }
+    }    
+    ```
+
+=== "Output"
+
+    ```
+    0
+    1
+    2
+    3
+    4
+    5
+    7
+    8
+    9
+    ```
+
+In line 10 the iteration will continue and no output will be printed. In line 13 the iteration will stop and the **for**-loop exited.
+
+Try it yourself below:
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/1aGzsWM69){ .md-button .md-button--primary .target="_blank"} 
 
 ### while-statement
+
+The **while**-statement iterates a statement until a certain expression is false. In the folowing code we defined the variable *counter*, which we initalise to 0. We will use *counter* in the expression in the **while**-statement. In the example we will loop until *counter* is less than or equal to 10. In the code block for the **while**-statement the value of the counter is printed and increased by 1. 
 
 === "Example"
 
@@ -1101,7 +1216,15 @@ b = a * i // i is coerced to double_types1
     counter = 10
     ```
 
+!!! note
+
+    In a **while**-statement it is our responsibility to make sure any variables used in the expression are initialised. If not the code can get stuck in an endless iteration. The same situation can happen if the variables in the expression are not updated in the code block for the **while**-statement.
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/K1b5WGGx6){ .md-button .md-button--primary .target="_blank"} 
+
 ### do-statement
+
+In the **while**-statement the statements in the code block are not executed if the expression evaluated to false. If the statements should be executed at least once, the **do**-statement can be used instead. In this construct the conditional expression is evaluated after the the first iteration.
 
 === "Example"
 
@@ -1123,17 +1246,48 @@ b = a * i // i is coerced to double_types1
     counter = 10
     ```
 
+In this example *counter* is initalised and the first iteration of the **do**-statement is entered regardless of the value of the *counter* variable. If *counter* would have been set to **20**, the value would still have been printed in the first iteration.
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/fd813v1od){ .md-button .md-button--primary .target="_blank"} 
+
 ### for-statement
 
-* Compact version of the do/while-statements
-* for([start expression]; [conditional expression]; [step expression]
+To create a shorter version of the **do/while**-statements which also can initialise and update a loop variable we can use the **for**-statement instead. The syntax of this statement is as follows:
 
-  * start expression is executed first before the first iteration
-  * conditional expression is evaluated for each iteration
-  * step expression is executed after the iteration statements for each iteration
+> for([start statements]; [conditional expression]; [step statements])
+      statements
 
-* Creates more readable code compare to do/while-constructs
+The *start expression* is executed before the iteration. *conditional expression* is evaluated to determine if the iteration should continue. *step statements* is executed after each iteration. A typical **for**-statement is shown below:
 
+```  cpp
+for (int i=0; i<10; i++)
+    cout << i << "\n";
+```
+
+In this loop *i* is initialised to **0** before the iteration. The iteration continues if *i* is less than 10. On every iteration *i* is incremented by 1.
+
+If we want to iterate starting from one we can use the following **for**-statement instead: 
+
+``` cpp
+for (int i=1; i<=10; i++)
+    cout << i << "\n";
+```
+
+Using the **for**-statement makes it unnessecary to declare a special loop variable outside the iteration statement and creates a single statement containing initalisation, conditional expression and loop variable update.
+
+!!! note
+
+    The loop variable declared in the **for**-statement is not available outside the code block of the loop. 
+
+The parameters in the **for**-statement are not required. If give an empty parameters we get an endless loop as in the following example:
+
+``` cpp
+for (;;)
+{
+    // endless loop
+}
+```
+An example of using a **for**-statement to update the counter as in the previous examples is shown
 
 === "Example"
 
@@ -1155,6 +1309,10 @@ b = a * i // i is coerced to double_types1
     counter = 10
     ```
 
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/35ecerj5n){ .md-button .md-button--primary .target="_blank"} 
+
+In the following example, we use the iteration update step to calculate a sum.
+
 === "Example"
 
     ``` cpp
@@ -1164,56 +1322,76 @@ b = a * i // i is coerced to double_types1
 === "Output"
 
     ```
-    sum = 1656437623
+    sum = 50015001
     ```
 
-### Controlling iteration
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/TzT78fWcj){ .md-button .md-button--primary .target="_blank"} 
 
-=== "Example"
-
-    ``` cpp
-    --8<-- "../ch_iterating/for_statement.cpp"
-    ```
-
-=== "Output"
-
-    ```
-    counter = 1
-    counter = 2
-    counter = 3
-    counter = 4
-    counter = 5
-    counter = 7
-    counter = 8
-    counter = 9
-    ```
 
 ### Conditional statements
 
-* There are 2 main conditional statements in C++
+There are 2 main conditional statements in C++, the **if**-statement and the **switch**-statement. The **if**-statement takes single or multiple conditions as input and executes the code block if the conditions evaluate to *true*. It is also possible to add a code block that is executed when the condition is *false*. This is done by adding an **else**-section to the **if**-statement.
+
+The **switch**-statement is used to select multiple paths depending on the condition.
   
-  * if-then-else – single or multiple conditions
-  * switch – multiple path single condition
-
-### Relational operators
-
-| Operator | Meaning               | Python |
-|----------|-----------------------|--------|
-| <        | less than             | <      |
-| <        | less than or equal    | <=     |
-| ==       | equal                 | ==     |
-| !=       | not equal             | !=     |
-| >=       | greater than or equal | >=     |
-
-### Logical operators
-
-| Operator | Meaning | Python |
-|----------|---------|--------|
-| &&       | and     | and    |
-| \|\|     | or      | or     |
-| !        | not     | not    |
-
 ### if-statement
+
+The **if**-statement in its simplest form has the following syntax:
+
+```
+if (condition) statement
+```
+
+or
+
+```
+if (condition)
+    statement
+else
+    statement
+```
+
+if *condition* returns true *statement* is executed. An example of this is shown below:
+
+```cpp
+if (answer==42) cout << "The answer was 42.\n";
+```
+
+It is also possible to use **else** to execute statements if the *condition* is false as in the following example:
+
+```cpp
+if (answer==42)
+    cout << "The answer was 42.\n";
+else
+    cout << "The answer was not 42.\n";
+```
+
+!!! note
+
+    No semicolon (;) is required after **else** as this belongs to the **if**-statement.
+
+If more statements are required to be executed a code block can be added to the **if**-statement as shown in the following example:
+
+```cpp
+if (answer>42)
+{
+    cout << "The answer was greater than 42.\n";
+    cout << "This requires a more thorough explanation.\n";
+}
+else
+{
+    cout << "The answer could have been 42. You never know?\n";
+}
+```
+
+Multiple conditions can be combined using relational and logical operators. It is important to use parenthesis to separate the relational and logical operations. In the following example we use an **if**-statement to determine if *x* is inside a certain interval.
+
+```cpp
+if ((x>=-1.0)&&(x<1.0))
+    cout << "x is in the interval -1.0 <= x < 1.0\n";
+```
+
+In the following example, we use an **if**-statement to output when the loop counter, *i*, is 5.
 
 === "Example"
 
@@ -1236,6 +1414,8 @@ b = a * i // i is coerced to double_types1
     i = 9
     i = 10
     ```
+    
+In this example, the else statement is used.
 
 === "Example"
 
@@ -1258,6 +1438,8 @@ b = a * i // i is coerced to double_types1
     i != 5
     i != 5
     ```
+
+In this example, we use a nested **for**-statement.
 
 === "Example"
 
@@ -1282,6 +1464,79 @@ b = a * i // i is coerced to double_types1
 
 ### switch-statement
 
+A **switch**-statement is suitable when a lot of options needs to be evaluated from a single expression. The syntax is:
+
+```
+switch (condition)
+{
+    case expression: 
+        statement
+
+    default:
+        statement
+}
+```
+
+If the *condition* evaluates to one of the case expressions, code jumps to this case expression. Execution then continues through the following case expressions. If conditions does not evaluate to any of the case expressions execution continues after the **switch**-statement or executes the code in the **default** label. The following code shows an example of this:
+
+```cpp
+switch (state) 
+{
+    case 0:
+        cout << "state = 0\n";
+    case 1: 
+        cout << "state = 1\n";
+    default:
+        cout << "state is not 0 or 1\n";
+}
+```
+
+If *state* is **0** output will be:
+
+```
+state = 0
+state = 1
+state is not 0 or 1
+```
+
+if *state* is **1** code execution jumps to the **case 1:** label and the output will be:
+
+```
+state = 1
+state is not 0 or 1
+```
+
+If *state* is not any of the case expressions the **default** section will be executed producing the output:
+
+```
+state is not 0 or 1
+```
+
+If we only want one of the case expressions to be evaluated for a given *state* we have to add a **break** after each case expression as in the following code:
+
+```cpp
+switch (state) 
+{
+    case 0:
+        cout << "state = 0\n";
+        break;
+    case 1: 
+        cout << "state = 1\n";
+        break;
+    default:
+        cout << "state is not 0 or 1\n";
+        break;
+}
+```
+
+The **break** statement will exit the **switch**-statement. The above code with *state* set to **0** will produce the following output:
+
+```
+state = 0
+```
+
+**switch**-statements are very suitable when comparing enumerations as the following example illustrates:
+
 === "Example"
 
     ``` cpp
@@ -1299,13 +1554,56 @@ b = a * i // i is coerced to double_types1
 
 ## Functions
 
-* Use functions to modularise a program
-* Format:
-    - return type name(parameters) { statements } 
-* Return type can be specified as void if nothing is to be returned
-* Call a function by giving the name and parameters
-    - variable = myfunc(parameters)
-    - myfunc2(parameters)
+Functions are the main building blocks of your code. A function is a named block of code performing a certain task of your application. A function can have input arguments and optionally also return a value. The simplified syntax of a function is:
+
+```
+[return type] [name]([arguments])
+{
+    statements
+}
+```
+
+If the function does not return anything the **void** data type must be given. Arguments to the function are also optional. No arguments are indicated with an empty parenthesis. A very simple funtion with no return value and no arguments then becomes:
+
+```cpp
+void simple_func()
+{
+    cout << "This function just prints this message...\n";
+}
+```
+
+The return value is returned using the **return**-statement as shown in this function:
+
+```cpp
+int meaning_of_life()
+{
+    return 42;
+}
+```
+
+Calling a function that doesn't return a value is done by simply giving the name of the function and its argument (empty for the above functions) list:
+
+```cpp
+simple_func()
+```
+
+To call a function that returns a value we must declare a variable to receive the returned value:
+
+```cpp
+int meaning{0};
+
+meaning = meaning_of_life();
+```
+
+Alternatively we can declare and assign the value in a single statement:
+
+```cpp
+int meaning = meaning_of_life();
+```
+
+Variables declared in the function code block are local to the function and are not available outside the function.
+
+The following example shows how a function is declared and called from a main program.
 
 === "Example"
 
@@ -1319,11 +1617,31 @@ b = a * i // i is coerced to double_types1
     Hello, from function!
     ```
 
-### Function parameters
+### Function arguments
 
-* By default a parameter is passed by value
-    - void myfunc(double a)
-    - a will be a copy of the variable passed in the call
+The function arguments are a way of giving input as well as receiving output from a function. By default all values to a function are passed by value, that is the value of an argument is copied over to the function. Passing by value also means that the input argument can't change anything in the code calling the function.
+
+Function arguments are declared in the parenthesis of the function using the datatype of the argument and the name of the argument. Multiple arguments can be specified separating them with commas. Below is a simple function with a single integer argument:
+
+```cpp
+void myfunc(int a)
+{
+    cout << a << "\n";
+}
+```
+
+The function just prints out the value of **a**. It is possible to use the argument as a variable in the function code block.
+
+```cpp
+void myfunc(int a)
+{
+    cout << a << "\n";
+    a = 42;
+    cout << a << "\n";
+}
+```
+
+As the argument **a** is passed by value the assignment of **a** in the function will not affect the any variables in the code calling the function. A complete example of a function with an argument called from a main program is shown below:
 
 === "Example"
 
@@ -1337,7 +1655,7 @@ b = a * i // i is coerced to double_types1
     The value of a = 42
     ```
 
-Pass by value:
+In the following example, this behavior is illustrated by printing the address of the variables in the main program as well as in the function using the reference operator (&).
 
 === "Example"
 
@@ -1353,14 +1671,31 @@ Pass by value:
     &a = 0x7fff5fbff6bc
     ```
 
-### Scalar parameters by reference
+### Passing output arguments
 
-* Pass pointer to variable
-    - void myfunc(double* a)
-* Send address of variable in call
-    - myfunc(&a)
-* In function variable must be derefenced using the * operator
-    - *a = 42
+In most functions we are also interested in getting data out from the function. This can be done in a couple of ways. One way is to pass a pointer over to the function. The pointer itself is passed by value, but the pointer itself points to the address of the variable that should receive the value. The assign a value to the incoming argument we need to dereference the pointer. In the following function we declare an integer pointer for the outgoing argument that we want the function to modify we use the star operator to dereference the pointer, so that we can assign the value of the variable passed in to the function:
+
+```cpp
+void simple(int* a)
+{
+    cout << "The value of a = " << a << endl;
+    cout << "*a = " << *a << endl;
+    *a = 43;
+}
+```
+
+In the main program we declare the variable we want to pass to the function. We can't pass this variable directly to the function as the function requires a pointer as input. To solve this we use the reference operator (&) to pass the address of **a** to the function:
+
+```cpp
+int main()
+{
+    int a = 42;
+    simple(&a);
+    cout << "The value of a = " << a << endl;    
+}
+```
+
+Passing pointer gives us the ability to pass a variable into a function and let the function modify it's value. The complete example is shown below:
 
 === "Example"
 
@@ -1375,13 +1710,28 @@ Pass by value:
     *a = 42
     ```
 
-* Better solution using the reference operator &
-* Pass by reference
-    - void myfunc(double& a)
-* Call function with actual variable
-    - myfunc(a)
-* No need for dereferencing a refers to passed variable
-    - a = 42
+The syntax for scalar values using pointers is a bit clumsy to use. However, there is a better way using reference operators in the argument list. To do this we declare the arguments that will be modified by the function using the reference operator. The previous function then becomes:
+
+```cpp
+void simple(int& a)
+{
+    cout << "The value of a = " << a << endl;    
+    a = 43;
+}
+```
+
+Using the reference operator in the declaration the variable can be used without a star operator just like any other variable. Assigning a value in the function will also change the variable in the code calling the function.
+
+```cpp
+int main()
+{
+    int a = 42;
+    simple(a);
+    cout << "The value of a = " << a << endl;    
+}
+```
+
+Running the above code will print out **43** as the function has assigned 43 to the reference variable **a** in the function.
 
 === "Example"
 
@@ -1398,12 +1748,29 @@ Pass by value:
 
 ### Passing arrays
 
-* Arrays can be passed by pointer operator * or [] index operator
-    - Equivalent 
-* By pointer operator
-    - void myfunc(int* array)
-* By bracket operator
-    - void myfunc(int array[])
+Because there is a duality between pointer and arrays, it is possible to pass arrays using pointers or using the index operator. A function with an array as input can be defined as
+
+```cpp
+void print_array(char* a)
+{
+    for (int i=0; i<4; i++)
+        cout << a[i] << ", ";
+    cout << endl    
+}
+```
+
+or 
+
+```cpp
+void print_array(char a[])
+{
+    for (int i=0; i<4; i++)
+        cout << a[i] << ", ";
+    cout << endl    
+}
+```
+
+The following example shows a complete example with both methods.
 
 === "Example"
 
@@ -1417,7 +1784,7 @@ Pass by value:
     1, 2, 3, 4, 
     ```
 
-Using bracket operators:
+It is also possible to modify the array in the function as shown below.
 
 === "Example"
 
@@ -1431,12 +1798,137 @@ Using bracket operators:
     1, 2, 3, 4, 
     ```
 
+### Preventing accidental modification of arguments (const)
+
+Passing by reference and pointers also means that they can be modified in the functions. If this is not desired it is possible to use the **const** modifier to tell the compiler that the function arguments are not allowed to be modified in the function. We still get the benefits of directly being able to access the incoming argument. In the following declaration we pass a **float** variable by reference, but prefix it with the **const** modifier. Trying to modify the variable in the function will give a compiler error.
+
+```cpp
+float add(const float& a, const float& b)
+{
+    // a = 42; // Uncomment this line will generate a compiler error.
+    return a + b;
+}
+```
+
+Try this yourself in the following example:
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/1MK6dWYxf){ .md-button .md-button--primary .target="_blank"}
+
+Using **const** for basic types in C++ is not really required. It makes more sense when more complicated data types are used such as string, vectors and other classes. In the following example we pass 2 strings by reference to a function using the **const** modifier. This prevents them to be modified in the function. It is also more efficient to pass strings by reference as the string does not have to be copied.
+
+```cpp
+void log_output(const std::string& context, const std::string& message)
+{
+    cout << context << ": " << message << "\n";
+}
+```
+
+Try this yourself in the following example:
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/o3zh75jE6){ .md-button .md-button--primary .target="_blank"}
+
+**const** can also be used with arrays to prevent them to be accidentally modified in a function:
+
+```cpp
+void print_array(const int* a)
+{
+    for (int i=0; i<4; i++)
+        cout << a[i] << ", ";
+    cout << endl    
+}
+```
+
+This is the array example from previous sections using the **const** modifier.
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/MdqeWbxsx){ .md-button .md-button--primary .target="_blank"}
+
+!!! note
+
+    Consider declaring as many input arguments as possible using the **const** modifier. This prevents accidental modification of arguments as well as give important hints to the compiler so it can generate more efficient code.
+
 
 ## Memory allocation
 
+In C++, memory allocation can be broadly classified into two types: stack-based memory allocation and heap-based memory allocation. 
+
+Stack-based memory allocation is automatic and is utilized for all local variables defined in the main program, functions, and code blocks. When a stack-based variable goes out of scope, meaning the execution leaves the corresponding code block, the memory occupied by that variable is automatically freed. The name "stack" comes from the way memory is managed for these variables - they are pushed onto the stack when defined in the code block and popped off the stack when the code block execution is completed.
+
+!!! note 
+
+    Please note that in stack-based memory allocation, the size of the memory allocated to a variable is fixed and determined at compile time. This means that the memory for variables is allocated and deallocated in a last-in, first-out (LIFO) manner, following the order of variable declaration and scope.
+
+The other kind of memory allocation is heap-based memory allocation. The heap is an area that is managed by the operating system and allocating memory on the heap requires a call to the operating system, which can be costly. However, in many cases the amount of memory required can't always be determined at compile time, then we have to use heap-based allocation. 
+
+When we allocate on the heap we will receive a memory address from the operating system which we assign to a pointer variable. It is also important to note that it is the developer's responsibility to release allocated heap memory when it is not needed anymore. 
+
+In the following sections, we will cover how memory on the heap is allocated using the builtin methods for this in C++
+
 ### Memory allocation in C++
 
-### Dynamic memory allocation
+In C++ allocation on the heap is using the **new** operator. The **new** operator has the following syntax:
+
+```cpp
+new type initialiser
+```
+
+new returns a pointer to the allocated type. In the following example we allocate a single floating point value.
+
+```cpp
+float* pvalue = nullptr;
+pvalue = new float;
+```
+
+To access and assign a value to the newly created memory we need to dereference the pointer.
+
+```cpp
+*pvalue = 42.0f;
+cout << *pvalue << "\n";
+```
+
+When we are done using the allocated memory we need to release it again to the operating system. If we don't release the memory we have created a memory leak in our program and if memory is allocated continuously during the lifetime of your application the application will at some point have consumed all memory in your computer, which can lead to crashes and your computer slowing down. To release memory allocated on the heap the **delete** operator is used. The syntax is:
+
+```cpp
+delete pointer-variable;
+```
+
+To delete our previously allocated memory the code becomes.
+
+```cpp
+delete pvalue;
+```
+
+The allocated memory has now been release back to the operating system. We will discuss in the coming chapters how we can avoid creating memory leaks by using smart pointers, that handle the deallocation of memory automatically.
+
+### Allocating arrays
+
+Allocating basic scalar types in C++ is overkill. The real benefits of heap memory allocation is to allocate large arrays of different datatypes. C++ has special versions of the **new** and **delete** functions for allocating arrays. 
+
+To allocate an array in C++ we add a bracket with the size of the array when we allocate memory for the array.
+
+```cpp
+float* arr = nullptr;
+
+arr = new float[100];
+```
+
+or in a single statement.
+
+```cpp
+float* arr = new float[100];
+```
+
+As pointers can be used using array notation by default an array created with **new** can doesn't have to be dereferenced as with the basic types. 
+
+```cpp
+for (int i=0; i<100; i++)
+    arr[i] = 0.0f;
+```
+
+When the array is no longer needed it has to be released with **delete**. However, we need to use a special version of **delete** on arrays, **delete []**.
+
+```cpp
+delete [] arr;
+```
 
 ### Two-dimensional arrays C++ Style
 

@@ -40,6 +40,9 @@ theme:
       example: fontawesome/solid/flask
       quote: fontawesome/solid/quote-left
 
+extra_css:
+    - css/pdf.css
+
 markdown_extensions:
   - admonition
   - attr_list
@@ -59,3 +62,11 @@ markdown_extensions:
   - meta
   - tables
 
+plugins:
+  - search
+  - open-in-new-tab
+#  - with-pdf
+#  - pdf-export:
+#      verbose: true
+#      media_type: print
+#      combined: true
