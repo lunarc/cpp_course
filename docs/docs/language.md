@@ -770,6 +770,91 @@ svea->firstName = "Dynamo";
     sizeof(c1) = 16
     ```
 
+### Type deduction and the auto keyword
+
+In C++ all variables must be declared with a type, which can lead to long declarations and make the code unreadable. In many cases, the compiler can automatically deduce which data type should be used. In those cases, we can use the **auto** keyword to tell the compiler to figure out the data type for us automatically. Consider the following example:
+
+```cpp
+int a = 42;
+```
+
+A string literal in C++ (a constant value in the source code) is represented by the data type it fits, starting with **int** followed by **long int** and **long long int**. In the above example fits in a **int** variable and is stored as an **int** the compiled code. If we are not interested in the actual data type we can let the compiler decide the statement above then becomes:
+
+```cpp
+auto a = 42;
+```
+
+We can validate using the **<typename>** include in the standard library using the following code.
+
+```cpp
+cout << typeid(a).name() << endl;
+```
+
+This will print out
+
+```
+i
+```
+
+**i** is GCC:s type name for an **int**. Other variable declarations can also be deduced by the string literal assigned to the **auto** declared variable.
+
+```cpp
+auto b = 42l;   // type suffix for a long data type
+auto c = 42.0;  // no suffix denotes a double
+auto d = 42.0f; // f suffix denotes a float
+
+cout << typeid(b).name() << endl;
+cout << typeid(c).name() << endl;
+cout << typeid(d).name() << endl;
+```
+
+Which gives the following output:
+
+```
+l
+d
+f
+```
+
+The complete example is given below:
+
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_variables/auto1.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    i
+    l
+    d
+    f    
+    ```
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/xns1z4G5d){ .md-button .md-button--primary .target="_blank"}
+
+A good use of the **auto** keyword is to use it as the data type for loop variables. The compiler will then automatically select the correct data type depending on the size of the loop range. An **auto** declared loop is shown in the following example:
+
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_variables/auto2.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    99999999, i
+    ```
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/1YsE9joT5){ .md-button .md-button--primary .target="_blank"}
+
+Increase the range of the loop in the example and see how the datatype changes.
+
+The **auto** keyword becomes more interesting when working with data structures and algorithm by reducing the complexity of the required declarations.
+
 ## Strings
 
 To overcome many of the limitations of the C based string, C++ provides its own string type, **std::string**. This is a very flexible string type that also provides more safety. The string type also provides compatibility with the C string by providing a special method for passing it as character string using the **.c_str()** method.
@@ -1932,10 +2017,362 @@ delete [] arr;
 
 ### Two-dimensional arrays C++ Style
 
+C++ has no direct support for dynamically allocated two-dimensional arrays. However, we can create arrays of pointers to arrays to simulate this kind of an array. The idea is to create an array of pointers for each row in the array. These pointers will point to arrays with size of the number of columns of the array. First we declare our main array, which will contain *rows* pointers of **int**. These pointers we will allocated in the inner loop
+
+```cpp
+const int rows = 4;
+const int cols = 8;
+
+int** array = new int*[rows];
+```
+
+Next we loop over the main array, allocating an array for each row with the size *cols*.
+
+```cpp
+for (auto i=0; i<rows; i++)
+{
+    array[i] = new int[cols];
+    
+    for (auto j=0; j<cols; j++)
+        array[i][j] = 0;
+}
+```
+
+We now have an allocated two-dimensional array, which we can used like any other array in C++. Assigning the second row and second column can be done like this:
+
+```cpp
+array[1][1] = 42;
+```
+
+To delete the allocated memory for this array we first need to delete the memory for our *rows* and finally delete the outer array of pointers.
+
+```cpp
+// Deleting row arrays
+
+for (auto i=0; i<rows; i++)
+    delete [] array[i];
+
+// Delete main array.
+
+delete [] array;
+```
+
+The best way of handling the creation and destruction of these arrays is to create one function for creating the array and another one for destroying the array, see following sections.
+
+A complete example of this is shown below:
+
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_arrays/array_2d.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    0, 1, 2, 3, 4, 5, 6, 7, 
+    8, 9, 10, 11, 12, 13, 14, 15, 
+    16, 17, 18, 19, 20, 21, 22, 23, 
+    24, 25, 26, 27, 28, 29, 30, 31, 
+    ```
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/MY4Pxanoj){ .md-button .md-button--primary .target="_blank"}
+
 ### Two-dimensional array Fortran Style
+
+The method using an array of pointers is not a very efficient data structure in computational codes as it creates as it allocates many smaller memory blocks. To solve this we can use the same approach as in Fortran and allocate a single memory block and access it like a two-dimensional array with some tricks.
+
+First we create the same array of pointer as in the previous example.
+
+```cpp
+int** array = new int*[rows];
+```
+
+We then allocate a single array that contains all elements of the array and assign the first pointer in **array**.
+
+```cpp
+array[0] = new int[rows*cols];
+```
+
+To be able to access the **array** just like any other array we need to assign pointers to different positions in the array where the different rows start.
+
+```cpp hl_lines="5"
+int counter = 0;
+
+for (int i=0; i<rows; i++)
+{
+    array[i] = &array[0][i*cols];
+    
+    for (int j=0; j<cols; j++)
+        array[i][j] = counter++;
+}
+```
+
+The trick is on line 5. Here we retrieve the address (&) where each row starts and assign it to the correct row of the pointer array. Destroying the array is done almost in the same way except we don't have to loop over the outer array.
+
+```cpp
+delete [] array[0];
+delete [] array;
+```
+
+A complete example is available below:
+
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_arrays/cont_array_2d.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    0, 1, 2, 3, 4, 5, 6, 7, 
+    8, 9, 10, 11, 12, 13, 14, 15, 
+    16, 17, 18, 19, 20, 21, 22, 23, 
+    24, 25, 26, 27, 28, 29, 30, 31, 
+    ```
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/Mabv41aKe){ .md-button .md-button--primary .target="_blank"}
 
 ### Functions for 2D arrays
 
+To make it easier to used two-dimensional arrays in C++ we will implement three functions for this purpose:
+
+ 1. A function for creating an array of a given size.
+ 2. A function for initialising the array with a given value.
+ 3. A function for destroying the allocated array.
+
+The function for creating an array will need to have an output argument for the allocated array (int**) and input argument for the number of rows and columns. We use the reference operator (&) for passing the allocated pointer out from the function. The finished function becomes:
+
+```cpp
+void createArray(int** &array, int rows, int cols)
+{
+    array = new int*[rows];
+    array[0] = new int[rows*cols];    
+
+    for (auto i=0; i<rows; i++)
+        array[i] = &array[0][i*cols];
+}
+```
+
+The function does not initialise the values of the array. An example of this is shown in the following function:
+
+```cpp
+void zeroArray(int** &array, int rows, int cols)
+{
+    for (auto i=0; i<rows; i++)
+        for (auto j=0; j<cols; j++)
+            array[i][j] = 0;
+}
+```
+
+As we pass by reference **array** can be used just as if it was a normal variable.
+
+Finally implement a function for destroying the allocated array:
+
+```cpp
+void deleteArray(int** &array)
+{
+    delete[] array[0];
+    delete[] array;
+    array = nullptr;
+}
+```
+
+!!! note
+
+    To enable checking if the array has been allocated or destroyed we assign the array the special value nullptr to indicate that the variable is destroyed.
+
+To use the functions we first declare our array and assign it the **nullptr** as value. 
+
+```cpp
+int** array = nullptr;
+```
+
+Next we call the **createArray()** function to allocate our array.
+
+```cpp
+createArray(array, 4, 8);
+```
+
+Next, we initialize our array with zeros using the **zeroArray()** function.
+
+```cpp
+zeroArray(array, 4, 8);
+```
+
+We can now use the array just like in our previous examples.
+
+```cpp
+for (auto i=0; i<4; i++)
+{
+    for (auto j=0; j<8; j++)
+        cout << array[i][j] << ", ";
+    
+    cout << endl;
+}
+```
+
+Finally we destroy the array with:
+
+```cpp
+deleteArray(array);
+```
+
+A complete example of this is shown below:
+
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_arrays/cont_array_2d_2.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    0, 0, 0, 0, 0, 0, 0, 0, 
+    0, 0, 0, 0, 0, 0, 0, 0, 
+    0, 0, 0, 0, 0, 0, 0, 0, 
+    0, 0, 0, 0, 0, 0, 0, 0, 
+    ```
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/vj4Ydfrn1){ .md-button .md-button--primary .target="_blank"}
+
 ### Dynamic arrays of struct
+
+Just as it is possible to create arrays of the basic variable types it is also possible to create arrays of defined datatypes with the **struct** datatype. In principle it is done mostly just like normal arrays. In the following example we will define a struct, **coord3D**, for storing the position of a coordinate in space.
+
+```cpp
+struct coord3D {
+    double x;
+    double y;
+    double z;
+};
+```
+
+Next, we allocate an array of 10 coordinates.
+
+```cpp
+coord3D* coords = new coord3D[10];
+```
+
+We can now use the array to initialise the coordinates. Accessing the individual elements of the **coord3D** struct is done using dot notation as shown in the code below.
+
+```cpp
+double counter = 0.0;
+
+for (auto i=0; i<10; i++)
+{
+    coords[i].x = counter++;
+    coords[i].y = counter++;
+    coords[i].z = counter++;
+}
+```
+
+Printing the values is done in a similar way.
+
+```cpp
+for (auto i=0; i<10; i++)
+    cout << coords[i].x << ", " << coords[i].y << ", " << coords[i].z << endl;
+```
+
+As this is a dynamically allocated array we need to delete it using the **delete []** statement.
+
+```cpp
+delete [] coords;
+```
+
+The complete example can found below:
+
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_arrays/struct_array.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    0, 1, 2
+    3, 4, 5
+    6, 7, 8
+    9, 10, 11
+    12, 13, 14
+    15, 16, 17
+    18, 19, 20
+    21, 22, 23
+    24, 25, 26
+    27, 28, 29
+    ```
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/fo4nvvj7G){ .md-button .md-button--primary .target="_blank"}
+
+### Dynamic arrays of struct pointers
+
+In some cases it can be required to allocate the individual structs themself dynamically. To do this we allocate an array of pointers to the struct.
+
+```cpp
+coord3D** coords = new coord3D*[10];
+```
+
+Before we can use this array we need to initialise the pointers of the array. In this case we need to allocate each element of the array using a **new** statement.
+
+```cpp
+double counter = 0.0;
+
+for (auto i=0; i<10; i++)
+{
+    coords[i] = new coord3D;
+    coords[i]->x = counter++;
+    coords[i]->y = counter++;
+    coords[i]->z = counter++;
+}
+```
+
+Accessing the individual element of the struct must now be done using the arrow operator (->). 
+
+```cpp
+for (auto i=0; i<10; i++)
+    cout << coords[i]->x << ", " << coords[i]->y << ", " << coords[i]->z << endl;
+```
+
+To delete the array the individual structs must be deleted before we delete the outer pointer array.
+
+```cpp
+for (auto i=0; i<10; i++)
+    delete coords[i];
+```
+
+Finally the pointer array is deleted.
+
+```cpp
+delete [] coords;
+```
+
+The complete example is shown below:
+
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_arrays/struct_array2.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    0, 1, 2
+    3, 4, 5
+    6, 7, 8
+    9, 10, 11
+    12, 13, 14
+    15, 16, 17
+    18, 19, 20
+    21, 22, 23
+    24, 25, 26
+    27, 28, 29
+    ```
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/7KvYos4x7){ .md-button .md-button--primary .target="_blank"}
+
 
 

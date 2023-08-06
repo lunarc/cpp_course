@@ -4,10 +4,10 @@ nav:
 - History: history.md
 - Building and running: build_and_run.md
 - The C++ language: language.md
-- Organising code: code_org.md
-- Input and output: input_output.md
 - Data structures and algorithms: data_structures_algorithms.md
+- Input and output: input_output.md
 - Object-oriented programming: oop.md
+- Organising code: code_org.md
 - Debugging: debugging.md
 - Mixed-language programming: mixed_language.md
 
@@ -61,6 +61,9 @@ markdown_extensions:
       emoji_generator: !!python/name:materialx.emoji.to_svg
   - meta
   - tables
+  - def_list
+  - pymdownx.tasklist:
+      custom_checkbox: true  
 
 plugins:
   - search

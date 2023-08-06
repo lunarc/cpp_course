@@ -22,11 +22,12 @@ void deleteArray(int** &array)
 {
     delete[] array[0];
     delete[] array;
+    array = nullptr;
 }
 
 int main()
 {
-    int** array;
+    int** array{nullptr};
     
     createArray(array, 4, 8);
     zeroArray(array, 4, 8);
