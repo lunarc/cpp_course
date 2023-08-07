@@ -1,6 +1,8 @@
 #include "drawing_area.h"
 
 #include <QPainter>
+#include <QDebug>
+
 
 float rnd()
 {
