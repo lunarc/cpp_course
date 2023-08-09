@@ -833,7 +833,7 @@ The complete example is given below:
     f    
     ```
 
-[:fontawesome-solid-gears: Try example](https://godbolt.org/z/xns1z4G5d){ .md-button .md-button--primary .target="_blank"}
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/xns1z4G5d){ .md-button  .target="_blank"}
 
 A good use of the **auto** keyword is to use it as the data type for loop variables. The compiler will then automatically select the correct data type depending on the size of the loop range. An **auto** declared loop is shown in the following example:
 
@@ -849,7 +849,7 @@ A good use of the **auto** keyword is to use it as the data type for loop variab
     99999999, i
     ```
 
-[:fontawesome-solid-gears: Try example](https://godbolt.org/z/1YsE9joT5){ .md-button .md-button--primary .target="_blank"}
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/1YsE9joT5){ .md-button  .target="_blank"}
 
 Increase the range of the loop in the example and see how the datatype changes.
 
@@ -954,7 +954,7 @@ In the following example these methods are illustrated.
     s4 = great 
     ```
 
-[:fontawesome-solid-gears: Try example](https://godbolt.org/z/qP9WdGf7x){ .md-button .md-button--primary .target="_blank"}
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/qP9WdGf7x){ .md-button  .target="_blank"}
 
 ### Searching C++ strings
 
@@ -973,7 +973,7 @@ A very common tasks when using string is searching for specific characters or su
     The next 'o' is at position 17
     ```
 
-[:fontawesome-solid-gears: Try example](https://godbolt.org/z/hzferG7d3){ .md-button .md-button--primary .target="_blank"} 
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/hzferG7d3){ .md-button  .target="_blank"} 
 
 ### Compatibility with C strings (char*)
 
@@ -1275,7 +1275,7 @@ In line 10 the iteration will continue and no output will be printed. In line 13
 
 Try it yourself below:
 
-[:fontawesome-solid-gears: Try example](https://godbolt.org/z/1aGzsWM69){ .md-button .md-button--primary .target="_blank"} 
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/1aGzsWM69){ .md-button  .target="_blank"} 
 
 ### while-statement
 
@@ -1305,7 +1305,7 @@ The **while**-statement iterates a statement until a certain expression is false
 
     In a **while**-statement it is our responsibility to make sure any variables used in the expression are initialised. If not the code can get stuck in an endless iteration. The same situation can happen if the variables in the expression are not updated in the code block for the **while**-statement.
 
-[:fontawesome-solid-gears: Try example](https://godbolt.org/z/K1b5WGGx6){ .md-button .md-button--primary .target="_blank"} 
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/K1b5WGGx6){ .md-button  .target="_blank"} 
 
 ### do-statement
 
@@ -1333,7 +1333,7 @@ In the **while**-statement the statements in the code block are not executed if 
 
 In this example *counter* is initalised and the first iteration of the **do**-statement is entered regardless of the value of the *counter* variable. If *counter* would have been set to **20**, the value would still have been printed in the first iteration.
 
-[:fontawesome-solid-gears: Try example](https://godbolt.org/z/fd813v1od){ .md-button .md-button--primary .target="_blank"} 
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/fd813v1od){ .md-button  .target="_blank"} 
 
 ### for-statement
 
@@ -1394,7 +1394,7 @@ An example of using a **for**-statement to update the counter as in the previous
     counter = 10
     ```
 
-[:fontawesome-solid-gears: Try example](https://godbolt.org/z/35ecerj5n){ .md-button .md-button--primary .target="_blank"} 
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/35ecerj5n){ .md-button  .target="_blank"} 
 
 In the following example, we use the iteration update step to calculate a sum.
 
@@ -1410,7 +1410,7 @@ In the following example, we use the iteration update step to calculate a sum.
     sum = 50015001
     ```
 
-[:fontawesome-solid-gears: Try example](https://godbolt.org/z/TzT78fWcj){ .md-button .md-button--primary .target="_blank"} 
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/TzT78fWcj){ .md-button  .target="_blank"} 
 
 
 ### Conditional statements
@@ -1897,7 +1897,7 @@ float add(const float& a, const float& b)
 
 Try this yourself in the following example:
 
-[:fontawesome-solid-gears: Try example](https://godbolt.org/z/1MK6dWYxf){ .md-button .md-button--primary .target="_blank"}
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/1MK6dWYxf){ .md-button  .target="_blank"}
 
 Using **const** for basic types in C++ is not really required. It makes more sense when more complicated data types are used such as string, vectors and other classes. In the following example we pass 2 strings by reference to a function using the **const** modifier. This prevents them to be modified in the function. It is also more efficient to pass strings by reference as the string does not have to be copied.
 
@@ -1910,7 +1910,7 @@ void log_output(const std::string& context, const std::string& message)
 
 Try this yourself in the following example:
 
-[:fontawesome-solid-gears: Try example](https://godbolt.org/z/o3zh75jE6){ .md-button .md-button--primary .target="_blank"}
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/o3zh75jE6){ .md-button  .target="_blank"}
 
 **const** can also be used with arrays to prevent them to be accidentally modified in a function:
 
@@ -1925,7 +1925,7 @@ void print_array(const int* a)
 
 This is the array example from previous sections using the **const** modifier.
 
-[:fontawesome-solid-gears: Try example](https://godbolt.org/z/MdqeWbxsx){ .md-button .md-button--primary .target="_blank"}
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/MdqeWbxsx){ .md-button  .target="_blank"}
 
 !!! note
 
@@ -2076,7 +2076,7 @@ A complete example of this is shown below:
     24, 25, 26, 27, 28, 29, 30, 31, 
     ```
 
-[:fontawesome-solid-gears: Try example](https://godbolt.org/z/MY4Pxanoj){ .md-button .md-button--primary .target="_blank"}
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/MY4Pxanoj){ .md-button  .target="_blank"}
 
 ### Two-dimensional array Fortran Style
 
@@ -2132,7 +2132,7 @@ A complete example is available below:
     24, 25, 26, 27, 28, 29, 30, 31, 
     ```
 
-[:fontawesome-solid-gears: Try example](https://godbolt.org/z/Mabv41aKe){ .md-button .md-button--primary .target="_blank"}
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/Mabv41aKe){ .md-button  .target="_blank"}
 
 ### Functions for 2D arrays
 
@@ -2236,7 +2236,7 @@ A complete example of this is shown below:
     0, 0, 0, 0, 0, 0, 0, 0, 
     ```
 
-[:fontawesome-solid-gears: Try example](https://godbolt.org/z/vj4Ydfrn1){ .md-button .md-button--primary .target="_blank"}
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/vj4Ydfrn1){ .md-button  .target="_blank"}
 
 ### Dynamic arrays of struct
 
@@ -2305,7 +2305,7 @@ The complete example can found below:
     27, 28, 29
     ```
 
-[:fontawesome-solid-gears: Try example](https://godbolt.org/z/fo4nvvj7G){ .md-button .md-button--primary .target="_blank"}
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/fo4nvvj7G){ .md-button  .target="_blank"}
 
 ### Dynamic arrays of struct pointers
 
@@ -2372,7 +2372,7 @@ The complete example is shown below:
     27, 28, 29
     ```
 
-[:fontawesome-solid-gears: Try example](https://godbolt.org/z/7KvYos4x7){ .md-button .md-button--primary .target="_blank"}
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/7KvYos4x7){ .md-button  .target="_blank"}
 
 
 

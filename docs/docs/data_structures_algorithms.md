@@ -57,7 +57,7 @@ To access the actual value that corresponds to the current position of the itera
     cout << *it << "\n";
 ```
 
-[:fontawesome-solid-gears: Try example](https://godbolt.org/z/sbTMab6v7){ .md-button .md-button--primary .target="_blank"}
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/sbTMab6v7){ .md-button  .target="_blank"}
 
 If the data structure supports random access to the individual elements it is also possible to access the individual elements using the []-operator or the **.at()**-method. The **.at()**-method also supports bound checking.
 
@@ -81,11 +81,109 @@ for (auto it=v.begin(); it!=v.end(); it++)
 }
 ```
 
-[:fontawesome-solid-gears: Try example](https://godbolt.org/z/rvYM6Yzzo){ .md-button .md-button--primary .target="_blank"}
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/rvYM6Yzzo){ .md-button  .target="_blank"}
 
 ## Range-based loops
 
-## std::array<T>
+To make it even easier iterate over data structure a new loop construct was introduced to the C++ language, the range-based loop. This construct is very similar to the way you iterate over data structures in Python. The syntax is simplifed:
+
+```
+for (named-variable : range-expression)
+    loop-body
+```
+
+The *name-variable* is a variable of the same type as declared in the data structure to loop over. *range-expression* is the data structure that we will iterate over. A simple example iterating over a vector.
+
+```cpp
+std::vector vec = { 1, 2, 3, 4, 5 };
+
+for (auto value : vec)
+    std::cout << value << "\n";
+```
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/rMY87bEsq){ .md-button  .target="_blank"}
+
+As we can see in the above example there is no need to use any iterators. In the following example **value** is copied from **vec**. If you have larger values in your data structures it is not efficient to copy the value in each iteration. To solve this the range-based loop can also be implemented using the reference operator (&). The code then becomes:
+
+```cpp
+std::vector vec = { 1, 2, 3, 4, 5 };
+
+for (auto& value : vec)
+    std::cout << value << "\n";
+```
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/aMTh88one){ .md-button  .target="_blank"}
+
+In this implementation **value** is actually a reference to the value in **vec**. It is also possible to change the actual values of **vec** by assigning a value to **value**.
+
+```cpp
+std::vector vec = { 1, 2, 3, 4, 5 };
+
+for (auto& value : vec)
+    value = 0;
+
+for (auto& value : vec)
+    cout << value << "\n";
+```
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/G4GTh7cc1){ .md-button  .target="_blank"}
+
+!!! note
+
+    To be able to use the range-based for loop in C++ the data structure that you iterate over need to support iterators as this is the inner mechanics for the range-base loop.
+
+## std::array<T, N\>
+
+If the size of an array is known at compile time, it is often more effective to use a static array. However, the static C-based array in C++ is often harder to use with built-in algorithms and range-based loops as it lacks an easy way of querying the size of the array. To overcome this the **std::array** was introduced. This data structure combines the benefits of a C based static array with standard C++ container based data structure. To use the array we use the following include:
+
+```cpp
+#include <array>
+```
+
+To declare a **std::array** you have to specify a data type and the size of the array:
+
+```cpp
+std::array<float, 10> arr = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+```
+
+As this data structure is compatible with standard C++ containers it is possible to use a range-based for loop to iterate over the values.
+
+```cpp
+for (auto& value : arr)
+    cout << value << "\n";
+```
+
+It is also possible to use C++ type deduction to automatically create an array without specifying data type and size.
+
+```cpp
+std::array arr = { 1.0f, 2.0f, 3.0f, 4.0f , 5.0f , 6.0f, 7.0f, 8.0f, 9.0f, 10.0f };
+```
+
+The size of an array can be queried using the **.size()** method.
+
+```cpp
+cout << "array size = " << arr.size() << "\n";
+```
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/Pr9KWKxoG){ .md-button  .target="_blank"}
+
+**std::array** can also be used exactly as a normal array using the []-operator.
+
+```cpp
+for (auto i=0; i<arr.size(); i++)
+    cout << arr[i] << "\n";
+```
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/9faqKnPYP){ .md-button  .target="_blank"}
+
+Consider using **std::array** instead of static arrays whenever possible. If a pointer to an array is required it is always possible to use the **.data()** to get access to the pointer of the underlying array.
+
+```cpp
+auto* parr = arr.data();
+
+for (auto i=0; i<10; i++)
+    cout << parr[i] << "\n";
+```
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/b9nsqozfG){ .md-button .target="_blank"}
+
+
 
 ## std::vector<T>
 
