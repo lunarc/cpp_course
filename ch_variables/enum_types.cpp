@@ -2,24 +2,28 @@
 
 using namespace std;
 
-int main() 
+int main()
 {
-    enum { RED, GREEN, BLUE, YELLOW };
-    
-    cout << "RED = " << RED << endl;
-    cout << "GREEN = " << GREEN << endl;
-    cout << "BLUE = " << BLUE << endl;
-    cout << "YELLOW = " << YELLOW << endl;
-    
-    enum flavor { VANILLA, CHOCOLATE, ORANGE, STRAWBERRY };
-    
-    flavor selectedFlavor = ORANGE;
-    
+    enum { Red, Green, Blue, Yellow };
+
+    cout << "RED = " << Red << endl;
+    cout << "GREEN = " << Green << endl;
+    cout << "BLUE = " << Blue << endl;
+    cout << "YELLOW = " << Yellow << endl;
+
+    int simple_color = Green;
+
+    cout << "simple_color = " << simple_color << endl;
+
+    enum flavor { Vanilla, Chocolate, Orange, Strawberry };
+
+    flavor selectedFlavor = Orange;
+
     cout << "selectedFlavor = " << selectedFlavor << endl;
-    
-    enum status { FINISHED = 0, ERROR = 15 };
-    
-    status currentStatus = ERROR;
-    
+
+    enum status { Finished = 0, Error = 15 };
+
+    status currentStatus = Error;
+
     cout << "currentStatus = " << currentStatus << endl;
 }

@@ -17,7 +17,7 @@ public:
     void add(Shape* shape);
     void remove(Shape* shape);
     void clear();
-    int count();
+    size_t count();
     
     Shape* at(int idx);
 };

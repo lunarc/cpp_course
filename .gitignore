@@ -2,6 +2,7 @@
 armadillo/*
 build/*
 book/build/*
+docs/site/*
 *~
 *.xml
 .idea/
@@ -38,3 +39,16 @@ cmake-build-release/*
 *.zip
 *.tar
 *.xz
+.qmake.stash
+*.a332f88
+CMakeLists.txt.user
+*.user
+*.user
+*.123a86d
+*.user
+*.user
+*.user
+*.user
+*.user
+CMakeLists.txt.user
+*.user

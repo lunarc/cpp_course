@@ -4,12 +4,8 @@ using namespace std;
 
 int main()
 {
-    int sum, i;
-    
-    for (sum=0, i=0;i<100;sum+=i,i++);
-    cout << "sum = " << sum << endl;
-    for (sum=0, i=0;i<100;i++,sum+=i);
-    cout << "sum = " << sum << endl;
-    
-    cout << "Hello, C++" << endl;
+    for (auto i = 0; i < 10; i++)
+        cout << i << "\n";
+
+    cout << "Hello, C++\n";
 }

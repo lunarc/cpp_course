@@ -2,11 +2,15 @@
 #include <cmath>
 #include <Eigen/Dense>
 #include <set>
+#include <numbers>
 
 #include "calfem_eig.h"
 
 using namespace std;
 using namespace Eigen;
+
+//constexpr auto PI = 3.14159265358979323846;
+constexpr auto PI = std::numbers::pi;
 
 int main()
 {
@@ -37,8 +41,8 @@ int main()
     MatrixXd f(12,1);
     f = MatrixXd::Zero(12,1);
 
-    f(10,0) = 0.5e6*sin(M_PI/6);
-    f(11,0) = -0.5e6*cos(M_PI/6);
+    f(10,0) = 0.5e6*sin(PI/6);
+    f(11,0) = -0.5e6*cos(PI/6);
     
     // Material properties
     
@@ -90,7 +94,7 @@ int main()
     bcDofs << 0, 1, 2, 3;
     
     VectorXi bcValues(4);
-    bcValues << 0.0, 0.0, 0.0, 0.0;
+    bcValues << 0, 0, 0, 0;
     
     // Solution displacment and reaction vector
     

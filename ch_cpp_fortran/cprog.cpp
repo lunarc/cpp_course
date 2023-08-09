@@ -1,24 +1,24 @@
 #include <iostream>
-#include <armadillo>
+#include <Eigen/Dense>
 
 using namespace std;
-using namespace arma;
+using namespace Eigen;
 
 extern "C" void multiply(double a[], double b[], double c[], int a_rows, int a_cols, int b_rows, int b_cols);
 
 int main()
 {
-    mat a = randu<mat>(5,5);
-    mat b = randu<mat>(5,5);
-    mat c(5,5);
+    MatrixXd a = MatrixXd::Random(5,5);
+    MatrixXd b = MatrixXd::Random(5,5);
+    MatrixXd c(5,5);
 
-    cout << "a = " << endl;
-    a.print();
-    cout << "b = " << endl;
-    b.print();
+    cout << "a = " << "\n";
+    cout << a << "\n";
+    cout << "b = " << "\n";
+    cout << b << "\n";
     
-    multiply(a.memptr(), b.memptr(), c.memptr(), a.n_rows, a.n_cols, b.n_rows, b.n_cols);
+    multiply(a.data(), b.data(), c.data(), a.rows(), a.cols(), b.rows(), b.cols());
 
-    cout << "c = " << endl;
-    c.print();
+    cout << "c = " << "\n";
+    cout << c << "\n";
 }

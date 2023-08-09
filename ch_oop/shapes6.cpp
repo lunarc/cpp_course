@@ -21,25 +21,24 @@ int main()
     Rectangle r0(0.0, 0.0, 2.0, 1.0);
     r0.print();
 
-    Rectangle* rect = new Rectangle(0.0, 0.0, 1.0, 2.0);
+    auto rect = new Rectangle(0.0, 0.0, 1.0, 2.0);
     rect->print();
     delete rect;
 
-    std::unique_ptr<Rectangle> rect2(new Rectangle(1.0, 1.0, 3.0, 3.0));
-    //std::unique_ptr<Rectangle> rect2 = std::make_unique<Rectangle>(1.0, 1.0, 3.0, 3.0);
+    auto rect2 = make_shared<Rectangle>(1.0, 1.0, 3.0, 3.0);
     rect2->print();
 
-    std::unique_ptr<Rectangle> rect3(std::move(rect2));
+    auto rect3(std::move(rect2));
     rect3->print();
 
     //  rect2->print();  // Not allowed
 
-    std::shared_ptr<Rectangle> rect4(new Rectangle(2.0, 2.0, 4.0, 4.0));
-    std::shared_ptr<Rectangle> rect5(nullptr);
+    std::shared_ptr<Rectangle> rect4 = make_shared<Rectangle>(2.0, 2.0, 4.0, 4.0);
+    std::shared_ptr<Rectangle> rect5;
 
     rect5 = rect4;
 
-    std::shared_ptr<Rectangle> rect6(rect5);
+    auto rect6(rect5);
 
     rect5->print();
     rect4->print();

@@ -4,10 +4,10 @@
 
 using namespace std;
 
-static const int numThreads = 8;
+static const auto numThreads = 8;
 std::mutex sumLock;
 
-void sum(double a, double b, int id, double* sum)
+void sum(const double a, const double b, const int id, double* sum)
 {
     double localSum = 0;
 
@@ -41,16 +41,16 @@ int main()
         i1 = chunkSize*(i+1)-1;
         if (i == numThreads-1)
             i1 += remainder + 1;
-        cout << "i0 = " << i0 << " i1 = " << i1 << endl;
+        cout << "i0 = " << i0 << " i1 = " << i1 << "\n";
         threads[i] = thread(sum, i0, i1, i, sums);
     }
 
-    cout << "Waiting for completion..." << endl;
+    cout << "Waiting for completion..." << "\n";
 
     for (int i = 0; i < numThreads; i++)
     {
         threads[i].join();
-        cout << sums[i] << endl;
+        cout << sums[i] << "\n";
         totalSum += sums[i];
     }
 

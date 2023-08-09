@@ -1,46 +1,37 @@
-#include <iostream>
-#include <vector>
-#include <string>
 #include <algorithm>
-
-using namespace std;
+#include <iostream>
+#include <string>
+#include <vector>
 
 void myfunc(int i)
 {
-    cout << i << endl;
+    std::cout << i << "\n";
 }
 
 bool greaterThan5(int i)
 {
-    return i>5;
+    return i > 5;
 }
 
 int main()
 {
-    vector<int> vec;
-    vector<int>::iterator it;
-    
-    vec.push_back(5);
-    vec.push_back(1);
-    vec.push_back(3);
-    vec.push_back(4);
-    vec.push_back(4);
-    vec.push_back(8);
+    std::vector<int> vec{5, 1, 3, 4, 4, 8};
 
-    for_each(vec.begin(), vec.end(), myfunc);
-    
-    it = find_if(vec.begin(), vec.end(), greaterThan5);
-    cout << "found " << *it << endl;
-    
-    sort(vec.begin(), vec.end());
-    
-    for_each(vec.begin(), vec.end(), myfunc);
-    
-    cout << "max value = " << *max_element(vec.begin(), vec.end()) << endl;
-    
-    cout << "min value = " << *min_element(vec.begin(), vec.end()) << endl;
-    
-    fill(vec.begin(), vec.end(), 0);
+    std::for_each(vec.begin(), vec.end(), myfunc);
 
-    for_each(vec.begin(), vec.end(), myfunc);    
+    auto it = std::find_if(vec.begin(), vec.end(), greaterThan5);
+
+    std::cout << "found " << *it << "\n";
+
+    std::sort(vec.begin(), vec.end());
+
+    std::for_each(vec.begin(), vec.end(), myfunc);
+
+    std::cout << "max value = " << *std::max_element(vec.begin(), vec.end()) << "\n";
+
+    std::cout << "min value = " << *std::min_element(vec.begin(), vec.end()) << "\n";
+
+    std::fill(vec.begin(), vec.end(), 0);
+
+    std::for_each(vec.begin(), vec.end(), myfunc);
 }

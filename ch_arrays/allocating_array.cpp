@@ -4,12 +4,12 @@ using namespace std;
 
 int main()
 {
-    int* a = 0;
-    int* b = 0;
+    int* a = nullptr;
+    int* b = nullptr;
     
     a = new int[10];
     
-    for (int i=0; i<10; i++)
+    for (auto i=0; i<10; i++)
         a[i] = i;
     
     b = &a[6];

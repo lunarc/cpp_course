@@ -2,7 +2,14 @@
 
 using namespace std;
 
-void simple(int* a)
+void print_array_1(int* a)
+{
+    for (int i=0; i<4; i++)
+        cout << a[i] << ", ";
+    cout << endl;
+}
+
+void print_array_2(int a[])
 {
     for (int i=0; i<4; i++)
         cout << a[i] << ", ";
@@ -12,5 +19,6 @@ void simple(int* a)
 int main()
 {
     int a[] = { 1, 2, 3, 4 };
-    simple(a);
+    print_array_1(a);
+    print_array_2(a);
 }
