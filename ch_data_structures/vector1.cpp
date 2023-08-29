@@ -17,6 +17,11 @@ int main()
 
     std::cout << "\n";
 
+    for (auto it=vec.begin(); it!=vec.end(); it++)
+        std::cout << *it << "\n";
+
+    std::cout << "\n";
+
     for (auto& v : vec)
         v = rand();
 

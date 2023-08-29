@@ -183,9 +183,157 @@ for (auto i=0; i<10; i++)
 
 [:fontawesome-solid-gears: Try example](https://godbolt.org/z/b9nsqozfG){ .md-button .target="_blank"}
 
-
-
 ## std::vector<T>
+
+**std::vector** is a linear data structure that can expand when a certain capacity is reached. It is very similar to the **std::array** data structure, but the size is not fixed. The data structure can be accessed with iterators as well as direct access using the []-operator. Elements can be added by using the method **.push_back()**. The efficiency of the the different operations are as follows:
+
+ * Directly accessing elements can be done in constant time - O(1).
+ * Adding or removing element can be done in amortized constant time O(1). That is on average the operation can be completed in O(1) complexity.
+ * Inserting or removing elements at a specific position can be done in O(n) operations.
+
+Below is an example of an explicit declaration of a **std::vector**.
+
+```cpp
+std::vector<int> vec = { 1, 2, 3, 4, 5 };
+```
+
+It is also possible to skip the data type and let the compiler decide using deduction.
+
+```cpp
+std::vector vec = { 1, 2, 3, 4, 5 };
+```
+
+Elements can be added using the **.push_back()** method.
+
+```cpp
+vec.push_back(6);
+vec.push_back(7);
+```
+
+A new method was added in C++11, **.emplace_back()**, which can be used if a new non-existent object should be added to the vector. This method avoids unnecessary copying that could occur otherwise. For the built-in data types, this difference is negligible, but for more complex data types this can improve performance significantly.
+
+The size of the array can be queried using the **.size()** method.
+
+```cpp
+std::cout << vec.size() "\n";
+```
+
+We can iterate over the vector using both iterators and direct access loops. Iterating using a loop variable.
+
+```
+for (auto i=0; i<vec.size(); i++)
+    std::cout << vec[i] << ", ";
+
+std::cout << "\n";
+```
+
+Iterating using iterator is shown below:
+
+```cpp
+for (auto it=vec.begin(); it!=vec.end(); it++)
+    std::cout << *it << ", ";
+
+std::cout << "\n";
+```
+
+Finally, we can use a range-based for-loop as well:
+
+```cpp
+for (auto& v : vec)
+    std::cout << v << ", ";
+
+std::cout <<"\n";
+```
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/43ajYMM3r){ .md-button .target="_blank"}
+
+Removing items from a vector can be done using the **.erase()** method, which takes an iterator as argument. The following code erases the first element:
+
+```cpp
+vec.erase(vec.begin());
+```
+
+In many cases you want to erase a specific element at a specific index. This can be done by adding an index value to an iterator as in this code which erases the second element.
+
+```cpp
+vec.erase(vec.begin()+1);
+```
+
+It is also possible to insert elements using the **.insert()** method. This methods takes an iterator as an argument for the position where the value should be inserted and the value that should be inserted. The following code inserts 42 at the third position in the list
+
+```cpp
+vec.insert(vec.begin()+2, 42);
+```
+
+The size of the vector can be changed using the **.resize()** method. If the new size is larger than the current size elements are added to the vector. If the new size is smaller existing elements will be erased.
+
+A **std::vector** is not resized on all calls to **.push_back()**, usually the capacity is doubled every time capacity is exceeded. The current number of allocated elements in a vector can be queried using the **.capacity()** method. This value is often larger than **.size()**. 
+
+If you know that a vector should be at least a certain number of elements it is possible to pre-allocate the number of elements using the **.reserve()** method. Note that this method does not change the size of the vector. There is also a special method for freeing up unused memory **.shrink_to_fit()** in the vector. 
+
+The following figure illustrates how the **std::vector** works:
+
+<figure markdown>
+<img src="../images/vector.svg" width="500px">
+  <figcaption>std::vector data structure</figcaption>
+</figure>
+
+
+All elements in a **std::vector** can be cleared using the **.clear()** method.  
+
+```cpp
+vec.clear();
+```
+
+A more complete example is shown below:
+
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_data_structures/vector1.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    12637
+    6149
+    30314
+    32595
+    9916
+    7874
+    3554
+    5407
+    13053
+    27214
+
+    12637
+    6149
+    30314
+    32595
+    9916
+    7874
+    3554
+    5407
+    13053
+    27214
+
+    20108
+    3184
+    14168
+    23442
+    18432
+    24466
+    2492
+    25169
+    5702
+    14458
+    ```
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/jqeqWe163){ .md-button  .target="_blank"}
+
+[:fontawesome-solid-link: More info on std::vector (cppreference)](https://en.cppreference.com/w/cpp/container/vector){ .md-button .target="_blank"}
+
 
 ## std::deque<T>
 
