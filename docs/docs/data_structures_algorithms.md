@@ -183,6 +183,17 @@ for (auto i=0; i<10; i++)
 
 [:fontawesome-solid-gears: Try example](https://godbolt.org/z/b9nsqozfG){ .md-button .target="_blank"}
 
+Another nice feature of the **std::array** is that you can use it with range-based loops as shown in the following example:
+
+```cpp
+for (auto &v : arr)
+    std::cout << v << "\n";
+```
+
+Using range-based loops with arrays prevents errors where you access your arrays outside their defined range (bound checking errors).
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/x34TcxvPd){ .md-button .target="_blank"}
+
 ## std::vector<T>
 
 **std::vector** is a linear data structure that can expand when a certain capacity is reached. It is very similar to the **std::array** data structure, but the size is not fixed. The data structure can be accessed with iterators as well as direct access using the []-operator. Elements can be added by using the method **.push_back()**. The efficiency of the the different operations are as follows:
@@ -274,7 +285,7 @@ If you know that a vector should be at least a certain number of elements it is 
 The following figure illustrates how the **std::vector** works:
 
 <figure markdown>
-<img src="../images/vector.svg" width="500px">
+<img src="../images/vector.svg" width="700px">
   <figcaption>std::vector data structure</figcaption>
 </figure>
 
@@ -334,10 +345,66 @@ A more complete example is shown below:
 
 [:fontawesome-solid-link: More info on std::vector (cppreference)](https://en.cppreference.com/w/cpp/container/vector){ .md-button .target="_blank"}
 
-
 ## std::deque<T>
 
+**std::deque** is similar to **std::vector**, linearly ordered, but supports efficiently adding and removing elements at the beginning and end. Compared to the **std::vector** no guarantees are given that the allocated data structure is contiguous. The advantage is that this data structure avoids large reallocations. 
+
+The efficiency of the the different operations are as follows:
+
+ * Directly accessing elements can be done in constant time - O(1).
+ * Adding and removing elements at the beginning or end is achieved in constant time - O(1).
+ * Inserting or removing elements at a specific position can be done in linear O(n) operations.
+
+The conceptual data structure of **std::dequeue** is shown in the following figure:
+
+<figure markdown>
+<img src="../images/deque.svg" width="700px">
+  <figcaption>std::deque data structure</figcaption>
+</figure>
+
+**std::deque** adds some additional methods for adding and removing items at the front and back of the datastructure:
+
+* **.push_back(...)** - Adds an item at the end.
+* **.pop_back(...)** - Removes an item from the end.
+* **.push_front(...)** - Adds an item at the front.
+* **.push_front(...)** - Remove an item at the front.
+
+It is also possible to access the front and back elements using the methods **.front()** and **.back()**. Removing elements from the front and back can be done using the **.pop_front()** and **.pop_back()**. It is also possible to access element directly as in **std::vector** using the **[]**-operator and the **.as()**-method.
+
+An example of how this is used is shown in the following code:
+
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_data_structures/deque1.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    9, 8, 7, 6, 5, 0, 1, 2, 3, 4, 
+
+    9, 8, 7, 6, 5, 0, 1, 2, 3, 4, 
+    q front = 9
+    pop front
+    q front = 8
+    q back = 4
+    pop back
+    q back = 3
+    q[3] = 5
+    ```
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/4c6cGTGzP){ .md-button  .target="_blank"}
+
 ## std::list<T>
+
+**std::list** is a linearly ordered data structure, implemented as a linked list. The data structure is especially efficient at adding and removing elements in the middle of the sequence. The disadvantage of **std::list** is that there is no direct access to elements. You will need to iterate through to access all elements. The data structure is well-suited for sorting algorithms. The conceptual data structure is shown in the figure below:
+
+<figure markdown>
+<img src="../images/list.svg" width="700px">
+  <figcaption>std::list data structure</figcaption>
+</figure>
+
 
 ## std::map<Key, T>
 
