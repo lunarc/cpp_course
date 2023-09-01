@@ -11,6 +11,8 @@ int main()
     m["mike"] = 30;
     m["richard"] = 25;
 
+    m.insert({"john", 84});
+
     for (auto it = m.begin(); it != m.end(); it++)
         std::cout << it->first << ", " << it->second << "\n";
 

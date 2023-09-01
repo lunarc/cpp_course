@@ -405,8 +405,150 @@ An example of how this is used is shown in the following code:
   <figcaption>std::list data structure</figcaption>
 </figure>
 
+Just as for the **std::deque** we have the following methods for adding items to the list:
+
+* **.push_back(...)** - Adds an item at the end.
+* **.pop_back(...)** - Removes an item from the end.
+* **.push_front(...)** - Adds an item at the front.
+* **.push_front(...)** - Remove an item at the front.
+
+However, we don't have any []-operator or **.at()** method as this data structure does not allow direct access to its members. 
+
+It is possible to add items to the list using the **.insert()** method. However, this requires an iterator position. We can iterate and insert at a certain position. Insert at the beginning is easy:
+
+```cpp
+l.insert(l.begin(), 42);
+```
+
+Insert at a certain position in this case before the value is 9.
+
+```cpp
+for (auto it = l.begin(); it != l.end(); it++)
+{
+    if (*it == 9)
+        l.insert(it, 43); 
+}
+```
+
+To remove items in the list we need to use an algorithm or use any of the class methods **.erase()**, **.remove()** or **.remove_if()**. 
+
+Specific values in a list can be removed using the **.remove()** method:
+
+```cpp
+l.remove(5); // removes all elements with the value 5
+```
+
+Removing a specific element in the list is again done by iteration. Here we must be careful with the iterator so that we don't lose track of where to continue iteration. In the following example we delete all values that are equal to 3. We use the **.erase()** method to remove the iterator from the list, which moves and returns the iterator following the removed item. If the condition is not fulfilled we just move the iterator forward (++it). 
+
+```cpp
+for (auto it = l.begin(); it != l.end();)
+{
+    if (*it == 3)
+        it = l.erase(it); // Returns next iterator after erase.
+    else
+        ++it;
+}
+```
+
+!!! note
+
+    Please note that we don't move the iterator forward in the **for**-statement to handle the situation when we remove the item from the list using the **.erase()** method.
+
+A complete example of using the **std::list** is shown below:
+
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_data_structures/list1.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    42, 10, 43, 9, 8, 7, 6, 0, 1, 2, 3, 4, 5, 
+    42, 10, 43, 9, 8, 7, 6, 0, 1, 2, 3, 4, 5, 
+    l front = 42
+    pop front
+    l front = 10
+    l back = 5
+    pop back
+    l back = 4
+    10, 43, 9, 8, 7, 6, 0, 1, 2, 3, 4, 
+    10, 43, 9, 8, 7, 6, 1, 2, 3, 4, 
+    10, 43, 9, 8, 7, 6, 1, 2, 4, 
+    ```
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/bn1zejqPE){ .md-button  .target="_blank"}
+
 
 ## std::map<Key, T>
+
+In many applications it is desirable to store data associated with a key. The key can for example be a phone number or a name. Using the key it is possible to quickly access the data associated with the key. The **std::map** data structure stores unique keys with a single value per key. 
+
+To declare a **std::map** datatyep you have to specify 2 data types one for the key and a second one for the value. In the following code we specify a map, **m**, with a string key and an integer value type.
+
+```cpp
+std::map<std::string, int> m;
+```
+
+Adding values to a map can be done by specifying a key using the []-operator and assigning a new value as shown below:
+
+```cpp
+m["bob"] = 42;
+m["alice"] = 40;
+m["mike"] = 30;
+m["richard"] = 25;
+```
+
+If you assign to an already existing key the value is overwritten. It is also possible to use the **.insert()** method to insert values into the map:
+
+```cpp
+m.insert({"john", 84});
+```
+
+It is also possible to insert multiple entries using **.insert()**
+
+```cpp
+m.insert({"caroline", 94}, {"eva", 36});
+```
+
+One of the powerful aspect of a dictionary is the ability to quickly check for the existence of a key in a dictionary. **std::map** provides a method, **.find()**, that can query for a key. If a key is found an iterator is returned positioned at the key. If no key was found the method returns **.end()** iterator of the data structure. An example of this is shown below:
+
+```cpp
+it = m.find("carl");
+
+if (it != m.end())
+    std::cout << "found: " << it->first << ", " << it->second << "\n";
+else
+    std::cout << "Could not find Carl." << std::endl;
+```
+
+I the example above you can also see how you access the key and value of an iterator using the **->first** and **->second** accessors. 
+
+In the same way as the other data structures iteration over the elements can be done using iterators. As shown in the following code:
+
+```cpp
+for (auto it = m.begin(); it != m.end(); it++)
+    std::cout << it->first << ", " << it->second << "\n";
+```
+
+Using the new modern features of C++ we can also use the range based for-loop to iterate over the **std::map**. In the following example we use a single loop variable to access the key and values in the data structure.
+
+```cpp
+for (auto &item : m)
+    std::cout << item.first << ", " << item.second << "\n"
+```
+
+Please note that now can use the dot-operator to access the **first** and **second** fields of the item variable. 
+
+It is also possible to assign loop-variables for both the key as well as the value in a range-based loop.
+
+```cpp
+for (auto &[key, value] : m)
+    std::cout << key << ", " << value << "\n";
+```
+
+This almost looks line the range-based loop in Python.
 
 ## Algorithms
 
