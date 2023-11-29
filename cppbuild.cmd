@@ -5,7 +5,7 @@ set RELEASE_DIR=build-release
 
 echo.
 echo *******************************
-echo *** Building ObjectiveFrame ***
+echo *** Building C++ examples   ***
 echo *******************************
 echo.
 
