@@ -552,7 +552,26 @@ This almost looks line the range-based loop in Python.
 
 ## Algorithms
 
+Up until now, we have covered some of the data structures available in the C++ standard library. These classes contain methods for moving through the structure in different ways. However, they don't provide any algorithms for searching or querying the data structures. In C++ there is a distinct separation between data structures and algorithms. This gives you the freedom to use any algorithm on any data structure. Algorithms in C++ are provided through **<algorithm\>** header. The functions in this library can work with any data structure that provides **.first** and **.last** attributes.
+
 ## Lambda functions
+
+### Sorting
+
+### Finding
+
+### Iterating with for_each
+
+### Copying
+
+### Removing elements
+
+### Reduction operations
+
+### Filling
+
+### Creating ranges of values
+
 
 
 

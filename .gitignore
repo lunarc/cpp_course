@@ -52,3 +52,11 @@ CMakeLists.txt.user
 *.user
 CMakeLists.txt.user
 *.user
+
+bin/Debug/*
+bin/*
+bin/release/*
+build-debug/*
+build-release/*
+build/*
+

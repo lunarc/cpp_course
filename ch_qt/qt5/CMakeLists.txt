@@ -7,16 +7,11 @@ set(CMAKE_AUTOUIC ON)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-if (UNIX)
-    find_package(Qt5 5.15 REQUIRED COMPONENTS Core Widgets Gui Qml Quick Qml Charts)
-else()
-    find_package(Qt6 COMPONENTS Core Widgets Gui Qml Quick Qml Charts REQUIRED)
-    if (NOT Qt6_FOUND)
-        find_package(Qt5 5.15 REQUIRED COMPONENTS Core Widgets Gui Qml Quick Qml Charts)
-    endif()
-endif()
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui)
 
-add_executable(qt5
+qt_standard_project_setup()
+
+qt_add_executable(qt5
     mainwindow.ui
     mainwindow.cpp
     main.cpp
@@ -24,4 +19,11 @@ add_executable(qt5
 
 # resources.qrc
 
-target_link_libraries(qt5 Qt::Widgets)
+target_link_libraries(qt5 PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui)
+
+set_target_properties(qt5 PROPERTIES
+    WIN32_EXECUTABLE ON
+    MACOSX_BUNDLE ON
+)
+
+

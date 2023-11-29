@@ -1,6 +1,1 @@
-if (WIN32)
-	subdirs(qt1 qt2 qt3 qt4 qt5 qt6 qt7 qt8 calculator plotting drawing1 qt3d1 beam_app)
-else()
-	subdirs(qt1 qt2 qt3 qt4 qt5 qt6 qt7 qt8 calculator drawing1 qt3d1 beam_app)
-endif()
-#subdirs(qt1)
+subdirs(qt1 qt2 qt3 qt4 qt5 qt6 qt7 qt8 beam_app calculator drawing1 plotting)

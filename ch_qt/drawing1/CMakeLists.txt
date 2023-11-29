@@ -7,16 +7,11 @@ set(CMAKE_AUTOUIC ON)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-if (UNIX)
-    find_package(Qt5 5.15 REQUIRED COMPONENTS Core Widgets Gui Qml Quick Qml Charts)
-else()
-    find_package(Qt6 COMPONENTS Core Widgets Gui Qml Quick Qml Charts REQUIRED)
-    if (NOT Qt6_FOUND)
-        find_package(Qt5 5.15 REQUIRED COMPONENTS Core Widgets Gui Qml Quick Qml Charts)
-    endif()
-endif()
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui Qml Quick Charts)
 
-add_executable(drawing1
+qt_standard_project_setup()
+
+qt_add_executable(drawing1
     drawing_kit.h
     drawing_kit.cpp
     drawing_area.h
@@ -31,4 +26,9 @@ add_executable(drawing1
 
 # resources.qrc
 
-target_link_libraries(drawing1 Qt::Widgets Qt::Core Qt::Gui Qt::Qml Qt::Quick Qt::Charts)
+target_link_libraries(drawing1 PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui Qt6::Qml Qt6::Quick Qt6::Charts)
+
+set_target_properties(drawing1 PROPERTIES
+    WIN32_EXECUTABLE ON
+    MACOSX_BUNDLE ON
+)

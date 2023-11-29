@@ -1,2 +1,1 @@
-add_executable(threads2 main.cpp)
-target_link_libraries(threads2 pthread)
+add_executable(modern_threads2 main.cpp)

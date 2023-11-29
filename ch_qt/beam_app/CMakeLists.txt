@@ -7,17 +7,11 @@ set(CMAKE_AUTOUIC ON)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui Qml Quick Charts)
 
-if (UNIX)
-    find_package(Qt5 5.15 REQUIRED COMPONENTS Core Widgets Gui Qml Quick Qml Charts)
-else()
-    find_package(Qt6 COMPONENTS Core Widgets Gui Qml Quick Qml Charts REQUIRED)
-    if (NOT Qt6_FOUND)
-        find_package(Qt5 5.15 REQUIRED COMPONENTS Core Widgets Gui Qml Quick Qml Charts)
-    endif()
-endif()
+qt_standard_project_setup()
 
-add_executable(beam_app
+qt_add_executable(beam_app
     beam_app_resource.qrc
     calfem.h
     calfem.cpp
@@ -33,4 +27,9 @@ add_executable(beam_app
     main.cpp
 )
 
-target_link_libraries(beam_app Qt::Widgets Qt::Core Qt::Gui Qt::Qml Qt::Quick Qt::Charts)
+target_link_libraries(beam_app PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui Qt6::Qml Qt6::Quick Qt6::Charts)
+
+set_target_properties(beam_app PROPERTIES
+    WIN32_EXECUTABLE ON
+    MACOSX_BUNDLE ON
+)
