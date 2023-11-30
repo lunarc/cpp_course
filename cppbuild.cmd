@@ -13,6 +13,8 @@ echo *** Checking for no arguments.
 
 if "%1"=="" (
     set action=debug
+) else (
+    set action=%1
 )
 
 echo *** Action: %action%
