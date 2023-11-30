@@ -554,9 +554,80 @@ This almost looks line the range-based loop in Python.
 
 Up until now, we have covered some of the data structures available in the C++ standard library. These classes contain methods for moving through the structure in different ways. However, they don't provide any algorithms for searching or querying the data structures. In C++ there is a distinct separation between data structures and algorithms. This gives you the freedom to use any algorithm on any data structure. Algorithms in C++ are provided through **<algorithm\>** header. The functions in this library can work with any data structure that provides **.first** and **.last** attributes.
 
-## Lambda functions
+### Lambda functions
+
+Many of the algorithms provided in the standard library require a function to be provided for customising the behavior. To be able to use them you need to implement a function in C++ for each time you need to use the algorithm, which can be a bit complicated. To solve this problem C++ 11 introduced the concept of lambda functions. A lambda function is an anonymous function declaration that can be directly passed to a function call, without having to declare a named function in your source code. The simplified syntax is as follows:
+
+> [capture clause] (parameters) -> return type { body }
+
+The *capture clause* describes how the lambda functions should interact with variables outside the lambda function. By default, no interaction is specified. If an empty capture close is given, the lambda function can't interact with any variables. If an equal sign [=] is given the lambda function can access all variables by value. If [&] is given all variables are passed by reference to the lambda function. Specific variables can be specified by name or by value using the normal conventions in C++. The *parameters* section defines the input arguments of a function. This works just like a normal function declaration in C++. The *return type* is an optional part that can be left out, but it can be specified to make it more explicit what the function returns. The last part of the lambda function is the actual function *body* that implements the function. 
+
+A lambda function can be passed directly to a function or declared directly in the code. In the following example, a lambda function **f** is declared using the **auto** directive. The lambda function can then be called just like any other function:
+
+```cpp
+auto f = [](int x) { return x * x; };
+std::cout << f(5) << std::endl;
+```
+
+The function in this example takes **int** x as input and returns and **int**. The function can also be specified with a return type as shown in the following example:
+
+```cpp
+auto f = [](int x) -> int { return x * x; };
+std::cout << f(5) << std::endl;
+```
+
+In the next example, we declare a function **g** that has a capture clause [=], which enables the function to access all variables outside the lambda function by value.
+
+```cpp
+int c = 42;
+
+auto g = [=](int x) { return x * x + c; };
+std::cout << g(5) << std::endl;
+```
+
+Accessing variables by references is achieved similarly in the following example:
+
+```cpp
+int c = 42;
+
+auto h = [&](int x) { return x * x + c; };
+std::cout << h(5) << std::endl;
+```
+
+If the lambda function should only access specific variables they can be specified in explicetly in the capture clause as in this example:
+
+```cpp
+int c = 42;
+
+auto p = [&c](int x) -> int { return x * x + c; };
+std::cout << p(5) << std::endl;
+```
+
+Here, the variable **c** is accessed by reference in the lambda function. 
+
+Lambda functions in C++ are a very important concept that we will be using extensively in the following sections on algorithms. They provide a way of quickly providing additional functionality to the algorithms. 
 
 ### Sorting
+
+Sorting is a very common operation on data structures. C++ provides the **std::sort()** function for sorting. The function takes an iterator for the starting position and an iterator for the end position. By default it sorts in ascending order compared with the less than operator (<), but it is also possible to supply your own comparison function. It is in this scenario where lambda functions provide a quick and easy way of specifying a comparison function.
+
+In the following example, we use the **std::sort()** function in C++ to sort two arrays, providing our own comparison function as a named lambda function and as an anonymous function directly in the call to **std::sort()**. The requirement for comparison is a function that takes two input variables and returns true or false depending on the result of the comparison operation. Using this we can create our custom function that determines the sorting order of the algorithm.
+
+```cpp
+std::vector v1 = { 6, 4, 7, 3, 9, 0, 1, 5 };
+std::vector v2 = { 6, 4, 7, 3, 9, 0, 1, 5 };
+
+auto greater_func = [](int a, int b) -> bool { return a > b; };
+
+std::sort(v1.begin(), v1.end(), greater_func);
+std::sort(v2.begin(), v2.end(), [](int a, int b) -> bool { return a < b; });
+```
+
+
+
+
+
+
 
 ### Finding
 
