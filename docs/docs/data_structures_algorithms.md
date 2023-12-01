@@ -554,7 +554,7 @@ This almost looks line the range-based loop in Python.
 
 Up until now, we have covered some of the data structures available in the C++ standard library. These classes contain methods for moving through the structure in different ways. However, they don't provide any algorithms for searching or querying the data structures. In C++ there is a distinct separation between data structures and algorithms. This gives you the freedom to use any algorithm on any data structure. Algorithms in C++ are provided through **<algorithm\>** header. The functions in this library can work with any data structure that provides **.first** and **.last** attributes.
 
-### Lambda functions
+## Lambda functions
 
 Many of the algorithms provided in the standard library require a function to be provided for customising the behavior. To be able to use them you need to implement a function in C++ for each time you need to use the algorithm, which can be a bit complicated. To solve this problem C++ 11 introduced the concept of lambda functions. A lambda function is an anonymous function declaration that can be directly passed to a function call, without having to declare a named function in your source code. The simplified syntax is as follows:
 
@@ -607,41 +607,207 @@ Here, the variable **c** is accessed by reference in the lambda function.
 
 Lambda functions in C++ are a very important concept that we will be using extensively in the following sections on algorithms. They provide a way of quickly providing additional functionality to the algorithms. 
 
-### Sorting
+## Sorting
 
 Sorting is a very common operation on data structures. C++ provides the **std::sort()** function for sorting. The function takes an iterator for the starting position and an iterator for the end position. By default it sorts in ascending order compared with the less than operator (<), but it is also possible to supply your own comparison function. It is in this scenario where lambda functions provide a quick and easy way of specifying a comparison function.
 
 In the following example, we use the **std::sort()** function in C++ to sort two arrays, providing our own comparison function as a named lambda function and as an anonymous function directly in the call to **std::sort()**. The requirement for comparison is a function that takes two input variables and returns true or false depending on the result of the comparison operation. Using this we can create our custom function that determines the sorting order of the algorithm.
 
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_data_structures/lambda2.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    9 7 6 5 4 3 1 0
+    0 1 3 4 5 6 7 9
+    ```
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/z8fTPeW7T){ .md-button  .target="_blank"}
+
+## Functions with functions as arguments
+
+As with the provided algorithms in C++, it is also possible to implement a function that takes a function as an argument. The classical way of doing this is to declare a function that passes a function pointer. 
+
 ```cpp
-std::vector v1 = { 6, 4, 7, 3, 9, 0, 1, 5 };
-std::vector v2 = { 6, 4, 7, 3, 9, 0, 1, 5 };
-
-auto greater_func = [](int a, int b) -> bool { return a > b; };
-
-std::sort(v1.begin(), v1.end(), greater_func);
-std::sort(v2.begin(), v2.end(), [](int a, int b) -> bool { return a < b; });
+void tabulate_c(double x_start, double x_end, double dx, double (*f)(double))
 ```
 
+In this example f is pointer to a function that takes a double as argument and returns a double value. If we have a declared function:
+
+```cpp
+double q(double x)
+{
+    return cos(x);
+}
+```
+
+We can call the **tabulate_c()** function as follows:
+
+```cpp
+tabulate_c(-6.0, 6.0, 0.2, q);
+```
+
+It is also possible to pass a lambda-function to this function:
+
+```cpp
+tabulate_c(-6.0, 6.0, 0.2, [](double x) -> double { return sin(x); });
+```
+
+The best way to declare a function argument is to use the **std::function** declaration. This provides a way to describe any kind of function call in C++ regardless of it being a lambda, function or function object. The previous function can then be declared as follows:
+
+```cpp
+void tabulate(double x_start, double x_end, double dx, std::function<double(double x)> const& f)
+```
+
+A complete example of this can be found in the following example:
+
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_data_structures/lambda3.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    9 7 6 5 4 3 1 0
+    0 1 3 4 5 6 7 9
+    ```
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/v419dorTh){ .md-button  .target="_blank"}
+
+## Query functions
+
+The C++ algorithm library contains many functions for querying data structures. First, the standard library includes several logical functions that return true or false depending on what a query function returns for each element in the structure. The **std::all_of()** function returns true if the query function returns true for all elements. The query function in this case takes the values as input and returns true if the condition is fulfilled for this value. In the following example the function will return true if all elements are less than 10.
+
+```cpp
+std::vector v = { 6, 4, 7, 3, 9, 0, 1, 5 };
+
+if (std::all_of(v.begin(), v.end(), [](int i) { return i < 10; }))
+    std::cout << "All values of v are less than 10." << std::endl;
+```
+
+This will display:
+
+```
+All values of v are less than 10.
+```
+
+The next similar function is **std::any_of()**. This function returns true if any of the values in the data structure returns true in the evaluation function. 
+
+```cpp
+std::vector v = { 6, 4, 7, 3, 9, 0, 1, 5 };
+
+if (std::any_of(v.begin(), v.end(), [](int i) { return i % 2 == 0; }))
+    std::cout << "Some of the values are even." << std::endl;
+```
+
+This will display:
+
+```
+Some of the values are even.
+```
+
+Finally there is the **std::none_of()** function. This function returns true no of the values return true in the evaluation function.
+
+```cpp
+std::vector v = { 6, 4, 7, 3, 9, 0, 1, 5 };
+
+if (std::none_of(v.begin(), v.end(), [](int i) { return i < 0; }))
+    std::cout << "No numbers are less than zero." << std::endl;
+```
+
+This will display:
+
+```
+No numbers are less than zero.
+```
+
+There are also function for counting the number of values that fulfill certain criteria, **std::count()** and **std::count_if()**. The **std::count()** counts the values that correspond to the last argument of the function.
+
+```cpp
+auto number_of_values = std::count(v.begin(), v.end(), 5);
+std::cout << number_of_values << " items with the value 5 in v2. " << std::endl;
+```
+
+This will display:
+
+```
+1 items with the value 5 in v2.
+```
+
+The **std::count_if()** function counts the number of values that return true in the evaluation function.
+
+```cpp
+auto even_numbers = std::count_if(v.begin(), v.end(), [](int i) {return i % 2 == 0; });
+std::cout << even_numbers << " even numbers in v2." << std::endl;
+```
+
+This will display:
+
+```
+3 even numbers in v2.
+```
+
+## Iterating with for_each
+
+Another useful function when working with data structure is **std::for_each()**. This function will iterate over the items in the data structure calling a provided function for each item. In the following example a function is called printing out the value of the current item.
+
+```cpp
+std::vector v = { 6, 4, 7, 3, 9, 0, 1, 5 };
+
+std::for_each(v.begin(), v.end(), [](int i) { std::cout << i << " "; });
+std::cout << std::endl;
+```
+
+This will display:
+
+```
+6 4 7 3 9 0 1 5
+```
+
+The provided function is called with the current value as argument. It is also possible to modify the current value by passing the current value by references as shown in the example below:
+
+```cpp
+std::vector v = { 6, 4, 7, 3, 9, 0, 1, 5 };
+
+std::for_each(v.begin(), v.end(), [](int& n) { n++; });
+print_vector(v);
+```
+
+This will display:
+
+```
+7 5 8 4 10 1 2 6
+```
+
+Using **std::for_each() it is possible to quickly sum all elements in a vector.
+
+```cpp
+auto sum = 0;
+
+std::for_each(v.begin(), v.end(), [&sum](int n) { sum += n; });
+std::cout << "Them sum is " << sum << std::endl;
+```
+
+!!! note
+
+    It is important to make sure that the closure includes the outside variable for the sum by reference (&).
 
 
+## Copying
 
+## Removing elements
 
+## Reduction operations
 
+## Filling
 
-### Finding
-
-### Iterating with for_each
-
-### Copying
-
-### Removing elements
-
-### Reduction operations
-
-### Filling
-
-### Creating ranges of values
+## Creating ranges of values
 
 
 
