@@ -801,6 +801,114 @@ std::cout << "Them sum is " << sum << std::endl;
 
 ## Copying
 
+Copying is a very common operation on data structures. The standard library contains many functions for copying data between different data structures. The first one is **std::copy()** which copies from a data structure given by a starting and end iterator to a target data structure given by the starting iterator. An example of this is shown below:
+
+```cpp
+std::vector v1 = { 6, 4, 7, 3, 9, 0, 1, 5 };
+std::vector v2 = { 0, 0, 0, 0, 0, 0, 0, 0 };
+
+std::copy(v1.begin(), v1.end(), v2.begin());
+
+print_vector(v2);
+```
+
+The resulting output will be:
+
+```
+6 4 7 3 9 0 1 5
+```
+
+It is also possible to copy values from one data structure and inserting them at the back or front of the target. To do this we need to use a special function **std::back_inserter()** as shown in the example below:
+
+```cpp
+std::copy(v1.begin(), v1.end(), std::back_inserter(v2));
+
+print_vector(v2);
+```
+
+which gives the following output:
+
+```
+6 4 7 3 9 0 1 5 6 4 7 3 9 0 1 5
+```
+
+There is a second form of copy function, **std::copy_if()**, which works like **std::copy()**, but where it is possible to supply a function that returns **true** if the function should perform the copy. The function takes the value of the data structure as input. An example of this is shown below:
+
+```cpp
+std::copy_if(v1.begin(), v1.end(), std::back_inserter(v3), [](int v) {return v % 2 == 0; });
+
+print_vector(v3);
+```
+
+Her we can see that **std::copy_if()** only copied even numbers.
+
+```
+6 4 0
+```
+
+It is also possible to copy values from one data structure to the end of another using the **std::copy_backward()**. This function takes the start, end iterators of the source data structure and an end-iterator of the data structure to copy from. The function will preserve the order of the values in the source data structure when copying. An example of how to use this function is shown in the following example:
+
+```cpp
+std::vector v1 = { 6, 4, 7, 3, 9, 0, 1, 5 };
+std::vector<int> v4(20);
+
+std::copy_backward(v1.begin(), v1.end(), v4.end());
+
+print_vector(v4);
+```
+
+As shown in the output below
+
+```
+0 0 0 0 0 0 0 0 0 0 0 0 6 4 7 3 9 0 1 5 
+```
+
+the values of **v1** is copied and placed at the end of **v4**. 
+
+## Transforming / Replacing
+
+The C++ standard function **std::transform()** can be used to transform existing values either to a different container or the source container. The function does not guarantee that the operation will be applied in order. If in-order execution is desired the **std::for_each()** function is a better choice.
+
+**std::transform()** takes start/end iterator, destination iterator and a modification function as input. Please note that the methods **cbegin()** and **cend()** methods must be used to get constant iterators for the 2 first arguments. This is due to the fact that the function is not allowed to modify the input value. In the following code we apply a function to **v1** and modify **v1** in place.
+
+```cpp
+std::vector v1 = { 6, 4, 7, 3, 9, 0, 1, 5 };
+
+std::transform(v1.cbegin(), v1.cend(), v1.begin(), [](int v){return v*v;});
+
+print_vector(v1);
+```
+
+This will give the following output:
+
+```
+36 16 49 9 81 0 1 25
+```
+
+It is also possible to store the result in a different container:
+
+```cpp
+std::vector<int> v2(8);
+
+std::transform(v1.cbegin(), v1.cend(), v2.begin(), [](int v){return v*v;});
+
+print_vector(v2);
+```
+
+Here we create an empty container, **v2**, which we will use to store the transformed values, which gives the following result:
+
+```
+1296 256 2401 81 6561 0 1 625
+```
+
+It is of course also possible to insert the items at the end of a container using the **std::back_inserter()** function as shown below.
+
+```cpp
+std::vector<int> v3;
+
+std::transform(v1.cbegin(), v1.cend(), std::back_inserter(v3), [](int v){return v*v;});
+```
+
 ## Removing elements
 
 ## Reduction operations
