@@ -5,19 +5,19 @@ The C++ standard library contains many common data structures that are useful wh
 The most common data structures in C++ are divided into the following different types:
 
 * Array type structures (T is the data type)
-    - std::vector<T\>
-    - std::array<T\>
-    - std::deque<T\>
+    - **std::vector<T\>**
+    - **std::array<T\>**
+    - **std::deque<T\>**
 * Linked list structures
-    - std::list<T\>
+    - **std::list<T\>**
 * Stacks and queues
-    - std::stack<T\>
-    - std::queue<T\>
+    - **std::stack<T\>**
+    - **std::queue<T\>**
 * Associative containers
-    - std::map<Key, T\>
-    - std::multimap<Key, T\>
-    - std::set<Key\>
-    - std::multiset<Key\>
+    - **std::map<Key, T\>**
+    - **std::multimap<Key, T\>**
+    - **std::set<Key\>**
+    - **std::multiset<Key\>**
 
 ## Data structures and iterators
 
@@ -25,11 +25,11 @@ To access and move through data structures C++ uses the concepts of an iterator.
 
 Depending on the data structure the iterator can belong to different categories:
 
- * InputIterator - Can read and move forward. Only supports a single pass through the data structure.
- * ForwardIterator - Can read, move forward supporting multiple passes.
- * BidirectionalIterator - Can read, move forward and backwards.
- * RandomAccessIterator - An iterator can access any element in any order.
- * OutputIterator - Any of the above that support writing is considered a mutable iterator.
+ * **InputIterator** - Can read and move forward. Only supports a single pass through the data structure.
+ * **ForwardIterator** - Can read, move forward supporting multiple passes.
+ * **BidirectionalIterator** - Can read, move forward and backwards.
+ * **RandomAccessIterator** - An iterator can access any element in any order.
+ * **OutputIterator** - Any of the above that support writing is considered a mutable iterator.
 
  To get a starting point for an iterator all data structures have a **.begin()** and **.end()** method. **.begin()** returns an iterator at the beginning of the data structure. **.end()** returns an iterator after the last item in the data structure. **.end()** is useful to be able to stop an iteration through a data structure, comparing the current iterator to the **.end()**-iterator. 
 
@@ -753,6 +753,32 @@ This will display:
 3 even numbers in v2.
 ```
 
+A complete interactive example is provided below:
+
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_data_structures/lambda4.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    All values of v are less than 10.
+    Some of the values are even.
+    No numbers are less than zero.
+    All values of v are less than 10. (ranges)
+    Some of the values are even. (ranges)
+    No numbers are less than zero. (ranges)
+    1 items with the value 5 in v2.
+    1 items with the value 5 in v2.
+    3 even numbers in v2.
+    3 even numbers in v2 (ranges).
+    ```
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/aE317G9o4){ .md-button  .target="_blank"}
+
+
 ## Iterating with for_each
 
 Another useful function when working with data structure is **std::for_each()**. This function will iterate over the items in the data structure calling a provided function for each item. In the following example a function is called printing out the value of the current item.
@@ -797,6 +823,28 @@ std::cout << "Them sum is " << sum << std::endl;
 !!! note
 
     It is important to make sure that the closure includes the outside variable for the sum by reference (&).
+
+A complete interactive example is provided below:
+
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_data_structures/lambda5.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    6 4 7 3 9 0 1 5
+    6 4 7 3 9 0 1 5
+    7 5 8 4 10 1 2 6
+    8 6 9 5 11 2 3 7
+    Them sum is 51
+    Them sum is 51
+    8 6 9 5 11 2 3 7
+    ```
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/aE317G9o4){ .md-button  .target="_blank"}
 
 
 ## Copying
@@ -865,6 +913,25 @@ As shown in the output below
 
 the values of **v1** is copied and placed at the end of **v4**. 
 
+A complete interactive example is provided below:
+
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_data_structures/copy1.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    6 4 7 3 9 0 1 5
+    6 4 7 3 9 0 1 5 6 4 7 3 9 0 1 5
+    6 4 0
+    0 0 0 0 0 0 0 0 0 0 0 0 6 4 7 3 9 0 1 5
+    ```
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/vErYPrcvd){ .md-button  .target="_blank"}
+
 ## Transforming / Replacing
 
 The C++ standard function **std::transform()** can be used to transform existing values either to a different container or the source container. The function does not guarantee that the operation will be applied in order. If in-order execution is desired the **std::for_each()** function is a better choice.
@@ -909,15 +976,202 @@ std::vector<int> v3;
 std::transform(v1.cbegin(), v1.cend(), std::back_inserter(v3), [](int v){return v*v;});
 ```
 
+A complete interactive example is provided below:
+
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_data_structures/transform1.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    36 16 49 9 81 0 1 25
+    1296 256 2401 81 6561 0 1 625
+    1296 256 2401 81 6561 0 1 625
+    ```
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/xanhdTa1P){ .md-button  .target="_blank"}
+
 ## Removing elements
 
-## Reduction operations
+In previous chapters, we have used the built-in methods in the containers to remove elements within the container. It is also possible to remove elements from containers using the **std::remove****()**, **std::remove_if()** and **std::unique()** functions. These functions work in combination with the **.erase()** methods of the specific container. 
 
-## Filling
+The **std::remove()** method removes specific items that are equal to the argument given in the call. An example of this is shown below:
 
-## Creating ranges of values
+```cpp
+std::vector v1 = { 6, 4, 7, 3, 9, 0, 1, 5 };
+
+auto removed_item = std::remove(v1.begin(), v1.end(), 9);
+
+if (removed_item != v1.end())
+    v1.erase(removed_item, v1.end());
+
+print_vector(v1);
+```
+
+Which gives the following output:
+
+```
+6 4 7 3 0 1 5
+```
+
+When **std::remove()** removes items by moving them to the end of the container. The returned iterator points to the first element to be erased in the container. This is the reason for giving a starting and an end iterator for the **v1.erase()** call.
+
+Using the **std::remove_if()** function it is possible to provide a function for determining if a value in the container should be removed. The function should return **true** if it should be removed. In the following example, we use a function to remove all even values.
+
+```cpp
+removed_item = std::remove_if(v1.begin(), v1.end(), [](int v)
+    { return v % 2 == 0; });
+
+if (removed_item != v1.end())
+    v1.erase(removed_item, v1.end());
+
+print_vector(v1);
+```
+
+Running this example with give the following output:
+
+```
+7 3 1 5
+```
+
+Another function that can be useful is the **std::unique()** function. This functions remove repeated values in a container. Combined with the **std::sort()** function it is possible to extract the unique values in a container as shown in the next example:
+
+```cpp
+std::vector v2 = { 4, 5, 7, 4, 3, 3, 7, 7, 4, 5 };
+
+auto last = std::unique(v2.begin(), v2.end());
+v2.erase(last, v2.end());
+
+std::sort(v2.begin(), v2.end());
+
+last = std::unique(v2.begin(), v2.end());
+v2.erase(last, v2.end());
+
+print_vector(v2);
+```
+
+This gives the following output:
+
+```cpp
+3 4 5 7
+```
+
+A complete interactive example is provided below:
+
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_data_structures/remove1.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    6 4 7 3 0 1 5
+    7 3 1 5
+    3 4 5 7
+    ```
 
 
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/8Y6vbacPT){ .md-button  .target="_blank"}
+
+## Numeric operations
+
+The algorithm library also contains several functions for performing numerical operations. The first function that can be useful is the **std::iota()** function. This function can generate series of values in a container. It is used by giving a start and end iterator and a starting value as shown in the following example:
+
+```cpp
+std::vector<double> v1(20);
+
+std::iota(v1.begin(), v1.end(), 1.0);
+
+print_vector(v1);
+```
+
+which prints
+
+```
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+```
+
+Another function that can be useful for computational use is **std::accumulate()**. This function takes accumulates values from a given starting value with a specified operation, that can be given as a built-in operation or a custom function. If no function is given the total sum of the values will be calculated as shown below:
+
+```cpp
+auto sum = std::accumulate(v1.begin(), v1.end(), 0.0);
+
+std::cout << "sum = " << sum << "\n";
+```
+
+Which will display the following output
+
+```
+sum = 210
+```
+
+If we instead want to compute the total product we can provide a standard operation as an additional argument
+
+```cpp
+auto prod = std::accumulate(v1.begin(), v1.end(), 1.0, std::multiplies<double>());
+
+std::cout << "prod = " << prod << "\n";
+```
+
+this prints
+
+```
+prod = 2.4329e+18
+```
+
+A complete interactive example is provided below:
+
+=== "Example"
+
+    ``` cpp
+    --8<-- "../ch_data_structures/numeric1.cpp"
+    ```
+
+=== "Output"
+
+    ```
+    1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+    sum = 210
+    prod = 2.4329e+18
+    ```
+
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/TT6T15Efa){ .md-button  .target="_blank"}
+
+## Constrained algorithms
+
+In C++20 new forms of functions were introduced to the algorithms library which enables you to supply your container as an argument to the function without iterators. This enables a more intuitive and easy-to-understand syntax for many of the functions. As an example the following **std::for_each()** call 
+
+```cpp
+std::for_each(v.begin(), v.end(), [](int i) { std::cout << i << " "; });
+std::cout << std::endl;
+```
+
+can be converted to 
+
+```cpp
+std::ranges::for_each(v, [](int i) { std::cout << i << " "; });
+std::cout << std::endl;
+```
+
+It is also possible to sort a container by a simple
+
+```cpp
+std::ranges::sort(v);
+```
+
+All these functions are available in the **std::ranges** namespace. 
+
+## Links to more information
+
+This chapter only gives an overview of how containers and algorithms in C++ can be used more information on available data structures and algorithms can be found att cppreference.com here:
+
+[:fontawesome-solid-gears: cppreference.com](https://en.cppreference.com/w/){ .md-button  .target="_blank"}
 
 
 

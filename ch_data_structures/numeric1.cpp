@@ -1,7 +1,7 @@
 #include <algorithm>
 #include <iostream>
-#include <vector>
 #include <numeric>
+#include <vector>
 
 void print_vector(auto v)
 {
