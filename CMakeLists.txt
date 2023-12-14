@@ -11,6 +11,11 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 
 set(CMAKE_CXX_STANDARD 20)
 
+find_package(VTK REQUIRED)
+#include("${VTK_USE_FILE}")
+
+
+add_subdirectory(ch_vtk)
 add_subdirectory(ch_arrays)
 add_subdirectory(ch_arrays_modern)
 add_subdirectory(ch_control_structures)
