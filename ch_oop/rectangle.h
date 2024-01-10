@@ -7,15 +7,18 @@ private:
     double m_width;
     double m_height;
 public:
-    Rectangle(double x, double y, double width=1.0, double height=1.0);
+    Rectangle();
+    explicit Rectangle(double x, double y, double width=1.0, double height=1.0);
+    Rectangle(const Rectangle& other);
+    bool operator==(const Rectangle& other) const = default;
     virtual ~Rectangle();
     
-    virtual void print();
-    virtual double area();
+    void print() const override;
+    double area() const override;
     
-    double width();
+    double width() const;
     void setWidth(double width);
     
-    double height();
+    double height() const;
     void setHeight(double height);    
 };

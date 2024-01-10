@@ -17,19 +17,19 @@ Circle::~Circle()
     cout << "Circle destructor called." << endl;
 }
 
-void Circle::print()
+void Circle::print() const
 {
     Shape::print();
     cout << "radius = " << m_radius << endl;
 }
 
-double Circle::area()
+double Circle::area() const
 {
 	double pi = 4 * std::atan(1);
     return pow(m_radius,2)*pi;
 }
 
-double Circle::radius()
+double Circle::radius() const
 {
     return m_radius;
 }

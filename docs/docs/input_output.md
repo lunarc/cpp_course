@@ -1,26 +1,28 @@
 # Input and output
 
-On important aspect in programming is the ability to read and write from standard input/output and from to files in different ways. In C++ the main way of reading and writing data is using the streams classes in the **iostreams** library. Using streams data can be read and written using special operators to files. It is also possible to read and write to stream in memory. 
+One important aspect of programming is the ability to read and write from standard input/output and from files in different ways. In C++ the main way of reading and writing data is using the stream classes in the C++ input/output library. Using streams, data can be read and written using special operators to files. It is also possible to read and write to stream in memory. 
 
-To use streams in C++ the include for the iostreams library has to be added as shown below:
+The stream classes are defined in the **iostreams** header which is included with the following code:
 
 ```cpp
 #include <iostreams>
 ```
 
-The classes in the **iostreams** library are contained in the **std::** namespace, so if we want to use them directly they have to be prefixed with **std::**. For the examples in this chapter we will avoid this by adding the following statement in before use:
+The classes in **iostreams** are defined in the **std::** namespace, so if we want to use them directly they have to be prefixed with **std::**. For the examples in this chapter we will avoid this by adding the following statement in before use:
 
 ```cpp
 using namespace std;
 ```
 
-This is not recommended for larger projects, as it can bring in unnecessary namespaces in the code. This is escpecially important in header files.
+!!! note
+
+    Adding this statement is not recommended for larger projects, as it can bring in unnecessary namespaces in the code. This is especially important in header files.
 
 ## Reading and writing to the console
 
 There are 3 built-in stream objects available for reading and writing to standard input - **cin**, standard output - **cout** and standard error - **cerr**. We have already used these objects in the previous sections without going into the details of how these work. 
 
-Writing to a stream is accomplished using the **<<** operator followed by the variable, scalable or string that you want to write. Writing is done continously on a single line until a special object, **endl**, is passed to the stream. In the following example 3 variables are written to 2 lines of output:
+Writing to a stream is accomplished using the **<<** operator followed by the variable, scalable or string that you want to write. Writing is done continuously on a single line until a special object, **endl**, is passed to the stream. In the following example 3 variables are written to 2 lines of output:
 
 ```cpp
 #include <iostream>
@@ -195,4 +197,4 @@ There are a lot more manipulators available in the ***iomanip*** header. For mor
 
 ## Reading and writing to files
 
-There are 2 main streams classes **ifstream** for reading from files and **ofstream** for writing to files. 
+To read and write data to files we need to instantiate stream instances for each file operation. 

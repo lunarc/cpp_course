@@ -21,6 +21,21 @@ int main()
     Rectangle r0(0.0, 0.0, 2.0, 1.0);
     r0.print();
 
+    Circle c1(0.5, 1.0, 2.0);
+    c1.print();
+
+    Circle c2(0.5, 3.0, 1.0);
+    c2.print();
+
+    c1 = c2;
+
+    c1.print();
+
+    if (c1 == c2)
+		cout << "c1 and c2 are equal" << endl;
+	else
+		cout << "c1 and c2 are not equal" << endl;
+
     auto rect = new Rectangle(0.0, 0.0, 1.0, 2.0);
     rect->print();
     delete rect;

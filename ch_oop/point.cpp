@@ -14,3 +14,8 @@ Point::~Point()
 {
     cout << "Point destructor called." << endl;
 }
+
+double Point::area() const
+{
+    return 0.0;
+}

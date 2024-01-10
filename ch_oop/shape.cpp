@@ -4,6 +4,11 @@
 
 using namespace std;
 
+Shape::Shape()
+: m_x(0.0), m_y(0.0), m_name("Shape")
+{
+}
+
 Shape::Shape(double x, double y)
 {
     cout << "Shape created." << endl;
@@ -12,12 +17,17 @@ Shape::Shape(double x, double y)
     m_name = "Shape";
 }
 
+Shape::Shape(const Shape& other)
+    : m_x(other.m_x), m_y(other.m_y), m_name(other.m_name)
+{
+}
+
 Shape::~Shape()
 {
     cout << "Shape destructor called." << endl;
 }
 
-void Shape::print()
+void Shape::print() const
 {
     cout << "--------------------------" << endl;
     cout << "Shape type: " << m_name << endl;
@@ -31,19 +41,14 @@ void Shape::setPosition(double x, double y)
     m_y = y;
 }
 
-double Shape::x()
+double Shape::x() const
 {
     return m_x;
 }
 
-double Shape::y()
+double Shape::y() const 
 {
     return m_y;
-}
-
-double Shape::area()
-{
-    return 0.0;
 }
 
 void Shape::setName(const std::string& name)
@@ -51,7 +56,7 @@ void Shape::setName(const std::string& name)
     m_name = name;
 }
 
-std::string Shape::name()
+std::string Shape::name() const
 {
     return m_name;
 }
