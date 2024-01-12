@@ -15,7 +15,7 @@ public:
     virtual ~Shape();
     
     virtual void print() const;
-    virtual double area() const = 0; 
+    virtual double area() const; 
     
     void setPosition(double x, double y);
     double x() const;

@@ -14,7 +14,7 @@ int main()
 
     cout << "adding objects ---" << endl;
 
-    shapes.push_back(Point(0.0, 0.0));
+    //shapes.push_back(Point(0.0, 0.0));
     shapes.push_back(Circle(1.0, 0.0, 2.0));
     shapes.push_back(Rectangle(0.0, 1.0, 2.0, 1.0));
 

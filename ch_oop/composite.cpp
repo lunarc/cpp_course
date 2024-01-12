@@ -18,7 +18,7 @@ Composite::~Composite()
     this->clear();
 }
 
-void Composite::print()
+void Composite::print() const
 {
     Shape::print();
     cout << "Number of shapes = " << m_shapes.size() << endl;
@@ -27,7 +27,7 @@ void Composite::print()
         v->print();
 }
 
-double Composite::area()
+double Composite::area() const
 {
     double totalArea = 0.0;
     

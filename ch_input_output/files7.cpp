@@ -8,11 +8,11 @@ int main()
 {
     string line;
     ifstream infile;
-    infile.open("..\\..\\data\\AEP_hourly.csv");
+    infile.open("../data/AEP_hourly.csv");
 
     while (infile.good())
     {
-        getline(infile, line, ',');
+        getline(infile, line);
         cout << line << endl;
     }
     infile.close();

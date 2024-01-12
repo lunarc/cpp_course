@@ -11,8 +11,8 @@ public:
     Composite(double x, double y);
     virtual ~Composite();
     
-    virtual void print();
-    virtual double area();
+    virtual void print() const override;
+    virtual double area() const override;
     
     void add(Shape* shape);
     void remove(Shape* shape);

@@ -35,6 +35,11 @@ void Shape::print() const
     cout << "area = " << this->area() << endl;
 }
 
+double Shape::area() const
+{
+    return 0.0;
+}
+
 void Shape::setPosition(double x, double y)
 {
     m_x = x;
