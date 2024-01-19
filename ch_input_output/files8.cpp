@@ -19,7 +19,16 @@ int main()
     while (infile.good())
     {
         getline(infile, line);
-        cout << line << endl;
+
+        auto pos = std::find(line.begin(), line.end(), ',');
+
+        if (pos != line.end())
+        {
+            string date = line.substr(0, pos - line.begin());
+            string value = line.substr(pos - line.begin() + 1);
+
+            std::cout << "date:  " << date << " value: " << value << "\n";
+        }
     }
     infile.close();
 }

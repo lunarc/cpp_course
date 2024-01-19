@@ -195,7 +195,7 @@ There are a lot more manipulators available in the ***iomanip*** header. For mor
 
 [:fontawesome-solid-gears: iomanip att cppreference.com](https://en.cppreference.com/w/cpp/header/iomanip){ .md-button  .target="_blank"}
 
-## Reading and writing to files
+## Reading and writing to files (streams)
 
 To read and write data to files we need to instantiate stream instances for each file operation. There are 3 main file stream classes in C++:
 
@@ -428,6 +428,12 @@ Sometimes you want to read a text file and process the file yourself. To do this
 string line;
 ifstream infile;
 infile.open("..\\..\\data\\AEP_hourly.csv");
+
+if (!infile.is_open())
+{
+    cout << "Error opening file" << endl;
+    return 1;
+}
 ```
 
 We then do a while-loop over the file calling **std::getline(...)** to read the file line by line.
@@ -458,5 +464,233 @@ Running the example will print out something similar to:
 ...
 ```
 
+### Splitting lines
 
-To process each line we need 
+To separate the date from the value we need to do some basic string manipulation. First we need to find the position of the comma in the line. We can do this with the **std::find(...)** method. This function will return a string iterator at the position of the comma or end **end()** iterator. We can then use the **.substr()** method of the string to extract the date and value fields. The code then becomes:
+
+```cpp
+while (infile.good())
+{
+    getline(infile, line);
+
+    auto pos = std::find(line.begin(), line.end(), ',');
+
+    if (pos != line.end())
+    {
+        string date = line.substr(0, pos - line.begin());
+        string value = line.substr(pos - line.begin() + 1);
+
+        std::cout << "date:  " << date << " value: " << value << "\n";
+    }
+}
+```
+
+Running this code produces the following output:
+
+```
+date:  2018-01-01 12:00:00 value: 19453.0
+date:  2018-01-01 13:00:00 value: 19049.0
+date:  2018-01-01 14:00:00 value: 18737.0
+date:  2018-01-01 15:00:00 value: 18619.0
+date:  2018-01-01 16:00:00 value: 18691.0
+date:  2018-01-01 17:00:00 value: 19109.0
+date:  2018-01-01 18:00:00 value: 20279.0
+date:  2018-01-01 19:00:00 value: 20925.0
+date:  2018-01-01 20:00:00 value: 21089.0
+date:  2018-01-01 21:00:00 value: 20999.0
+date:  2018-01-01 22:00:00 value: 20820.0
+date:  2018-01-01 23:00:00 value: 20415.0
+date:  2018-01-02 00:00:00 value: 19993.0
+```
+
+### Converting from string to float
+
+If we want to convert the value field to a floating point type we can use the **std::stod(...)** or **std::stof(...)** functions. They throw an **std::invalid_argument** exception if the value can't be converted. The conversion can be handled using the following code:
+
+```cpp
+double dval = 0.0;
+
+try
+{
+    dval = std::stod(strValue);
+}
+catch (const std::exception& e)
+{
+    std::cerr << e.what() << '\n';
+}
+
+std::cout << "date:  " << date << " value: " << dval << "\n";
+```
+
+## Reading binary files
+
+In the previous chapters we have seen how we can read and write data to text files. In many cases you will need to read and write data in binary format. Reading and writing to binary files are similar to the previous approach except that we add the **ios::binary** flag in the open-statement. and instead of using the **<<** and **>>** operators we use the stream methods **.read(...)** and **.write(...)** methods for read and write. I binary file can also consist of multiple parts with different data (records). To be able to read data at different parts of the file we use an invisble cursor that we can place at the location we want to read. This cursor can be set using the **.seekg(...)** method of the stream.
+
+### Writing data to a binary file
+
+In this example we are going to write a number of particles with position and mass to disk as a binary file. First we create a structure to hold the particle information.
+
+```cpp
+struct Particle {
+    double x;
+    double y;
+    double mass;
+};
+```
+
+For this example we are going to write random data to our particles, so we initialise the random number generator.
+
+```cpp
+srand((unsigned)time(0));
+```
+
+Next, we open a stream for binary write using the **ios::binary** flag.
+
+```cpp
+ofstream particlesFile("particles.dat", ios::out | ios::binary);
+```
+
+To write particle data to the file we need create a variable to hold the data to be written:
+
+```cpp
+Particle p;
+```
+
+To write data to a binary file the **.write()** method takes a pointer to a buffer of the data to write and the size of the buffer. To get a size of a buffer we can use the **sizeof()** function in C++ to query and variable for its size. In the following code we write 10 particles to the binary file, **particles.dat**.
+
+```cpp
+for (auto i = 0; i < 10; i++)
+{
+    p.x = 100.0 * (double)rand() / (double)RAND_MAX;
+    p.y = 100.0 * (double)rand() / (double)RAND_MAX;
+    p.mass = 1.0 + (double)rand() / (double)RAND_MAX;
+
+    particlesFile.write((char*)&p, sizeof(p));
+}
+particlesFile.close();
+```
+
+Please note that we reuse the same variable with different data for each write, which is not always the case. The **.write()**-method requires a char pointer, which is why we need the cast **p** before passing it in the call. Also **p** is a local variable (on the stack), which is the reason we pass it as reference using the **&** operator.
+
+When writing to a binary file the invisible file pointer is moved the size of the data writting every time you call the **.write()**-method.
+
+### Reading data from a binary file
+
+Reading data is very similar to writing data, except now we read from the file using the **.read()**-method and write data to a buffer of the right size. Be default the file pointer will be placed at the beginning of the file. In the following code a file object is opened for reading using the **ios::binary** flag.
+
+```cpp
+ifstream inputParticlesFile("particles.dat", ios::in | ios::binary);
+
+if (inputParticlesFile.is_open())
+{
+    while (inputParticlesFile.good())
+    {
+        inputParticlesFile.read((char*)&p, sizeof(p));
+        cout << "x = " << p.x;
+        cout << ", y = " << p.y;
+        cout << ", m = " << p.mass << endl;
+    }
+}
+else
+    cout << "Could not open file." << endl;
+```
+
+if we want to write more entries to the file at the end we can add the **ios::ate** flag when opening the file. The file pointer is then moved to the end of the file and the next entry written will be added after the last buffer written to the file.
+
+It is also possible to move the file pointer to the end of the file using the **.seekg()**-method of the file stream object. The following statement moves the file pointer to the beginning of the file. The first argument is the offset to move from the position and direction given by the second argument. 
+```cpp
+inputParticlesFile.seekg(0, ios::beg);
+```
+
+The second argument can be on of three alternatives
+
+ * **ios::beg** - search from the beginning of the file.
+ * **ios::cur** - search from the current position forward (+) and backwards (-).
+ * **iso::end** - search backwards from the end of the file.
+
+If only a single argument is given to the **.seekg()**-method, this argument is the absolute position in the file.
+
+## Reading elevations from a binary file
+
+To illustrate real-world usage of how to read data from binary file, we will open the the file **../data/colorado_elev.vit**, which contains elevation values in a 400 x 400 image file. The first 268 bytes contains a header, which we will need to skip. The rest of the data contains the height values stored as unsigned bytes.
+
+First we open the file for writing, also checking that the file was opened.
+
+```cpp
+ifstream infile;
+infile.open("../data/colorado_elev.vit", ios::in | ios::binary);
+
+if (!infile.is_open())
+{
+    cout << "Error opening file" << endl;
+    return 1;
+}
+```
+
+To be able to read the data from the file we need a buffer to store the unsigned bytes into. In this case we use a **std::array** with 400 x 400 in size. An unsigned byte is defined as **uint8_t** in C++, which we will use when we declare the array.
+
+```cpp
+std::array<uint8_t, 400 * 400> buffer;
+```
+
+Now we need to move the file pointer to the correct position for reading the elevation values in the file. We seek 268 bytes starting from the beginning of the file.
+
+```cpp
+infile.seekg(268, ios::beg);
+```
+
+Now we are in a position to be able to read the data. To read we use the **.read()** method, which takes a pointer to a buffer and the size of the buffer. The data in the **std::array** can be accessed by the **.data()**-method, but needs to be cast to the correct pointer type. We do this with the **reinterpret_cast<T>()** function in C++. The size of the buffer is returned by the **.size()**-method.
+
+```cpp
+infile.read(reinterpret_cast<char*>(buffer.data()), buffer.size());
+
+infile.close();
+```
+
+This is everything required to read all the data from the binary file into our **std::array**. To use the data we write it back to a text file storing the data separated by commas (CSV).
+
+To do this we open a output file stream.
+
+```cpp
+fstream outfile;
+outfile.open("../data/colorado_elev.csv", ios::out);
+
+if (!outfile.is_open())
+{
+    cout << "Error opening file" << endl;
+    return 1;
+}
+```
+
+Next we loop over the data in the file and write it to a text file with 400 values per row. To be able to write our **uint8_t** values we need to cast them to **int**. We do this with the **static_cast<T>()** function. The final code is shown below:
+
+```cpp
+for (auto i = 0; i < 400; i++)
+{
+    for (auto j = 0; j < 400; j++)
+        outfile << static_cast<int>(buffer[i * 400 + j]) << ",";
+    outfile << "\n";
+}
+
+outfile.close();
+```
+
+This file can be read and plotted in NumPy/Matplotlib with:
+
+```py
+# Load data
+data = np.genfromtxt('colorado_elev.csv', delimiter=',')
+
+# Plot
+plt.figure()
+plt.contourf(data) 
+plt.title('Colorado')
+plt.savefig('colorado.png')
+```
+
+The resulting image is shown below:
+
+<figure markdown>
+<img src="../images/colorado.png" width="100%">
+  <figcaption>Data from binary file.</figcaption>
+</figure>

@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.20)
 # set(CMAKE_C_COMPILER /opt/local/bin/gcc)
 # set(CMAKE_CXX_COMPILER /opt/local/bin/g++)
 
-project(cpp_course C CXX)
+project(cpp_course C CXX) 
 
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin )
 

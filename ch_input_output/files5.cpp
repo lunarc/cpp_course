@@ -1,12 +1,13 @@
-#include <iostream>
-#include <fstream>
-#include <sstream>
 #include <cstdlib>
 #include <ctime>
+#include <fstream>
+#include <iostream>
+#include <sstream>
 
 using namespace std;
 
-struct particle {
+struct Particle
+{
     double x;
     double y;
     double mass;
@@ -15,28 +16,28 @@ struct particle {
 int main()
 {
     srand((unsigned)time(0));
-    
+
     ofstream particlesFile("particles.dat", ios::out | ios::binary);
-    
-    particle p;
-    
-    for (int i=0; i<10; i++)
+
+    Particle p;
+
+    for (int i = 0; i < 10; i++)
     {
-        p.x = 100.0*(double)rand()/(double)RAND_MAX;
-        p.y = 100.0*(double)rand()/(double)RAND_MAX;
-        p.mass = 1.0 + (double)rand()/(double)RAND_MAX;
+        p.x = 100.0 * (double)rand() / (double)RAND_MAX;
+        p.y = 100.0 * (double)rand() / (double)RAND_MAX;
+        p.mass = 1.0 + (double)rand() / (double)RAND_MAX;
 
         particlesFile.write((char*)&p, sizeof(p));
     }
-    
+
     particlesFile.close();
-    
-    ifstream inputParticlesFile("particles.dat", ios::in | ios::binary | ios::ate );
-    
+
+    ifstream inputParticlesFile("particles.dat", ios::in | ios::binary | ios::ate);
+
     if (inputParticlesFile.is_open())
     {
         inputParticlesFile.seekg(0, ios::beg);
-        
+
         while (inputParticlesFile.good())
         {
             inputParticlesFile.read((char*)&p, sizeof(p));
@@ -47,6 +48,6 @@ int main()
     }
     else
         cout << "Could not open file." << endl;
-    
+
     inputParticlesFile.close();
 }
