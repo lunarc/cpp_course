@@ -29,7 +29,7 @@ Key features
 
 C++ introduces the concept of a class
 
-A class can be seen as a struct which contain functions for accessing data
+A class can be seen as a struct that contain functions for accessing data
 
 Variables and methods of a class can be 
 
@@ -47,6 +47,12 @@ A Class often represents a noun such as a person, particle, shape
 
 ## Instantiating classes
 
+## Implementing a graphics library
+
+### Finding shared characteristics
+
+
+
 ## Object-oriented analysis
 
 Object relationships
@@ -54,5 +60,14 @@ Object relationships
 * has – A car has wheels (aggregation)
 * has – A particle system has particles (composite)
 * is – A Triangle is a Shape (specialisation inheritance)
+
+### Aggregation
+
+### Composite
+
+### Identifying classes
+
+
+
 
 
