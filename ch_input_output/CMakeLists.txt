@@ -13,3 +13,9 @@ add_executable(files7 files7.cpp)
 add_executable(files8 files8.cpp)
 add_executable(files9 files9.cpp)
 add_executable(files10 files10.cpp)
+
+set_target_properties(
+    io1 io2 io3 iomanip1 iomanip2 files1 files2 files3 files4 files5 files6 files7 files8 files9 files10
+    PROPERTIES
+    FOLDER "ch_input_output"
+)

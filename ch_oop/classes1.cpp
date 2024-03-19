@@ -4,12 +4,12 @@ using namespace std;
 
 class Point {
 private:
-    double m_x;
-    double m_y;
+    double m_x{};
+    double m_y{};
 public:
-    Point(double x, double y);
+    Point(double x = 0.0, double y = 0.0);
     
-    void print();
+    void print() const;
     
     void setPosition(double x, double y);
     double x();
@@ -17,12 +17,11 @@ public:
 };
 
 Point::Point(double x, double y)
+    : m_x{x}, m_y{y}
 {
-    m_x = x;
-    m_y = y;
 }
 
-void Point::print()
+void Point::print() const
 {
     cout << "x = " << m_x << ", y = " << m_y << endl;
 }

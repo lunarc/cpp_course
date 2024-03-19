@@ -1,1 +1,0 @@
-add_executable(modern_threads4 main.cpp)

@@ -4,14 +4,18 @@
 
 class Shape {
 private:
-    double m_x;
-    double m_y;
-    std::string m_name;
+    double m_x{};
+    double m_y{};
+    std::string m_name{};
 public:
     Shape();
     Shape(double x, double y);
     Shape(const Shape& other);
-    bool operator==(const Shape& other) const = default;
+    Shape& operator=(const Shape& other);
+    Shape(Shape&& other) noexcept;
+    Shape& operator=(Shape&& other) noexcept;
+
+    bool operator==(const Shape& other) const;
     virtual ~Shape();
     
     virtual void print() const;

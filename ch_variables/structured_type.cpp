@@ -5,8 +5,8 @@ using namespace std;
 int main()
 {
     struct coord3D {
-        double x;
-        double y;
+        double x{};
+        double y{};
     };
     
     coord3D c1;

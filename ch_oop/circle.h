@@ -8,7 +8,12 @@ private:
 public:
     Circle() = default;
     Circle(double x, double y, double radius = 1.0);
-    bool operator==(const Circle& other) const = default;
+    bool operator==(const Circle& other) const;
+    Circle(const Circle& other);
+    Circle& operator=(const Circle& other);
+    Circle(Circle&& other);
+    Circle& operator=(Circle&& other);
+
     virtual ~Circle();
 
     virtual void print() const override;

@@ -12,3 +12,9 @@ add_executable(shapes5 shapes5.cpp shape.h shape.cpp point.h point.cpp
 circle.h circle.cpp rectangle.h rectangle.cpp composite.h composite.cpp)
 add_executable(shapes6 shapes6.cpp shape.h shape.cpp point.h point.cpp
 circle.h circle.cpp rectangle.h rectangle.cpp composite.h composite.cpp)
+
+set_target_properties(
+    classes1 classes2 shapes1 shapes2 shapes3 shapes4 shapes5 shapes6
+    PROPERTIES
+    FOLDER "ch_oop"
+)

@@ -21,3 +21,11 @@ vtk_module_autoinit(
   TARGETS vtk3
   MODULES ${VTK_LIBRARIES}
 )
+
+set_target_properties(
+    vtk1
+    vtk2
+    vtk3
+    PROPERTIES
+    FOLDER "ch_modern"
+)

@@ -14,3 +14,24 @@ add_executable(reference_type reference_type.cpp)
 add_executable(strucutured_type structured_type.cpp)
 add_executable(var_auto1 auto1.cpp)
 add_executable(var_auto2 auto2.cpp)
+
+set_target_properties(
+    int_types1
+    int_types2
+    char_types1
+    double_types1
+    numerical_limits
+    enum_types
+    class_enum
+    array_types1
+    array_types2
+    pointers1
+    pointers2
+    const_types
+    reference_type
+    strucutured_type
+    var_auto1
+    var_auto2
+    PROPERTIES
+    FOLDER "ch_variables"
+)

@@ -113,7 +113,14 @@ int i{0};
 float x{0.0};
 ```
 
-All these ways of initializing variables are equivalent. You will see some different ways of initializing variables in this book. Which type of initialization is chosen depends on the situation. In certain situations one method can be more efficient than others. In other cases the code can be more readable using a certain example.
+It is also possible to leave out the value of the initialisation. This initialises the variable to its default value.
+
+``` cpp
+int i{};
+float x{};
+```
+
+All these ways of initializing variables are equivalent. You will see some different ways of initializing variables in this book. Which type of initialization is chosen depends on the situation. In certain situations, one method can be more efficient than others. In other cases the code can be more readable using a certain example.
 
 ### Variable types
 

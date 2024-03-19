@@ -11,18 +11,22 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 
 set(CMAKE_CXX_STANDARD 20)
 
-find_package(VTK REQUIRED)
+IF(MSVC)
+  SET_PROPERTY(GLOBAL PROPERTY USE_FOLDERS ON)
+ENDIF()
+
+#find_package(VTK REQUIRED)
 #include("${VTK_USE_FILE}")
 
 
-add_subdirectory(ch_vtk)
+#add_subdirectory(ch_vtk)
 add_subdirectory(ch_arrays)
 add_subdirectory(ch_arrays_modern)
 add_subdirectory(ch_control_structures)
 #add_subdirectory(ch_cpp_fortran)
 add_subdirectory(ch_data_structures)
 add_subdirectory(ch_modern)
-add_subdirectory(ch_qt)
+#add_subdirectory(ch_qt)
 add_subdirectory(ch_functions)
 add_subdirectory(ch_input_output)
 add_subdirectory(ch_iterating)

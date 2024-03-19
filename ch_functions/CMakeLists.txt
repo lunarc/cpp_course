@@ -11,3 +11,20 @@ add_executable(array_functions2 array_functions2.cpp)
 add_executable(header_files array_utils.h array_utils.cpp header_files.cpp)
 add_executable(header_files2 array_utils2.h array_utils2.cpp
 header_files2.cpp)
+
+set_target_properties(
+    array_functions
+    functions1
+    functions2
+    functions3
+    functions4
+    functions5
+    functions6
+    functions7
+    functions8
+    array_functions2
+    header_files
+    header_files2
+    PROPERTIES
+    FOLDER "ch_functions"
+)

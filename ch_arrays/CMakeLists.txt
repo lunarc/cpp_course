@@ -5,3 +5,15 @@ add_executable(cont_array_2d cont_array_2d.cpp)
 add_executable(cont_array_2d_2 cont_array_2d_2.cpp)
 add_executable(struct_array struct_array.cpp)
 add_executable(struct_array2 struct_array2.cpp)
+
+set_target_properties(
+    allocating_memory
+    allocating_array
+    array_2d
+    cont_array_2d
+    cont_array_2d_2
+    struct_array
+    struct_array2
+   PROPERTIES
+   FOLDER "ch_arrays"
+)

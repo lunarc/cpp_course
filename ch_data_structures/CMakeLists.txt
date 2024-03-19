@@ -20,3 +20,30 @@ add_executable(numeric1 numeric1.cpp)
 add_executable(transform1 transform1.cpp)
 add_executable(remove1 remove1.cpp)
 add_executable(ranges1 ranges1.cpp)
+
+set_target_properties(
+    lambda1
+    lambda2
+    lambda3
+    lambda4
+    lambda5
+    vector1
+    vector2
+    vector3
+    vector4
+    deque1
+    list1
+    map1
+    operations1
+    algo1
+    algo2
+    algo3
+    copy1
+    fill1
+    numeric1
+    transform1
+    remove1
+    ranges1
+    PROPERTIES
+    FOLDER "ch_data_structures"
+)
