@@ -2,60 +2,115 @@
 
 using namespace std;
 
-class Point {
+class Vector {
 private:
 	double m_x{};
 	double m_y{};
 public:
-	Point(double x = 0.0, double y = 0.0);
+	Vector(double x = 0.0, double y = 0.0);
+	Vector(const Vector& other);
+	Vector& operator=(const Vector& other);
+
+	Vector operator+(const Vector& other) const;
+	Vector operator-(const Vector& other) const;
+	Vector operator*(float scalar) const;
+
+	float dotProduct(const Vector& other) const;
+	float crossProduct(const Vector& other) const;
 
 	void print() const;
 
-	void setPosition(double x, double y);
+	void set(double x, double y);
 	double x() const;
 	double y() const;
 };
 
-Point::Point(double x, double y)
+Vector::Vector(double x, double y)
 	: m_x(x), m_y(y)
 {
+	std::cout << "Constructor called" << std::endl;
 }
 
-void Point::print() const
+Vector::Vector(const Vector& other)
+	: m_x(other.m_x), m_y(other.m_y)
 {
-	cout << "x = " << m_x << ", y = " << m_y << endl;
+	std::cout << "Copy constructor called" << std::endl;
 }
 
-void Point::setPosition(double x, double y)
+Vector& Vector::operator=(const Vector& other)
+{
+	std::cout << "Copy assignment called" << std::endl;
+	m_x = other.m_x;
+	m_y = other.m_y;
+	return *this;
+}
+
+// Addition of two vectors
+Vector Vector::operator+(const Vector& other) const {
+	return Vector(m_x + other.m_x, m_y + other.m_y);
+}
+
+// Subtraction of two vectors
+Vector Vector::operator-(const Vector& other) const {
+	return Vector(m_x - other.m_x, m_y - other.m_y);
+}
+
+// Scalar multiplication of a vector
+Vector Vector::operator*(float scalar) const {
+	return Vector(m_x * scalar, m_y * scalar);
+}
+
+// Dot product of two vectors
+float Vector::dotProduct(const Vector& other) const {
+	return m_x * other.m_x + m_y * other.m_y;
+}
+
+// Cross product of two vectors
+float Vector::crossProduct(const Vector& other) const {
+	return m_x * other.m_y - m_y * other.m_x;
+}
+
+void Vector::print() const
+{
+	cout << "(" << m_x << ", " << m_y << ")\n";
+}
+
+void Vector::set(double x, double y)
 {
 	m_x = x;
 	m_y = y;
 }
 
-double Point::x() const
+double Vector::x() const
 {
 	return m_x;
 }
 
-double Point::y() const
+double Vector::y() const
 {
 	return m_y;
 }
 
 int main()
 {
-	Point p0 = Point(0.0, 0.0);
-	Point p1 = Point(1.0, 1.0);
+	Vector v0{ 0.0, 0.0 };
+	Vector v1{ 1.0, 1.0 };
+	Vector v2 = v1;
+	v0 = v1;
 
-	cout << "p0.x() = " << p0.x() << endl;
-	cout << "p0.y() = " << p0.y() << endl;
+	auto v4 = v0 + v1;
+	v4.print();
 
-	p1.setPosition(0.5, 0.5);
+	cout << "v0.x() = " << v0.x() << endl;
+	cout << "v0.y() = " << v0.y() << endl;
 
-	cout << "p1.x() = " << p1.x() << endl;
-	cout << "p1.y() = " << p1.y() << endl;
+	v1.set(0.5, 0.5);
 
-	Point* p3 = new Point(2.0, 2.0);
-	p3->setPosition(1.5, 1.5);
-	cout << "p3->x() = " << p3->x() << endl;
+	cout << "v1.x() = " << v1.x() << endl;
+	cout << "v1.y() = " << v1.y() << endl;
+
+	std::unique_ptr<Vector> v3 = std::make_unique<Vector>(1.0, 1.0);
+	v3->set(1.5, 1.5);
+	cout << "v3->x() = " << v3->x() << endl;
+	cout << "v3->y() = " << v3->y() << endl;
 }
