@@ -65,7 +65,7 @@ Shape::~Shape()
 void Shape::print() const
 {
     cout << "--------------------------" << endl;
-    cout << "Shape type: " << m_name << endl;
+    cout << "Shape name: " << m_name << endl;
     cout << "x = " << m_x << ", y = " << m_y << endl;
     cout << "area = " << this->area() << endl;
 }
@@ -79,6 +79,16 @@ void Shape::setPosition(double x, double y)
 double Shape::x() const
 {
 	return m_x;
+}
+
+void Shape::draw() const
+{
+    cout << "Drawing a shape." << endl;
+    cout << "Using fill color: ";
+    cout << "(" << m_fillColor[0] << ", " << m_fillColor[1] << ", " << m_fillColor[2] << ", " << m_fillColor[3] << ")" << endl;
+    cout << "Using line color: ";
+    cout << "(" << m_lineColor[0] << ", " << m_lineColor[1] << ", " << m_lineColor[2] << ", " << m_lineColor[3] << ")" << endl;
+    cout << "Position: (" << m_x << ", " << m_y << ")" << endl;
 }
 
 double Shape::y() const
@@ -99,4 +109,36 @@ void Shape::setName(const std::string& name)
 std::string Shape::name() const
 {
     return m_name;
+}
+
+void Shape::setFillColor(double r, double g, double b, double a)
+{
+    m_fillColor[0] = r;
+	m_fillColor[1] = g;
+	m_fillColor[2] = b;
+	m_fillColor[3] = a;
+}
+
+void Shape::setLineColor(double r, double g, double b, double a)
+{
+    m_lineColor[0] = r;
+	m_lineColor[1] = g;
+	m_lineColor[2] = b;
+	m_lineColor[3] = a;
+}
+
+void Shape::getFillColor(double& r, double& g, double& b, double& a) const
+{
+    r = m_fillColor[0];
+	g = m_fillColor[1];
+	b = m_fillColor[2];
+	a = m_fillColor[3];
+}
+
+void Shape::getLineColor(double& r, double& g, double& b, double& a) const
+{
+    r = m_lineColor[0];
+	g = m_lineColor[1];
+	b = m_lineColor[2];
+	a = m_lineColor[3];
 }

@@ -15,8 +15,9 @@ public:
 	Vector operator-(const Vector& other) const;
 	Vector operator*(float scalar) const;
 
-	float dotProduct(const Vector& other) const;
-	float crossProduct(const Vector& other) const;
+	double dot(const Vector& other) const;
+	double cross(const Vector& other) const;
+	double length() const;
 
 	void print() const;
 
@@ -61,13 +62,18 @@ Vector Vector::operator*(float scalar) const {
 }
 
 // Dot product of two vectors
-float Vector::dotProduct(const Vector& other) const {
+double Vector::dot(const Vector& other) const {
 	return m_x * other.m_x + m_y * other.m_y;
 }
 
 // Cross product of two vectors
-float Vector::crossProduct(const Vector& other) const {
+double Vector::cross(const Vector& other) const {
 	return m_x * other.m_y - m_y * other.m_x;
+}
+
+double Vector::length() const
+{
+	return std::sqrt(this->dot(*this));
 }
 
 void Vector::print() const
@@ -109,8 +115,19 @@ int main()
 	cout << "v1.x() = " << v1.x() << endl;
 	cout << "v1.y() = " << v1.y() << endl;
 
+	Vector v5{ 1.0, 0.0 };
+	Vector v6{ 0.0, 1.0 };
+
+	cout << "v5.dot(v6) = " << v5.dot(v6) << endl;
+	cout << "v5.cross(v6) = " << v5.cross(v6) << endl;
+	cout << "v5.length() = " << v5.length() << endl;
+
 	std::unique_ptr<Vector> v3 = std::make_unique<Vector>(1.0, 1.0);
 	v3->set(1.5, 1.5);
 	cout << "v3->x() = " << v3->x() << endl;
 	cout << "v3->y() = " << v3->y() << endl;
+
+
+
+	return 0;
 }

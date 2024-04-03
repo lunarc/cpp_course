@@ -145,7 +145,7 @@ public:
     ...
 ```
 
-If we create a **Point** instance with the following code:
+If we create a **Vector** instance with the following code:
 
 ```cpp
 Vector v;
@@ -253,18 +253,164 @@ Vector v3 = v1 + v2; // Copy constructor + operator+(...)
 We can now add other operator methods in the same way. Functions for calculating scalar and cross products can be added as additional class methods.
 
 ```cpp
-float Vector::dotProduct(const Vector& other) const {
+float Vector::dot(const Vector& other) const {
 	return m_x * other.m_x + m_y * other.m_y;
 }
 
-float Vector::crossProduct(const Vector& other) const {
+float Vector::cross(const Vector& other) const {
 	return m_x * other.m_y - m_y * other.m_x;
 }
 ```
 
+Cross products and scalar product can now be calculated as shown in the following code:
+
+```cpp
+Vector v5{ 1.0, 0.0 };
+Vector v6{ 0.0, 1.0 };
+
+cout << "v5.dot(v6) = " << v5.dot(v6) << endl;
+cout << "v5.cross(v6) = " << v5.cross(v6) << endl;
+```
+
+Which gives the following output:
+
+```
+v5.dot(v6) = 0
+v5.cross(v6) = 1
+```
+
+We can also add a convenient **length()** method:
+
+```cpp
+double Vector::length() const
+{
+	return std::sqrt(this->dot(*this));
+}
+```
+
+Calculating the length of a vector can now be done by calling the **.length()**-method.
+
+```cpp
+cout << "v5.length() = " << v5.length() << endl;
+```
+
+Which gives us the length of 1:
+
+```
+v5.length() = 1
+```
+
 !!! note
 
-    The reason we add the **const** keyword in functions and argument lists is to indicate behavior to the compiler. The compiler can check for variable modifications and also generate more efficient code if it knows that a function will not modify the member variables of a class.  
+    The reason we add the **const** keyword in functions and argument lists is to indicate behavior to the compiler. The compiler can check for variable modifications and also generate more efficient code if it knows that a function will not modify the member variables of a class. 
+
+## Inheritance
+
+One of the key concepts of object-oriented programming is inheritance. Using this concept we can define new classes that inherit behavior and attributes from existing classes. This can be beneficial for example if we would design a graphics library. In our library we want to be able to draw shapes on the screen. Many of these shapes share attributes such as position, fill color and line color. There could also be methods for moving and querying the area of a shape. 
+
+### Defining a base class Shape
+
+To define our classes we start by definining a base class, in this case it could be **Shape**. For our shape we need to be able to place the shape on the 2D screen, so we need attributes for position, fill color, line color and a display name. The code below shows an example of how a base class for our class library could look like.
+
+```cpp
+class Shape {
+private:
+    double m_x{};
+    double m_y{};
+    double m_fillColor[4]{ 1.0, 0.0, 0.0, 1.0};
+    double m_lineColor[4]{ 0.0, 0.0, 0.0, 1.0};
+    std::string m_name{};
+public:
+    Shape();
+    Shape(double x, double y);
+    
+    ...    
+    
+    void setPosition(double x, double y);
+    double x() const;
+    double y() const;
+
+    void setFillColor(double r, double g, double b, double a);
+    void setLineColor(double r, double g, double b, double a);
+
+    void getFillColor(double& r, double& g, double& b, double& a) const;
+    void getLineColor(double& r, double& g, double& b, double& a) const;
+
+    void setName(const std::string& name);
+    std::string name() const;
+};
+```
+
+We also need some common methods for our new **Shape** class such as **.draw()**, **.print()** and **.area()**. These methods should be implemented by other inherited classes and only skeleton implementations are provided by **Shape**. Methods that are supposed to be overridden by inherited classes should be marked with **virtual**. This also makes it possible for the correct methods to be called when working with a collection of different types of shapes. The following code is added to the class:
+
+```cpp
+public:
+    ...
+    virtual void print() const;
+    virtual double area() const;
+    virtual void draw() const;
+    ...
+```
+
+### Implementing a Circle shape.
+
+To implement a **Circle** shape we create a new class definition inheriting from the **Shape** class.
+
+```cpp
+class Circle : public Shape {
+private:
+    double m_radius{1.0};
+public:
+    Circle(double x = 1.0, double y = 1.0, double radius = 1.0);
+
+    virtual void print() const override;
+    virtual double area() const override;
+    virtual void draw() const override;
+    
+    double radius() const;
+    void setRadius(double radius);
+};
+```
+Inheritance in a class is defined by adding **: public Shape** after the class name in the class definition. This tells the compiler that **Circle** inherits all of the public interface of the **Shape** class. This means that the **Circle** class can't access any of the private methods or attributes from the **Shape**, which is what we want. 
+
+As we have an additional attribute, **radius**, we need to create suitable constructors. We also need to pass our constructor arguments to the **Shape** constructor and initialize the circle **m_radius** attribute. This is done just before the constructor code block. 
+
+```cpp
+Circle::Circle(double x, double y, double radius)
+	: Shape(x, y)
+    , m_radius{radius}
+{
+	this->setName("Circle");
+}
+
+To be able to draw a circle we need to override some of the methods of the **Shape** class such as **print()**, **area()** and **draw()**. 
+
+The implementation of these classes are shown below:
+
+```cpp
+void Circle::print() const
+{
+	Shape::print();
+	cout << "radius = " << m_radius << endl;
+}
+
+double Circle::area() const
+{
+	double pi = 4 * std::atan(1);
+	return pow(m_radius, 2) * pi;
+}
+
+void Circle::draw() const
+{
+	Shape::draw();
+	// Draw a circle
+	cout << "Drawing a circle at: (" << x() << ", " << y() << ")" << endl;
+	cout << "Circle radius: " << m_radius << endl;
+}
+```
+
+Notice that as we are overriding the **print()**-method of the **Shape** class. If we need any functionality of the base class we need to explicitely call this method from our overridden method, as shown in the **print()** and **draw()** method. For the **area()** method this is not required as we don't need any functionality from the **Shape** **area()** method.
+
 
 
 

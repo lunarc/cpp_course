@@ -68,6 +68,14 @@ double Circle::area() const
 	return pow(m_radius, 2) * pi;
 }
 
+void Circle::draw() const
+{
+	Shape::draw();
+	// Draw a circle
+	cout << "Drawing a circle at: (" << x() << ", " << y() << ")" << endl;
+	cout << "Circle radius: " << m_radius << endl;
+}
+
 double Circle::radius() const
 {
 	return m_radius;
