@@ -86,17 +86,17 @@ public:
         m_y = y;
     }
 
-    float x()
+    float x() const
     { 
         return m_x; 
     };
 
-    float y() 
+    float y() const
     { 
         return m_y; 
     };
 
-    void print()
+    void print() const
     {
         std::cout << "(" << m_x << ", " << m_y << ")\n";
     }
@@ -306,25 +306,23 @@ v5.length() = 1
 
 ## Inheritance
 
-One of the key concepts of object-oriented programming is inheritance. Using this concept we can define new classes that inherit behavior and attributes from existing classes. This can be beneficial for example if we would design a graphics library. In our library we want to be able to draw shapes on the screen. Many of these shapes share attributes such as position, fill color and line color. There could also be methods for moving and querying the area of a shape. 
+One of the key concepts of object-oriented programming is inheritance. Using this concept, we can define new classes that inherit behavior and attributes from existing classes. This can be beneficial, for example, if we were designing a graphics library. In our library, we want to be able to draw shapes on the screen. Many of these shapes share attributes such as position, fill color, and line color. There could also be methods for moving and querying the area of a shape.
 
 ### Defining a base class Shape
 
-To define our classes we start by definining a base class, in this case it could be **Shape**. For our shape we need to be able to place the shape on the 2D screen, so we need attributes for position, fill color, line color and a display name. The code below shows an example of how a base class for our class library could look like.
+To define our classes, we start by defining a base class, in this case, it could be **Shape**. For our shape, we need to be able to place the shape on the 2D screen, so attributes are needed for position, fill color, line color, and a display name. The code below shows an example of how a base class for our class library could look:
 
 ```cpp
 class Shape {
 private:
     double m_x{};
     double m_y{};
-    double m_fillColor[4]{ 1.0, 0.0, 0.0, 1.0};
-    double m_lineColor[4]{ 0.0, 0.0, 0.0, 1.0};
+    double m_fillColor[4]{ 1.0, 0.0, 0.0, 1.0 };
+    double m_lineColor[4]{ 0.0, 0.0, 0.0, 1.0 };
     std::string m_name{};
 public:
     Shape();
     Shape(double x, double y);
-    
-    ...    
     
     void setPosition(double x, double y);
     double x() const;
@@ -338,10 +336,22 @@ public:
 
     void setName(const std::string& name);
     std::string name() const;
+
+    virtual void print() const;
+    virtual double area() const;
+    virtual void draw() const;
 };
 ```
-
 We also need some common methods for our new **Shape** class such as **.draw()**, **.print()** and **.area()**. These methods should be implemented by other inherited classes and only skeleton implementations are provided by **Shape**. Methods that are supposed to be overridden by inherited classes should be marked with **virtual**. This also makes it possible for the correct methods to be called when working with a collection of different types of shapes. The following code is added to the class:
+
+```cpp
+public:
+    ...
+    virtual void print() const;
+    virtual double area() const;
+    virtual void draw() const;
+    ...
+```
 
 ```cpp
 public:
@@ -382,6 +392,7 @@ Circle::Circle(double x, double y, double radius)
 {
 	this->setName("Circle");
 }
+```
 
 To be able to draw a circle we need to override some of the methods of the **Shape** class such as **print()**, **area()** and **draw()**. 
 
@@ -411,61 +422,671 @@ void Circle::draw() const
 
 Notice that as we are overriding the **print()**-method of the **Shape** class. If we need any functionality of the base class we need to explicitely call this method from our overridden method, as shown in the **print()** and **draw()** method. For the **area()** method this is not required as we don't need any functionality from the **Shape** **area()** method.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-A class can be seen as a struct that contain functions for accessing data
-
-Variables and methods of a class can be 
-
-* private – Not accessible by derived classes and from instance.
-* protected – Accessible by derived classes but not from instance.
-* public – Accessible by derived classes and from instance
-
-A class is a blueprint for an instance or object
-
-An instance can be created on the stack or on the heap using the new operator
-
-A Class often represents a noun such as a person, particle, shape
-
-## Declaring classes in C++
-
 ## Instantiating classes
 
-## Implementing a graphics library
+To create an instance of a class we use the same syntax as for creating a variable. The following code creates a **Circle** object and calls the **print()** method.
 
-### Finding shared characteristics
+```cpp
+Circle c{1.0, 1.0, 2.0};
+c.print();
+```
+
+The output of the code will be:
+
+```cpp
+Shape: Circle
+Position: (1, 1)
+radius = 2
+```
+
+Instances created in this way are allocated on the stack. The stack is a memory area that is automatically managed by the compiler. The stack is used for local variables and function calls. The stack is fast and efficient but has a limited size.
+
+If more memory is required than the stack can provide, we need to allocate memory on the heap. The heap is a memory area that is managed by the operating system. Usually, the heap is slower than the stack but can hold much more data.
+
+If we want to allocate the object on the heap we can use the **new** keyword. The following code creates a **Circle** object on the heap and calls the **print()** method.
+
+```cpp
+Circle* c = new Circle{1.0, 1.0, 2.0};
+c->print();
+```
+
+When we have allocated an object on the heap it has to be deallocated when it is no longer needed. This is done using the **delete** keyword. The following code shows how to deallocate the **Circle** object.
+
+```cpp
+delete c;
+```
+
+The use of **new** and **delete** is discouraged in modern C++ programming. The reason for that is that it is easy to forget to deallocate memory, which can lead to memory leaks. Modern C++ programming uses smart pointers to manage memory allocation and deallocation. Smart pointers are a type of object that automatically deallocates memory when it is no longer needed. The following code shows how to create a **Circle** object using a smart pointer.
+
+```cpp
+std::unique_ptr<Circle> c = std::make_unique<Circle>(1.0, 1.0, 2.0);
+c->print();
+```
+
+When the **c** object goes out of scope the smart pointer will automatically delete the object. 
+
+The **std::unique_ptr** is a smart pointer that can only have one owner. This means that the object can't be copied or moved to another smart pointer. If we need to transfer ownership of the object we can use the **std::move** function. The following code shows how to transfer ownership of the **c** object to a new smart pointer.
+
+```cpp
+std::unique_ptr<Circle> c2 = std::move(c);
+```
+
+After this code **c** will be empty and **c2** will own the **Circle** object.
+
+If an object needs to be shared between multiple owners we can use the **std::shared_ptr** smart pointer. The **std::shared_ptr** keeps track of how many owners the object has and deallocates the object when the last owner is destroyed. The following code shows how to create a **Circle** object using a **std::shared_ptr**.
+
+```cpp
+std::shared_ptr<Circle> c = std::make_shared<Circle>(1.0, 1.0, 2.0);
+c->print();
+```
+
+Using **std::shared_ptr** a pointer can easily be transferred to another owner. The following code shows how to transfer ownership of the **c** object to a new smart pointer.
+
+```cpp
+std::shared_ptr<Circle> c2 = c;
+```
+
+After this code **c** and **c2** will both own the **Circle** object. When the last owner is destroyed the object will be deallocated.
+
+To illustrate how we can creata simple class that prints out when it is created and destroyed.
+
+```cpp
+class Test {
+public:
+    Test() { std::printf("Test() constructor called.\n"); }
+    ~Test() { std::printf("~Test() destructor called.\n"); }
+};
+```
+
+To test object lifetimes we can use curly brackets to limit the scope of the object.
+
+```cpp
+{
+    Test t;
+}
+```
+
+The output of the code will be:
+
+```
+Test() constructor called.
+~Test() destructor called.
+```
+
+Which is the expected output. The object is created when the scope is entered and destroyed when the scope is exited.
+
+Let's try the same thing using a smart pointer.
+
+```cpp
+{
+    std::unique_ptr<Test> t = std::make_unique<Test>();
+}
+```
+
+The output of the code will be:
+
+```cpp
+Test() constructor called.
+~Test() destructor called.
+```
+
+Which is the expected output. The object is created when the scope is entered and destroyed when the scope is exited.
+
+In the following example we illustrate how to use a shared pointer. In this example we create a shared pointer and transfer ownership to a new shared pointer inside another scope. 
+
+```cpp
+{
+    std::printf("Outer scope\n");
+    std::shared_ptr<Test> t = std::make_shared<Test>();
+    std::printf("t.use_count() = %d\n", t.use_count());
+    {
+        std::printf("Inner scope\n");
+        std::shared_ptr<Test> t2 = t;
+        std::printf("t.use_count() = %d\n", t.use_count());
+    }
+    std::printf("Outer scope\n");
+    std::printf("t.use_count() = %d\n", t.use_count());
+}
+```
+
+The output of the code will be:
+
+```cpp
+Outer scope
+Test() constructor called.
+t.use_count() = 1
+Inner scope
+t.use_count() = 2
+Outer scope
+t.use_count() = 1
+~Test() destructor called.
+```
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/rj4Y3hhv7){ .md-button  .target="_blank"}
+
+## Polymorphism
+
+Polymorphism is the ability to operate on objects of different classes in the same way. This is achieved by using pointers to the base class. When a pointer to a base class is used to point to an object of a derived class, the derived class object can be treated as if it was a base class object. This is useful when working with collections of objects of different classes. The following code shows how to create a collection of **Shape** objects and call the **print()** method on each object.
+
+```cpp
+vector<std::shared_ptr<Shape>> shapes;    
+
+shapes.push_back(std::make_shared<Circle>(1, 2, 3));
+shapes.push_back(std::make_shared<Rectangle>(4, 5, 6, 7));
+
+for (const auto& shape : shapes) 
+{
+    shape->print();
+    shape->draw();
+    std::printf("Area: %f\n", shape->area());
+}
+```
+
+The output of the code will be:
+
+```cpp
+Circle at (1.000000, 2.000000) with radius 3.000000
+Drawing Circle at (1.000000, 2.000000) with radius 3.000000
+Area: 28.274310
+Rectangle at (4.000000, 5.000000) with width 6.000000 and height 7.000000
+Drawing Rectangle at (4.000000, 5.000000) with width 6.000000 and height 7.000000
+Area: 42.000000
+```
+
+Here we can see that the **print()**, **draw()** and **area()** methods of the **Shape** class are called for each object in the collection. The **print()** method of the **Circle** and **Rectangle** classes are called because they override the **print()** method of the **Shape** class. The same goes for the **area()** and **draw()** methods.
+
+.. note::
+
+    Polymorphism only works for pointers and references to objects. If we use objects directly, the methods of the base class will be called.
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/jY43hsW1b){ .md-button  .target="_blank"}
+
+## Abstract classes
+
+An abstract class is a class that can't be instantiated. Abstract classes are used to define a common interface for a group of classes. The **Shape** class is an example of an abstract class. Our current **Shape** class does not prevent it from being instatiated. To make the **Shape** class abstract we need to add a pure virtual method to the class. A pure virtual method is a method that has no implementation. Pure virtual functions are defined by assigning then 0. The following code shows how to make the **Shape** class abstract.
+
+```cpp
+class Shape {
+public:
+    ...
+    virtual void print() const = 0;
+    virtual double area() const = 0;
+    virtual void draw() const = 0;
+};
+```
+
+When a class has a pure virtual method it can't be instantiated. The following code will produce a compiler error.
+
+```cpp
+Shape s; // Error: Can't instantiate an abstract class
+std::unique_ptr<Shape> s = std::make_unique<Shape>(); // Error: Can't instantiate an abstract class
+```
+
+When deriving from a pure virtual class all pure virtual methods must be implemented. The following code shows how to implement the **Shape** class.
+
+```cpp
+class Circle : public Shape {
+public:
+    ...
+    virtual void print() const override;
+    virtual double area() const override;
+    virtual void draw() const override;
+};
+```
+
+## Composition
+
+Composition is a way to combine objects to create more complex objects. Composition is used when one object is part of another object. For example, a **Car** object can be composed of **Wheel** objects. The **Wheel** objects are part of the **Car** object. The following code shows how to create a **Car** class that is composed of **Wheel** objects.
+
+```cpp
+class Wheel {
+public:
+    Wheel() { std::printf("Wheel() constructor called.\n"); }
+    ~Wheel() { std::printf("~Wheel() destructor called.\n"); }
+};
+
+class Car {
+private:
+    Wheel m_wheels[4];
+public:
+    Car() { std::printf("Car() constructor called.\n"); }
+    ~Car() { std::printf("~Car() destructor called.\n"); }
+};
+```
+
+The following code shows how to create a **Car** object.
+
+```cpp
+Car c;
+```
+
+The output of the code will be:
+
+```cpp
+Wheel() constructor called.
+Wheel() constructor called.
+Wheel() constructor called.
+Wheel() constructor called.
+Car() constructor called.
+```
+
+When the **Car** object is destroyed the **Wheel** objects are also destroyed. The following code shows how to destroy the **Car** object.
+
+```cpp
+~Car() destructor called.
+~Wheel() destructor called.
+~Wheel() destructor called.
+~Wheel() destructor called.
+~Wheel() destructor called.
+```
+
+[:fontawesome-solid-gears: Try example](https://godbolt.org/z/xboGbPr1e){ .md-button  .target="_blank"}
+
+## Header and source files for classes
+
+When working with classes it is common to split the class definition and implementation into two files. The class definition is placed in a header file with the extension **.h** or **.hpp**. The class implementation is placed in a source file with the extension **.cpp**. The following code shows how to split the **Shape** class into a header and source file.
+
+**shape.h**
+
+This file contains the class definition for the **Shape** class. Usually the header files don't contain the implementation of the methods, only the method signatures.
+
+```cpp
+#ifndef SHAPE_H
+#define SHAPE_H
+
+#include <string>
+
+class Shape {
+private:
+    double m_x{};
+    double m_y{};
+    double m_fillColor[4]{ 1.0, 0.0, 0.0, 1.0 };
+    double m_lineColor[4]{ 0.0, 0.0, 0.0, 1.0 };
+    std::string m_name{};
+public:
+    Shape();
+    Shape(double x, double y);
+    
+    void setPosition(double x, double y);
+    double x() const;
+    double y() const;
+
+    void setFillColor(double r, double g, double b, double a);
+    void setLineColor(double r, double g, double b, double a);
+
+    void getFillColor(double& r, double& g, double& b, double& a) const;
+    void getLineColor(double& r, double& g, double& b, double& a) const;
+
+    void setName(const std::string& name);
+    std::string name() const;
+
+    virtual void print() const;
+    virtual double area() const;
+    virtual void draw() const;
+};
+
+#endif
+```
+
+The **#ifndef**, **#define** and **#endif** directives are used to prevent the header file from being included multiple times in the same file. This is called an include guard.
+
+**shape.cpp**
+
+This file contains the implementation of the **Shape** class. The first part of this file is the include directive for the **shape.h** file. This is done to make sure that the class definition is available when the implementation is compiled.
+
+```cpp
+#include "shape.h"
+
+Shape::Shape()
+{}
+
+Shape::Shape(double x, double y)
+    : m_x{x}, m_y{y}
+{}
+
+void Shape::setPosition(double x, double y)
+{
+    m_x = x;
+    m_y = y;
+}
+
+double Shape::x() const
+{
+    return m_x;
+}
+
+double Shape::y() const
+{
+    return m_y;
+}
+
+void Shape::setFillColor(double r, double g, double b, double a)
+{
+    m_fillColor[0] = r;
+    m_fillColor[1] = g;
+    m_fillColor[2] = b;
+    m_fillColor[3] = a;
+}
+
+void Shape::setLineColor(double r, double g, double b, double a)
+{
+    m_lineColor[0] = r;
+    m_lineColor[1] = g;
+    m_lineColor[2] = b;
+    m_lineColor[3] = a;
+}
+
+void Shape::getFillColor(double& r, double& g, double& b, double& a) const
+{
+    r = m_fillColor[0];
+    g = m_fillColor[1];
+    b = m_fillColor[2];
+    a = m_fillColor[3];
+}
+
+void Shape::getLineColor(double& r, double& g, double& b, double& a) const
+{
+    r = m_lineColor[0];
+    g = m_lineColor[1];
+    b = m_lineColor[2];
+    a = m_lineColor[3];
+}
+
+void Shape::setName(const std::string& name)
+{
+    m_name = name;
+}
+
+std::string Shape::name() const
+{
+    return m_name;
+}
+
+void Shape::print() const
+{
+    std::printf("Shape: %s\n", m_name.c_str());
+    std::printf("Position: (%f, %f)\n", m_x, m_y);
+}
+
+double Shape::area() const
+{
+    return 0.0;
+}
+
+void Shape::draw() const
+{
+    std::printf("Drawing shape at: (%f, %f)\n", m_x, m_y);
+}
+```
+
+Using this method of splitting the class definition and implementation into two files makes it easier to manage large projects. It also makes it easier to reuse classes in other projects.
+
+### Alternatives to header guards
+
+An alternative to using include guards is to use the **#pragma once** directive. The **#pragma once** directive tells the compiler to only include the file once. The following code shows how to use the **#pragma once** directive.
+
+```cpp
+#pragma once
+
+#include <string>
+
+class Shape {  
+    ...
+};
+```
+
+The **#pragma once** directive is supported by most modern compilers and is a more modern way of preventing multiple inclusions of the same file.
+
+## Object-oriented analysis 
+
+Object-oriented analysis is the process of defining the objects and their relationships in a system. The goal of object-oriented analysis is to identify the objects in a system and how they interact with each other. The following steps are used in object-oriented analysis:
+
+1. Identify the objects in the system
+2. Identify the relationships between the objects
+3. Identify the attributes of the objects
+
+The following example shows how to perform object-oriented analysis on a simple system.
+
+### Implementing a graphics library
+
+As an example a simple graphics library will be implemented. The library will be able to draw shapes on the screen. The following objects are identified in the system:
+
+* **Shape** - The base class for all shapes
+* **Circle** - A circle shape
+* **Rectangle** - A rectangle shape
+* **Line** - A line shape
+* **Text** - A text shape
+* **Composite** - A composite shape
+* **Canvas** - The canvas where the shapes are drawn
+* **Color** - A color object
+* **Point** - A point object
+* **Font** - A font object
+* **Pen** - A pen object
+* **Brush** - A brush object
+
+The relationships between the objects are:
+
+* **Circle**, **Rectangle**, **Line**, **Text** - Inherit from **Shape**
+* **Composite** - Contains a list of **Shape** objects
+* **Canvas** - Contains a list of **Shape** objects
+
+The attributes of the objects are:
+
+* **Shape** - Position, fill color, line color
+* **Circle** - Radius
+* **Rectangle** - Width, height
+* **Line** - Start point, end point
+* **Text** - Text, font
+* **Composite** - List of shapes
+* **Canvas** - List of shapes
+* **Color** - Red, green, blue, alpha
+* **Point** - X, Y
+* **Font** - Name, size
+* **Pen** - Color, width
+* **Brush** - Color
+
+We now have the base for our graphics library. The next step is to implement the classes and their relationships.
+
+### Object-oriented design of a particle system
+
+As an example a simple particle system will be implemented. The particle system will be able to simulate particles moving in a 2D space. The following objects are identified in the system:
+
+* **Vector** - A 2D Vector class
+* **BaseParticle** - The base class for all particles types
+* **Particle** - A particle object
+* **ParticleSystem** - The particle system that contains the particles
+* **Emitter** - An emitter that emits particles
+* **Attractor** - An attractor that attracts particles
+* **Repeller** - A repeller that repels particles
+* **Boundary** - A boundary that contains the particles
+
+The relationships between the objects are:
+
+* **BaseParticle** - Inherit from **Point**
+* **Particle** - Inherit from **BaseParticle**
+* **Particle** and **BaseParticle** - Uses Vector for position, velocity, and acceleration
+* **ParticleSystem** - Contains a list of **Particle** objects
+* **Emitter** - Creates **Particle** objects
+* **Attractor** - Attracts **Particle** objects
+* **Repeller** - Repels **Particle** objects
+* **Boundary** - Constrains **Particle** objects
+
+The attributes of the objects are:
+
+* **Point** - X, Y
+* **BaseParticle** - Position, velocity, acceleration, mass
+* **Particle** - Lifetime, color
+* **ParticleSystem** - List of particles
+* **Emitter** - Position, emission rate
+* **Attractor** - Position, strength
+* **Repeller** - Position, strength
+* **Boundary** - Position, width, height
+
+We now have the base for our particle system. The next step is to implement the classes and their relationships.
+
+The following code shows an example of how the classes could be implemented.
+
+```cpp
+class Vector {
+private:
+    double m_x;
+    double m_y;
+public:
+    Vector(double x, double y)
+        : m_x(x), m_y(y)
+    {}
+
+    double x() const { return m_x; }
+    double y() const { return m_y; }
+
+    void setX(double x) { m_x = x; }
+    void setY(double y) { m_y = y; }
+
+    void move(double dx, double dy) { m_x += dx; m_y += dy; }
+};
+
+class BaseParticle {
+private:
+    Vector m_position;
+    Vector m_velocity;
+    Vector m_acceleration;
+    double m_mass;
+public:
+    BaseParticle();
+    BaseParticle(const Vector& position, const Vector& velocity, const Vector& acceleration, double mass);
+    
+    void setPosition(const Vector& position);
+    Vector position() const;
+    
+    void setVelocity(const Vector& velocity);
+    Vector velocity() const;
+    
+    void setAcceleration(const Vector& acceleration);
+    Vector acceleration() const;
+    
+    void setMass(double mass);
+    double mass() const;
+
+    void move();
+    void applyForce(const Vector& force);
+};
+
+class Particle : public BaseParticle {
+private:
+    double m_lifetime;
+    Color m_color;
+public:
+    Particle();
+    Particle(const Vector& position, const Vector& velocity, const Vector& acceleration, double mass, double lifetime, const Color& color);
+    
+    void setLifetime(double lifetime);
+    double lifetime() const;
+    
+    void setColor(const Color& color);
+    Color color() const;
+};
+
+using ParticlePtr = std::shared_ptr<Particle>;
+
+class ParticleSystem {
+private:
+    std::vector<ParticlePtr> m_particles;
+public:
+    ParticleSystem();
+    
+    void addParticle(const ParticlePtr& particle);
+    void removeParticle(const ParticlePtr& particle);
+    
+    void update();
+    void draw();
+};
+
+class Emitter {
+private:
+    Vector m_position;
+    double m_emissionRate;
+public:
+    Emitter(const Vector& position, double emissionRate);
+    
+    void setPosition(const Vector& position);
+    Vector position() const;
+    
+    void setEmissionRate(double emissionRate);
+    double emissionRate() const;
+    
+    ParticlePtr emit();
+};
+
+class Attractor {
+private:
+    Vector m_position;
+    double m_strength;
+public:
+    Attractor(const Vector& position, double strength);
+    
+    void setPosition(const Vector& position);
+    Vector position() const;
+    
+    void setStrength(double strength);
+    double strength() const;
+    
+    Vector force(const ParticlePtr& particle) const;
+};
+
+class Repeller {
+private:
+    Vector m_position;
+    double m_strength;
+public:
+    Repeller(const Vector& position, double strength);
+    
+    void setPosition(const Vector& position);
+    Vector position() const;
+    
+    void setStrength(double strength);
+    double strength() const;
+    
+    Vector force(const ParticlePtr& particle) const;
+};
+
+class Boundary {
+private:
+    Vector m_position;
+    double m_width;
+    double m_height;
+public:
+    Boundary(const Vector& position, double width, double height);
+    
+    void setPosition(const Vector& position);
+    Vector position() const;
+    
+    void setWidth(double width);
+    double width() const;
+    
+    void setHeight(double height);
+    double height() const;
+    
+    void constrain(ParticlePtr& particle);
+};
+```
+
+### Comments on object-oriented analysis
+
+Object-oriented analysis is a powerful tool for designing complex systems. By identifying the objects in a system and how they interact with each other, we can create a clear and concise design. Object-oriented analysis is used in many fields, including software development, engineering, and business. By using object-oriented analysis, we can create systems that are easy to understand, maintain, and extend.
+
+When using object-oriented analysis in computation science it is also important to consider the performance of the system. Object-oriented programming can introduce overhead in terms of memory and processing time. It is important to consider the trade-offs between performance and maintainability when designing a system.
+
+In the previous example the **Particle** class was instantiated in a **std::vector** and every particle allocated on the heap. This design can lead to performance issues when the number of particles is large. An alternative approach would be to implement a **Particles** class that implements a fixed-size array of particles. This would reduce the overhead of memory allocation and deallocation and improve performance. It is also possible to use a memory pool to allocate and deallocate particles more efficiently.
 
 
 
-## Object-oriented analysis
 
-Object relationships
 
-* has – A car has wheels (aggregation)
-* has – A particle system has particles (composite)
-* is – A Triangle is a Shape (specialisation inheritance)
 
-### Aggregation
 
-### Composite
 
-### Identifying classes
+
+
 
 
 
