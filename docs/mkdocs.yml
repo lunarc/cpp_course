@@ -6,6 +6,7 @@ nav:
 - The C++ language: language.md
 - Data structures and algorithms: data_structures_algorithms.md
 - Input and output: input_output.md
+- Arrays computing using Eigen: eigen.md
 - Object-oriented programming: oop.md
 - Organising code: code_org.md
 - Debugging: debugging.md
@@ -42,10 +43,13 @@ theme:
 
 extra_css:
     - css/pdf.css
-
+      
 markdown_extensions:
   - admonition
   - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.tabbed:
       alternate_style: true 
   - pymdownx.highlight:
@@ -55,10 +59,6 @@ markdown_extensions:
       restrict_base_path: false
   - pymdownx.superfences
   - admonition
-  - pymdownx.details
-  - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
   - meta
   - tables
   - def_list

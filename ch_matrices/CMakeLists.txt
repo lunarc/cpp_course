@@ -28,12 +28,17 @@ target_link_libraries(matrix4_eig ${CONAN_LIBS})
 add_executable(matrix5_eig matrix5_eig.cpp calfem_eig.h calfem_eig.cpp)
 target_link_libraries(matrix5_eig ${CONAN_LIBS})
 
+add_executable(matrix_expressions_1 matrix_expressions_1.cpp)
+target_link_libraries(matrix_expressions_1 ${CONAN_LIBS})
+
+
 set_target_properties(
     matrix1_eig
     matrix2_eig
     matrix3_eig
     matrix4_eig
     matrix5_eig
+    matrix_expressions_1
     PROPERTIES
     FOLDER "ch_matrices"
 )
