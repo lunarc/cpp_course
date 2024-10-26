@@ -60,3 +60,4 @@ build-debug/*
 build-release/*
 build/*
 
+/vcpkg_installed

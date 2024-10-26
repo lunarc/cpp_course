@@ -1,0 +1,20 @@
+{
+    "name": "cpp-course",
+    "version": "0",
+    "dependencies":
+    [
+        {
+            "name": "eigen3",
+            "platform": "windows"
+        },
+        {
+            "name": "eigen3",
+            "platform": "linux"
+        },
+        {
+            "name": "qtbase",
+            "platform": "windows"
+        }
+        
+    ]
+}

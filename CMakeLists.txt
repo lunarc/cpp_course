@@ -15,6 +15,8 @@ IF(MSVC)
   SET_PROPERTY(GLOBAL PROPERTY USE_FOLDERS ON)
 ENDIF()
 
+find_package(Eigen3 CONFIG REQUIRED)
+
 #find_package(VTK REQUIRED)
 #include("${VTK_USE_FILE}")
 

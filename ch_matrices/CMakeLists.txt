@@ -1,35 +1,20 @@
-#add_executable(matrix1 matrix1.cpp)
-#target_link_libraries(matrix1 armadillo ${CONAN_LIBS})
-
-#add_executable(matrix2 matrix2.cpp)
-#target_link_libraries(matrix2 armadillo ${CONAN_LIBS})
-
-#add_executable(matrix3 matrix3.cpp calfem.h calfem.cpp)
-#target_link_libraries(matrix3 armadillo ${CONAN_LIBS})
-
-#add_executable(matrix4 matrix4.cpp calfem.h calfem.cpp)
-#target_link_libraries(matrix4 armadillo ${CONAN_LIBS})
-
-#add_executable(matrix5 matrix5.cpp calfem.h calfem.cpp)
-#target_link_libraries(matrix5 armadillo ${CONAN_LIBS})
-
 add_executable(matrix1_eig matrix1_eig.cpp)
-target_link_libraries(matrix1_eig ${CONAN_LIBS})
+target_link_libraries(matrix1_eig PRIVATE Eigen3::Eigen)
 
 add_executable(matrix2_eig matrix2_eig.cpp)
-target_link_libraries(matrix2_eig ${CONAN_LIBS})
+target_link_libraries(matrix2_eig PRIVATE Eigen3::Eigen)
 
 add_executable(matrix3_eig matrix3_eig.cpp calfem_eig.h calfem_eig.cpp)
-target_link_libraries(matrix3_eig ${CONAN_LIBS})
+target_link_libraries(matrix3_eig PRIVATE Eigen3::Eigen)
 
 add_executable(matrix4_eig matrix4_eig.cpp calfem_eig.h calfem_eig.cpp)
-target_link_libraries(matrix4_eig ${CONAN_LIBS})
+target_link_libraries(matrix4_eig PRIVATE Eigen3::Eigen)
 
 add_executable(matrix5_eig matrix5_eig.cpp calfem_eig.h calfem_eig.cpp)
-target_link_libraries(matrix5_eig ${CONAN_LIBS})
+target_link_libraries(matrix5_eig PRIVATE Eigen3::Eigen)
 
 add_executable(matrix_expressions_1 matrix_expressions_1.cpp)
-target_link_libraries(matrix_expressions_1 ${CONAN_LIBS})
+target_link_libraries(matrix_expressions_1 PRIVATE Eigen3::Eigen)
 
 
 set_target_properties(
