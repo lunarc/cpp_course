@@ -33,7 +33,7 @@ if not exist %RELEASE_DIR% mkdir %RELEASE_DIR%
 if %action%==debug (
     echo *** Configuring debug build
     echo.
-    cmake -B %DEBUG_DIR% -DCMAKE_BUILD_TYPE=Debug --preset default
+    cmake -B %DEBUG_DIR% -DCMAKE_BUILD_TYPE=Debug --preset=default
     echo.
     echo *** Building debug build
     echo.
@@ -44,7 +44,7 @@ if %action%==debug (
 if %action%==release (
     echo *** Configuring release build
     echo.
-    cmake -B %RELEASE_DIR% -DCMAKE_BUILD_TYPE=Release --preset default
+    cmake -B %RELEASE_DIR% -DCMAKE_BUILD_TYPE=Release --preset=default
     echo.
     echo *** Building release build
     echo.

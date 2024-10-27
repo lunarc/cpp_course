@@ -7,21 +7,45 @@ set(CMAKE_AUTOUIC ON)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui Qml Quick Charts)
+if (UNIX)
+    find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
-qt_standard_project_setup()
+    add_executable(calculator
+        mainwindow.ui
+        mainwindow.cpp
+        main.cpp
+    )
 
-qt_add_executable(calculator
-    mainwindow.ui
-    mainwindow.cpp
-    main.cpp
+    target_link_libraries(calculator PRIVATE Qt5::Widgets)
+else()
+    find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui)
+
+    qt_standard_project_setup()
+
+    qt_add_executable(calculator
+        mainwindow.ui
+        mainwindow.cpp
+        main.cpp
+    )
+    target_link_libraries(calculator PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui)
+
+    set_target_properties(calculator PROPERTIES
+        WIN32_EXECUTABLE ON
+        MACOSX_BUNDLE ON
+    )
+
+    add_custom_command(TARGET calculator POST_BUILD 
+        COMMAND Qt6::windeployqt
+        ARGS $<TARGET_FILE:calculator>
+    )
+endif()
+
+set_target_properties(
+    calculator
+    PROPERTIES
+    FOLDER "ch_qt"
 )
+
 
 # resources.qrc
 
-target_link_libraries(calculator PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui Qt6::Qml Qt6::Quick Qt6::Charts)
-
-set_target_properties(calculator PROPERTIES
-    WIN32_EXECUTABLE ON
-    MACOSX_BUNDLE ON
-)

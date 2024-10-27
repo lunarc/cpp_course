@@ -33,7 +33,18 @@ else()
         WIN32_EXECUTABLE ON
         MACOSX_BUNDLE ON
     )
+
+    add_custom_command(TARGET qt1 POST_BUILD 
+        COMMAND Qt6::windeployqt
+        ARGS $<TARGET_FILE:qt1>
+    )
 endif()
+
+set_target_properties(
+    qt1
+    PROPERTIES
+    FOLDER "ch_qt"
+)
 
 
 # resources.qrc
