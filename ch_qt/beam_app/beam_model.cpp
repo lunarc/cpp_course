@@ -4,6 +4,8 @@
 
 #include <QDebug>
 
+#include <format>
+
 using namespace Eigen;
 using namespace BeamAnalysis;
 
@@ -53,7 +55,7 @@ std::shared_ptr<Beam> Beam::create(double l, double E, double A, double I, doubl
     return std::make_shared<Beam>(l, E, A, I, q);
 }
 
-void Beam::setNodes(NodePtr &n0, NodePtr &n1)
+void Beam::setNodes(NodePtr& n0, NodePtr& n1)
 {
     m_node0 = n0;
     m_node1 = n1;
@@ -69,7 +71,7 @@ NodePtr Beam::n1()
     return m_node1;
 }
 
-void Beam::setResults(Eigen::MatrixXd &es, Eigen::MatrixXd &edi, Eigen::MatrixXd &eci)
+void Beam::setResults(Eigen::MatrixXd& es, Eigen::MatrixXd& edi, Eigen::MatrixXd& eci)
 {
     m_es = es;
     m_edi = edi;
@@ -182,13 +184,17 @@ void Beam::q(double value)
     m_q = value;
 }
 
-BeamModel::BeamModel(int nBeams) : m_selectedBeam{nullptr}
+BeamModel::BeamModel(int nBeams)
+    : m_selectedBeam { nullptr }
+    , m_logger { Logger::getInstance() }
 {
+    m_logger.log(Logger::LogLevel::INFO, "BeamModel created");
     this->init_beams(nBeams);
 }
 
 void BeamModel::init_beams(int nBeams)
 {
+    m_logger.log(Logger::LogLevel::INFO, std::format("Initalising {} beams.", nBeams));
     m_beams.clear();
     m_nodes.clear();
 
@@ -207,6 +213,8 @@ std::shared_ptr<BeamModel> BeamModel::create(int nBeams)
 
 void BeamModel::add(double l)
 {
+    m_logger.log(Logger::LogLevel::INFO, std::format("Adding beam with length {}.", l));
+
     m_beams.emplace_back(Beam::create(l));
     m_nodes.emplace_back(Node::create());
     this->connect();
@@ -215,6 +223,8 @@ void BeamModel::add(double l)
 
 void BeamModel::removeLast()
 {
+    m_logger.log(Logger::LogLevel::INFO, "Removing last beam.");
+
     if (m_beams.size() > 1)
     {
         m_beams.pop_back();
@@ -228,7 +238,7 @@ double BeamModel::length()
 {
     auto l = 0.0;
 
-    for (auto &beam : m_beams)
+    for (auto& beam : m_beams)
         l += beam->l();
 
     return l;
@@ -238,7 +248,7 @@ double BeamModel::maxLoad()
 {
     auto max_q = -1e300;
 
-    for (auto &beam : m_beams)
+    for (auto& beam : m_beams)
         if (std::abs(beam->q()) > max_q)
             max_q = std::abs(beam->q());
 
@@ -249,7 +259,7 @@ double BeamModel::maxM()
 {
     auto maxM = -1e300;
 
-    for (auto &beam : m_beams)
+    for (auto& beam : m_beams)
         if (std::abs(beam->maxM()) > maxM)
             maxM = std::abs(beam->maxM());
 
@@ -260,7 +270,7 @@ double BeamModel::maxV()
 {
     auto maxV = -1e300;
 
-    for (auto &beam : m_beams)
+    for (auto& beam : m_beams)
         if (std::abs(beam->maxV()) > maxV)
             maxV = std::abs(beam->maxV());
 
@@ -271,14 +281,14 @@ double BeamModel::maxv()
 {
     auto maxv = -1e300;
 
-    for (auto &beam : m_beams)
+    for (auto& beam : m_beams)
         if (std::abs(beam->maxv()) > maxv)
             maxv = std::abs(beam->maxv());
 
     return maxv;
 }
 
-const std::vector<BeamPtr> &BeamModel::beams()
+const std::vector<BeamPtr>& BeamModel::beams()
 {
     return m_beams;
 }
@@ -307,7 +317,7 @@ int BeamModel::beam_pos_from_x(double x)
     auto x1 = 0.0;
     auto i = 0;
 
-    for (auto &beam : m_beams)
+    for (auto& beam : m_beams)
     {
         x1 = x0 + beam->l();
 
@@ -323,14 +333,16 @@ int BeamModel::beam_pos_from_x(double x)
 
 void BeamModel::connect()
 {
+    m_logger.log(Logger::LogLevel::INFO, "Connecting nodes and beams.");
+
     auto dof = 1;
 
-    for (auto &node : m_nodes)
+    for (auto& node : m_nodes)
         dof = node->enumDofs(dof);
 
     auto i = 0;
 
-    for (auto &beam : m_beams)
+    for (auto& beam : m_beams)
     {
         beam->setNodes(m_nodes[i], m_nodes[i + 1]);
         i++;
@@ -339,6 +351,8 @@ void BeamModel::connect()
 
 void BeamModel::solve()
 {
+    m_logger.log(Logger::LogLevel::INFO, "Solving beam model.");
+
     auto nDofs = (m_beams.size() + 1) * 2;
 
     MatrixXd K(nDofs, nDofs);
@@ -355,7 +369,7 @@ void BeamModel::solve()
 
     auto x = 0.0;
 
-    for (auto &beam : m_beams)
+    for (auto& beam : m_beams)
     {
         ex << x, x + beam->l();
         ep << beam->E(), beam->I();
@@ -397,7 +411,7 @@ void BeamModel::solve()
     VectorXd edi(nep);
     VectorXd eci(nep);
 
-    for (auto &beam : m_beams)
+    for (auto& beam : m_beams)
     {
         ex << x, x + beam->l();
         ep << beam->E(), beam->I();

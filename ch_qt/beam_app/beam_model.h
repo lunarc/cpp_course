@@ -7,6 +7,8 @@
 
 #include <Eigen/Dense>
 
+#include "logger.h"
+
 namespace BeamAnalysis
 {
 
@@ -91,6 +93,7 @@ typedef std::shared_ptr<Beam> BeamPtr;
 class BeamModel
 {
 private:
+    Logger& m_logger;
     std::vector<BeamPtr> m_beams;
     std::vector<NodePtr> m_nodes;
 

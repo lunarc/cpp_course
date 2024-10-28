@@ -5,8 +5,13 @@
 
 #include <QMessageBox>
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow), m_resultTableModel{nullptr}
+MainWindow::MainWindow(QWidget* parent)
+    : QMainWindow(parent)
+    , m_resultTableModel { nullptr }
+    , m_outputRedirector { nullptr }
+    , m_logger { Logger::getInstance() }
 {
+    ui = std::make_unique<Ui::MainWindow>();
     ui->setupUi(this);
 
     m_beamModel = BeamAnalysis::BeamModel::create(3);
@@ -26,14 +31,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->actionShowDeflections->setChecked(ui->beamView->showDeflections());
     ui->actionShowMoments->setChecked(ui->beamView->showMoments());
     ui->actionShowShear->setChecked(ui->beamView->showShear());
+
+    // Setup redirection and logging
+
+    m_outputRedirector = std::make_unique<OutputRedirector>(ui->logEdit);
+    m_logger.log(Logger::LogLevel::INFO, "Application started");
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
 }
 
-double MainWindow::toDouble(const QString &str, double defValue)
+double MainWindow::toDouble(const QString& str, double defValue)
 {
     bool ok;
     double value = str.toDouble(&ok);
@@ -92,7 +101,7 @@ void MainWindow::updateModel()
     }
 }
 
-void MainWindow::resizeEvent(QResizeEvent *event)
+void MainWindow::resizeEvent(QResizeEvent* event)
 {
     QMainWindow::resizeEvent(event);
 }
@@ -116,40 +125,39 @@ void MainWindow::on_removeSectionAction_triggered()
 
 void MainWindow::on_sectionList_currentRowChanged(int currentRow)
 {
-    std::cout << currentRow << std::endl;
     ui->resultTableView->viewport()->update();
     this->updateControls();
 }
 
-void MainWindow::on_lengthEdit_textChanged(const QString &arg1)
+void MainWindow::on_lengthEdit_textChanged(const QString& arg1)
 {
     this->updateModel();
     ui->resultTableView->viewport()->update();
     ui->beamView->repaint();
 }
 
-void MainWindow::on_EEdit_textChanged(const QString &arg1)
+void MainWindow::on_EEdit_textChanged(const QString& arg1)
 {
     this->updateModel();
     ui->resultTableView->viewport()->update();
     ui->beamView->repaint();
 }
 
-void MainWindow::on_AEdit_textChanged(const QString &arg1)
+void MainWindow::on_AEdit_textChanged(const QString& arg1)
 {
     this->updateModel();
     ui->resultTableView->viewport()->update();
     ui->beamView->repaint();
 }
 
-void MainWindow::on_IyEdit_textChanged(const QString &arg1)
+void MainWindow::on_IyEdit_textChanged(const QString& arg1)
 {
     this->updateModel();
     ui->resultTableView->viewport()->update();
     ui->beamView->repaint();
 }
 
-void MainWindow::on_qEdit_textChanged(const QString &arg1)
+void MainWindow::on_qEdit_textChanged(const QString& arg1)
 {
     this->updateModel();
     ui->resultTableView->viewport()->update();
