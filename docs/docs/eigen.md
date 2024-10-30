@@ -432,7 +432,265 @@ There are many more matrix methods available in Eigen. You can find them in the 
 
 ## Reshaping matrices
 
+Some times existing matrices must be used in expressions where the current shape of the matrix is not suitable. In these cases it is possible to reshape the matrix using the **.reshaped()** method. The following code illustrates how this is done:
+
+```cpp
+Matrix3d A;
+
+A << 1, 2, 3,
+    4, 5, 6,
+    7, 8, 9;
+
+auto B = A.reshaped(1, 9);
+
+cout << B << endl;
+```
+
+I this example we have a 3x3 matrix that we want to reshape into a 1x9 matrix. The **.reshaped()** method takes two arguments. The first argument is the number of rows and the second argument is the number of columns. The B variables in the above example is actually a special class Eigen::Reshaped<> that is a view into the original matrix. This means that the data is not copied and that the reshaped matrix is a view into the original matrix. This also means that if you change the reshaped matrix the original matrix is also changed. 
+
+Running the previous code produces the following output:
+
+```text
+1 2 3 4 5 6 7 8 9
+```
+
+If we want to use the **B** matrix to assign a new matrix the matrix to be assigned needs to be of the **MatrixXd** type. In the following code we assign the reshaped matrix to a new matrix:
+
+```cpp
+MatrixXd C = B.reshaped(3, 3);
+
+cout << C << endl;
+```
+
+This produces the following output:
+
+```text
+1 2 3
+4 5 6
+7 8 9
+```
+
+We can also reshape the created matrix and transpose it. The following code illustrates this:
+
+```cpp
+MatrixXd D = C.reshaped(1, 9).transpose();
+
+cout << D << endl;
+```
+
+This produces the following output:
+
+```text
+1
+4
+7
+2
+5
+8
+3
+6
+9
+```
+
+Notice the ordering of numbers. This is due to the fact that matrices are stored in column major order in Eigen. This means that the first column is stored first, then the second column and so on. This is the opposite of row major order where the first row is stored first, then the second row and so on.
+
+Assigning a reshaped matrix to itself is not allowed in Eigen. To solve this you can use the **.eval()** method. The **.eval()** method forces the reshaped matrix to be evaluated and copied to a new matrix. The following code illustrates this:
+
+```cpp
+C = C.reshaped(1, 9).eval();
+```
+
 ## Slicing and indexing
+
+One of the more common operations in matrix computing is indexing and slicing. Eigen has several ways of doing this. The easiest way of accessing rows and columns of a matrix in Eigen is using the **.row()** and **.col()** methods. The methods can be both used to assign values to a row or assign other matrices the values of a row. The following code illustrates this:
+
+```cpp
+MatrixXd A(10, 10);
+A.setZero();
+
+A.row(3) << 1, 2, 3, 4, 5, 6, 7, 8, 9, 10;
+
+cout << A << endl;
+cout << "\n";
+
+A.col(3) << 1, 2, 3, 4, 5, 6, 7, 8, 9, 10;
+
+cout << A << endl;
+cout << "\n";
+```
+
+This produces the following output:
+
+```text
+ 0  0  0  0  0  0  0  0  0  0
+ 0  0  0  0  0  0  0  0  0  0
+ 0  0  0  0  0  0  0  0  0  0
+ 1  2  3  4  5  6  7  8  9 10
+ 0  0  0  0  0  0  0  0  0  0
+ 0  0  0  0  0  0  0  0  0  0
+ 0  0  0  0  0  0  0  0  0  0
+ 0  0  0  0  0  0  0  0  0  0
+ 0  0  0  0  0  0  0  0  0  0
+ 0  0  0  0  0  0  0  0  0  0
+
+ 0  0  0  1  0  0  0  0  0  0
+ 0  0  0  2  0  0  0  0  0  0
+ 0  0  0  3  0  0  0  0  0  0
+ 1  2  3  4  5  6  7  8  9 10
+ 0  0  0  5  0  0  0  0  0  0
+ 0  0  0  6  0  0  0  0  0  0
+ 0  0  0  7  0  0  0  0  0  0
+ 0  0  0  8  0  0  0  0  0  0
+ 0  0  0  9  0  0  0  0  0  0
+ 0  0  0 10  0  0  0  0  0  0
+```
+
+In this example we used the **<<** operator to assign values to the rows. 
+
+It is also possible to assign multiple values at the same time using for example the .setConstant() or .setOnes() methods. The following code illustrates this:
+
+```cpp
+A.col(1).setOnes();
+
+cout << A << endl;
+cout << "\n";
+```
+
+This produces the following output:
+
+```text
+ 0  1  0  1  0  0  0  0  0  0
+ 0  1  0  2  0  0  0  0  0  0
+ 0  1  0  3  0  0  0  0  0  0
+ 1  1  3  4  5  6  7  8  9 10
+ 0  1  0  5  0  0  0  0  0  0
+ 0  1  0  6  0  0  0  0  0  0
+ 0  1  0  7  0  0  0  0  0  0
+ 0  1  0  8  0  0  0  0  0  0
+ 0  1  0  9  0  0  0  0  0  0
+ 0  1  0 10  0  0  0  0  0  0
+```
+
+Indexing can also be done using the special function Eigen::seq(). In its simplest form it can be used to select a range of values. The following code illustrates this:
+
+```cpp
+MatrixXd B(10, 10);
+B.setZero();
+
+B(seq(3, 5), seq(3, 5)).setConstant(1);
+
+cout << B << endl;
+```
+
+This produces the following output:
+
+```text
+0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0
+0 0 0 1 1 1 0 0 0 0
+0 0 0 1 1 1 0 0 0 0
+0 0 0 1 1 1 0 0 0 0
+0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0
+```
+
+It is also possible to use a step value in the **seq()** function, which is shown in the following code:
+
+```cpp
+B(seq(0, 9, 2), seq(0, 9, 2)).setConstant(2);
+
+cout << B << endl;
+```
+
+This produces the following output:
+
+```text
+2 0 2 0 2 0 2 0 2 0
+0 0 0 0 0 0 0 0 0 0
+2 0 2 0 2 0 2 0 2 0
+0 0 0 1 1 1 0 0 0 0
+2 0 2 1 2 1 2 0 2 0
+0 0 0 1 1 1 0 0 0 0
+2 0 2 0 2 0 2 0 2 0
+0 0 0 0 0 0 0 0 0 0
+2 0 2 0 2 0 2 0 2 0
+0 0 0 0 0 0 0 0 0 0
+```
+
+There are also special selectors for selecting rows and columns. The **all** selector selects all rows or columns. The **last** selector selects the last column or row. The following code illustrates this:
+
+```cpp
+B(all, last).setConstant(3);
+
+cout << B << endl;
+cout << "\n";
+
+B(all, last - 1).setConstant(4);
+
+cout << B << endl;
+```
+
+This produces the following output:
+
+```text
+2 0 2 0 2 0 2 0 2 3
+0 0 0 0 0 0 0 0 0 3
+2 0 2 0 2 0 2 0 2 3
+0 0 0 1 1 1 0 0 0 3
+2 0 2 1 2 1 2 0 2 3
+0 0 0 1 1 1 0 0 0 3
+2 0 2 0 2 0 2 0 2 3
+0 0 0 0 0 0 0 0 0 3
+2 0 2 0 2 0 2 0 2 3
+0 0 0 0 0 0 0 0 0 3
+
+2 0 2 0 2 0 2 0 4 3
+0 0 0 0 0 0 0 0 4 3
+2 0 2 0 2 0 2 0 4 3
+0 0 0 1 1 1 0 0 4 3
+2 0 2 1 2 1 2 0 4 3
+0 0 0 1 1 1 0 0 4 3
+2 0 2 0 2 0 2 0 4 3
+0 0 0 0 0 0 0 0 4 3
+2 0 2 0 2 0 2 0 4 3
+0 0 0 0 0 0 0 0 4 3
+```
+
+It is also possible to use std::vector based indeces to select a submatrix from a matrix. This is shown in the following code:
+
+```cpp
+vector<int> idx = { 1, 3, 4, 6, 7, 9 };
+
+cout << C(idx, idx) << endl;
+cout << "\n";
+
+auto D = C(idx, idx);
+```	
+
+This produces the following output:
+
+```text
+  1  11  21  31  41  51  61  71  81  91
+  2  12  22  32  42  52  62  72  82  92
+  3  13  23  33  43  53  63  73  83  93
+  4  14  24  34  44  54  64  74  84  94
+  5  15  25  35  45  55  65  75  85  95
+  6  16  26  36  46  56  66  76  86  96
+  7  17  27  37  47  57  67  77  87  97
+  8  18  28  38  48  58  68  78  88  98
+  9  19  29  39  49  59  69  79  89  99
+ 10  20  30  40  50  60  70  80  90 100
+
+ 12  32  42  62  72  92
+ 14  34  44  64  74  94
+ 15  35  45  65  75  95
+ 17  37  47  67  77  97
+ 18  38  48  68  78  98
+ 20  40  50  70  80 100
+```
 
 ## Accessing raw data
 

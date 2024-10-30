@@ -20,7 +20,7 @@ int main()
 
     cout << C << endl;
 
-    MatrixXd D = B.reshaped(1, 9).transpose();
+    MatrixXd D = C.reshaped(1, 9).transpose();
 
     cout << D << endl;
 

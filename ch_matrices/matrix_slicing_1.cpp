@@ -19,6 +19,11 @@ int main()
     cout << A << endl;
     cout << "\n";
 
+    A.col(1).setOnes();
+
+    cout << A << endl;
+    cout << "\n";
+
     MatrixXd B(10, 10);
     B.setZero();
 
