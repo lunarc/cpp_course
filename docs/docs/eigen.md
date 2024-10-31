@@ -692,6 +692,253 @@ This produces the following output:
  20  40  50  70  80 100
 ```
 
+## Implementing functions with Eigen
+
+There are some considerations to think about when passing matrices and vector to methods and functions. The general rule is to always pass Eigen matrices and vectors by reference. The exception to this rule is when returning a matrix or vector from a function. In this case you should return the matrix or vector by value. In the following example we have a function that creates a matrix given some non-matrix input:
+
+```cpp
+enum TAnalysisType {PLANE_STRESS, PLANE_STRAIN};
+
+MatrixXd hooke(TAnalysisType ptype, double E, double v)
+{
+    MatrixXd D;
+    switch (ptype) {
+        case PLANE_STRESS:
+            D.resize(3,3);
+            D << 1.0, v,   0.0,
+                 v,   1.0, 0.0,
+                 0.0, 0.0, (1.0-v)*0.5;
+            break;
+        case PLANE_STRAIN:
+            D.resize(4,4);
+            D << 1.0-v, v    , v     , 0.0,
+                 v    , 1.0-v, v     , 0.0,
+                 v    , v    , 1.0-v , 0.0,
+                 0.0  , 0.0  , 0.0   , 0.5*(1.0-2*v);
+            break;
+        default:
+            break;
+    }
+    return D;
+}
+
+int main()
+{
+    MatrixXd Dpstress = hooke(PLANE_STRESS, 2.1e9, 0.35);
+    MatrixXd Dpstrain = hooke(PLANE_STRAIN, 2.1e9, 0.35);
+    
+    cout << "D,pstress = " << endl;
+    cout << Dpstress << endl;
+    cout << "D,pstrain = " << endl;
+    cout << Dpstrain << endl;
+}
+```
+
+This produces the following output:
+
+```text
+D,pstress =
+    1  0.35     0
+ 0.35     1     0
+    0     0 0.325
+D,pstrain =
+0.65 0.35 0.35    0
+0.35 0.65 0.35    0
+0.35 0.35 0.65    0
+   0    0    0 0.15
+```
+
+In the next example we have a function that takes **Vector<>** as inputs and returns a matrix.
+
+```cpp
+Matrix4d bar2e(const Vector2d& ex, const Vector2d& ey, const Vector2d& ep)
+{
+    double E = ep(0);
+    double A = ep(1);
+    double L = sqrt(pow(ex(1)-ex(0),2)+pow(ey(1)-ey(0),2));
+    double C = E*A/L;
+    
+    Matrix2d Ke_loc(2,2);
+
+    Ke_loc <<  C, -C,
+              -C,  C;
+    
+    double nxx = (ex(1)-ex(0))/L;
+    double nyx = (ey(1)-ey(0))/L;
+    
+    MatrixXd G(2,4);
+    
+    G << nxx, nyx, 0.0, 0.0,
+         0.0, 0.0, nxx, nyx;
+    
+    Matrix4d Ke = G.transpose()*Ke_loc*G;
+    return Ke;
+}
+```
+
+Below is an example of how this function can be called:
+  
+```cpp
+int main()
+{
+    VectorXd ex(2);
+    VectorXd ey(2);
+    VectorXd ep(2);
+    
+    ex << 0.0, 1.0;
+    ey << 0.0, 1.0;
+    ep << 1.0, 1.0;
+    
+    MatrixXd Ke = bar2e(ex, ey, ep);
+    
+    cout << Ke << endl;
+}
+```
+
+Running the code produces the following output:
+
+```text
+ 0.353553  0.353553 -0.353553 -0.353553
+ 0.353553  0.353553 -0.353553 -0.353553
+-0.353553 -0.353553  0.353553  0.353553
+-0.353553 -0.353553  0.353553  0.353553
+```
+
+## Solving linear systems of equations
+
+Eigen has a library of decomposition methods that can be used to solve linear systems of equations. For smaller matrices (up to 4x4) it is often better to use the **.inverse()** method. For larger matrices it is better to use the decomposition methods. The following code illustrates how to solve a linear system of equations using the **.inverse()** method:
+
+```cpp
+int main()
+{
+    Matrix3d A;
+    A.setRandom();
+
+    Vector3d b;
+
+    b.setRandom();
+
+    Vector3d x = A.inverse() * b;
+
+    cout << "The solution is:\n"
+         << x << endl;
+
+    cout << "b is:\n"
+         << b << endl;
+
+    cout << "A * x is:\n"
+         << A * x << endl;
+
+    cout << "The error is:\n"
+         << (A * x - b).norm() << endl;
+}
+```
+
+This produces the following output:
+
+```text
+The solution is:
+ -1.36005
+ -1.53203
+-0.275723
+b is:
+  0.49321
+-0.651784
+ 0.717887
+A * x is:
+  0.49321
+-0.651784
+ 0.717887
+The error is:
+0
+```
+
+For larger matrices it is better to use the decomposition methods. Which decomposition method to chose is determined by your specific problem. The following code illustrates how to solve a linear system of equations using the **ColPivHouseholderQR** decomposition:
+
+```cpp
+int main()
+{
+    MatrixXd A(10, 10);
+    A.setRandom();
+
+    VectorXd b(10);
+    b.setRandom();
+
+    VectorXd x = A.colPivHouseholderQr().solve(b);
+
+    cout << "The solution is:\n"
+         << x << endl;
+
+    cout << "b is:\n"
+         << b << endl;
+
+    cout << "A * x is:\n"
+         << A * x << endl;
+
+    cout << "The error is:\n"
+         << (A * x - b).norm() << endl;
+}
+```
+
+The key is the line:
+
+```cpp
+VectorXd x = A.colPivHouseholderQr().solve(b);
+```
+
+When calling the **.colPivHouseholderQr()** method on the matrix it returns a **ColPivHouseholderQR** object. This object has a **.solve()** method that can be used to solve the linear system of equations. The **.solve()** method takes a vector as input and returns a vector as output.
+
+!!! note
+    The **ColPivHouseholderQR** decomposition is a good choice for general matrices. For symmetric matrices the **LDLT** decomposition is a good choice. 
+
+It is of couse also possible to explicitely create a **ColPivHouseholderQR** object and use it to solve the linear system of equations, which is shown below:
+
+```cpp
+FullPivLU<MatrixXd> ldlt(A);
+VectorXd x = ldlt.solve(b);
+```
+
+!!! note
+    The **FullPivLU** decomposition is a good choice for general matrices. For symmetric matrices the **LDLT** decomposition is a good choice.
+
+The advantage of separating the construction from solving the system is that the decomposition can be reused for multiple systems. The **.solve()** method can also be called with a matrix as input. This will solve the system for each column in the matrix. As the following code illustrates:
+
+```cpp
+MatrixXd A(10, 10);
+A.setRandom();
+
+MatrixXd b(10, 10);
+b.setRandom();
+
+FullPivLU<MatrixXd> ldlt(A);
+MatrixXd x = ldlt.solve(b);
+
+cout << "The solution is:\n"
+        << x << endl;
+```
+
+This produces the following output:
+
+```text
+The solution is:
+   1.18453  -0.410319  -0.623361  -0.321932 -0.0895882  0.0497296  -0.648823   0.124508   0.493074   0.480588
+  0.535632  0.0616908   -0.28512  -0.318507 0.00406816  0.0258458 -0.0848685  -0.477436    1.24756   0.838648
+-0.0107144  -0.367311   0.244476   0.137709  -0.815272  -0.280075  -0.628219   0.208019  -0.206337  -0.640611
+  -2.13074    1.62113 -0.0941863       1.03   -0.03775    1.03846   0.293851    1.14827   -3.90631   -1.16682
+  0.879087   0.477271   -1.28075    1.28879    2.52322    -1.4507    1.27269  -0.578986    0.24615    2.08061
+ -0.732436  -0.704311    1.06786  -0.596086    -2.3671    1.43309   -1.39648  0.0979355  -0.356579   -1.55783
+  0.127638  -0.668733  -0.507232 -0.0496553   0.521617   0.220945   -0.16289  -0.664471    1.69368   0.876999
+ -0.569963 -0.0353519  -0.507716  0.0109401   0.415603   0.829978  -0.209561  0.0241958  -0.291877 -0.0407887
+  -2.30094    1.32775  -0.272818   0.388941   -0.53578    1.08094   0.510719   0.903556   -4.88332   -1.75593
+   1.01693   0.242351  -0.251851   -1.13456    0.28466  -0.149436   -0.17369   0.721883   0.108984  0.0144817
+```
+### Returning Matrices from functions
+
+### Passing Matrices to functions
+
+
+
+
 ## Accessing raw data
 
 ## Using Eigen with other libraries

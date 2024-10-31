@@ -28,7 +28,7 @@ if (UNIX)
 
     target_link_libraries(beam_app PRIVATEQt6::Widgets Qt6::Core Qt6::Gui Qt6::Qml Qt6::Quick Qt6::Charts)
 else()
-    find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui Qml Quick Charts)
+    find_package(Qt6 REQUIRED COMPONENTS)
 
     qt_standard_project_setup()
 

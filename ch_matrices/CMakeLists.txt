@@ -22,6 +22,18 @@ target_link_libraries(matrix_reshape_1 PRIVATE Eigen3::Eigen)
 add_executable(matrix_slicing_1 matrix_slicing_1.cpp)
 target_link_libraries(matrix_slicing_1 PRIVATE Eigen3::Eigen)
 
+add_executable(matrix_solver_1 matrix_solver_1.cpp)
+target_link_libraries(matrix_slicing_1 PRIVATE Eigen3::Eigen)
+
+add_executable(matrix_solver_2 matrix_solver_2.cpp)
+target_link_libraries(matrix_solver_2 PRIVATE Eigen3::Eigen)
+
+add_executable(matrix_solver_3 matrix_solver_3.cpp)
+target_link_libraries(matrix_solver_3 PRIVATE Eigen3::Eigen)
+
+add_executable(matrix_solver_4 matrix_solver_4.cpp)
+target_link_libraries(matrix_solver_4 PRIVATE Eigen3::Eigen)
+
 set_target_properties(
     matrix1_eig
     matrix2_eig
@@ -31,6 +43,10 @@ set_target_properties(
     matrix_expressions_1
     matrix_reshape_1
     matrix_slicing_1
+    matrix_solver_1
+    matrix_solver_2
+    matrix_solver_3
+    matrix_solver_4
     PROPERTIES
     FOLDER "ch_matrices"
 )
