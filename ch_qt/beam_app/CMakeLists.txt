@@ -26,7 +26,7 @@ if (UNIX)
     main.cpp
     )
 
-    target_link_libraries(beam_app PRIVATEQt6::Widgets Qt6::Core Qt6::Gui Qt6::Qml Qt6::Quick Qt6::Charts)
+    target_link_libraries(beam_app PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui Qt6::Qml Qt6::Quick Qt6::Charts)
 else()
     find_package(Qt6 REQUIRED COMPONENTS)
 
