@@ -1,0 +1,17 @@
+/* Add to your custom.css */
+.sphinx-tabs-tab {
+    padding: 0.2em 0.8em !important;  /* Reduce padding around tab labels */
+ }
+ 
+ .sphinx-tabs-panel {
+    padding: 0 !important;
+ }
+ 
+ .sphinx-tabs-panel .highlight {
+    margin: 0 !important;
+ }
+ 
+ .sphinx-tabs-panel .highlight pre {
+    margin: 0 !important;
+    border-radius: 0;
+ }
