@@ -1,0 +1,1686 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Language elements &mdash; Scientific C++ 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Scientific C++ 1.0 documentation" href="index.html"/>
+        <link rel="prev" title="C++ History" href="history.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Scientific C++
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduktion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prereq.html">Förutsättningar</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">C++ History</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Language elements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#example-of-c-code">Example of C++ code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#variable-names">Variable names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#variable-types">Variable types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#integer-types">Integer types</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#size-of-integer-types">Size of integer types</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#character-types">Character types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#floating-point-types">Floating point types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#numerical-limits">Numerical limits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#enumeration-types">Enumeration types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#arrays">Arrays</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pointers">Pointers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#array-pointer-duality">Array pointer duality</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#constants">Constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#references">References</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#structured-data-types">Structured data types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#expressions-and-operators">Expressions and operators</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#arithmetic-operators">Arithmetic operators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compound-assignment-operators">Compound assignment operators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#increment-and-decrement-operators">Increment and decrement operators (++/–)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conditional-operator">Conditional operator ?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#expressions">Expressions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mixed-mode-expressions">Mixed-mode expressions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#c-strings">C++ Strings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#declaring-and-using-c-strings">Declaring and using C++ strings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#string-operations">String operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c-string-methods">C++ String methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#searching-c-strings">Searching C++ strings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compatibility-with-c-strings-char">Compatibility with C strings (char*)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#control-structures">Control structures</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#statements-and-compound-statements">Statements and compound statements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iteration">Iteration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#while-statement">while-statement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#do-statement">do-statement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#for-statement">for-statement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#controlling-iteration">Controlling iteration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conditional-statements">Conditional statements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#relational-operators">Relational operators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#logical-operators">Logical operators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#if-statement">if-statement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#switch-statement">switch-statement</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Scientific C++</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Language elements</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/language.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="language-elements">
+<h1>Language elements<a class="headerlink" href="#language-elements" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="example-of-c-code">
+<h2>Example of C++ code<a class="headerlink" href="#example-of-c-code" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-C++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Hello, C++&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">sum</span><span class="p">,</span> <span class="n">i</span><span class="p">;</span>
+    
+    <span class="k">for</span> <span class="p">(</span><span class="n">sum</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="mi">100</span><span class="p">;</span><span class="n">sum</span><span class="o">+=</span><span class="n">i</span><span class="p">,</span><span class="n">i</span><span class="o">++</span><span class="p">);</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;sum = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">sum</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">sum</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="mi">100</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">,</span><span class="n">sum</span><span class="o">+=</span><span class="n">i</span><span class="p">);</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;sum = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">sum</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Hello, C++&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="variable-names">
+<h2>Variable names<a class="headerlink" href="#variable-names" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Letters a-z, A-Z (not Å, Ä, Ö)</li>
+<li>Numbers 0-9</li>
+<li>Underscore _</li>
+<li>First character must be a letter</li>
+<li>Lower case letters are not equivalent with upper case letters. Case sensitive language</li>
+</ul>
+</div>
+<div class="section" id="variable-types">
+<h2>Variable types<a class="headerlink" href="#variable-types" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="28%" />
+<col width="72%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">type</th>
+<th class="head">description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>bool</td>
+<td>boolean type</td>
+</tr>
+<tr class="row-odd"><td>char</td>
+<td>character type</td>
+</tr>
+<tr class="row-even"><td>int</td>
+<td>integer numbers</td>
+</tr>
+<tr class="row-odd"><td>double</td>
+<td>floating point type</td>
+</tr>
+<tr class="row-even"><td>float</td>
+<td>floating point type</td>
+</tr>
+<tr class="row-odd"><td>long</td>
+<td>integer type</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li>Most basic types are available in different flavors<ul>
+<li>size</li>
+<li>unsigned / signed</li>
+</ul>
+</li>
+<li>Sizes of variables types depend on platform and compiler</li>
+</ul>
+<div class="section" id="integer-types">
+<h3>Integer types<a class="headerlink" href="#integer-types" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Integer<ul>
+<li>basic type – int (signed)</li>
+<li>short int, int and long int</li>
+<li>unsigned and signed</li>
+<li>Short forms: long, short, int</li>
+</ul>
+</li>
+<li>Don’t use unsigned to prevent negative values<ul>
+<li>Problems in conversions later</li>
+</ul>
+</li>
+<li>Use unsigned to represent bit patterns</li>
+</ul>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">a</span><span class="p">;</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">b</span><span class="p">;</span>
+    <span class="kt">long</span> <span class="kt">int</span> <span class="n">c</span><span class="p">;</span>
+    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">int</span> <span class="n">d</span><span class="p">;</span>
+    
+    <span class="n">a</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">b</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">d</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;a = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;b = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">b</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;c = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">c</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;d = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">d</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Code output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>a = -1
+b = 4294967295
+c = -1
+d = 18446744073709551615
+</pre></div>
+</div>
+<div class="section" id="size-of-integer-types">
+<h4>Size of integer types<a class="headerlink" href="#size-of-integer-types" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>Depends on compiler and platform</li>
+<li>Actual size can be determined by sizeof operator</li>
+<li>returns size measured in sizeof(char) = 1</li>
+<li>1 = sizeof(char) ≤ sizeof(short) ≤ sizeof(int) ≤ sizeof(long)</li>
+<li>1 ≤ sizeof(bool) ≤ sizeof(long)</li>
+<li>sizeof(char) ≤ sizeof(wchar_t) ≤ sizeof(long)</li>
+<li>sizeof(float) ≤ sizeof(double) ≤ sizeof(long double)</li>
+<li>sizeof(N) = sizeof(signed N) = sizeof(unsigned N)</li>
+</ul>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">a</span><span class="p">;</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">b</span><span class="p">;</span>
+    <span class="kt">long</span> <span class="kt">int</span> <span class="n">c</span><span class="p">;</span>
+    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">int</span> <span class="n">d</span><span class="p">;</span>
+    
+    <span class="n">a</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">b</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">d</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;a = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, sizeof(a) = &quot;</span> <span class="o">&lt;&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;b = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">b</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, sizeof(b) = &quot;</span> <span class="o">&lt;&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;c = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">c</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, sizeof(c) = &quot;</span> <span class="o">&lt;&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;d = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">d</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, sizeof(d) = &quot;</span> <span class="o">&lt;&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Code output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>a = -1, sizeof(a) = 4
+b = 4294967295, sizeof(b) = 4
+c = -1, sizeof(c) = 8
+d = 18446744073709551615, sizeof(d) = 8
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="character-types">
+<h3>Character types<a class="headerlink" href="#character-types" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>represents a character in the implementation character set</li>
+<li>8-bits on most systems</li>
+<li>Character sets often guaranteed to contain numeric characters, 26 letters of the english alphabet and common delimiters</li>
+<li>Check implementation</li>
+<li>signed char -128..127</li>
+<li>unsigned char 0..255</li>
+<li>char is dependent on implementation</li>
+<li>int(c) can return both variants</li>
+</ul>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">char</span> <span class="n">c</span><span class="p">;</span>
+    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">uc</span><span class="p">;</span>
+    <span class="kt">signed</span> <span class="kt">char</span> <span class="n">sc</span><span class="p">;</span>
+    
+    <span class="n">c</span> <span class="o">=</span> <span class="sc">&#39;a&#39;</span><span class="p">;</span>
+    <span class="n">uc</span> <span class="o">=</span> <span class="mi">129</span><span class="p">;</span>
+    <span class="n">sc</span> <span class="o">=</span> <span class="mi">130</span><span class="p">;</span>
+    
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;c = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">c</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; int(c) = &quot;</span> <span class="o">&lt;&lt;</span> <span class="kt">int</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; sizeof(c) = &quot;</span> <span class="o">&lt;&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;uc = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">uc</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; int(uc) = &quot;</span> <span class="o">&lt;&lt;</span> <span class="kt">int</span><span class="p">(</span><span class="n">uc</span><span class="p">);</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; sizeof(c) = &quot;</span> <span class="o">&lt;&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;sc = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">sc</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; int(sc) = &quot;</span> <span class="o">&lt;&lt;</span> <span class="kt">int</span><span class="p">(</span><span class="n">sc</span><span class="p">);</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; sizeof(c) = &quot;</span> <span class="o">&lt;&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Code output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>c = a int(c) = 97 sizeof(c) = 1
+uc = \201 int(uc) = 129 sizeof(c) = 1
+sc = \202 int(sc) = -126 sizeof(c) = 1
+</pre></div>
+</div>
+</div>
+<div class="section" id="floating-point-types">
+<h3>Floating point types<a class="headerlink" href="#floating-point-types" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>float – single precision</li>
+<li>double – double precision</li>
+<li>long double – extended precision</li>
+<li>Actual size depends on hardware and compiler</li>
+<li>use double if unsure</li>
+<li>Long double can be inefficient due to processor architecture</li>
+</ul>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;iomanip&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;cmath&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">double</span> <span class="n">pi</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">std</span><span class="o">::</span><span class="n">atan</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	
+    <span class="kt">float</span> <span class="n">f</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">d</span><span class="p">;</span>
+    <span class="kt">long</span> <span class="kt">double</span> <span class="n">ld</span><span class="p">;</span>
+    
+    <span class="n">f</span> <span class="o">=</span> <span class="n">pi</span><span class="p">;</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">pi</span><span class="p">;</span>
+    <span class="n">ld</span> <span class="o">=</span> <span class="n">pi</span><span class="p">;</span>
+    
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">setprecision</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;f = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">f</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">setprecision</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;d = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">d</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">setprecision</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;ld = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">ld</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Code output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>f = 3.14159274101257
+d = 3.14159265358979
+ld = 3.14159265358979
+</pre></div>
+</div>
+</div>
+<div class="section" id="numerical-limits">
+<h3>Numerical limits<a class="headerlink" href="#numerical-limits" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Use header file #include &lt;limits&gt;</li>
+<li>Can return platform data type limits</li>
+<li>General use:<ul>
+<li>numeric_limit&lt;datatype&gt;::max()</li>
+<li>numeric_limit&lt;datatype&gt;::min()</li>
+<li>numeric_limit&lt;datatype&gt;::is_signed()</li>
+</ul>
+</li>
+</ul>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;limits&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Max, char &quot;</span> <span class="o">&lt;&lt;</span> <span class="kt">int</span><span class="p">(</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;::</span><span class="n">max</span><span class="p">())</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Min, char &quot;</span> <span class="o">&lt;&lt;</span> <span class="kt">int</span><span class="p">(</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;::</span><span class="n">min</span><span class="p">())</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Is char signed &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;::</span><span class="n">is_signed</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Max, unsigned char &quot;</span> <span class="o">&lt;&lt;</span> <span class="kt">int</span><span class="p">(</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="o">&gt;::</span><span class="n">max</span><span class="p">())</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Min, unsigned char &quot;</span> <span class="o">&lt;&lt;</span> <span class="kt">int</span><span class="p">(</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="o">&gt;::</span><span class="n">min</span><span class="p">())</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Max, short &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">short</span><span class="o">&gt;::</span><span class="n">max</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Min, short &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">short</span><span class="o">&gt;::</span><span class="n">min</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Max, int &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">max</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Min, int &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">min</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Max, long &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">long</span><span class="o">&gt;::</span><span class="n">max</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Min, long &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">long</span><span class="o">&gt;::</span><span class="n">min</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Max, float &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;::</span><span class="n">max</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Min, float &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;::</span><span class="n">min</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Max, double &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;::</span><span class="n">max</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Min, double &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;::</span><span class="n">min</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Max, long double &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">double</span><span class="o">&gt;::</span><span class="n">max</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Min, long double &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">double</span><span class="o">&gt;::</span><span class="n">min</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Code output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>Max, char 127
+Min, char -128
+Is char signed 1
+Max, unsigned char 255
+Min, unsigned char 0
+Max, short 32767
+Min, short -32768
+Max, int 2147483647
+Min, int -2147483648
+Max, long 9223372036854775807
+Min, long -9223372036854775808
+Max, float 3.40282e+38
+Min, float 1.17549e-38
+Max, double 1.79769e+308
+Min, double 2.22507e-308
+Max, long double 1.18973e+4932
+Min, long double 3.3621e-4932
+</pre></div>
+</div>
+</div>
+<div class="section" id="enumeration-types">
+<h3>Enumeration types<a class="headerlink" href="#enumeration-types" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Defines different kinds of enumerations</li>
+<li>Can be used as an integer type</li>
+<li>By default enumeration constants are given integer values in the order they are defined</li>
+<li>Specific values can be given to the enumeration constants.</li>
+<li>An enumeration can be a distinct data type.</li>
+<li>Converted to integers in expressions</li>
+</ul>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> 
+<span class="p">{</span>
+    <span class="k">enum</span> <span class="p">{</span> <span class="n">RED</span><span class="p">,</span> <span class="n">GREEN</span><span class="p">,</span> <span class="n">BLUE</span><span class="p">,</span> <span class="n">YELLOW</span> <span class="p">};</span>
+    
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;RED = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">RED</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;GREEN = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">GREEN</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;BLUE = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">BLUE</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;YELLOW = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">YELLOW</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    
+    <span class="k">enum</span> <span class="n">flavor</span> <span class="p">{</span> <span class="n">VANILLA</span><span class="p">,</span> <span class="n">CHOCOLATE</span><span class="p">,</span> <span class="n">ORANGE</span><span class="p">,</span> <span class="n">STRAWBERRY</span> <span class="p">};</span>
+    
+    <span class="n">flavor</span> <span class="n">selectedFlavor</span> <span class="o">=</span> <span class="n">ORANGE</span><span class="p">;</span>
+    
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;selectedFlavor = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">selectedFlavor</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    
+    <span class="k">enum</span> <span class="n">status</span> <span class="p">{</span> <span class="n">FINISHED</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ERROR</span> <span class="o">=</span> <span class="mi">15</span> <span class="p">};</span>
+    
+    <span class="n">status</span> <span class="n">currentStatus</span> <span class="o">=</span> <span class="n">ERROR</span><span class="p">;</span>
+    
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;currentStatus = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">currentStatus</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="arrays">
+<h3>Arrays<a class="headerlink" href="#arrays" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>“List of elements with a specific data type”</li>
+<li>Indexed from 0 … size - 1</li>
+<li>Brackets [ ] is used for accessing individual elements</li>
+<li>Declaration<ul>
+<li>[data type] name[size] [ = { list of values} ]</li>
+</ul>
+</li>
+<li>Contigous multidimensional array not supported with indices. Tricks and OO can solve this</li>
+</ul>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+    
+    <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+    
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+     
+    <span class="kt">double</span> <span class="n">b</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span> <span class="p">};</span>
+    <span class="n">b</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">42.0</span><span class="p">;</span>
+    
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">b</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Code output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>1, 2
+1, 2, 3, 42
+</pre></div>
+</div>
+</div>
+<div class="section" id="pointers">
+<h3>Pointers<a class="headerlink" href="#pointers" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Declared with the * operator</li>
+<li>Can be typed and untyped (void*)</li>
+<li>Declaration<ul>
+<li>[data type]* name</li>
+</ul>
+</li>
+<li>Pointer variable contains a memory address</li>
+<li><ul class="first">
+<li>operator is also used to dereference pointer and retrieve value at memory location</li>
+</ul>
+</li>
+<li>&amp; operator can be used to return a memory address for a non-pointer variable.</li>
+</ul>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">a</span><span class="p">;</span>
+    <span class="kt">int</span><span class="o">*</span> <span class="n">b</span><span class="p">;</span>
+    
+    <span class="n">a</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">;</span>
+    
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;a = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;b = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">b</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;&amp;a = &quot;</span> <span class="o">&lt;&lt;</span> <span class="o">&amp;</span><span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;*b = &quot;</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">b</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Code output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>a = 42
+b = 0x7fff5fbff6bc
+&amp;a = 0x7fff5fbff6bc
+*b = 42
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/pointers1.svg"><img alt="_images/pointers1.svg" src="_images/pointers1.svg" width="50%" /></a>
+<a class="reference internal image-reference" href="_images/pointers1-2.svg"><img alt="_images/pointers1-2.svg" src="_images/pointers1-2.svg" width="50%" /></a>
+<p>*b is the value stored at memory location b</p>
+</div>
+<div class="section" id="array-pointer-duality">
+<h3>Array pointer duality<a class="headerlink" href="#array-pointer-duality" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Array and pointers are very related in C/C++</li>
+<li>Pointer types can be accessed using array notation</li>
+<li>Arrays can be accessed like pointers</li>
+<li>Increases flexibility in algorithm design</li>
+<li>Increases risk of errors as well</li>
+</ul>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">a</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">};</span>
+    <span class="kt">int</span><span class="o">*</span> <span class="n">b</span><span class="p">;</span>
+    <span class="kt">int</span><span class="o">*</span> <span class="n">c</span><span class="p">;</span>
+    
+    <span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span>
+    
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;a = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;b = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">b</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;a[0] = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;b[0] = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;*b = &quot;</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">b</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;*a = &quot;</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    
+    <span class="n">c</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;c = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">c</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;*c = &quot;</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">c</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Code output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>a = 0x7fff5fbff6a0
+b = 0x7fff5fbff6a0
+a[0] = 0
+b[0] = 0
+*b = 0
+*a = 0
+c = 0x7fff5fbff6a8
+*c = 2
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/pointers1-3.svg"><img alt="_images/pointers1-3.svg" src="_images/pointers1-3.svg" width="50%" /></a>
+</div>
+<div class="section" id="constants">
+<h3>Constants<a class="headerlink" href="#constants" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>A way of defining data that is not changed during program execution</li>
+<li>Use instead of numeric constants in the code<ul>
+<li>Easier to update code in a later stage</li>
+</ul>
+</li>
+<li>Prevents accidental modification of variables</li>
+<li>Gives hints to the compiler on optmisations<ul>
+<li>Precomputing expressions at compile time</li>
+<li>Reduce memory usage</li>
+</ul>
+</li>
+</ul>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">const</span> <span class="kt">int</span> <span class="n">max_size</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">a</span><span class="p">[</span><span class="n">max_size</span><span class="p">];</span>
+    
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">max_size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="references">
+<h3>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Alternative names for a variables</li>
+<li>Mainly used in function arguments</li>
+<li>[data type]&amp; name<ul>
+<li>Defines a reference to another variable of the same data type</li>
+</ul>
+</li>
+</ul>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
+    <span class="kt">int</span><span class="o">&amp;</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span>
+    
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;a = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;b = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">b</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;&amp;a = &quot;</span> <span class="o">&lt;&lt;</span> <span class="o">&amp;</span><span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;&amp;b = &quot;</span> <span class="o">&lt;&lt;</span> <span class="o">&amp;</span><span class="n">b</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Code output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>a = 42
+b = 42
+&amp;a = 0x7fff5fbff6bc
+&amp;b = 0x7fff5fbff6bc
+</pre></div>
+</div>
+<ul class="simple">
+<li>b points to the same memory location as a</li>
+<li>b can be used as a normal variable after it has been initialised</li>
+</ul>
+</div>
+<div class="section" id="structured-data-types">
+<h3>Structured data types<a class="headerlink" href="#structured-data-types" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Data type consisting of a mix of other data types</li>
+<li>Compare entries in a database<ul>
+<li>first name</li>
+<li>last name</li>
+<li>street</li>
+<li>…</li>
+</ul>
+</li>
+<li>Declared using the struct keyword</li>
+<li>Members are accessed with . (dot) or -&gt; operators</li>
+</ul>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">struct</span> <span class="n">coord3D</span> <span class="p">{</span>
+        <span class="kt">double</span> <span class="n">x</span><span class="p">;</span>
+        <span class="kt">double</span> <span class="n">y</span><span class="p">;</span>
+    <span class="p">};</span>
+    
+    <span class="n">coord3D</span> <span class="n">c1</span><span class="p">;</span>
+    <span class="n">coord3D</span> <span class="n">c2</span><span class="p">;</span>
+    
+    <span class="n">c1</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+    <span class="n">c1</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+    <span class="n">c2</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+    <span class="n">c2</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+    
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;c1.x = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">c1</span><span class="p">.</span><span class="n">x</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, c1.y = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">c1</span><span class="p">.</span><span class="n">y</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;c2.x = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">c2</span><span class="p">.</span><span class="n">x</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, c2.y = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">c2</span><span class="p">.</span><span class="n">y</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;sizeof(c1) = &quot;</span> <span class="o">&lt;&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">c1</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Code output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>c1.x = 0, c1.y = 0
+c2.x = 1, c2.y = 1
+sizeof(c1) = 16
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="expressions-and-operators">
+<h2>Expressions and operators<a class="headerlink" href="#expressions-and-operators" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="arithmetic-operators">
+<h3>Arithmetic operators<a class="headerlink" href="#arithmetic-operators" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="32%" />
+<col width="68%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Operator</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>(+/-)x</td>
+<td>Unary sign operator</td>
+</tr>
+<tr class="row-odd"><td>*</td>
+<td>Multiplication</td>
+</tr>
+<tr class="row-even"><td>/</td>
+<td>Division</td>
+</tr>
+<tr class="row-odd"><td>+</td>
+<td>Addition</td>
+</tr>
+<tr class="row-even"><td>-</td>
+<td>Subtraction</td>
+</tr>
+<tr class="row-odd"><td>%</td>
+<td>Modulo</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="compound-assignment-operators">
+<h3>Compound assignment operators<a class="headerlink" href="#compound-assignment-operators" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="29%" />
+<col width="37%" />
+<col width="34%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Operator</th>
+<th class="head">Description</th>
+<th class="head">&#160;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>+=</td>
+<td>a += b</td>
+<td>a = a + b</td>
+</tr>
+<tr class="row-odd"><td>-=</td>
+<td>a -= b</td>
+<td>a = a - b</td>
+</tr>
+<tr class="row-even"><td>/=</td>
+<td>a /= b</td>
+<td>a = a / b</td>
+</tr>
+<tr class="row-odd"><td>*=</td>
+<td>a *= b</td>
+<td>a = a * b</td>
+</tr>
+<tr class="row-even"><td>%=</td>
+<td>a %= b</td>
+<td>a = a % b</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">;</span>
+    
+    <span class="n">a</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="mi">26</span><span class="p">;</span>
+    
+    <span class="n">a</span> <span class="o">+=</span> <span class="n">b</span><span class="p">;</span> <span class="c1">// a = a + b</span>
+    
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;a = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Code output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>a = 68
+</pre></div>
+</div>
+</div>
+<div class="section" id="increment-and-decrement-operators">
+<h3>Increment and decrement operators (++/–)<a class="headerlink" href="#increment-and-decrement-operators" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Increase / decrease variables by 1</li>
+<li>Can be used both prefix and postfix<ul>
+<li>++a and a++</li>
+<li>–a and a—</li>
+</ul>
+</li>
+<li>Prefix version increases/decreases the value before returning result</li>
+<li>Postfix version increases/decreases the value after returning the result</li>
+</ul>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">;</span>
+    
+    <span class="n">a</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
+    
+    <span class="n">b</span> <span class="o">=</span> <span class="o">++</span><span class="n">a</span><span class="p">;</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">a</span><span class="o">++</span><span class="p">;</span>
+    
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;b = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">b</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;c = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">c</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Code output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>b = 43
+c = 43
+</pre></div>
+</div>
+</div>
+<div class="section" id="conditional-operator">
+<h3>Conditional operator ?<a class="headerlink" href="#conditional-operator" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Evaluates an expression, returning a value depending on the evaluation<ul>
+<li>condition ? result1 : result2</li>
+<li>returns result1 if condition == true</li>
+<li>returns result2 if condition == false</li>
+</ul>
+</li>
+</ul>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">number</span><span class="p">;</span>
+    
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Enter a number : &quot;</span><span class="p">;</span>
+    
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">number</span><span class="p">;</span>
+    
+    <span class="kt">int</span> <span class="n">outValue</span> <span class="o">=</span> <span class="p">(</span><span class="n">number</span><span class="o">&gt;</span><span class="mi">50</span><span class="p">)</span> <span class="o">?</span> <span class="mi">42</span> <span class="o">:</span> <span class="mi">21</span><span class="p">;</span>
+    
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;outValue = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">outValue</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Code output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>Enter a number : 45
+outValue = 21
+
+Enter a number : 55
+outValue = 42
+</pre></div>
+</div>
+</div>
+<div class="section" id="expressions">
+<h3>Expressions<a class="headerlink" href="#expressions" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="n">c1</span>
+</pre></div>
+</div>
+<p>Evaluates from left to right as:</p>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="p">((</span><span class="o">-</span><span class="n">a</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">+</span> <span class="n">c</span>
+</pre></div>
+</div>
+<p>The expression:</p>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="n">c</span>
+</pre></div>
+</div>
+<p>Evaluates as from left to right as:</p>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="p">(</span><span class="o">-</span><span class="n">a</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="mixed-mode-expressions">
+<h3>Mixed-mode expressions<a class="headerlink" href="#mixed-mode-expressions" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Numeric expressions with operands of differing datatypes</li>
+<li>Weaker of to datatypes will be coerced to the stronger one</li>
+<li>Result will be of the stronger type</li>
+</ul>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="kt">double</span> <span class="n">a</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+<span class="kt">double</span> <span class="n">b</span><span class="p">;</span>
+
+<span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">i</span> <span class="c1">// i is coerced to double_types1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="c-strings">
+<h2>C++ Strings<a class="headerlink" href="#c-strings" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Can use same strings as in C (char*)</li>
+<li>This course will use the std::string data type</li>
+<li>Very efficient and flexible string type</li>
+<li>Included in the C++ standard library</li>
+<li>Compatible with char* strings<ul>
+<li>can be passed as standard char* strings to legacy code (.c_str() method)</li>
+</ul>
+</li>
+<li>Requires the #include &lt;string&gt;</li>
+</ul>
+<div class="section" id="declaring-and-using-c-strings">
+<h3>Declaring and using C++ strings<a class="headerlink" href="#declaring-and-using-c-strings" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">string</span> <span class="n">s</span> <span class="o">=</span> <span class="s">&quot;hello&quot;</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;a = &#39;&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">s</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;&#39;&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><code class="code cpp C++ docutils literal"><span class="name"><span class="pre">std</span></span><span class="operator"><span class="pre">::</span></span><span class="name"><span class="pre">string</span></span></code> is the real variable type as it is part of the <code class="code cpp C++ docutils literal"><span class="name"><span class="pre">std</span></span></code> namespace</p>
+</div>
+<p>Code output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>a = &#39;hello&#39;
+</pre></div>
+</div>
+</div>
+<div class="section" id="string-operations">
+<h3>String operations<a class="headerlink" href="#string-operations" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Strings can be appended using the + operator</li>
+<li>Length of a string variable is returned by the .length() method</li>
+<li>Individual characters in the strings can be accessed by<ul>
+<li>[index] operator</li>
+<li>at(index) method</li>
+</ul>
+</li>
+</ul>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">string</span> <span class="n">s1</span> <span class="o">=</span> <span class="s">&quot;hello&quot;</span><span class="p">;</span>
+    <span class="n">string</span> <span class="n">s2</span> <span class="o">=</span> <span class="s">&quot;, world&quot;</span><span class="p">;</span>
+    <span class="n">string</span> <span class="n">s3</span> <span class="o">=</span> <span class="n">s1</span> <span class="o">+</span> <span class="n">s2</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;s3 = &#39;&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">s3</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;&#39;&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;s3.length() = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">s3</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;s3[7] = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">s3</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;s3.at(7) = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">s3</span><span class="p">.</span><span class="n">at</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Code output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>s3 = &#39;hello, world&#39;
+s3.length() = 12
+s3[7] = w
+s3.at(7) = w
+</pre></div>
+</div>
+</div>
+<div class="section" id="c-string-methods">
+<h3>C++ String methods<a class="headerlink" href="#c-string-methods" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Methods for manipulating string content</li>
+<li>.append(string) can be used instead of the + operator to append strings to an existing string</li>
+<li>.replace(pos, n, string) – replaces n characters at position pos with the contents of string</li>
+<li>.insert(pos, string) – inserts string at position pos</li>
+<li>.substr(pos, n) – extracts n characters at position pos</li>
+</ul>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">string</span> <span class="n">s1</span> <span class="o">=</span> <span class="s">&quot;hello&quot;</span><span class="p">;</span>
+    <span class="n">string</span> <span class="n">s2</span> <span class="o">=</span> <span class="s">&quot;, world&quot;</span><span class="p">;</span>
+    <span class="n">string</span> <span class="n">s3</span> <span class="o">=</span> <span class="n">s1</span> <span class="o">+</span> <span class="n">s2</span><span class="p">;</span>
+
+    <span class="n">s3</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;. Strings in C++ are great!&quot;</span><span class="p">);</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;s3 = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">s3</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    
+    <span class="n">s3</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="s">&quot;nice! &quot;</span><span class="p">);</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;s3 = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">s3</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    
+    <span class="n">s3</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="s">&quot;great and &quot;</span><span class="p">);</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;s3 = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">s3</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    
+    <span class="n">string</span> <span class="n">s4</span> <span class="o">=</span> <span class="n">s3</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;s4 = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">s4</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Code output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>s3 = hello, world. Strings in C++ are great!
+s3 = hello, world. Strings in C++ are nice!
+s3 = hello, world. Strings in C++ are great and nice!
+s4 = great
+</pre></div>
+</div>
+</div>
+<div class="section" id="searching-c-strings">
+<h3>Searching C++ strings<a class="headerlink" href="#searching-c-strings" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>The find() method can be used to return position of substrings</li>
+<li>.find(string) – find first position of string</li>
+<li>.find(string, startpos) – find first position of string starting at startpos</li>
+</ul>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">string</span> <span class="n">s</span> <span class="o">=</span> <span class="s">&quot;The quick brown fox jumps over the lazy dog.&quot;</span><span class="p">;</span>
+    
+    <span class="kt">int</span> <span class="n">p0</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;o&quot;</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">p1</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;o&quot;</span><span class="p">,</span> <span class="n">p0</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+    
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;The first &#39;o&#39; is at position &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">p0</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;The next &#39;o&#39; is at position &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">p1</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Code output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>The first &#39;o&#39; is at position 12
+The next &#39;o&#39; is at position 17
+</pre></div>
+</div>
+</div>
+<div class="section" id="compatibility-with-c-strings-char">
+<h3>Compatibility with C strings (char*)<a class="headerlink" href="#compatibility-with-c-strings-char" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>A std::string can be assigned a char* string<ul>
+<li>The opposite is not directly possible</li>
+</ul>
+</li>
+<li>std::string:s can’t be directly used with C function requiring a char* argument.</li>
+<li>.c_str() method to the rescue<ul>
+<li>returns a const char* pointer wichi can be passed to functions and for assigning C style strings</li>
+</ul>
+</li>
+</ul>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;cstring&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">cString</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="n">cString2</span><span class="p">[</span><span class="mi">128</span><span class="p">];</span>
+    
+    <span class="n">string</span> <span class="n">cppString</span> <span class="o">=</span> <span class="s">&quot;Hello, world!&quot;</span><span class="p">;</span>
+    
+    <span class="n">cString</span> <span class="o">=</span> <span class="n">cppString</span><span class="p">.</span><span class="n">c_str</span><span class="p">();</span>
+    
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;cString = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">cString</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    
+    <span class="n">strncpy</span><span class="p">(</span><span class="n">cString2</span><span class="p">,</span> <span class="n">cppString</span><span class="p">.</span><span class="n">c_str</span><span class="p">(),</span> <span class="n">cppString</span><span class="p">.</span><span class="n">length</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+    
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;cString2 = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">cString2</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Allow for an extra position for the #0 character in the <code class="code cpp C++ docutils literal"><span class="name"><span class="pre">strncpy</span></span></code> call.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><code class="code cpp C++ docutils literal"><span class="name"><span class="pre">strncpy</span></span></code> is a overflow safe version of the C <code class="code cpp C++ docutils literal"><span class="name"><span class="pre">strcpy</span></span></code> function.</p>
+</div>
+<p>Code output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>cString = Hello, world!
+cString2 = Hello, world!
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="control-structures">
+<h2>Control structures<a class="headerlink" href="#control-structures" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="statements-and-compound-statements">
+<h3>Statements and compound statements<a class="headerlink" href="#statements-and-compound-statements" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>C++ has 2 kind of statements<ul>
+<li>Normal statements separated by ;</li>
+<li>Compound statements – normal statements grouped by { } (curly brackets)</li>
+</ul>
+</li>
+<li>Compound statemtens are used in:<ul>
+<li>Function definitions</li>
+<li>Conditional expressions</li>
+<li>Iteration structures</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="iteration">
+<h3>Iteration<a class="headerlink" href="#iteration" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>There are 3 iteration statements in C++<ul>
+<li>while – Condition before iteration statements</li>
+<li>do – Condition after iteration statements</li>
+<li>for – Compact version of the while-statement</li>
+</ul>
+</li>
+<li>Iterations can be controlled by<ul>
+<li>break-statement – exit a loop</li>
+<li>continue – continue to next iteration</li>
+<li>(goto-label statement)</li>
+<li>return</li>
+<li>exit() function</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="while-statement">
+<h3>while-statement<a class="headerlink" href="#while-statement" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> 
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">counter</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    
+    <span class="k">while</span> <span class="p">(</span><span class="n">counter</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">)</span> 
+    <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;counter = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">counter</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        <span class="n">counter</span> <span class="o">=</span> <span class="n">counter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Code output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>counter = 1
+counter = 2
+counter = 3
+counter = 4
+counter = 5
+counter = 7
+counter = 8
+counter = 9
+counter = 10
+</pre></div>
+</div>
+</div>
+<div class="section" id="do-statement">
+<h3>do-statement<a class="headerlink" href="#do-statement" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> 
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">counter</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    
+    <span class="k">do</span>
+    <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;counter = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">counter</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        <span class="n">counter</span> <span class="o">=</span> <span class="n">counter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">counter</span><span class="o">&lt;=</span><span class="mi">10</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Code output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>counter = 1
+counter = 2
+counter = 3
+counter = 4
+counter = 5
+counter = 7
+counter = 8
+counter = 9
+counter = 10
+</pre></div>
+</div>
+</div>
+<div class="section" id="for-statement">
+<h3>for-statement<a class="headerlink" href="#for-statement" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Compact version of the do/while-statements</li>
+<li>for([start expression]; [conditional expression]; [step expression]<ul>
+<li>start expression is executed first before the first iteration</li>
+<li>conditional expression is evaluated for each iteration</li>
+<li>step expression is executed after the iteration statements for each iteration</li>
+</ul>
+</li>
+<li>Creates more readable code compare to do/while-constructs</li>
+</ul>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">counter</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">counter</span><span class="o">&lt;=</span><span class="mi">10</span><span class="p">;</span> <span class="n">counter</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;counter = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">counter</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Code output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>counter = 1
+counter = 2
+counter = 3
+counter = 4
+counter = 5
+counter = 7
+counter = 8
+counter = 9
+counter = 10
+</pre></div>
+</div>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="mi">10000</span><span class="p">;</span> <span class="n">sum</span> <span class="o">+=</span> <span class="o">++</span><span class="n">i</span><span class="p">);</span>
+    
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;sum = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">sum</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Code output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>sum = 1656437623
+</pre></div>
+</div>
+</div>
+<div class="section" id="controlling-iteration">
+<h3>Controlling iteration<a class="headerlink" href="#controlling-iteration" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> 
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">counter</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    
+    <span class="k">while</span> <span class="p">(</span><span class="n">counter</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">)</span> 
+    <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;counter = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">counter</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">counter</span> <span class="o">==</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">counter</span> <span class="o">=</span> <span class="n">counter</span> <span class="o">+</span> <span class="mi">2</span><span class="p">;</span>
+            <span class="k">continue</span><span class="p">;</span>
+        <span class="p">}</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">counter</span> <span class="o">==</span> <span class="mi">9</span><span class="p">)</span>
+            <span class="k">break</span><span class="p">;</span>
+        
+        <span class="n">counter</span> <span class="o">=</span> <span class="n">counter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Code output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>counter = 1
+counter = 2
+counter = 3
+counter = 4
+counter = 5
+counter = 7
+counter = 8
+counter = 9
+</pre></div>
+</div>
+</div>
+<div class="section" id="conditional-statements">
+<h3>Conditional statements<a class="headerlink" href="#conditional-statements" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>There are 2 main conditional statements in C++<ul>
+<li>if-then-else – single or multiple conditions</li>
+<li>switch – multiple path single condition</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="relational-operators">
+<h3>Relational operators<a class="headerlink" href="#relational-operators" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="56%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Operator</th>
+<th class="head">Meaning</th>
+<th class="head">Python</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>&lt;</td>
+<td>less than</td>
+<td>&lt;</td>
+</tr>
+<tr class="row-odd"><td>&lt;=</td>
+<td>less than or equal</td>
+<td>&lt;=</td>
+</tr>
+<tr class="row-even"><td>==</td>
+<td>equal</td>
+<td>==</td>
+</tr>
+<tr class="row-odd"><td>!=</td>
+<td>not equal</td>
+<td>!=</td>
+</tr>
+<tr class="row-even"><td>&gt;=</td>
+<td>greater than or equal</td>
+<td>&gt;=</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="logical-operators">
+<h3>Logical operators<a class="headerlink" href="#logical-operators" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="37%" />
+<col width="33%" />
+<col width="30%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Operator</th>
+<th class="head">Meaning</th>
+<th class="head">Python</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>&amp;&amp;</td>
+<td>and</td>
+<td>and</td>
+</tr>
+<tr class="row-odd"><td>||</td>
+<td>or</td>
+<td>or</td>
+</tr>
+<tr class="row-even"><td>!</td>
+<td>not</td>
+<td>not</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="if-statement">
+<h3>if-statement<a class="headerlink" href="#if-statement" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="mi">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;i = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">==</span><span class="mi">5</span><span class="p">)</span>
+<span class="hll">            <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;i == 5&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span>    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Code output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>i = 1
+i = 2
+i = 3
+i = 4
+i = 5
+<span class="hll">i == 5
+</span>i = 6
+i = 7
+i = 8
+i = 9
+i = 10
+</pre></div>
+</div>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="mi">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">==</span><span class="mi">5</span><span class="p">)</span>
+            <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;i == 5&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        <span class="k">else</span>
+<span class="hll">            <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;i != 5&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span>    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Code output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span><span class="hll">i != 5
+</span><span class="hll">i != 5
+</span><span class="hll">i != 5
+</span><span class="hll">i != 5
+</span><span class="hll">i != 5
+</span>i == 5
+<span class="hll">i != 5
+</span><span class="hll">i != 5
+</span><span class="hll">i != 5
+</span><span class="hll">i != 5
+</span><span class="hll">i != 5
+</span></pre></div>
+</div>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="mi">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;i = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;: &quot;</span><span class="p">;</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">==</span><span class="mi">5</span><span class="p">)</span>
+            <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;i == 5&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="p">(</span><span class="n">i</span><span class="o">&gt;=</span><span class="mi">2</span><span class="p">)</span><span class="o">&amp;&amp;</span><span class="p">(</span><span class="n">i</span><span class="o">&lt;=</span><span class="mi">3</span><span class="p">)</span> <span class="p">)</span>
+<span class="hll">            <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;2 &lt;= i &lt;= 3&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span>        <span class="k">else</span>
+            <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;-&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Code output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>i = 1: -
+<span class="hll">i = 2: 2 &lt;= i &lt;= 3
+</span><span class="hll">i = 3: 2 &lt;= i &lt;= 3
+</span>i = 4: -
+i = 5: i == 5
+i = 6: -
+i = 7: -
+i = 8: -
+i = 9: -
+i = 10: -
+</pre></div>
+</div>
+</div>
+<div class="section" id="switch-statement">
+<h3>switch-statement<a class="headerlink" href="#switch-statement" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-C++"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="mi">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;i = &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;: &quot;</span><span class="p">;</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">==</span><span class="mi">5</span><span class="p">)</span>
+            <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;i == 5&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="p">(</span><span class="n">i</span><span class="o">&gt;=</span><span class="mi">2</span><span class="p">)</span><span class="o">&amp;&amp;</span><span class="p">(</span><span class="n">i</span><span class="o">&lt;=</span><span class="mi">3</span><span class="p">)</span> <span class="p">)</span>
+            <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;2 &lt;= i &lt;= 3&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        <span class="k">else</span>
+            <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;-&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Code output:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>Color is green.
+Color is either BLUE, YELLOW or ORANGE.
+Color is either BLUE, YELLOW or ORANGE.
+Color is red.
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="history.html" class="btn btn-neutral" title="C++ History" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Jonas Lindemann.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
