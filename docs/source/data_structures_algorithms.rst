@@ -444,23 +444,11 @@ the vector. There is also a special method for freeing up unused memory
 
 The following figure illustrates how the **std::vector** works:
 
-.. raw:: html
-
-   <figure>
-
-.. raw:: html
-
-   <figcaption>
+.. image:: images/vector.svg
+   :width: 80%
+   :align: center
 
 std::vector data structure
-
-.. raw:: html
-
-   </figcaption>
-
-.. raw:: html
-
-   </figure>
 
 All elements in a **std::vector** can be cleared using the **.clear()**
 method.
@@ -546,23 +534,11 @@ The efficiency of the the different operations are as follows:
 The conceptual data structure of **std::dequeue** is shown in the
 following figure:
 
-.. raw:: html
-
-   <figure>
-
-.. raw:: html
-
-   <figcaption>
+.. image:: images/deque.svg
+   :width: 80%
+   :align: center
 
 std::deque data structure
-
-.. raw:: html
-
-   </figcaption>
-
-.. raw:: html
-
-   </figure>
 
 **std::deque** adds some additional methods for adding and removing
 items at the front and back of the datastructure:
@@ -619,23 +595,11 @@ need to iterate through to access all elements. The data structure is
 well-suited for sorting algorithms. The conceptual data structure is
 shown in the figure below:
 
-.. raw:: html
-
-   <figure>
-
-.. raw:: html
-
-   <figcaption>
+.. image:: images/list.svg
+   :width: 80%
+   :align: center
 
 std::list data structure
-
-.. raw:: html
-
-   </figcaption>
-
-.. raw:: html
-
-   </figure>
 
 Just as for the **std::deque** we have the following methods for adding
 items to the list:
