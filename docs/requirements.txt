@@ -1,4 +1,6 @@
 Sphinx >= 7.2
 sphinx-material
-sphinx_design
+sphinx-design
 sphinx-copybutton
+sphinx-tabs
+sphinx_tabs
