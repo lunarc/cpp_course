@@ -9,7 +9,7 @@ import os, sys
 sys.path.append(os.path.abspath('.'))
 
 
-project = 'Scientific Programming in C++'
+project = 'C++ for Scientists and Engineers'
 copyright = '2024, Jonas Lindemann'
 author = 'Jonas Lindemann'
 release = '0.1'
@@ -69,7 +69,7 @@ html_theme_options = {
     'color_accent': 'yellow',
 
     # Set the repo location to get a badge with stats
-    'repo_url': 'https://github.com/jonaslindemann/modern_fortran_book',
+    'repo_url': 'https://github.com/lunarc/cpp_course',
     'repo_name': 'C++ for Scientists and Engineers',
 
     # Visible levels of the global TOC; -1 means unlimited
