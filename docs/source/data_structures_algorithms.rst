@@ -99,9 +99,11 @@ the iterator we can use the star operator (\*).
 
        cout << *it << "\n";
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/sbTMab6v7>`__\ { .md-button
-.target=“\_blank”}
+.. button-link:: https://godbolt.org/z/sbTMab6v7
+    :color: primary
+    :outline:
+
+    Try example
 
 If the data structure supports random access to the individual elements
 it is also possible to access the individual elements using the
@@ -132,9 +134,12 @@ can be deduced by the compiler.
        cout << *it << "\n";
    }
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/rvYM6Yzzo>`__\ { .md-button
-.target=“\_blank”}
+.. button-link:: https://godbolt.org/z/rvYM6Yzzo
+    :color: primary
+    :outline:
+
+    Try example
+
 
 Range-based loops
 -----------------
@@ -160,9 +165,11 @@ that we will iterate over. A simple example iterating over a vector.
    for (auto value : vec)
        std::cout << value << "\n";
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/rMY87bEsq>`__\ { .md-button
-.target=“\_blank”}
+.. button-link:: https://godbolt.org/z/rMY87bEsq
+    :color: primary
+    :outline:
+
+    Try example
 
 As we can see in the above example there is no need to use any
 iterators. In the following example **value** is copied from **vec**. If
@@ -178,9 +185,12 @@ becomes:
    for (auto& value : vec)
        std::cout << value << "\n";
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/aMTh88one>`__\ { .md-button
-.target=“\_blank”}
+.. button-link:: https://godbolt.org/z/aMTh88one
+    :color: primary
+    :outline:
+
+    Try example
+
 
 In this implementation **value** is actually a reference to the value in
 **vec**. It is also possible to change the actual values of **vec** by
@@ -196,14 +206,14 @@ assigning a value to **value**.
    for (auto& value : vec)
        cout << value << "\n";
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/G4GTh7cc1>`__\ { .md-button
-.target=“\_blank”}
+.. button-link:: https://godbolt.org/z/G4GTh7cc1
+    :color: primary
+    :outline:
 
-!!! note
+    Try example
 
-::
 
+.. note:: 
    To be able to use the range-based for loop in C++ the data structure that you iterate over need to support iterators as this is the inner mechanics for the range-base loop.
 
 std::array<T, N>
@@ -250,9 +260,12 @@ The size of an array can be queried using the **.size()** method.
 
    cout << "array size = " << arr.size() << "\n";
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/Pr9KWKxoG>`__\ { .md-button
-.target=“\_blank”}
+.. button-link:: https://godbolt.org/z/Pr9KWKxoG
+    :color: primary
+    :outline:
+
+    Try example
+
 
 **std::array** can also be used exactly as a normal array using the
 []-operator.
@@ -262,9 +275,13 @@ example <https://godbolt.org/z/Pr9KWKxoG>`__\ { .md-button
    for (auto i=0; i<arr.size(); i++)
        cout << arr[i] << "\n";
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/9faqKnPYP>`__\ { .md-button
-.target=“\_blank”}
+
+.. button-link:: https://godbolt.org/z/9faqKnPYP
+    :color: primary
+    :outline:
+
+    Try example
+    
 
 Consider using **std::array** instead of static arrays whenever
 possible. If a pointer to an array is required it is always possible to
@@ -278,9 +295,11 @@ array.
    for (auto i=0; i<10; i++)
        cout << parr[i] << "\n";
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/b9nsqozfG>`__\ { .md-button
-.target=“\_blank”}
+.. button-link:: https://godbolt.org/z/b9nsqozfG
+    :color: primary
+    :outline:
+
+    Try example
 
 Another nice feature of the **std::array** is that you can use it with
 range-based loops as shown in the following example:
@@ -293,9 +312,12 @@ range-based loops as shown in the following example:
 Using range-based loops with arrays prevents errors where you access
 your arrays outside their defined range (bound checking errors).
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/x34TcxvPd>`__\ { .md-button
-.target=“\_blank”}
+.. button-link:: https://godbolt.org/z/x34TcxvPd
+    :color: primary
+    :outline:
+
+    Try example
+
 
 std::vector
 -----------
@@ -374,9 +396,11 @@ Finally, we can use a range-based for-loop as well:
 
    std::cout <<"\n";
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/43ajYMM3r>`__\ { .md-button
-.target=“\_blank”}
+.. button-link:: https://godbolt.org/z/43ajYMM3r
+    :color: primary
+    :outline:
+
+    Try example
 
 Removing items from a vector can be done using the **.erase()** method,
 which takes an iterator as argument. The following code erases the first
@@ -447,60 +471,60 @@ method.
 
 A more complete example is shown below:
 
-=== “Example”
+.. tabs::
 
-::
+   .. tab:: Example
 
-   ``` cpp
-   --8<-- "../ch_data_structures/vector1.cpp"
-   ```
+      .. literalinclude:: ../../ch_data_structures/vector1.cpp
 
-=== “Output”
+   .. tab:: Output
 
-::
+      .. code-block:: text
 
-   ```
-   12637
-   6149
-   30314
-   32595
-   9916
-   7874
-   3554
-   5407
-   13053
-   27214
+         12637
+         6149
+         30314
+         32595
+         9916
+         7874
+         3554
+         5407
+         13053
+         27214
 
-   12637
-   6149
-   30314
-   32595
-   9916
-   7874
-   3554
-   5407
-   13053
-   27214
+         12637
+         6149
+         30314
+         32595
+         9916
+         7874
+         3554
+         5407
+         13053
+         27214
 
-   20108
-   3184
-   14168
-   23442
-   18432
-   24466
-   2492
-   25169
-   5702
-   14458
-   ```
+         20108
+         3184
+         14168
+         23442
+         18432
+         24466
+         2492
+         25169
+         5702
+         14458
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/jqeqWe163>`__\ { .md-button
-.target=“\_blank”}
+.. button-link:: https://godbolt.org/z/jqeqWe163
+    :color: primary
+    :outline:
 
-`:fontawesome-solid-link: More info on std::vector
-(cppreference) <https://en.cppreference.com/w/cpp/container/vector>`__\ {
-.md-button .target=“\_blank”}
+    Try example
+
+.. button-link:: https://en.cppreference.com/w/cpp/container/vector
+    :color: primary
+    :outline:
+
+    More info on std::vector
 
 std::deque
 ----------
@@ -556,34 +580,33 @@ the **[]**-operator and the **.as()**-method.
 
 An example of how this is used is shown in the following code:
 
-=== “Example”
+.. tabs::
 
-::
+   .. tab:: Example
 
-   ``` cpp
-   --8<-- "../ch_data_structures/deque1.cpp"
-   ```
+      .. literalinclude:: ../../ch_data_structures/deque1.cpp
 
-=== “Output”
+   .. tab:: Output
 
-::
+      .. code-block:: text
 
-   ```
-   9, 8, 7, 6, 5, 0, 1, 2, 3, 4, 
+         9, 8, 7, 6, 5, 0, 1, 2, 3, 4, 
 
-   9, 8, 7, 6, 5, 0, 1, 2, 3, 4, 
-   q front = 9
-   pop front
-   q front = 8
-   q back = 4
-   pop back
-   q back = 3
-   q[3] = 5
-   ```
+         9, 8, 7, 6, 5, 0, 1, 2, 3, 4, 
+         q front = 9
+         pop front
+         q front = 8
+         q back = 4
+         pop back
+         q back = 3
+         q[3] = 5
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/4c6cGTGzP>`__\ { .md-button
-.target=“\_blank”}
+.. button-link:: https://godbolt.org/z/4c6cGTGzP
+   :color: primary
+   :outline:
+   
+      Try example
+
 
 std::list
 ---------
@@ -670,43 +693,39 @@ iterator forward (++it).
            ++it;
    }
 
-!!! note
-
-::
-
+.. note:: 
    Please note that we don't move the iterator forward in the **for**-statement to handle the situation when we remove the item from the list using the **.erase()** method.
 
 A complete example of using the **std::list** is shown below:
 
-=== “Example”
+.. tabs::
 
-::
+   .. tab:: Example
 
-   ``` cpp
-   --8<-- "../ch_data_structures/list1.cpp"
-   ```
+      .. literalinclude:: ../../ch_data_structures/list1.cpp
 
-=== “Output”
+   .. tab:: Output
 
-::
+      .. code-block:: text
 
-   ```
-   42, 10, 43, 9, 8, 7, 6, 0, 1, 2, 3, 4, 5, 
-   42, 10, 43, 9, 8, 7, 6, 0, 1, 2, 3, 4, 5, 
-   l front = 42
-   pop front
-   l front = 10
-   l back = 5
-   pop back
-   l back = 4
-   10, 43, 9, 8, 7, 6, 0, 1, 2, 3, 4, 
-   10, 43, 9, 8, 7, 6, 1, 2, 3, 4, 
-   10, 43, 9, 8, 7, 6, 1, 2, 4, 
-   ```
+         42, 10, 43, 9, 8, 7, 6, 0, 1, 2, 3, 4, 5, 
+         42, 10, 43, 9, 8, 7, 6, 0, 1, 2, 3, 4, 5, 
+         l front = 42
+         pop front
+         l front = 10
+         l back = 5
+         pop back
+         l back = 4
+         10, 43, 9, 8, 7, 6, 0, 1, 2, 3, 4, 
+         10, 43, 9, 8, 7, 6, 1, 2, 3, 4, 
+         10, 43, 9, 8, 7, 6, 1, 2, 4, 
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/bn1zejqPE>`__\ { .md-button
-.target=“\_blank”}
+.. button-link:: https://godbolt.org/z/bn1zejqPE
+   :color: primary
+   :outline:
+
+   Try example
+
 
 std::map<Key, T>
 ----------------
@@ -916,26 +935,24 @@ two input variables and returns true or false depending on the result of
 the comparison operation. Using this we can create our custom function
 that determines the sorting order of the algorithm.
 
-=== “Example”
+.. tabs::
 
-::
+    .. tab:: Example
 
-   ``` cpp
-   --8<-- "../ch_data_structures/lambda2.cpp"
-   ```
+        .. literalinclude:: ../../ch_data_structures/lambda2.cpp
 
-=== “Output”
+    .. tab:: Output
 
-::
+        .. code-block:: text
 
-   ```
-   9 7 6 5 4 3 1 0
-   0 1 3 4 5 6 7 9
-   ```
+            9 7 6 5 4 3 1 0
+            0 1 3 4 5 6 7 9
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/z8fTPeW7T>`__\ { .md-button
-.target=“\_blank”}
+.. button-link:: https://godbolt.org/z/z8fTPeW7T
+    :color: primary
+    :outline:
+
+    Try example
 
 Functions with functions as arguments
 -------------------------------------
@@ -981,26 +998,25 @@ function object. The previous function can then be declared as follows:
 
 A complete example of this can be found in the following example:
 
-=== “Example”
+.. tabs::
 
-::
+    .. tab:: Example
 
-   ``` cpp
-   --8<-- "../ch_data_structures/lambda3.cpp"
-   ```
+        .. literalinclude:: ../../ch_data_structures/lambda3.cpp
 
-=== “Output”
+    .. tab:: Output
 
-::
+        .. code-block:: text
 
-   ```
-   9 7 6 5 4 3 1 0
-   0 1 3 4 5 6 7 9
-   ```
+            9 7 6 5 4 3 1 0
+            0 1 3 4 5 6 7 9
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/v419dorTh>`__\ { .md-button
-.target=“\_blank”}
+.. button-link:: https://godbolt.org/z/v419dorTh
+    :color: primary
+    :outline:
+
+    Try example
+
 
 Query functions
 ---------------
@@ -1093,34 +1109,34 @@ This will display:
 
 A complete interactive example is provided below:
 
-=== “Example”
+.. tabs::
 
-::
+    .. tab:: Example
 
-   ``` cpp
-   --8<-- "../ch_data_structures/lambda4.cpp"
-   ```
+        .. literalinclude:: ../../ch_data_structures/lambda4.cpp
 
-=== “Output”
+    .. tab:: Output
 
-::
+        .. code-block:: text
 
-   ```
-   All values of v are less than 10.
-   Some of the values are even.
-   No numbers are less than zero.
-   All values of v are less than 10. (ranges)
-   Some of the values are even. (ranges)
-   No numbers are less than zero. (ranges)
-   1 items with the value 5 in v2.
-   1 items with the value 5 in v2.
-   3 even numbers in v2.
-   3 even numbers in v2 (ranges).
-   ```
+            All values of v are less than 10.
+            Some of the values are even.
+            No numbers are less than zero.
+            All values of v are less than 10. (ranges)
+            Some of the values are even. (ranges)
+            No numbers are less than zero. (ranges)
+            1 items with the value 5 in v2.
+            1 items with the value 5 in v2.
+            3 even numbers in v2.
+            3 even numbers in v2 (ranges).
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/aE317G9o4>`__\ { .md-button
-.target=“\_blank”}
+
+.. button-link:: https://godbolt.org/z/aE317G9o4
+    :color: primary
+    :outline:
+
+    Try example
+
 
 Iterating with for_each
 -----------------------
@@ -1171,39 +1187,35 @@ vector.
    std::for_each(v.begin(), v.end(), [&sum](int n) { sum += n; });
    std::cout << "Them sum is " << sum << std::endl;
 
-!!! note
 
-::
-
+.. note:: 
    It is important to make sure that the closure includes the outside variable for the sum by reference (&).
 
 A complete interactive example is provided below:
 
-=== “Example”
+.. tabs::
 
-::
+    .. tab:: Example
 
-   ``` cpp
-   --8<-- "../ch_data_structures/lambda5.cpp"
-   ```
+        .. literalinclude:: ../../ch_data_structures/lambda5.cpp
 
-=== “Output”
+    .. tab:: Output
 
-::
+        .. code-block:: text
 
-   ```
-   6 4 7 3 9 0 1 5
-   6 4 7 3 9 0 1 5
-   7 5 8 4 10 1 2 6
-   8 6 9 5 11 2 3 7
-   Them sum is 51
-   Them sum is 51
-   8 6 9 5 11 2 3 7
-   ```
+            6 4 7 3 9 0 1 5
+            6 4 7 3 9 0 1 5
+            7 5 8 4 10 1 2 6
+            8 6 9 5 11 2 3 7
+            Them sum is 51
+            Them sum is 51
+            8 6 9 5 11 2 3 7
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/aE317G9o4>`__\ { .md-button
-.target=“\_blank”}
+.. button-link:: https://godbolt.org/z/aE317G9o4
+    :color: primary
+    :outline:
+
+    Try example
 
 Copying
 -------
@@ -1290,28 +1302,27 @@ the values of **v1** is copied and placed at the end of **v4**.
 
 A complete interactive example is provided below:
 
-=== “Example”
+.. tabs::
 
-::
+    .. tab:: Example
 
-   ``` cpp
-   --8<-- "../ch_data_structures/copy1.cpp"
-   ```
+        .. literalinclude:: ../../ch_data_structures/copy1.cpp
 
-=== “Output”
+    .. tab:: Output
 
-::
+        .. code-block:: text
 
-   ```
-   6 4 7 3 9 0 1 5
-   6 4 7 3 9 0 1 5 6 4 7 3 9 0 1 5
-   6 4 0
-   0 0 0 0 0 0 0 0 0 0 0 0 6 4 7 3 9 0 1 5
-   ```
+            6 4 7 3 9 0 1 5
+            6 4 7 3 9 0 1 5 6 4 7 3 9 0 1 5
+            6 4 0
+            0 0 0 0 0 0 0 0 0 0 0 0 6 4 7 3 9 0 1 5
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/vErYPrcvd>`__\ { .md-button
-.target=“\_blank”}
+.. button-link:: https://godbolt.org/z/vErYPrcvd
+    :color: primary
+    :outline:
+
+    Try example
+
 
 Transforming / Replacing
 ------------------------
@@ -1371,27 +1382,26 @@ container using the **std::back_inserter()** function as shown below.
 
 A complete interactive example is provided below:
 
-=== “Example”
+.. tabs::
 
-::
+    .. tab:: Example
 
-   ``` cpp
-   --8<-- "../ch_data_structures/transform1.cpp"
-   ```
+        .. literalinclude:: ../../ch_data_structures/transform1.cpp
 
-=== “Output”
+    .. tab:: Output
 
-::
+        .. code-block:: text
 
-   ```
-   36 16 49 9 81 0 1 25
-   1296 256 2401 81 6561 0 1 625
-   1296 256 2401 81 6561 0 1 625
-   ```
+            36 16 49 9 81 0 1 25
+            1296 256 2401 81 6561 0 1 625
+            1296 256 2401 81 6561 0 1 625
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/xanhdTa1P>`__\ { .md-button
-.target=“\_blank”}
+.. button-link:: https://godbolt.org/z/xanhdTa1P
+    :color: primary
+    :outline:
+
+    Try example
+
 
 Removing elements
 -----------------
@@ -1476,27 +1486,27 @@ This gives the following output:
 
 A complete interactive example is provided below:
 
-=== “Example”
+.. tabs::
 
-::
+    .. tab:: Example
 
-   ``` cpp
-   --8<-- "../ch_data_structures/remove1.cpp"
-   ```
+        .. literalinclude:: ../../ch_data_structures/remove1.cpp
 
-=== “Output”
+    .. tab:: Output
 
-::
+        .. code-block:: text
 
-   ```
-   6 4 7 3 0 1 5
-   7 3 1 5
-   3 4 5 7
-   ```
+            6 4 7 3 0 1 5
+            7 3 1 5
+            3 4 5 7
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/8Y6vbacPT>`__\ { .md-button
-.target=“\_blank”}
+
+.. button-link:: https://godbolt.org/z/8Y6vbacPT
+    :color: primary
+    :outline:
+
+    Try example
+
 
 Numeric operations
 ------------------
@@ -1556,27 +1566,26 @@ this prints
 
 A complete interactive example is provided below:
 
-=== “Example”
+.. tabs::
 
-::
+    .. tab:: Example
 
-   ``` cpp
-   --8<-- "../ch_data_structures/numeric1.cpp"
-   ```
+        .. literalinclude:: ../../ch_data_structures/numeric1.cpp
 
-=== “Output”
+    .. tab:: Output
 
-::
+        .. code-block:: text
 
-   ```
-   1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
-   sum = 210
-   prod = 2.4329e+18
-   ```
+            1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+            sum = 210
+            prod = 2.4329e+18
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/TT6T15Efa>`__\ { .md-button
-.target=“\_blank”}
+.. button-link:: https://godbolt.org/z/TT6T15Efa
+    :color: primary
+    :outline:
+
+    Try example
+
 
 Constrained algorithms
 ----------------------
@@ -1614,6 +1623,8 @@ This chapter only gives an overview of how containers and algorithms in
 C++ can be used more information on available data structures and
 algorithms can be found att cppreference.com here:
 
-`:fontawesome-solid-gears:
-cppreference.com <https://en.cppreference.com/w/>`__\ { .md-button
-.target=“\_blank”}
+.. button-link:: https://en.cppreference.com/w/
+    :color: primary
+    :outline:
+
+    cppreference.com

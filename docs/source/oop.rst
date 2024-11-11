@@ -98,9 +98,11 @@ will produce the following error
      member declared at example.cpp:4:11
        std::cout << v.m_x << "\n"; 
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/WqYYEKr5r>`__\ { .md-button
-.target=“\_blank”}
+.. button-link:: https://godbolt.org/z/WqYYEKr5r
+    :color: primary
+    :outline:
+
+    Try example
 
 which is expected behavior. By default, all attributes of a class are
 private, which means that we cannot access the **Vector** member
@@ -170,9 +172,11 @@ object **v** doesn’t need to know how the actual storage of the
 components is implemented. They could be stored in a remote database,
 but the way of assigning and retrieving the values stays the same.
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/PW5j98ave>`__\ { .md-button
-.target=“\_blank”}
+.. button-link:: https://godbolt.org/z/PW5j98ave
+    :color: primary
+    :outline:
+
+    Try example
 
 Class initialisation
 --------------------
@@ -404,10 +408,7 @@ Which gives us the length of 1:
 
    v5.length() = 1
 
-!!! note
-
-::
-
+.. note:: 
    The reason we add the **const** keyword in functions and argument lists is to indicate behavior to the compiler. The compiler can check for variable modifications and also generate more efficient code if it knows that a function will not modify the member variables of a class. 
 
 Inheritance
@@ -742,9 +743,12 @@ The output of the code will be:
    t.use_count() = 1
    ~Test() destructor called.
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/rj4Y3hhv7>`__\ { .md-button
-.target=“\_blank”}
+.. button-link:: https://godbolt.org/z/rj4Y3hhv7
+    :color: primary
+    :outline:
+
+    Try example
+
 
 Polymorphism
 ------------
@@ -790,12 +794,14 @@ called because they override the **print()** method of the **Shape**
 class. The same goes for the **area()** and **draw()** methods.
 
 .. note::
-    
    Polymorphism only works for pointers and references to objects. If we use objects directly, the methods of the base class will be called.
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/jY43hsW1b>`__\ { .md-button
-.target=“\_blank”}
+.. button-link:: https://godbolt.org/z/jY43hsW1b
+    :color: primary
+    :outline:
+
+    Try example
+
 
 Abstract classes
 ----------------
@@ -894,9 +900,12 @@ destroyed. The following code shows how to destroy the **Car** object.
    ~Wheel() destructor called.
    ~Wheel() destructor called.
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/xboGbPr1e>`__\ { .md-button
-.target=“\_blank”}
+.. button-link:: https://godbolt.org/z/xboGbPr1e
+    :color: primary
+    :outline:
+
+    Try example
+
 
 Header and source files for classes
 -----------------------------------

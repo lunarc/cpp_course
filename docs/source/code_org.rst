@@ -64,34 +64,20 @@ less code, avoids name clashes and improves compile speed.
 
 The following example shows how to use header guards and pragma once.
 
-=== “Using header guards”
+.. tabs::
 
-::
+   .. tab:: Using header guards
+      .. literalinclude:: ../../ch_functions/array_utils.h
 
-   Header file - array_utils.h
+      Source file - header_files.cpp
 
-   ``` cpp
-   --8<-- "../ch_functions/array_utils.h"
-   ```
+      .. literalinclude:: ../../ch_functions/header_files.cpp
 
-   Source file - header_files.cpp
+   .. tab:: Source file - header_files.cpp
+      .. literalinclude:: ../../ch_functions/array_utils2.h
 
-   ``` cpp
-   --8<-- "../ch_functions/header_files.cpp"
-   ```
+      Source file - header_files.cpp
 
-=== “Using pragma once”
+      .. literalinclude:: ../../ch_functions/header_files2.cpp
 
-::
 
-   Header file - array_utils2.h
-
-   ``` cpp
-   --8<-- "../ch_functions/array_utils2.h"
-   ```
-
-   Source file - header_files2.cpp
-
-   ``` cpp
-   --8<-- "../ch_functions/header_files2.cpp"
-   ```

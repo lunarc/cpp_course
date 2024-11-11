@@ -24,10 +24,8 @@ following statement in before use:
 
    using namespace std;
 
-!!! note
 
-::
-
+.. note:: 
    Adding this statement is not recommended for larger projects, as it can bring in unnecessary namespaces in the code. This is especially important in header files.
 
 Reading and writing to the console
@@ -237,9 +235,12 @@ The complete example is shown below:
 There are a lot more manipulators available in the **iomanip** header.
 For more information please see:
 
-`:fontawesome-solid-gears: iomanip att
-cppreference.com <https://en.cppreference.com/w/cpp/header/iomanip>`__\ {
-.md-button .target=“\_blank”}
+.. button-link:: https://en.cppreference.com/w/cpp/header/iomanip
+    :color: primary
+    :outline:
+
+    cppreference.com
+
 
 Reading and writing to files (streams)
 --------------------------------------
@@ -294,22 +295,18 @@ the **.close()** method of the ofstream instance.
 
 The complete example is shown below:
 
-=== “Code”
+.. tabs::
 
-::
+   .. tab:: Code
 
-   ``` cpp
-   --8<-- "../ch_input_output/files1.cpp"
-   ```
+         .. literalinclude:: ../../ch_input_output/files1.cpp
 
-=== “Output (myfile.txt)”
+   .. tab:: Output (myfile.txt)
 
-::
+      .. code-block::
 
-   ```
-   Hello file!
-   Second line
-   ```
+         Hello file!
+         Second line
 
 Appending to a file
 ~~~~~~~~~~~~~~~~~~~
@@ -491,33 +488,32 @@ Output from the application will then be:
 
 The complete example can be found here:
 
-=== “Code”
+.. tabs::
 
-::
+   .. tab:: Code
 
-   ``` cpp
-   --8<-- "../ch_input_output/files3.cpp"
-   ```
+      .. literalinclude:: ../../ch_input_output/files3.cpp
 
-=== “Output (myfile.txt)”
+   .. tab:: Output (myfile.txt)
 
-::
+      .. code-block::
 
-   ```
-   x = 0, y = 0
-   x = 0.1, y = 0.0998334
-   x = 0.2, y = 0.198669
-   x = 0.3, y = 0.29552
-   x = 0.4, y = 0.389418
-   x = 0.5, y = 0.479426
-   x = 0.6, y = 0.564642
-   x = 0.7, y = 0.644218
-   x = 0.7, y = 0.644218
-   ```
+         x = 0, y = 0
+         x = 0.1, y = 0.0998334
+         x = 0.2, y = 0.198669
+         x = 0.3, y = 0.29552
+         x = 0.4, y = 0.389418
+         x = 0.5, y = 0.479426
+         x = 0.6, y = 0.564642
+         x = 0.7, y = 0.644218
+         x = 0.7, y = 0.644218
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/xj4j5PvMY>`__\ { .md-button
-.target=“\_blank”}
+.. button-link:: https://godbolt.org/z/xj4j5PvMY
+    :color: primary
+    :outline:
+
+    Try example
+
 
 Reading text files
 ------------------
