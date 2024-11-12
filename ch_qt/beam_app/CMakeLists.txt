@@ -32,7 +32,7 @@ if (LINUX)
 
     target_link_libraries(beam_app PRIVATE Qt5::Widgets Qt5::Core Qt5::Gui)
 else()
-    find_package(Qt6 REQUIRED COMPONENTS)
+    find_package(Qt6 COMPONENTS Widgets REQUIRED)
 
     qt_standard_project_setup()
 
@@ -55,7 +55,7 @@ else()
     mainwindow.h
     main.cpp 
     )
-    target_link_libraries(beam_app PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui Qt6::Qml Qt6::Quick Qt6::Charts)
+    target_link_libraries(beam_app PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui)
 
     set_target_properties(beam_app PROPERTIES
         WIN32_EXECUTABLE ON
