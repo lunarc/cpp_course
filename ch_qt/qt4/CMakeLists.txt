@@ -7,7 +7,7 @@ set(CMAKE_AUTOUIC ON)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-if (UNIX)
+if (LINUX)
     find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
     add_executable(qt4

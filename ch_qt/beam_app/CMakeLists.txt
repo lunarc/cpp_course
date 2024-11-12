@@ -7,11 +7,15 @@ set(CMAKE_AUTOUIC ON)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-if (UNIX)
+if (LINUX)
     find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
     add_executable(beam_app
     beam_app_resource.qrc
+    logger.h
+    logger.cpp
+    output_redirector.h
+    output_redirector.cpp
     calfem.h
     calfem.cpp
     beam_model.h
@@ -26,7 +30,7 @@ if (UNIX)
     main.cpp
     )
 
-    target_link_libraries(beam_app PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui Qt6::Qml Qt6::Quick Qt6::Charts)
+    target_link_libraries(beam_app PRIVATE Qt5::Widgets Qt5::Core Qt5::Gui)
 else()
     find_package(Qt6 REQUIRED COMPONENTS)
 

@@ -13,25 +13,27 @@ cmake_preset_template = '''{
 # c:/vcpkg/scripts/buildsystems/vcpkg.cmake
 
 def setup_cmake_preset():
-    print("\n--- Checking for toolchain file...\n")
+    if platform.system() == 'Windows':
+        
+        if not os.path.exists('CMakePresets.json'):
 
-    if not os.path.exists('CMakePresets.json'):
+            print("\n--- Setting up toolchain file...\n")
 
-        new_toolchain_file = None
+            new_toolchain_file = None
 
-        while os.path.exists(new_toolchain_file) == False:
+            while os.path.exists(new_toolchain_file) == False:
 
-            new_toolchain_file = input('Enter the path to the toolchain file (default: c:/vcpkg/scripts/buildsystems/vcpkg.cmake): ') or 'c:/vcpkg/scripts/buildsystems/vcpkg.cmake'
+                new_toolchain_file = input('Enter the path to the toolchain file (default: c:/vcpkg/scripts/buildsystems/vcpkg.cmake): ') or 'c:/vcpkg/scripts/buildsystems/vcpkg.cmake'
 
-            if not os.path.exists(new_toolchain_file):
-                print(f'Error: Toolchain file not found at {new_toolchain_file}')
-                return
+                if not os.path.exists(new_toolchain_file):
+                    print(f'Error: Toolchain file not found at {new_toolchain_file}')
+                    return
 
-        with open('CMakePresets.json', 'w') as f:
-            f.write(cmake_preset_template % (new_toolchain_file))
+            with open('CMakePresets.json', 'w') as f:
+                f.write(cmake_preset_template % (new_toolchain_file))
 
-    else:
-        print('CMakePresets.json already exists. Skipping...\n')
+        else:
+            print('CMakePresets.json already exists. Skipping...')
 
 
 class CMakeRunner:
@@ -40,6 +42,7 @@ class CMakeRunner:
         self.debug_dir = 'build-debug'
         self.release_dir = 'build-release'
         self.preset = 'default'
+        self.jobs = 4
 
     def clean(self):
         print("\n--- Cleaning build directories...\n")
@@ -56,6 +59,7 @@ class CMakeRunner:
         self.build_type = build_type
         self.preset = preset
 
+        os.environ['CMAKE_BUILD_PARALLEL_LEVEL'] = str(self.jobs)
         if platform.system() == 'Windows':
             os.system(f'cmake -S . -B {self.build_dir} -DCMAKE_BUILD_TYPE={self.build_type} --preset={self.preset}')
         else:
@@ -80,9 +84,11 @@ def main():
     parser.add_argument('--build', action='store_true', help='Build project')
     parser.add_argument('--build-type', choices=['Debug', 'Release'], default='Debug', help='Build type')
     parser.add_argument('--preset', default='default', help='CMake preset')
+    parser.add_argument('--jobs', type=int, default=4, help='Number of jobs to run in parallel')
     args = parser.parse_args()
 
     cmake = CMakeRunner()
+    cmake.jobs = args.jobs
 
     if args.clean:
         cmake.clean()

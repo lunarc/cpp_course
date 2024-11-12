@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.20)
 
 project(cpp_course C CXX) 
 
-option(BUILD_QT_EXAMPLES "Build Qt examples" OFF)
+option(BUILD_QT_EXAMPLES "Build Qt examples" ON)
 option(BUILD_VTK_EXAMPLES "Build VTK examples" OFF)
 option(BUILD_EIGEN_EXAMPLES "Build Eigen examples" ON)
 option(BUILD_MIXED_LANG_EXAMPLES "Build mixed language examples" OFF)
@@ -25,7 +25,11 @@ if (BUILD_EIGEN_EXAMPLES)
 endif()
 
 if (BUILD_QT_EXAMPLES)
-  find_package(Qt6 CONFIG REQUIRED)
+  if (LINUX)
+    find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
+  else()
+    find_package(Qt6 CONFIG REQUIRED)
+  endif()
 endif()
 
 #find_package(VTK REQUIRED)

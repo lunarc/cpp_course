@@ -7,7 +7,7 @@ set(CMAKE_AUTOUIC ON)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-if (UNIX)
+if (LINUX)
     find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
     add_executable(qt2
@@ -16,7 +16,7 @@ if (UNIX)
         main.cpp
     )
 
-    target_link_libraries(qt1 PRIVATE Qt5::Widgets)
+    target_link_libraries(qt2 PRIVATE Qt5::Widgets)
 else()
     find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui)
 
