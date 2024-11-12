@@ -5,6 +5,11 @@ cmake_minimum_required(VERSION 3.20)
 
 project(cpp_course C CXX) 
 
+option(BUILD_QT_EXAMPLES "Build Qt examples" OFF)
+option(BUILD_VTK_EXAMPLES "Build VTK examples" OFF)
+option(BUILD_EIGEN_EXAMPLES "Build Eigen examples" ON)
+option(BUILD_MIXED_LANG_EXAMPLES "Build mixed language examples" OFF)
+
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin )
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
@@ -15,21 +20,35 @@ IF(MSVC)
   SET_PROPERTY(GLOBAL PROPERTY USE_FOLDERS ON)
 ENDIF()
 
-find_package(Eigen3 CONFIG REQUIRED)
-find_package(Qt6 CONFIG REQUIRED)
+if (BUILD_EIGEN_EXAMPLES)
+  find_package(Eigen3 CONFIG REQUIRED)
+endif()
+
+if (BUILD_QT_EXAMPLES)
+  find_package(Qt6 CONFIG REQUIRED)
+endif()
 
 #find_package(VTK REQUIRED)
 #include("${VTK_USE_FILE}")
 
+if (BUILD_VTK_EXAMPLES)
+  find_package(VTK REQUIRED)
+  include("${VTK_USE_FILE}")
+  add_subdirectory(ch_vtk)
+endif()
 
-#add_subdirectory(ch_vtk)
 add_subdirectory(ch_arrays)
 add_subdirectory(ch_arrays_modern)
 add_subdirectory(ch_control_structures)
+
 #add_subdirectory(ch_cpp_fortran)
 add_subdirectory(ch_data_structures)
 add_subdirectory(ch_modern)
-add_subdirectory(ch_qt)
+
+if (BUILD_QT_EXAMPLES)
+  add_subdirectory(ch_qt)
+endif()
+
 add_subdirectory(ch_functions)
 add_subdirectory(ch_input_output)
 add_subdirectory(ch_iterating)
