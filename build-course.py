@@ -61,7 +61,7 @@ class CMakeRunner:
 
         os.environ['CMAKE_BUILD_PARALLEL_LEVEL'] = str(self.jobs)
         if platform.system() == 'Windows':
-            os.system(f'cmake -S . -B {self.build_dir} -DCMAKE_BUILD_TYPE={self.build_type} --preset={self.preset}')
+            os.system(f'cmake -S . -B {self.build_dir} -DCMAKE_BUILD_TYPE={self.build_type} -G"Visual Studio 17 2022" --preset={self.preset}')
         else:
             os.system(f'cmake -S . -B {self.build_dir} -DCMAKE_BUILD_TYPE={self.build_type}')
 
