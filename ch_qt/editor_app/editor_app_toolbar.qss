@@ -1,0 +1,61 @@
+QToolBar {
+    background-color: #f3f3f3;
+    border: none;
+    spacing: 3px;
+    padding: 3px;
+}
+
+QToolBar::separator {
+    width: 1px;
+    background-color: #e0e0e0;
+    margin: 6px 4px;
+}
+
+QToolButton {
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 4px 8px;
+    color: #202020;
+    font-size: 13px;
+}
+
+QToolButton:hover {
+    background-color: #e9e9e9;
+    border: 1px solid #e0e0e0;
+}
+
+QToolButton:pressed {
+    background-color: #d0d0d0;
+    border: 1px solid #c0c0c0;
+}
+
+QToolButton::menu-indicator {
+    image: none;
+}
+
+QToolButton:checked {
+    background-color: #e0e0e0;
+    border: 1px solid #d0d0d0;
+}
+
+QToolButton[popupMode="1"] {
+    padding-right: 20px;
+}
+
+QToolButton::menu-button {
+    border: none;
+    width: 16px;
+}
+
+QToolButton::menu-button:hover {
+    background-color: #e0e0e0;
+    border-radius: 2px;
+}
+
+
+// styles.qss
+
+/*
+
+*/

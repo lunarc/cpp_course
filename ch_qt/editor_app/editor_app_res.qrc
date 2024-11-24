@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/styles">
+        <file>editor_app_toolbar.qss</file>
+        <file>editor_app_menus.qss</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>icons/ClipboardPaste.svg</file>
+        <file>icons/Copy.svg</file>
+        <file>icons/Cut.svg</file>
+        <file>icons/DocumentAdd.svg</file>
+        <file>icons/FolderOpen.svg</file>
+        <file>icons/FullScreenMaximize.svg</file>
+        <file>icons/FullScreenMinimize.svg</file>
+        <file>icons/Save.svg</file>
+        <file>icons/Settings.svg</file>
+        <file>icons/TextWrap.svg</file>
+        <file>icons/ZoomIn.svg</file>
+        <file>icons/ZoomOut.svg</file>
+        <file>icons/ArrowRedo.svg</file>
+        <file>icons/ArrowUndo.svg</file>
+    </qresource>
+</RCC>

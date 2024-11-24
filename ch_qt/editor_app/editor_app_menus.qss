@@ -1,0 +1,56 @@
+QMenuBar {
+    background-color: #f3f3f3;
+    font-size: 13px;
+    min-height: 28px;
+}
+
+QMenuBar::item {
+    padding: 6px 10px;
+    background: transparent;
+    font-size: 13px;
+}
+
+QMenuBar::item:selected {
+    background-color: #e9e9e9;
+    border-radius: 3px;
+}
+
+QMenu {
+    background-color: rgba(255, 255, 255, 1.0);
+    border: 1px solid #d9d9d9;
+    padding: 2px;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+QMenu::item {
+    padding: 4px;
+    border-radius: 4px;
+    margin: 2px 2px 2px 4px;
+    min-height: 0px;
+    min-width: 150px;
+    font-size: 13px;
+    /*background-color: rgba(255, 0, 0, 0.98);*/
+
+}
+
+QMenu::item:selected {
+    background-color: #e9e9e9;
+}
+
+QMenu::icon {
+    min-width: 20px;
+    min-height: 20px;
+}
+
+QMenu::separator {
+    height: 1px;
+    background: #d0d0d0;
+    margin: 4px;
+}
+
+
+
+
+
+

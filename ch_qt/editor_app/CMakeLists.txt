@@ -23,6 +23,8 @@ else()
     qt_standard_project_setup()
 
     add_executable(editor_app
+        editor_app_res.qrc
+        mainwindow.h
         mainwindow.cpp
         main.cpp
     )
