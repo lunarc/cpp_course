@@ -62,3 +62,4 @@ build/*
 
 /vcpkg_installed
 /docs/build
+/.vscode
