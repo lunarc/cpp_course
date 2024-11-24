@@ -6,7 +6,7 @@ This book comes with an extensive set of examples that demonstrate how to use C+
 In the following sections shows how to build the examples using a special helper script called ``cpp-build``. This script is located in the root directory of the book's repository. The script builds all the examples in the book and places the executables in the ``bin`` directory and the build files in the ``build-debug`` and ``build-release`` directories.
 
 Checking out the example code
-------------------------------
+-----------------------------
 
 To check out the example code, clone the book's repository from GitHub:
 
