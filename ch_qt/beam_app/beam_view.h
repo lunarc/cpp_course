@@ -52,22 +52,26 @@ private:
     double to_x(double x);
     double to_y(double x);
 
-    void drawLineWithArrow(QPainter &painter, int x0, int y0, int x1, int y1);
+    void drawLineWithArrow(QPainter& painter, int x0, int y0, int x1, int y1);
 
-    void drawBeams(QPainter &painter);
-    void drawSupports(QPainter &painter);
-    void drawLoads(QPainter &painter);
-    void drawDimensions(QPainter &painter);
-    void drawDeflections(QPainter &painter);
-    void drawM(QPainter &painter);
-    void drawV(QPainter &painter);
+    void drawBeams(QPainter& painter);
+    void drawSupports(QPainter& painter);
+    void drawLoads(QPainter& painter);
+    void drawDimensions(QPainter& painter);
+    void drawDeflections(QPainter& painter);
+    void drawM(QPainter& painter);
+    void drawV(QPainter& painter);
+
+    bool isDarkModePalette();
 
 public:
-    explicit BeamView(QWidget *parent = nullptr);
+    explicit BeamView(QWidget* parent = nullptr);
 
     void setBeamModel(BeamModelPtr model);
 
     int selectedBeam();
+
+    void updateDarkModeColors();
 
     void showMoments(bool flag);
     void showShear(bool flag);
@@ -80,9 +84,9 @@ public:
     bool showDeflections();
 
 protected:
-    void paintEvent(QPaintEvent *event) override;
-    void mouseMoveEvent(QMouseEvent *event) override;
-    void mousePressEvent(QMouseEvent *event) override;
+    void paintEvent(QPaintEvent* event) override;
+    void mouseMoveEvent(QMouseEvent* event) override;
+    void mousePressEvent(QMouseEvent* event) override;
 
 signals:
     void beamSelected(int idx);

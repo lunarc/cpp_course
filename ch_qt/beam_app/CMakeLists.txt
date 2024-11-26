@@ -38,6 +38,10 @@ else()
 
     qt_add_executable(beam_app
     beam_app_resource.qrc
+    beam_app_toolbar.qss
+    beam_app_menus.qss
+    custom_title_bar.h
+    custom_title_bar.cpp
     calfem.h
     calfem.cpp
     beam_model.h

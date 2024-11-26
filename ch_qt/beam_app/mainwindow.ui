@@ -14,15 +14,18 @@
    <string>Beam calculator</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_2">
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <property name="spacing">
+     <number>0</number>
+    </property>
     <property name="leftMargin">
-     <number>4</number>
+     <number>0</number>
     </property>
     <property name="topMargin">
-     <number>1</number>
+     <number>0</number>
     </property>
     <property name="rightMargin">
-     <number>4</number>
+     <number>0</number>
     </property>
     <property name="bottomMargin">
      <number>0</number>
@@ -72,8 +75,62 @@
      <x>0</x>
      <y>0</y>
      <width>1209</width>
-     <height>21</height>
+     <height>40</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QMenuBar {
+    /*background-color: #f3f3f3;*/
+    font-size: 13px;
+    min-height: 28px;
+}
+
+QMenuBar::item {
+    padding: 6px 10px;
+    background: transparent;
+    font-size: 13px;
+}
+
+QMenuBar::item:selected {
+    /*background-color: #e9e9e9;*/
+    border-radius: 3px;
+}
+
+QMenu {
+}
+
+QMenu::item {
+    padding: 4px;
+    border-radius: 4px;
+    margin: 4px;
+    /*min-height: 0px;*/
+    /*min-width: 150px;*/
+    font-size: 13px;
+    /*background-color: rgba(255, 0, 0, 0.98);*/
+
+}
+
+QMenu::item:selected {
+    /*background-color: #e9e9e9;*/
+}
+
+QMenu::icon {
+    min-width: 20px;
+    min-height: 20px;
+}
+
+QMenu::separator {
+    height: 1px;
+   /* background: #d0d0d0;*/
+    margin: 4px;
+}
+
+
+
+
+
+
+</string>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
@@ -103,19 +160,72 @@
    </property>
    <property name="styleSheet">
     <string notr="true">QToolBar {
-    border-width: 1px;
-    border-bottom-style: solid;
-	border-top-style: solid;
-    border-color: rgb(226, 226, 226);
-}</string>
+    /*background-color: #f3f3f3;*/
+    border: none;
+    spacing: 3px;
+    padding: 3px;
+}
+
+QToolBar::separator {
+    width: 1px;
+    /*background-color: #e0e0e0;*/
+    margin: 6px 4px;
+}
+
+QToolButton {
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 4px 8px;
+    /*color: #202020;*/
+    font-size: 13px;
+}
+
+QToolButton:hover {
+    /*background-color: #e9e9e9;*/
+    border: 1px solid #e0e0e0;
+}
+
+QToolButton:pressed {
+    /*background-color: #d0d0d0;*/
+    border: 1px solid #c0c0c0;
+}
+
+QToolButton::menu-indicator {
+    image: none;
+}
+
+QToolButton:checked {
+/*
+    background-color: #e0e0e0;
+    border: 1px solid #d0d0d0;
+*/
+}
+
+QToolButton[popupMode=&quot;1&quot;] {
+    padding-right: 20px;
+}
+
+QToolButton::menu-button {
+    border: none;
+    width: 16px;
+}
+
+QToolButton::menu-button:hover {
+/*
+    background-color: #e0e0e0;
+*/
+    border-radius: 2px;
+}
+</string>
    </property>
    <property name="movable">
     <bool>false</bool>
    </property>
    <property name="iconSize">
     <size>
-     <width>32</width>
-     <height>32</height>
+     <width>22</width>
+     <height>22</height>
     </size>
    </property>
    <property name="toolButtonStyle">
@@ -144,11 +254,64 @@
    </property>
    <property name="styleSheet">
     <string notr="true">QToolBar {
-    border-width: 1px;
-    border-bottom-style: solid;
-	border-top-style: solid;
-    border-color: rgb(226, 226, 226);
-}</string>
+    /*background-color: #f3f3f3;*/
+    border: none;
+    spacing: 3px;
+    padding: 3px;
+}
+
+QToolBar::separator {
+    width: 1px;
+    /*background-color: #e0e0e0;*/
+    margin: 6px 4px;
+}
+
+QToolButton {
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 4px 8px;
+    /*color: #202020;*/
+    font-size: 13px;
+}
+
+QToolButton:hover {
+    /*background-color: #e9e9e9;*/
+    border: 1px solid #e0e0e0;
+}
+
+QToolButton:pressed {
+    /*background-color: #d0d0d0;*/
+    border: 1px solid #c0c0c0;
+}
+
+QToolButton::menu-indicator {
+    image: none;
+}
+
+QToolButton:checked {
+/*
+    background-color: #e0e0e0;
+    border: 1px solid #d0d0d0;
+*/
+}
+
+QToolButton[popupMode=&quot;1&quot;] {
+    padding-right: 20px;
+}
+
+QToolButton::menu-button {
+    border: none;
+    width: 16px;
+}
+
+QToolButton::menu-button:hover {
+/*
+    background-color: #e0e0e0;
+*/
+    border-radius: 2px;
+}
+</string>
    </property>
    <property name="iconSize">
     <size>
@@ -533,8 +696,7 @@
   </widget>
   <action name="addSectionAction">
    <property name="icon">
-    <iconset resource="beam_app_resource.qrc">
-     <normaloff>:/images/icons8-add-100.png</normaloff>:/images/icons8-add-100.png</iconset>
+    <iconset theme="QIcon::ThemeIcon::ListAdd"/>
    </property>
    <property name="text">
     <string>Add</string>
@@ -545,8 +707,7 @@
   </action>
   <action name="removeSectionAction">
    <property name="icon">
-    <iconset resource="beam_app_resource.qrc">
-     <normaloff>:/images/icons8-minus-100.png</normaloff>:/images/icons8-minus-100.png</iconset>
+    <iconset theme="QIcon::ThemeIcon::ListRemove"/>
    </property>
    <property name="text">
     <string>Remove</string>
@@ -557,8 +718,7 @@
   </action>
   <action name="actionNew">
    <property name="icon">
-    <iconset resource="beam_app_resource.qrc">
-     <normaloff>:/images/icons8-add-file-100.png</normaloff>:/images/icons8-add-file-100.png</iconset>
+    <iconset theme="QIcon::ThemeIcon::DocumentNew"/>
    </property>
    <property name="text">
     <string>New</string>
@@ -566,8 +726,7 @@
   </action>
   <action name="actionOpen">
    <property name="icon">
-    <iconset resource="beam_app_resource.qrc">
-     <normaloff>:/images/icons8-opened-folder-100.png</normaloff>:/images/icons8-opened-folder-100.png</iconset>
+    <iconset theme="QIcon::ThemeIcon::DocumentOpen"/>
    </property>
    <property name="text">
     <string>Open...</string>
@@ -575,8 +734,7 @@
   </action>
   <action name="actionSave">
    <property name="icon">
-    <iconset resource="beam_app_resource.qrc">
-     <normaloff>:/images/icons8-save-100.png</normaloff>:/images/icons8-save-100.png</iconset>
+    <iconset theme="QIcon::ThemeIcon::DocumentSave"/>
    </property>
    <property name="text">
     <string>Save</string>
@@ -584,14 +742,16 @@
   </action>
   <action name="actionSave_as">
    <property name="icon">
-    <iconset resource="beam_app_resource.qrc">
-     <normaloff>:/images/icons8-save-as-100.png</normaloff>:/images/icons8-save-as-100.png</iconset>
+    <iconset theme="QIcon::ThemeIcon::DocumentSaveAs"/>
    </property>
    <property name="text">
     <string>Save as...</string>
    </property>
   </action>
   <action name="actionExit">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::ApplicationExit"/>
+   </property>
    <property name="text">
     <string>Exit</string>
    </property>

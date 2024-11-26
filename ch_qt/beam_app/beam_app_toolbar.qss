@@ -1,5 +1,5 @@
 QToolBar {
-    background-color: #f3f3f3;
+    background-color: #f3f300;
     border: none;
     spacing: 3px;
     padding: 3px;

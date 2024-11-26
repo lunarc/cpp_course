@@ -1,8 +1,11 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "custom_title_bar.h"
+
 #include <iostream>
 
+#include <QFile>
 #include <QMessageBox>
 
 MainWindow::MainWindow(QWidget* parent)
@@ -11,10 +14,23 @@ MainWindow::MainWindow(QWidget* parent)
     , m_outputRedirector { nullptr }
     , m_logger { Logger::getInstance() }
 {
+    // setWindowFlags(Qt::FramelessWindowHint);
+    /*
+    QFile toolbarStyleFile(":/styles/editor_app_toolbar.qss");
+    toolbarStyleFile.open(QFile::ReadOnly);
+    QString toolbarStyleSheet = QLatin1String(toolbarStyleFile.readAll());
+    setStyleSheet(toolbarStyleSheet);
+
+    QFile menuStyleFile(":/styles/editor_app_menus.qss");
+    menuStyleFile.open(QFile::ReadOnly);
+    QString menuStyleSheet = QLatin1String(menuStyleFile.readAll());
+    */
+
     ui = std::make_unique<Ui::MainWindow>();
     ui->setupUi(this);
 
     m_beamModel = BeamAnalysis::BeamModel::create(3);
+
     m_beamModel->connect();
     m_beamModel->solve();
 

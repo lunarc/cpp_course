@@ -2,6 +2,7 @@
 
 #include <QAction>
 #include <QApplication>
+#include <QFile>
 #include <QFileDialog>
 #include <QLabel>
 #include <QMenuBar>
@@ -9,6 +10,7 @@
 #include <QPushButton>
 #include <QStatusBar>
 #include <QStyle>
+#include <QStyleFactory>
 #include <QTextEdit>
 #include <QToolbar>
 #include <QVBoxLayout>
@@ -21,6 +23,7 @@ MainWindow::MainWindow(QWidget* parent)
     , m_wordWrapLabel(nullptr)
     , m_zoomLabel(nullptr)
 {
+
     // Set the window title
 
     setWindowTitle("Text editor");
@@ -65,6 +68,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     auto fileMenu = this->menuBar()->addMenu(tr("File"));
     fileMenu->setStyleSheet(menuStyleSheet);
+    //  fileMenu->setStyle(QStyleFactory::create("Fusion"));
 
     auto newAction = new QAction(QIcon(":/icons/DocumentAdd.svg"), tr("New"), this);
     newAction->setShortcut(QKeySequence::New);

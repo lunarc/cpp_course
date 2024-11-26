@@ -1,19 +1,31 @@
 #include "beam_view.h"
 #include "qevent.h"
 
+#include <QApplication>
 #include <QPainter>
 
 #include <cmath>
 
 using namespace BeamAnalysis;
 
-BeamView::BeamView(QWidget *parent)
-    : QWidget{parent}, m_margins{0.2}, m_scaleFactor{1.0}, m_loadScaleFactor{1.0}, m_selectedBeam{-1}, m_overBeam{-1},
-      m_prevOverBeam{-1}, m_showLoads{true}, m_showMoments{true}, m_showShear{true}, m_showDeflections{true}
+BeamView::BeamView(QWidget* parent)
+    : QWidget { parent }
+    , m_margins { 0.2 }
+    , m_scaleFactor { 1.0 }
+    , m_loadScaleFactor { 1.0 }
+    , m_selectedBeam { -1 }
+    , m_overBeam { -1 }
+    , m_prevOverBeam { -1 }
+    , m_showLoads { true }
+    , m_showMoments { true }
+    , m_showShear { true }
+    , m_showDeflections { true }
 {
     m_pen.setColor(Qt::black);
     m_pen.setWidth(1);
+
     m_brush.setColor(Qt::white);
+
     m_brush.setStyle(Qt::SolidPattern);
 
     m_momentPen.setColor(Qt::darkRed);
@@ -43,6 +55,19 @@ void BeamView::setBeamModel(BeamModelPtr model)
 int BeamView::selectedBeam()
 {
     return m_selectedBeam;
+}
+
+void BeamAnalysis::BeamView::updateDarkModeColors()
+{
+    if (isDarkModePalette())
+        m_brush.setColor(Qt::black);
+    else
+        m_brush.setColor(Qt::white);
+
+    if (isDarkModePalette())
+        m_pen.setColor(Qt::white);
+    else
+        m_pen.setColor(Qt::black);
 }
 
 void BeamView::showMoments(bool flag)
@@ -85,9 +110,12 @@ bool BeamView::showDeflections()
     return m_showDeflections;
 }
 
-void BeamView::paintEvent(QPaintEvent *event)
+void BeamView::paintEvent(QPaintEvent* event)
 {
     QPainter painter(this);
+
+    updateDarkModeColors();
+
     painter.setRenderHint(QPainter::Antialiasing, true);
 
     painter.setPen(Qt::NoPen);
@@ -128,7 +156,7 @@ void BeamView::paintEvent(QPaintEvent *event)
     drawBeams(painter);
 }
 
-void BeamView::mouseMoveEvent(QMouseEvent *event)
+void BeamView::mouseMoveEvent(QMouseEvent* event)
 {
     m_overBeam = m_beamModel->beam_pos_from_x(to_x(event->pos().x()) + m_beamModel->length() / 2.0);
     if (m_prevOverBeam != m_overBeam)
@@ -136,7 +164,7 @@ void BeamView::mouseMoveEvent(QMouseEvent *event)
     m_prevOverBeam = m_overBeam;
 }
 
-void BeamView::mousePressEvent(QMouseEvent *event)
+void BeamView::mousePressEvent(QMouseEvent* event)
 {
     auto pressed_beam = m_beamModel->beam_pos_from_x(to_x(event->pos().x()) + m_beamModel->length() / 2.0);
     if (pressed_beam != -1)
@@ -167,7 +195,7 @@ double BeamView::to_y(double x)
     return (x - this->height() / 2) / m_scaleFactor;
 }
 
-void BeamView::drawLineWithArrow(QPainter &painter, int x0, int y0, int x1, int y1)
+void BeamView::drawLineWithArrow(QPainter& painter, int x0, int y0, int x1, int y1)
 {
     qreal arrowSize = 10; // size of head
 
@@ -175,8 +203,7 @@ void BeamView::drawLineWithArrow(QPainter &painter, int x0, int y0, int x1, int 
 
     double angle = std::atan2(-line.dy(), line.dx());
     QPointF arrowP1 = line.p1() + QPointF(sin(angle + M_PI / 3) * arrowSize, cos(angle + M_PI / 3) * arrowSize);
-    QPointF arrowP2 =
-        line.p1() + QPointF(sin(angle + M_PI - M_PI / 3) * arrowSize, cos(angle + M_PI - M_PI / 3) * arrowSize);
+    QPointF arrowP2 = line.p1() + QPointF(sin(angle + M_PI - M_PI / 3) * arrowSize, cos(angle + M_PI - M_PI / 3) * arrowSize);
 
     QPolygonF arrowHead;
     arrowHead.clear();
@@ -185,14 +212,14 @@ void BeamView::drawLineWithArrow(QPainter &painter, int x0, int y0, int x1, int 
     painter.drawPolygon(arrowHead);
 }
 
-void BeamView::drawBeams(QPainter &painter)
+void BeamView::drawBeams(QPainter& painter)
 {
     auto x = -m_beamModel->length() / 2.0;
     auto y = 0.0;
 
     auto i = 0;
 
-    for (auto &beam : m_beamModel->beams())
+    for (auto& beam : m_beamModel->beams())
     {
         if (m_selectedBeam == i)
             painter.setPen(m_selectedBeamPen);
@@ -208,12 +235,12 @@ void BeamView::drawBeams(QPainter &painter)
     }
 }
 
-void BeamView::drawSupports(QPainter &painter)
+void BeamView::drawSupports(QPainter& painter)
 {
     auto x = -m_beamModel->length() / 2.0;
     auto y = 0.0;
 
-    for (auto &beam : m_beamModel->beams())
+    for (auto& beam : m_beamModel->beams())
     {
         auto sx = to_sx(x);
         auto sy = to_sy(y);
@@ -230,42 +257,42 @@ void BeamView::drawSupports(QPainter &painter)
     painter.drawLine(sx - 10, sy + 10, sx + 10, sy + 10);
 }
 
-void BeamView::drawLoads(QPainter &painter)
+void BeamView::drawLoads(QPainter& painter)
 {
     auto x = -m_beamModel->length() / 2.0;
     auto y = 0.0;
 
-    for (auto &beam : m_beamModel->beams())
+    for (auto& beam : m_beamModel->beams())
     {
         auto sx = to_sx(x);
         auto sy = to_sy(y);
 
         painter.drawRect(sx, sy - 50 - std::abs(beam->q()) * m_loadScaleFactor, beam->l() * m_scaleFactor,
-                         std::abs(beam->q()) * m_loadScaleFactor);
+            std::abs(beam->q()) * m_loadScaleFactor);
 
         if (beam->q() > 0)
             this->drawLineWithArrow(painter, to_sx(x + beam->l() / 2.0), sy - 50, to_sx(x + beam->l() / 2.0),
-                                    sy - 50 - std::abs(beam->q()) * m_loadScaleFactor);
+                sy - 50 - std::abs(beam->q()) * m_loadScaleFactor);
         else
             this->drawLineWithArrow(painter, to_sx(x + beam->l() / 2.0),
-                                    sy - 50 - std::abs(beam->q()) * m_loadScaleFactor, to_sx(x + beam->l() / 2.0),
-                                    sy - 50);
+                sy - 50 - std::abs(beam->q()) * m_loadScaleFactor, to_sx(x + beam->l() / 2.0),
+                sy - 50);
 
         x += beam->l();
     }
     // painter.drawEllipse(sx - 5, sy, 10, 10);
 }
 
-void BeamView::drawDimensions(QPainter &painter)
+void BeamView::drawDimensions(QPainter& painter)
 {
 }
 
-void BeamView::drawDeflections(QPainter &painter)
+void BeamView::drawDeflections(QPainter& painter)
 {
     auto x = -m_beamModel->length() / 2.0;
     auto y = 0.0;
 
-    for (auto &beam : m_beamModel->beams())
+    for (auto& beam : m_beamModel->beams())
     {
         QPolygonF pl;
         pl.clear();
@@ -284,12 +311,12 @@ void BeamView::drawDeflections(QPainter &painter)
     }
 }
 
-void BeamView::drawM(QPainter &painter)
+void BeamView::drawM(QPainter& painter)
 {
     auto x = -m_beamModel->length() / 2.0;
     auto y = 0.0;
 
-    for (auto &beam : m_beamModel->beams())
+    for (auto& beam : m_beamModel->beams())
     {
         QPolygonF pl;
         pl.clear();
@@ -318,12 +345,12 @@ void BeamView::drawM(QPainter &painter)
     }
 }
 
-void BeamView::drawV(QPainter &painter)
+void BeamView::drawV(QPainter& painter)
 {
     auto x = -m_beamModel->length() / 2.0;
     auto y = 0.0;
 
-    for (auto &beam : m_beamModel->beams())
+    for (auto& beam : m_beamModel->beams())
     {
         QPolygonF pl;
         pl.clear();
@@ -351,4 +378,16 @@ void BeamView::drawV(QPainter &painter)
 
         x += beam->l();
     }
+}
+
+bool BeamAnalysis::BeamView::isDarkModePalette()
+{
+    const QPalette palette = QApplication::palette();
+    const QColor windowColor = palette.color(QPalette::Window);
+
+    // Calculate relative luminance
+    // Using perceived brightness formula: (R * 0.299 + G * 0.587 + B * 0.114)
+    double luminance = (windowColor.red() * 0.299 + windowColor.green() * 0.587 + windowColor.blue() * 0.114) / 255.0;
+
+    return luminance < 0.5;
 }

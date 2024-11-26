@@ -1,20 +1,36 @@
 <RCC>
+    <qresource prefix="/styles">
+        <file>beam_app_menus.qss</file>
+        <file>beam_app_toolbar.qss</file>
+    </qresource>
     <qresource prefix="/">
-        <file>../images/icons8-add-50.png</file>
-        <file>../images/icons8-add-100.png</file>
-        <file>../images/icons8-add-file-50.png</file>
-        <file>../images/icons8-add-file-100.png</file>
-        <file>../images/icons8-file-50.png</file>
-        <file>../images/icons8-file-100.png</file>
-        <file>../images/icons8-minus-50.png</file>
-        <file>../images/icons8-minus-100.png</file>
-        <file>../images/icons8-opened-folder-50.png</file>
-        <file>../images/icons8-opened-folder-100.png</file>
-        <file>../images/icons8-open-file-under-cursor-50.png</file>
-        <file>../images/icons8-open-file-under-cursor-100.png</file>
-        <file>../images/icons8-save-50.png</file>
-        <file>../images/icons8-save-100.png</file>
-        <file>../images/icons8-save-as-50.png</file>
-        <file>../images/icons8-save-as-100.png</file>
+        <file>icons/ArrowRedo.svg</file>
+        <file>icons/ArrowUndo.svg</file>
+        <file>icons/ClipboardPaste.svg</file>
+        <file>icons/Copy.svg</file>
+        <file>icons/Cut.svg</file>
+        <file>icons/DocumentAdd.svg</file>
+        <file>icons/FolderOpen.svg</file>
+        <file>icons/FullScreenMaximize.svg</file>
+        <file>icons/FullScreenMinimize.svg</file>
+        <file>icons/icons8-add-file-50.png</file>
+        <file>icons/icons8-add-file-100.png</file>
+        <file>icons/icons8-file-50.png</file>
+        <file>icons/icons8-file-100.png</file>
+        <file>icons/icons8-minus-50.png</file>
+        <file>icons/icons8-minus-100.png</file>
+        <file>icons/icons8-opened-folder-50.png</file>
+        <file>icons/icons8-opened-folder-100.png</file>
+        <file>icons/icons8-open-file-under-cursor-50.png</file>
+        <file>icons/icons8-open-file-under-cursor-100.png</file>
+        <file>icons/icons8-save-50.png</file>
+        <file>icons/icons8-save-100.png</file>
+        <file>icons/icons8-save-as-50.png</file>
+        <file>icons/icons8-save-as-100.png</file>
+        <file>icons/Save.svg</file>
+        <file>icons/Settings.svg</file>
+        <file>icons/TextWrap.svg</file>
+        <file>icons/ZoomIn.svg</file>
+        <file>icons/ZoomOut.svg</file>
     </qresource>
 </RCC>
