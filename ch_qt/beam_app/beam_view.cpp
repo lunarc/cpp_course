@@ -120,14 +120,8 @@ void BeamView::paintEvent(QPaintEvent* event)
 
     painter.setPen(Qt::NoPen);
     painter.setBrush(m_brush);
-
     painter.drawRect(0, 0, this->width(), this->height());
-
     painter.setPen(m_pen);
-
-    // painter.drawLine(this->rect().bottomLeft(), this->rect().topRight());
-    // painter.drawLine(this->rect().topLeft(), this->rect().bottomRight());
-    // painter.drawEllipse(this->width()/2.0-20, this->height()/2.0-20, 40, 40);
 
     auto totalLength = m_beamModel->length();
 

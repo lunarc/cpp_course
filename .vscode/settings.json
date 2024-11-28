@@ -70,5 +70,6 @@
         "typeinfo": "cpp",
         "variant": "cpp"
     },
-    "esbonio.server.enabled": false
+    "esbonio.server.enabled": false,
+    "iis.configDir": ""
 }

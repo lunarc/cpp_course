@@ -1,25 +1,9 @@
 Object-oriented programming
 ===========================
 
-In procedural programming, data and subroutines are treated separately.
-Subroutines operate on provided data structures and variables. In
-object-oriented programming data and subroutines are combined into
-objects. Objects in numerical computing can be different matrix types,
-particles, vectors or solvers. The major benefits are that the actual
-data structures used in the implementation of an object can be hidden
-from the user of the object, enabling the developer of an object to
-improve the implementation without affecting users of the objects
-(encapsulation). Another important feature of object-oriented
-programming is the ability to inherit and extend the functionality of
-objects (inheritance). This enables users of objects and developers to
-extend and modify the functionality of existing objects, relying on the
-functionality of the parent object.
+In procedural programming, data and subroutines are treated separately. Subroutines operate on provided data structures and variables. In object-oriented programming data and subroutines are combined into objects. Objects in numerical computing can be different matrix types, particles, vectors or solvers. The major benefits are that the actual data structures used in the implementation of an object can be hidden from the user of the object, enabling the developer of an object to improve the implementation without affecting users of the objects (encapsulation). Another important feature of object-oriented programming is the ability to inherit and extend the functionality of objects (inheritance). This enables users of objects and developers to extend and modify the functionality of existing objects, relying on the functionality of the parent object. 
 
-The functionality and data structures of objects are defined in classes
-in most programming object-oriented languages. Classes can be seen as
-templates or blueprints for objects. When an object is to be created the
-class is used as the template to construct the new object. Created
-objects are also called instances of a class.
+The functionality and data structures of objects are defined in classes in most programming object-oriented languages. Classes can be seen as templates or blueprints for objects. When an object is to be created the class is used as the template to construct the new object. Created objects are also called instances of a class. 
 
 - Normal programs can be seen as several tasks/functions to perform.
 - An object-oriented program can be seen as several interacting objects
@@ -53,20 +37,9 @@ Key features
 Classes in C++
 --------------
 
-C++ introduces the concept of a class. A class can be seen as a
-combination of data and functions/methods into a single entity, the
-class. As a language concept, it is very close to the basic struct data
-type in C++ in which data fields can be combined into a single
-user-defined data type. The class concept extends the struct data type
-with access methods and access attributes. The idea is that class
-attributes should only be accessed using methods, to hide the underlying
-implementation.
+C++ introduces the concept of a class. A class can be seen as a combination of data and functions/methods into a single entity, the class. As a language concept, it is very close to the basic struct data type in C++ in which data fields can be combined into a single user-defined data type. The class concept extends the struct data type with access methods and access attributes. The idea is that class attributes should only be accessed using methods, to hide the underlying implementation. 
 
-An example of a class could be a vector with x and y components. We can
-add methods for translating the vector, getting and setting the vector
-components and printing the component values. The first step is to
-define the class and the attribute variables for the coordinates,
-**m_x** and **m_y**, as shown in the following code:
+An example of a class could be a vector with x and y components. We can add methods for translating the vector, getting and setting the vector components and printing the component values. The first step is to define the class and the attribute variables for the coordinates, **m_x** and **m_y**, as shown in the following code: 
 
 .. code:: cpp
 
@@ -75,10 +48,7 @@ define the class and the attribute variables for the coordinates,
        float m_y{};
    };
 
-The class declaration can be seen as a template of an object. To create
-a **Point** object we declare it just like any other variable in C++ by
-specifying the class **Point** as the type and giving a name of the
-object as shown in the code below:
+The class declaration can be seen as a template of an object. To create a **Point** object we declare it just like any other variable in C++ by specifying the class **Point** as the type and giving a name of the object as shown in the code below: 
 
 .. code:: cpp
 
@@ -104,14 +74,7 @@ will produce the following error
 
     Try example
 
-which is expected behavior. By default, all attributes of a class are
-private, which means that we cannot access the **Vector** member
-functions. To access these member attributes we need to add access
-methods. To do this we need to declare public access methods in our
-class. In addition to doing this, we also need to specify attributes to
-tell the compiler which parts of the class are private and public. This
-is done using the **private:** and **public:** class attributes. The
-modified class then becomes:
+which is expected behavior. By default, all attributes of a class are private, which means that we cannot access the **Vector** member functions. To access these member attributes we need to add access methods. To do this we need to declare public access methods in our class. In addition to doing this, we also need to specify attributes to tell the compiler which parts of the class are private and public. This is done using the **private:** and **public:** class attributes. The modified class then becomes: 
 
 .. code:: cpp
 
@@ -165,12 +128,7 @@ modified class then becomes:
        p.print();
    }
 
-In this code, we have added 6 methods 3 for assigning the **m_x** and
-**m_y** attributes and 2 methods for returning the values of the
-attributes. By using access methods like in this way, the user of the
-object **v** doesn’t need to know how the actual storage of the
-components is implemented. They could be stored in a remote database,
-but the way of assigning and retrieving the values stays the same.
+In this code, we have added 6 methods 3 for assigning the **m_x** and **m_y** attributes and 2 methods for returning the values of the attributes. By using access methods like in this way, the user of the object **v** doesn’t need to know how the actual storage of the components is implemented. They could be stored in a remote database, but the way of assigning and retrieving the values stays the same. 
 
 .. button-link:: https://godbolt.org/z/PW5j98ave
     :color: primary
@@ -181,26 +139,14 @@ but the way of assigning and retrieving the values stays the same.
 Class initialisation
 --------------------
 
-When declaring class variables it is important that the default state of
-the variables are initialised. This can be done in several ways. The
-easiest way is to assign default values in the declaration of class
-variable. In the **Vector** class this was done using the {}-brackets:
+When declaring class variables it is important that the default state of the variables are initialised. This can be done in several ways. The easiest way is to assign default values in the declaration of class variable. In the **Vector** class this was done using the {}-brackets: 
 
 .. code:: cpp
 
    float m_x{};
    float m_y{};
 
-Using empty brackets will initialise the variable to its default value
-most of the time 0 or 0.0. It is also possible to initial values by
-using a class constructor. A class constructor is a special function
-that is called when a new object is created. This method can be used to
-initialise variables and do more complex initialisation operations that
-can’t be handled by default initialisation procedures. In the following
-code we have added a constructor that initialises the **m_x** and
-**m_y** class variables. Note that initialisation of class variables is
-done before the body of the function. It is possible to initialise the
-variables in the function body, but that is not as efficient.
+Using empty brackets will initialise the variable to its default value most of the time 0 or 0.0. It is also possible to initial values by using a class constructor. A class constructor is a special function that is called when a new object is created. This method can be used to initialise variables and do more complex initialisation operations that can’t be handled by default initialisation procedures. In the following code we have added a constructor that initialises the **m_x** and **m_y** class variables. Note that initialisation of class variables is done before the body of the function. It is possible to initialise the variables in the function body, but that is not as efficient. 
 
 .. code:: cpp
 
@@ -233,17 +179,12 @@ will produce the following output:
    Vector() constructor called.
    (-1, -2)
 
-We can clearly see that the constructor is called when the **Vector**
-object is created. We can also see that the member variables have
-changed their default values to -1 and -2.
+We can clearly see that the constructor is called when the **Vector** object is created. We can also see that the member variables have changed their default values to -1 and -2. 
 
 Constructor with arguments
 --------------------------
 
-For our **Vector** class it would also be nice to be able to create an
-object in a single statement where we give it the vector components in
-the declaration. This can be done by modifying our existing class
-constructor:
+For our **Vector** class it would also be nice to be able to create an object in a single statement where we give it the vector components in the declaration. This can be done by modifying our existing class constructor: 
 
 .. code:: cpp
 
@@ -257,19 +198,13 @@ constructor:
        {}
        ...
 
-By using default arguments to the constructor it is still possible to
-declare a **Vector** object without any arguments. A vector can now be
-created using the following code:
+By using default arguments to the constructor it is still possible to declare a **Vector** object without any arguments. A vector can now be created using the following code: 
 
 .. code:: cpp
 
    Vector v{1.0, -2.0};
 
-If no constructor is declared, C++ will automatically generate default
-constructors for your class. For simple classes this is often enough,
-for more complex classes these constructors need to be provided by the
-classes. The following example shows when the different constructors are
-used:
+If no constructor is declared, C++ will automatically generate default constructors for your class. For simple classes this is often enough, for more complex classes these constructors need to be provided by the classes. The following example shows when the different constructors are used: 
 
 .. code:: cpp
 
@@ -281,16 +216,14 @@ used:
 The copy constructor
 --------------------
 
-A special constructor is called when initialising a new object by
-assigning an existing object. It looks like the code below:
+A special constructor is called when initialising a new object by assigning an existing object. It looks like the code below: 
 
 .. code:: cpp
 
+
    Vector v2 = v1;
 
-In the constructor we need to copy the values of the **v1** object into
-the new object **v2**. Adding a copy constructor to the **Vector** class
-is shown below:
+In the constructor we need to copy the values of the **v1** object into the new object **v2**. Adding a copy constructor to the **Vector** class is shown below: 
 
 .. code:: cpp
 
@@ -298,24 +231,18 @@ is shown below:
    : m_x{other.m_x}, m_y{other.m_y}
    {}
 
-In the constructor we initialise the local class variables with the
-**other** objects corresponding variables. Please note that the incoming
-**other** object is declared as const and passed by reference. This
-avoids copying of the object and accidental modification.
+In the constructor we initialise the local class variables with the **other** objects corresponding variables. Please note that the incoming **other** object is declared as const and passed by reference. This avoids copying of the object and accidental modification. 
 
 The assignment operator
 -----------------------
 
-A similar operation to the copy constructor is the assignment operator.
-This operator is called when one object is assigned from a another
-object. As shown in the followng code:
+A similar operation to the copy constructor is the assignment operator. This operator is called when one object is assigned from a another object. As shown in the followng code: 
 
 .. code:: cpp
 
    v0 = v2; // Assignment operator
 
-To implement an assignment operator we add the following code to our
-class:
+To implement an assignment operator we add the following code to our class:
 
 .. code:: cpp
 
@@ -326,19 +253,12 @@ class:
        return *this;
    }
 
-The difference from the copy constructor is that the assignment is done
-in the function body and we need to return a pointer to our own object
-(\*this).
+The difference from the copy constructor is that the assignment is done in the function body and we need to return a pointer to our own object (\*this).
 
 Implementing vector operations
 ------------------------------
 
-To perform vector operations such as addition, subtraction, and scalar
-multiplication, we can add member functions to our **Vector** class. In
-C++, all operators in the language can be implemented as special methods
-added to our class implementation. The + operator is implemented using
-the special **operator+(…)** method. An example implementation of this
-operator is shown in the class below:
+To perform vector operations such as addition, subtraction, and scalar multiplication, we can add member functions to our **Vector** class. In C++, all operators in the language can be implemented as special methods added to our class implementation. The + operator is implemented using the special **operator+(…)** method. An example implementation of this operator is shown in the class below: 
 
 .. code:: cpp
 
@@ -354,9 +274,7 @@ We can now perform operations such as:
    Vector v2{2.0, 2.0};
    Vector v3 = v1 + v2; // Copy constructor + operator+(...) 
 
-We can now add other operator methods in the same way. Functions for
-calculating scalar and cross products can be added as additional class
-methods.
+We can now add other operator methods in the same way. Functions for calculating scalar and cross products can be added as additional class methods.
 
 .. code:: cpp
 
@@ -368,8 +286,7 @@ methods.
        return m_x * other.m_y - m_y * other.m_x;
    }
 
-Cross products and scalar product can now be calculated as shown in the
-following code:
+Cross products and scalar product can now be calculated as shown in the following code:
 
 .. code:: cpp
 
@@ -395,8 +312,7 @@ We can also add a convenient **length()** method:
        return std::sqrt(this->dot(*this));
    }
 
-Calculating the length of a vector can now be done by calling the
-**.length()**-method.
+Calculating the length of a vector can now be done by calling the **.length()**-method.
 
 .. code:: cpp
 
@@ -414,22 +330,12 @@ Which gives us the length of 1:
 Inheritance
 -----------
 
-One of the key concepts of object-oriented programming is inheritance.
-Using this concept, we can define new classes that inherit behavior and
-attributes from existing classes. This can be beneficial, for example,
-if we were designing a graphics library. In our library, we want to be
-able to draw shapes on the screen. Many of these shapes share attributes
-such as position, fill color, and line color. There could also be
-methods for moving and querying the area of a shape.
+One of the key concepts of object-oriented programming is inheritance. Using this concept, we can define new classes that inherit behavior and attributes from existing classes. This can be beneficial, for example, if we were designing a graphics library. In our library, we want to be able to draw shapes on the screen. Many of these shapes share attributes such as position, fill color, and line color. There could also be methods for moving and querying the area of a shape. 
 
 Defining a base class Shape
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To define our classes, we start by defining a base class, in this case,
-it could be **Shape**. For our shape, we need to be able to place the
-shape on the 2D screen, so attributes are needed for position, fill
-color, line color, and a display name. The code below shows an example
-of how a base class for our class library could look:
+To define our classes, we start by defining a base class, in this case, it could be **Shape**. For our shape, we need to be able to place the shape on the 2D screen, so attributes are needed for position, fill color, line color, and a display name. The code below shows an example of how a base class for our class library could look: 
 
 .. code:: cpp
 
@@ -462,14 +368,7 @@ of how a base class for our class library could look:
        virtual void draw() const;
    };
 
-We also need some common methods for our new **Shape** class such as
-**.draw()**, **.print()** and **.area()**. These methods should be
-implemented by other inherited classes and only skeleton implementations
-are provided by **Shape**. Methods that are supposed to be overridden by
-inherited classes should be marked with **virtual**. This also makes it
-possible for the correct methods to be called when working with a
-collection of different types of shapes. The following code is added to
-the class:
+We also need some common methods for our new **Shape** class such as **.draw()**, **.print()** and **.area()**. These methods should be implemented by other inherited classes and only skeleton implementations are provided by **Shape**. Methods that are supposed to be overridden by inherited classes should be marked with **virtual**. This also makes it possible for the correct methods to be called when working with a collection of different types of shapes. The following code is added to the class: 
 
 .. code:: cpp
 
@@ -492,8 +391,7 @@ the class:
 Implementing a Circle shape.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To implement a **Circle** shape we create a new class definition
-inheriting from the **Shape** class.
+To implement a **Circle** shape we create a new class definition inheriting from the **Shape** class.
 
 .. code:: cpp
 
@@ -511,16 +409,9 @@ inheriting from the **Shape** class.
        void setRadius(double radius);
    };
 
-Inheritance in a class is defined by adding **: public Shape** after the
-class name in the class definition. This tells the compiler that
-**Circle** inherits all of the public interface of the **Shape** class.
-This means that the **Circle** class can’t access any of the private
-methods or attributes from the **Shape**, which is what we want.
+Inheritance in a class is defined by adding **: public Shape** after the class name in the class definition. This tells the compiler that **Circle** inherits all of the public interface of the **Shape** class. This means that the **Circle** class can’t access any of the private methods or attributes from the **Shape**, which is what we want. 
 
-As we have an additional attribute, **radius**, we need to create
-suitable constructors. We also need to pass our constructor arguments to
-the **Shape** constructor and initialize the circle **m_radius**
-attribute. This is done just before the constructor code block.
+As we have an additional attribute, **radius**, we need to create suitable constructors. We also need to pass our constructor arguments to the **Shape** constructor and initialize the circle **m_radius** attribute. This is done just before the constructor code block. 
 
 .. code:: cpp
 
@@ -531,8 +422,7 @@ attribute. This is done just before the constructor code block.
        this->setName("Circle");
    }
 
-To be able to draw a circle we need to override some of the methods of
-the **Shape** class such as **print()**, **area()** and **draw()**.
+To be able to draw a circle we need to override some of the methods of the **Shape** class such as **print()**, **area()** and **draw()**.
 
 The implementation of these classes are shown below:
 
@@ -558,19 +448,12 @@ The implementation of these classes are shown below:
        cout << "Circle radius: " << m_radius << endl;
    }
 
-Notice that as we are overriding the **print()**-method of the **Shape**
-class. If we need any functionality of the base class we need to
-explicitely call this method from our overridden method, as shown in the
-**print()** and **draw()** method. For the **area()** method this is not
-required as we don’t need any functionality from the **Shape**
-**area()** method.
+Notice that as we are overriding the **print()**-method of the **Shape** class. If we need any functionality of the base class we need to explicitely call this method from our overridden method, as shown in the **print()** and **draw()** method. For the **area()** method this is not required as we don’t need any functionality from the **Shape** **area()** method. 
 
 Instantiating classes
 ---------------------
 
-To create an instance of a class we use the same syntax as for creating
-a variable. The following code creates a **Circle** object and calls the
-**print()** method.
+To create an instance of a class we use the same syntax as for creating a variable. The following code creates a **Circle** object and calls the **print()** method.
 
 .. code:: cpp
 
@@ -585,86 +468,56 @@ The output of the code will be:
    Position: (1, 1)
    radius = 2
 
-Instances created in this way are allocated on the stack. The stack is a
-memory area that is automatically managed by the compiler. The stack is
-used for local variables and function calls. The stack is fast and
-efficient but has a limited size.
+Instances created in this way are allocated on the stack. The stack is a memory area that is automatically managed by the compiler. The stack is used for local variables and function calls. The stack is fast and efficient but has a limited size.
 
-If more memory is required than the stack can provide, we need to
-allocate memory on the heap. The heap is a memory area that is managed
-by the operating system. Usually, the heap is slower than the stack but
-can hold much more data.
+If more memory is required than the stack can provide, we need to allocate memory on the heap. The heap is a memory area that is managed by the operating system. Usually, the heap is slower than the stack but can hold much more data.
 
-If we want to allocate the object on the heap we can use the **new**
-keyword. The following code creates a **Circle** object on the heap and
-calls the **print()** method.
+If we want to allocate the object on the heap we can use the **new** keyword. The following code creates a **Circle** object on the heap and calls the **print()** method.
 
 .. code:: cpp
 
    Circle* c = new Circle{1.0, 1.0, 2.0};
    c->print();
 
-When we have allocated an object on the heap it has to be deallocated
-when it is no longer needed. This is done using the **delete** keyword.
-The following code shows how to deallocate the **Circle** object.
+When we have allocated an object on the heap it has to be deallocated when it is no longer needed. This is done using the **delete** keyword. The following code shows how to deallocate the **Circle** object.
 
 .. code:: cpp
 
    delete c;
 
-The use of **new** and **delete** is discouraged in modern C++
-programming. The reason for that is that it is easy to forget to
-deallocate memory, which can lead to memory leaks. Modern C++
-programming uses smart pointers to manage memory allocation and
-deallocation. Smart pointers are a type of object that automatically
-deallocates memory when it is no longer needed. The following code shows
-how to create a **Circle** object using a smart pointer.
+The use of **new** and **delete** is discouraged in modern C++ programming. The reason for that is that it is easy to forget to deallocate memory, which can lead to memory leaks. Modern C++ programming uses smart pointers to manage memory allocation and deallocation. Smart pointers are a type of object that automatically deallocates memory when it is no longer needed. The following code shows how to create a **Circle** object using a smart pointer. 
 
 .. code:: cpp
 
    std::unique_ptr<Circle> c = std::make_unique<Circle>(1.0, 1.0, 2.0);
    c->print();
 
-When the **c** object goes out of scope the smart pointer will
-automatically delete the object.
+When the **c** object goes out of scope the smart pointer will automatically delete the object.
 
-The **std::unique_ptr** is a smart pointer that can only have one owner.
-This means that the object can’t be copied or moved to another smart
-pointer. If we need to transfer ownership of the object we can use the
-**std::move** function. The following code shows how to transfer
-ownership of the **c** object to a new smart pointer.
+The **std::unique_ptr** is a smart pointer that can only have one owner. This means that the object can’t be copied or moved to another smart pointer. If we need to transfer ownership of the object we can use the **std::move** function. The following code shows how to transfer ownership of the **c** object to a new smart pointer. 
 
 .. code:: cpp
 
    std::unique_ptr<Circle> c2 = std::move(c);
 
-After this code **c** will be empty and **c2** will own the **Circle**
-object.
+After this code **c** will be empty and **c2** will own the **Circle** object.
 
-If an object needs to be shared between multiple owners we can use the
-**std::shared_ptr** smart pointer. The **std::shared_ptr** keeps track
-of how many owners the object has and deallocates the object when the
-last owner is destroyed. The following code shows how to create a
-**Circle** object using a **std::shared_ptr**.
+If an object needs to be shared between multiple owners we can use the **std::shared_ptr** smart pointer. The **std::shared_ptr** keeps track of how many owners the object has and deallocates the object when the last owner is destroyed. The following code shows how to create a **Circle** object using a **std::shared_ptr**. 
 
 .. code:: cpp
 
    std::shared_ptr<Circle> c = std::make_shared<Circle>(1.0, 1.0, 2.0);
    c->print();
 
-Using **std::shared_ptr** a pointer can easily be transferred to another
-owner. The following code shows how to transfer ownership of the **c**
-object to a new smart pointer.
+Using **std::shared_ptr** a pointer can easily be transferred to another owner. The following code shows how to transfer ownership of the **c** object to a new smart pointer. 
 
 .. code:: cpp
 
    std::shared_ptr<Circle> c2 = c;
 
-After this code **c** and **c2** will both own the **Circle** object.
-When the last owner is destroyed the object will be deallocated.
+After this code **c** and **c2** will both own the **Circle** object. When the last owner is destroyed the object will be deallocated.
 
-To illustrate how we can creata simple class that prints out when it is
-created and destroyed.
+To illustrate how we can creata simple class that prints out when it is created and destroyed.
 
 .. code:: cpp
 
@@ -674,8 +527,7 @@ created and destroyed.
        ~Test() { std::printf("~Test() destructor called.\n"); }
    };
 
-To test object lifetimes we can use curly brackets to limit the scope of
-the object.
+To test object lifetimes we can use curly brackets to limit the scope of the object.
 
 .. code:: cpp
 
@@ -690,8 +542,7 @@ The output of the code will be:
    Test() constructor called.
    ~Test() destructor called.
 
-Which is the expected output. The object is created when the scope is
-entered and destroyed when the scope is exited.
+Which is the expected output. The object is created when the scope is entered and destroyed when the scope is exited.
 
 Let’s try the same thing using a smart pointer.
 
@@ -708,12 +559,9 @@ The output of the code will be:
    Test() constructor called.
    ~Test() destructor called.
 
-Which is the expected output. The object is created when the scope is
-entered and destroyed when the scope is exited.
+Which is the expected output. The object is created when the scope is entered and destroyed when the scope is exited.
 
-In the following example we illustrate how to use a shared pointer. In
-this example we create a shared pointer and transfer ownership to a new
-shared pointer inside another scope.
+In the following example we illustrate how to use a shared pointer. In this example we create a shared pointer and transfer ownership to a new shared pointer inside another scope.
 
 .. code:: cpp
 
@@ -753,14 +601,7 @@ The output of the code will be:
 Polymorphism
 ------------
 
-Polymorphism is the ability to operate on objects of different classes
-in the same way. This is achieved by using pointers to the base class.
-When a pointer to a base class is used to point to an object of a
-derived class, the derived class object can be treated as if it was a
-base class object. This is useful when working with collections of
-objects of different classes. The following code shows how to create a
-collection of **Shape** objects and call the **print()** method on each
-object.
+Polymorphism is the ability to operate on objects of different classes in the same way. This is achieved by using pointers to the base class. When a pointer to a base class is used to point to an object of a derived class, the derived class object can be treated as if it was a base class object. This is useful when working with collections of objects of different classes. The following code shows how to create a collection of **Shape** objects and call the **print()** method on each object. 
 
 .. code:: cpp
 
@@ -787,11 +628,7 @@ The output of the code will be:
    Drawing Rectangle at (4.000000, 5.000000) with width 6.000000 and height 7.000000
    Area: 42.000000
 
-Here we can see that the **print()**, **draw()** and **area()** methods
-of the **Shape** class are called for each object in the collection. The
-**print()** method of the **Circle** and **Rectangle** classes are
-called because they override the **print()** method of the **Shape**
-class. The same goes for the **area()** and **draw()** methods.
+Here we can see that the **print()**, **draw()** and **area()** methods of the **Shape** class are called for each object in the collection. The **print()** method of the **Circle** and **Rectangle** classes are called because they override the **print()** method of the **Shape** class. The same goes for the **area()** and **draw()** methods. 
 
 .. note::
    Polymorphism only works for pointers and references to objects. If we use objects directly, the methods of the base class will be called.
@@ -806,14 +643,7 @@ class. The same goes for the **area()** and **draw()** methods.
 Abstract classes
 ----------------
 
-An abstract class is a class that can’t be instantiated. Abstract
-classes are used to define a common interface for a group of classes.
-The **Shape** class is an example of an abstract class. Our current
-**Shape** class does not prevent it from being instatiated. To make the
-**Shape** class abstract we need to add a pure virtual method to the
-class. A pure virtual method is a method that has no implementation.
-Pure virtual functions are defined by assigning then 0. The following
-code shows how to make the **Shape** class abstract.
+An abstract class is a class that can’t be instantiated. Abstract classes are used to define a common interface for a group of classes. The **Shape** class is an example of an abstract class. Our current **Shape** class does not prevent it from being instatiated. To make the **Shape** class abstract we need to add a pure virtual method to the class. A pure virtual method is a method that has no implementation. Pure virtual functions are defined by assigning then 0. The following code shows how to make the **Shape** class abstract. 
 
 .. code:: cpp
 
@@ -833,9 +663,7 @@ following code will produce a compiler error.
    Shape s; // Error: Can't instantiate an abstract class
    std::unique_ptr<Shape> s = std::make_unique<Shape>(); // Error: Can't instantiate an abstract class
 
-When deriving from a pure virtual class all pure virtual methods must be
-implemented. The following code shows how to implement the **Shape**
-class.
+When deriving from a pure virtual class all pure virtual methods must be implemented. The following code shows how to implement the **Shape** class.
 
 .. code:: cpp
 
@@ -850,12 +678,7 @@ class.
 Composition
 -----------
 
-Composition is a way to combine objects to create more complex objects.
-Composition is used when one object is part of another object. For
-example, a **Car** object can be composed of **Wheel** objects. The
-**Wheel** objects are part of the **Car** object. The following code
-shows how to create a **Car** class that is composed of **Wheel**
-objects.
+Composition is a way to combine objects to create more complex objects. Composition is used when one object is part of another object. For example, a **Car** object can be composed of **Wheel** objects. The **Wheel** objects are part of the **Car** object. The following code shows how to create a **Car** class that is composed of **Wheel** objects. 
 
 .. code:: cpp
 
@@ -889,8 +712,7 @@ The output of the code will be:
    Wheel() constructor called.
    Car() constructor called.
 
-When the **Car** object is destroyed the **Wheel** objects are also
-destroyed. The following code shows how to destroy the **Car** object.
+When the **Car** object is destroyed the **Wheel** objects are also destroyed. The following code shows how to destroy the **Car** object.
 
 .. code:: cpp
 
@@ -910,18 +732,10 @@ destroyed. The following code shows how to destroy the **Car** object.
 Header and source files for classes
 -----------------------------------
 
-When working with classes it is common to split the class definition and
-implementation into two files. The class definition is placed in a
-header file with the extension **.h** or **.hpp**. The class
-implementation is placed in a source file with the extension **.cpp**.
-The following code shows how to split the **Shape** class into a header
-and source file.
-
+When working with classes it is common to split the class definition and implementation into two files. The class definition is placed in a header file with the extension **.h** or **.hpp**. The class implementation is placed in a source file with the extension **.cpp**. The following code shows how to split the **Shape** class into a header and source file. 
 **shape.h**
 
-This file contains the class definition for the **Shape** class. Usually
-the header files don’t contain the implementation of the methods, only
-the method signatures.
+This file contains the class definition for the **Shape** class. Usually the header files don’t contain the implementation of the methods, only the method signatures. 
 
 .. code:: cpp
 
@@ -961,16 +775,11 @@ the method signatures.
 
    #endif
 
-The **#ifndef**, **#define** and **#endif** directives are used to
-prevent the header file from being included multiple times in the same
-file. This is called an include guard.
+The **#ifndef**, **#define** and **#endif** directives are used to prevent the header file from being included multiple times in the same file. This is called an include guard.
 
 **shape.cpp**
 
-This file contains the implementation of the **Shape** class. The first
-part of this file is the include directive for the **shape.h** file.
-This is done to make sure that the class definition is available when
-the implementation is compiled.
+This file contains the implementation of the **Shape** class. The first part of this file is the include directive for the **shape.h** file. This is done to make sure that the class definition is available when the implementation is compiled.
 
 .. code:: cpp
 
@@ -1057,17 +866,12 @@ the implementation is compiled.
        std::printf("Drawing shape at: (%f, %f)\n", m_x, m_y);
    }
 
-Using this method of splitting the class definition and implementation
-into two files makes it easier to manage large projects. It also makes
-it easier to reuse classes in other projects.
+Using this method of splitting the class definition and implementation into two files makes it easier to manage large projects. It also makes it easier to reuse classes in other projects.
 
 Alternatives to header guards
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-An alternative to using include guards is to use the **#pragma once**
-directive. The **#pragma once** directive tells the compiler to only
-include the file once. The following code shows how to use the **#pragma
-once** directive.
+An alternative to using include guards is to use the **#pragma once** directive. The **#pragma once** directive tells the compiler to only include the file once. The following code shows how to use the **#pragma once** directive.
 
 .. code:: cpp
 
@@ -1079,30 +883,23 @@ once** directive.
        ...
    };
 
-The **#pragma once** directive is supported by most modern compilers and
-is a more modern way of preventing multiple inclusions of the same file.
+The **#pragma once** directive is supported by most modern compilers and is a more modern way of preventing multiple inclusions of the same file.
 
 Object-oriented analysis
 ------------------------
 
-Object-oriented analysis is the process of defining the objects and
-their relationships in a system. The goal of object-oriented analysis is
-to identify the objects in a system and how they interact with each
-other. The following steps are used in object-oriented analysis:
+Object-oriented analysis is the process of defining the objects and their relationships in a system. The goal of object-oriented analysis is to identify the objects in a system and how they interact with each other. The following steps are used in object-oriented analysis: 
 
 1. Identify the objects in the system
 2. Identify the relationships between the objects
 3. Identify the attributes of the objects
 
-The following example shows how to perform object-oriented analysis on a
-simple system.
+The following example shows how to perform object-oriented analysis on a simple system.
 
 Implementing a graphics library
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-As an example a simple graphics library will be implemented. The library
-will be able to draw shapes on the screen. The following objects are
-identified in the system:
+As an example a simple graphics library will be implemented. The library will be able to draw shapes on the screen. The following objects are identified in the system:
 
 - **Shape** - The base class for all shapes
 - **Circle** - A circle shape
@@ -1138,15 +935,12 @@ The attributes of the objects are:
 - **Pen** - Color, width
 - **Brush** - Color
 
-We now have the base for our graphics library. The next step is to
-implement the classes and their relationships.
+We now have the base for our graphics library. The next step is to implement the classes and their relationships.
 
 Object-oriented design of a particle system
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-As an example a simple particle system will be implemented. The particle
-system will be able to simulate particles moving in a 2D space. The
-following objects are identified in the system:
+As an example a simple particle system will be implemented. The particle system will be able to simulate particles moving in a 2D space. The following objects are identified in the system:
 
 - **Vector** - A 2D Vector class
 - **BaseParticle** - The base class for all particles types
@@ -1180,11 +974,9 @@ The attributes of the objects are:
 - **Repeller** - Position, strength
 - **Boundary** - Position, width, height
 
-We now have the base for our particle system. The next step is to
-implement the classes and their relationships.
+We now have the base for our particle system. The next step is to implement the classes and their relationships.
 
-The following code shows an example of how the classes could be
-implemented.
+The following code shows an example of how the classes could be implemented.
 
 .. code:: cpp
 
@@ -1333,25 +1125,8 @@ implemented.
 Comments on object-oriented analysis
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Object-oriented analysis is a powerful tool for designing complex
-systems. By identifying the objects in a system and how they interact
-with each other, we can create a clear and concise design.
-Object-oriented analysis is used in many fields, including software
-development, engineering, and business. By using object-oriented
-analysis, we can create systems that are easy to understand, maintain,
-and extend.
+Object-oriented analysis is a powerful tool for designing complex systems. By identifying the objects in a system and how they interact with each other, we can create a clear and concise design. Object-oriented analysis is used in many fields, including software development, engineering, and business. By using object-oriented analysis, we can create systems that are easy to understand, maintain, and extend. 
 
-When using object-oriented analysis in computation science it is also
-important to consider the performance of the system. Object-oriented
-programming can introduce overhead in terms of memory and processing
-time. It is important to consider the trade-offs between performance and
-maintainability when designing a system.
+When using object-oriented analysis in computation science it is also important to consider the performance of the system. Object-oriented programming can introduce overhead in terms of memory and processing time. It is important to consider the trade-offs between performance and maintainability when designing a system. 
 
-In the previous example the **Particle** class was instantiated in a
-**std::vector** and every particle allocated on the heap. This design
-can lead to performance issues when the number of particles is large. An
-alternative approach would be to implement a **Particles** class that
-implements a fixed-size array of particles. This would reduce the
-overhead of memory allocation and deallocation and improve performance.
-It is also possible to use a memory pool to allocate and deallocate
-particles more efficiently.
+In the previous example the **Particle** class was instantiated in a **std::vector** and every particle allocated on the heap. This design can lead to performance issues when the number of particles is large. An alternative approach would be to implement a **Particles** class that implements a fixed-size array of particles. This would reduce the overhead of memory allocation and deallocation and improve performance. It is also possible to use a memory pool to allocate and deallocate particles more efficiently. 

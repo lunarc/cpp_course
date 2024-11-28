@@ -8,10 +8,8 @@ class MainWindow : public QWidget
 
 public:
     explicit MainWindow(QWidget* parent = 0);
-    ~MainWindow();
 
 public slots:
-    void on_button_clicked();
 
 private:
 };

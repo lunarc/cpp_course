@@ -37,6 +37,7 @@ Jonas Lindemann, 2024
    input_output
    eigen
    oop
+   qt
    code_org
    debugging
    mixed_language
