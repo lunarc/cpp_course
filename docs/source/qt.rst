@@ -55,7 +55,8 @@ Finally, we call the **.exec()** method of the **QApplication** instance. This m
 Running the application will show an empty window on the screen. The window will have a title bar and a close button. The window can be resized and moved around on the screen. 
 
 .. image:: images/qt_step1.png
-    :width: 50.0%
+    :align: center
+    :width: 70.0%
 
 Creating our own window
 -----------------------
@@ -122,3 +123,418 @@ To use our new window we have to modify our **main** function to create an insta
 
         return application.exec();
     }
+
+Running the application will show a window with the title "My First Qt Application" on the screen with the geometry we specified in the constructor. The window can be resized and moved around on the screen. Moving and resizing a windows is automatically handled by the **QWidget** class built-in functionality. The finished windows is shown below:
+
+.. image:: images/qt_step2.png
+    :align: center
+    :width: 70.0%
+
+Adding widgets to the window
+----------------------------
+
+In the next example we are going to add widgets to the window which we can interact with. We are going to add a **QLineEdit** widget where a user can enter text and a **QPushButton** widget that can be clicked. When the button is clicked we will display the contents of the edit control in a message box.
+
+To be able to reference the **QLineEdit** control in an event handler we need to make it a member variable of the **MainWindow** class. We also need to create a slot, **onButtonClicked**, that is called when the button is clicked. The header file for the updated **MainWindow** class is shown below:
+
+.. code:: cpp
+
+    #pragma once
+
+    #include <QLineEdit>
+
+    class MainWindow : public QWidget {
+        Q_OBJECT
+
+    public:
+        explicit MainWindow(QWidget *parent = 0);
+
+    public slots:
+        void onButtonClicked();
+
+    private:
+        QLineEdit *m_lineEdit;
+    };
+
+In the implementation of the **MainWindow** class we need to create the **QLineEdit** and **QPushButton** widgets and add them to the window. We also need to connect the **clicked()** signal of the button to the **onButtonClicked()** slot. The implementation of the **MainWindow** class is shown below:
+
+.. code:: cpp
+
+    #include "mainwindow.h"
+
+    #include <QLabel>
+    #include <QLineEdit>
+    #include <QMessageBox>
+    #include <QPushButton>
+
+    MainWindow::MainWindow(QWidget *parent) : QWidget(parent), m_lineEdit(nullptr)
+    {
+        // Set the window title
+
+        setWindowTitle("My First Qt Application");
+        setGeometry(100, 100, 400, 300);
+
+        // Create a text edit control
+
+        m_lineEdit = new QLineEdit(this);
+        m_lineEdit->setGeometry(10, 10, 150, 24);
+
+        // Create a button
+
+        auto button = new QPushButton("Click Me", this);
+        button->setGeometry(10, 40, 150, 30);
+
+        // Connect the button click signal to the onButtonClicked slot
+
+        connect(button, &QPushButton::clicked, this, &MainWindow::onButtonClicked);
+    }
+
+    void MainWindow::onButtonClicked()
+    {
+        QMessageBox::information(this, "Text in edit box", m_lineEdit->text());
+    }
+
+In the constructor we create the **QLineEdit** and **QPushButton** widgets and set their geometry on the window. In the current application we can create the **QPushButton** object without a reference in the **MainWindow** class, as we don't need to reference it in the **onButtonClicked()** slot. If we need access to the button objects further in the the development we can always add a reference to it in the **MainWindow** class.
+
+To connect the button to our **onButtonClicked** event we use the **connect()** method to connect the signal **clicked** to the event methods. The **connect()** method takes four parameters. The first parameter is the object that emits the signal, the second parameter is the signal that is emitted, the third parameter is the object that has the slot that should receive the signal and the fourth parameter is the method that is called when the signal is emitted.
+
+Running the applications will show a window with a text edit control and a button. When the button is clicked a message box will be displayed with the text that was entered in the text edit control. The finished window is shown below:
+
+.. image:: images/qt_step3.png
+    :align: center
+    :width: 70.0%
+
+Placing controls with layouts
+-----------------------------
+
+In the previous example we placed the controls on the window by setting the geometry of the controls manually. This is not a good way to place controls on a window as it makes it hard to create a window that can be resized. In the next example we are going to use layouts to place the controls on the window. Layouts are used to automatically place controls on a window and to make sure that the controls are placed correctly when the window is resized.
+
+The example we are going to implement is a simple expression evaluator. The user interface will consist of 2 labels and 2 line edits. In the first line edit the user can enter the expression that should be evaluated. The second line edit will be read-only and contain the result of the evaluated expression. The user interface will look like this:
+
+.. image:: images/qt_step4_1.png
+    :align: center
+    :width: 60.0%
+
+To layout the user interface we will use the **QHBoxLayout** and **QVBoxLayout** classes. These classes are used to layout controls horizontally and vertically. We will use a **QVBoxLayout** to layout the controls vertically and a **QHBoxLayout** to layout the controls horizontally. 
+
+Before we write any code it could be a good idea to identify vertical or horisontal groups of controls that should be placed in a layout. In our case we have two groups of controls that should be placed vertically. The first group is the expression label and the expression line edit. The second group is the result label and the result line edit. The buttons for evaluating and clearing are also contained in a horizontal layout. All of these horisontal layouts in turn will be added to a vertical layout for the entire user interface. The figure below shows these layouts.
+
+.. image:: images/qt_step4_2.png
+    :align: center
+    :width: 100.0%
+
+First we need to update our main class declaration to include the new controls. The updated header file is shown below:
+
+.. code:: cpp
+
+    #pragma once
+
+    #include <QLineEdit>
+
+    class MainWindow : public QWidget {
+        Q_OBJECT
+
+    public:
+        explicit MainWindow(QWidget *parent = 0);
+
+    public slots:
+        void onCalcClicked();
+        void onClearClicked();
+
+    private:
+        QLineEdit *m_expressionEdit;
+        QLineEdit *m_resultEdit;
+    };
+
+In the next step we need to update the constructor of the **MainWindow** class to create the new controls and add them to a layout. Also, all calls to absolute positioning of the controls should be removed. First we create the label controls:
+
+.. code:: cpp
+
+    auto labelExpression = new QLabel("Enter an expression:", this);
+    auto labelResult = new QLabel("Result:", this);
+
+We use auto here as we don't need to reference these controls from anywhere else in the class. Next, we create the **QLineEdit** controls:
+
+.. code:: cpp
+
+    m_expressionEdit = new QLineEdit(this);
+    m_resultEdit = new QLineEdit(this);
+    m_resultEdit->setReadOnly(true);
+
+The **setReadOnly** method prevents the user from modifying the text of the contro, but can still mark the text to be able to copy it from the application. Next we create the button controls.
+
+.. code:: cpp
+
+    auto calcButton = new QPushButton("Evaluate", this);
+    auto clearButton = new QPushButton("Clear", this);
+
+Now it is time to create our layout. We start by working from the outside and in. First we create the vertical layout that will contain the entire user interface:
+
+.. code:: cpp
+
+    auto verticalLayout = new QVBoxLayout(this);
+
+Next we create the horizontal layouts for the expression, result and buttons. We add the controls to the layouts as we create them:
+
+.. code:: cpp
+
+    auto expressionLayout = new QHBoxLayout(this);
+    expressionLayout->addWidget(labelExpression);
+    expressionLayout->addWidget(m_expressionEdit);
+
+    auto resultLayout = new QHBoxLayout(this);
+    resultLayout->addWidget(labelResult);
+    resultLayout->addWidget(m_resultEdit);
+
+    auto buttonLayout = new QHBoxLayout(this);
+    buttonLayout->addWidget(calcButton);
+    buttonLayout->addWidget(clearButton);
+
+Finally we add the horizontal layouts to the vertical layout:
+
+.. code:: cpp
+
+    verticalLayout->addLayout(expressionLayout);
+    verticalLayout->addLayout(resultLayout);
+    verticalLayout->addLayout(buttonLayout);
+
+The final step in the layout process is to assigng the layout to our window, using the **setLayout()** method. As the **verticalLayout** the outermost layout, we assign this layout to the window:
+
+.. code:: cpp
+
+    setLayout(verticalLayout);
+
+Finally we need to connect the buttons to the slots that will handle the button clicks. The **connect()** method is used to connect the **clicked()** signal of the buttons to the slots:
+
+.. code:: cpp
+
+    connect(calcButton, &QPushButton::clicked, this, &MainWindow::onCalcClicked);
+    connect(clearButton, &QPushButton::clicked, this, &MainWindow::onClearClicked);
+
+We will keep the event methods empty for now as shown below:
+
+.. code:: cpp
+
+    void MainWindow::onCalcClicked()
+    {
+    }
+
+    void MainWindow::onClearClicked()
+    {
+    }
+
+Running the application will show a window with the expression evaluator user interface. The window can be resized and the controls will be placed correctly when the window is resized. The finished window is shown below:
+
+.. image:: images/qt_step4_3.png
+    :align: center
+    :width: 60.0%
+
+Ok, what happened here? It doesn't look like our previous sketch. The reason for this is that by default the layout managers will scale all controls to fill out the entire window, which is not what we want. To solve this we need to update the code somewhat. There are two ways to solve this. The first way is to set the size policy of the controls to **QSizePolicy::Fixed**. This will make the layout manager not scale the controls. The second way is to add springs or stretch between the  controls in the layout. This will make the layout manager distribute the space between the controls. We will use the second approach in this example.
+
+First we make sure the text boxes have a fixed size and we also add a placeholder text to the expression edit control:
+
+.. code:: cpp
+
+    m_expressionEdit->setPlaceholderText("Enter an expression");
+    m_expressionEdit->setMinimumWidth(200);
+
+    m_resultEdit = new QLineEdit(this);
+    m_resultEdit->setReadOnly(true);
+    m_resultEdit->setMinimumWidth(200);
+
+Next we add a stretch between the controls in the horizontal layouts. For the label and text controls we add a stretch/spring before the label control.
+
+.. code:: cpp
+
+    auto expressionLayout = new QHBoxLayout(this);
+    expressionLayout->addStretch();
+    expressionLayout->addWidget(labelExpression);
+    expressionLayout->addWidget(m_expressionEdit);
+
+    auto resultLayout = new QHBoxLayout(this);
+    resultLayout->addStretch();
+    resultLayout->addWidget(labelResult);
+    resultLayout->addWidget(m_resultEdit);
+
+For the buttons we add a stretch/spring before the buttons and after the buttons. This will center them in the layout.
+
+.. code:: cpp
+
+    auto buttonLayout = new QHBoxLayout(this);
+    buttonLayout->addStretch();
+    buttonLayout->addWidget(calcButton);
+    buttonLayout->addWidget(clearButton);
+    buttonLayout->addStretch();
+
+Finally we will also add a stretch/spring between before the buttons in the vertical controls, so that the calc buttons stays at the bottom of the window.
+
+.. code:: cpp
+
+    verticalLayout->addLayout(expressionLayout);
+    verticalLayout->addLayout(resultLayout);
+    verticalLayout->addStretch();
+    verticalLayout->addLayout(buttonLayout);
+
+Running the application will now show the following window:
+
+.. image:: images/qt_step4_4.png
+    :align: center
+    :width: 60.0%
+
+This looks much better. Now we can continue by connecting our buttons to the event handlers. The **onCalcClicked()** method should evaluate the expression in the expression edit control and display the result in the result edit control. The **onClearClicked()** method should clear the text in the expression and result edit controls. The implementation of the event handlers is shown below:
+
+.. code:: cpp
+
+    MainWindow::MainWindow(QWidget *parent) : QWidget(parent), m_expressionEdit(nullptr), m_resultEdit(nullptr)
+    {    
+        // ... //
+
+        // Connect the button click signal to the onButtonClicked slot
+
+        connect(calcButton, &QPushButton::clicked, this, &MainWindow::onCalcClicked);
+        connect(clearButton, &QPushButton::clicked, this, &MainWindow::onClearClicked);
+    }
+
+    void MainWindow::onCalcClicked()
+    {
+
+    }
+
+    void MainWindow::onClearClicked()
+    {
+        m_expressionEdit->clear();
+        m_resultEdit->clear();
+    }
+
+Implementing an expression evaluator
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Ok, we now have a skeleton of a working application. Next we will implement the expression evaluator. We will use a header only library **exprtk** to evaluate the expression. The **exprtk** library is a simple expression parser that can evaluate mathematical expressions. The library is a single header file that can be included in the project. 
+
+First we extract the string from the **m_expressionEdit** control. 
+
+.. code:: cpp
+
+    auto expressionString = m_expressionEdit->text().toStdString();
+
+As exprtk uses **std::string** we need to convert the **QString** to a **std::string** using the **.toStdString()**-method of the **QString** class.
+
+We can now setup **extrtk**-parser and evaluate the expression. The code for this is shown below:
+
+.. code:: cpp
+
+    exprtk::symbol_table<double> symbolTable;
+    exprtk::expression<double> expression;
+    exprtk::parser<double> parser;
+
+    symbolTable.add_constants();
+    expression.register_symbol_table(symbolTable);
+    parser.compile(expressionString, expression);
+
+    double result = expression.value();
+
+Finally we assign the **m_resultEdit** control the result of the expression:
+
+.. code:: cpp
+
+    m_resultEdit->setText(QString::number(result));
+
+The complete **onCalcClicked()** method is shown below:
+
+.. code:: cpp
+
+    void MainWindow::onCalcClicked()
+    {
+        // Read the expression from the text edit control
+
+        auto expressionString = m_expressionEdit->text().toStdString();
+
+        // Evaluate the expression using the exprtk library
+
+        exprtk::symbol_table<double> symbolTable;
+        exprtk::expression<double> expression;
+        exprtk::parser<double> parser;
+
+        symbolTable.add_constants();
+        expression.register_symbol_table(symbolTable);
+        parser.compile(expressionString, expression);
+
+        // Display the result in the result text edit control
+
+        double result = expression.value();
+        m_resultEdit->setText(QString::number(result));
+    }  
+
+We have now implemented a complete expression evaluator. Running the application will show a window where you can enter a mathematical expression and evaluate it. The result will be displayed in the result text edit control. The finished window is shown below:
+
+.. image:: images/qt_step4_5.png
+    :align: center
+    :width: 60.0%
+
+This example shows the basic concepts of user interfaces design in Qt and how to use layouts to place controls on a window. Creating controls and placing them in layouts as we have done in this application is not feasible for more complex user interfaces. In the chapter "User interface design with Qt Designer" we will show how to use the Qt Designer tool to design user interfaces graphically and how to generate the necessary code for the user interface.
+
+Controls in Qt
+--------------
+
+In this chapter we will go through the most common controls that are used in Qt applications. We will show how to create the controls and how to use them in a user interface. We will also show how to connect the controls to signals and slots to handle events.
+
+Radio buttons and Checkboxes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Buttons
+~~~~~~~
+
+List- and combo boxes
+~~~~~~~~~~~~~~~~~~~~~
+
+Sliders and spin boxes
+~~~~~~~~~~~~~~~~~~~~~~
+
+Progress bars
+~~~~~~~~~~~~~
+
+Text edit controls
+~~~~~~~~~~~~~~~~~~
+
+Labels
+~~~~~~
+
+Group boxes
+~~~~~~~~~~~
+
+Tab widgets
+~~~~~~~~~~~
+
+Applications with menus and toolbars
+------------------------------------
+
+Menus and toolbars
+~~~~~~~~~~~~~~~~~~
+
+Drawing in Qt
+-------------
+
+Drawing with QPainter
+~~~~~~~~~~~~~~~~~~~~~
+
+Drawing with OpenGL
+~~~~~~~~~~~~~~~~~~~
+
+Drawing using Canvas
+~~~~~~~~~~~~~~~~~~~~
+
+User interface design with Qt Designer
+--------------------------------------
+ 
+TBD
+
+Timers in Qt
+------------
+
+Multithreading in Qt
+--------------------
+
+Building Qt applications with CMake
+-----------------------------------
+
+TBD

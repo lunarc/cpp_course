@@ -1,37 +1,41 @@
 {
-    "name": "cpp-course",
-    "version": "0",
-    "dependencies":
-    [
-        {
-            "name": "eigen3",
-            "platform": "windows"
-        },
-        {
-            "name": "eigen3",
-            "platform": "linux"
-        },
-        {
-            "name": "qtbase",
-            "platform": "windows"
-        },
-        {
-            "name": "qtcharts",
-            "platform": "windows",
-            "features": ["qml"]
-        },
-        {
-            "name": "qtcharts",
-            "platform": "linux",
-            "features": ["qml"]
-        },
-        {
-            "name": "qtgraphs",
-            "platform": "windows"
-        },
-        {
-            "name": "qtgraphs",
-            "platform": "linux"
-        }
-    ]
+  "name": "cpp-course",
+  "version": "0",
+  "dependencies": [
+    {
+      "name": "eigen3",
+      "platform": "linux"
+    },
+    {
+      "name": "eigen3",
+      "platform": "windows"
+    },
+    {
+      "name": "qtbase",
+      "platform": "windows"
+    },
+    {
+      "name": "qtcharts",
+      "features": [
+        "qml"
+      ],
+      "platform": "linux"
+    },
+    {
+      "name": "qtcharts",
+      "features": [
+        "qml"
+      ],
+      "platform": "windows"
+    },
+    {
+      "name": "qtgraphs",
+      "platform": "linux"
+    },
+    {
+      "name": "qtgraphs",
+      "platform": "windows"
+    },
+    "exprtk"
+  ]
 }
