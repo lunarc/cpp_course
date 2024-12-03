@@ -9,93 +9,52 @@
 
 #include "exprtk.hpp"
 
-MainWindow::MainWindow(QWidget *parent) : QWidget(parent), m_expressionEdit(nullptr), m_resultEdit(nullptr)
+MainWindow::MainWindow(QWidget *parent) : QWidget(parent), m_button1(nullptr), m_button2(nullptr), m_button3(nullptr)
 {
     // Set the window title
-    setWindowTitle("Expression evaluator");
+    setWindowTitle("Buttons");
     setGeometry(100, 100, 400, 150);
 
-    // Create a label
+    m_button1 = new QPushButton("Button1", this);
+    m_button2 = new QPushButton("Button2", this);
+    m_button3 = new QPushButton("Button3", this);
 
-    auto labelExpression = new QLabel("Enter an expression:", this);
-    auto labelResult = new QLabel("Result:", this);
+    auto layout = new QHBoxLayout(this);
 
-    // Create a text edit control
+    layout->addWidget(m_button1);
+    layout->addWidget(m_button2);
+    layout->addWidget(m_button3);
 
-    m_expressionEdit = new QLineEdit(this);
-    m_expressionEdit->setPlaceholderText("Enter an expression");
-    m_expressionEdit->setMinimumWidth(200);
+    setLayout(layout);
 
-    m_resultEdit = new QLineEdit(this);
-    m_resultEdit->setReadOnly(true);
-    m_resultEdit->setMinimumWidth(200);
-
-    // Create a evaluate button
-
-    auto calcButton = new QPushButton("Evaluate", this);
-    auto clearButton = new QPushButton("Clear", this);
-
-    // Create UI layout
-
-    auto verticalLayout = new QVBoxLayout(this);
-
-    auto expressionLayout = new QHBoxLayout(this);
-    expressionLayout->addStretch();
-    expressionLayout->addWidget(labelExpression);
-    expressionLayout->addWidget(m_expressionEdit);
-
-    auto resultLayout = new QHBoxLayout(this);
-    resultLayout->addStretch();
-    resultLayout->addWidget(labelResult);
-    resultLayout->addWidget(m_resultEdit);
-
-    auto buttonLayout = new QHBoxLayout(this);
-    buttonLayout->addStretch();
-    buttonLayout->addWidget(calcButton);
-    buttonLayout->addWidget(clearButton);
-    buttonLayout->addStretch();
-
-    verticalLayout->addLayout(expressionLayout);
-    verticalLayout->addLayout(resultLayout);
-    verticalLayout->addStretch();
-    verticalLayout->addLayout(buttonLayout);
-
-    // Set the layout
-
-    setLayout(verticalLayout);
-
-    // Connect the button click signal to the onButtonClicked slot
-
-    connect(calcButton, &QPushButton::clicked, this, &MainWindow::onCalcClicked);
-    connect(clearButton, &QPushButton::clicked, this, &MainWindow::onClearClicked);
+    connect(m_button1, SIGNAL(clicked()), this, SLOT(onButton1Clicked()));
+    connect(m_button2, SIGNAL(clicked()), this, SLOT(onButton2Clicked()));
+    connect(m_button3, SIGNAL(clicked()), this, SLOT(onButton3Clicked()));
 }
 
-void MainWindow::onClearClicked()
+void MainWindow::onButton1Clicked()
 {
-    // Clear the text edit controls
-
-    m_expressionEdit->clear();
-    m_resultEdit->clear();
+    if (m_button2->isEnabled())
+    {
+        m_button2->setEnabled(false);
+        m_button3->setEnabled(false);
+    }
+    else
+    {
+        m_button2->setEnabled(true);
+        m_button3->setEnabled(true);
+    }
 }
 
-void MainWindow::onCalcClicked()
+void MainWindow::onButton2Clicked()
 {
-    // Read the expression from the text edit control
+    if (m_button3->isVisible())
+        m_button3->setVisible(false);
+    else
+        m_button3->setVisible(true);
+}
 
-    auto expressionString = m_expressionEdit->text().toStdString();
-
-    // Evaluate the expression using the exprtk library
-
-    exprtk::symbol_table<double> symbolTable;
-    exprtk::expression<double> expression;
-    exprtk::parser<double> parser;
-
-    symbolTable.add_constants();
-    expression.register_symbol_table(symbolTable);
-    parser.compile(expressionString, expression);
-
-    // Display the result in the result text edit control
-
-    double result = expression.value();
-    m_resultEdit->setText(QString::number(result));
+void MainWindow::onButton3Clicked()
+{
+    QMessageBox::information(this, "Button3", "Button3 clicked");
 }
