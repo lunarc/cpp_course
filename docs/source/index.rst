@@ -1,5 +1,5 @@
-C++ for Scientists and Engineers
-================================
+The Engineer's Guide to C++
+===========================
 
 .. image:: images/front_page_alt.png
    :width: 100.0%

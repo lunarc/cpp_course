@@ -9,7 +9,7 @@ import os, sys
 sys.path.append(os.path.abspath('.'))
 
 
-project = 'C++ for Scientists and Engineers'
+project = "The Engineer's Guide to C++"
 copyright = '2024, Jonas Lindemann'
 author = 'Jonas Lindemann'
 release = '0.1'
@@ -58,7 +58,7 @@ html_sidebars = {
 html_theme_options = {
 
     # Set the name of the project to appear in the navigation.
-    'nav_title': 'C++ for Scientists and Engineers',
+    'nav_title': "The Engineer's Guide to C++",
 
     # Specify a base_url used to generate sitemap.xml. If not
     # specified, then no sitemap will be built.
@@ -70,7 +70,7 @@ html_theme_options = {
 
     # Set the repo location to get a badge with stats
     'repo_url': 'https://github.com/lunarc/cpp_course',
-    'repo_name': 'C++ for Scientists and Engineers',
+    'repo_name': "The Engineer's Guide to C++",
 
     # Visible levels of the global TOC; -1 means unlimited
     'globaltoc_depth': 2,

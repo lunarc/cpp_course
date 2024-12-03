@@ -481,6 +481,121 @@ In this chapter we will go through the most common controls that are used in Qt 
 Buttons
 ~~~~~~~
 
+Buttons in Qt are implemented using the **QPushButton** class. The button control is one of the more important controls to enable user interaction with your application. As with all controls buttons can be enabled and disables as well as hidden and shown. The main signal used with buttons is the **clicked()** signal. This signal is emitted when the button is clicked. 
+
+To illustrate how buttons can be used we will create a simple application with three buttons. The first button will disable and enable the other 2 buttons and the second button will hide and show the third button. The header file for the **MainWindow** class is shown below:
+
+.. code:: cpp
+
+    #pragma once
+
+    #include <QPushButton>
+
+    class MainWindow : public QWidget {
+        Q_OBJECT
+
+    public:
+        explicit MainWindow(QWidget *parent = 0);
+
+    public slots:
+        void onButton1Clicked();
+        void onButton2Clicked();
+        void onButton3Clicked();
+
+    private:
+        QPushButton *m_button1;
+        QPushButton *m_button2;
+        QPushButton *m_button3;
+    };
+
+As we are going to reference the buttons in the event handlers we need to make them member variables of the **MainWindow** class. We also create three event methods to connect the buttons to the signals. 
+
+In the constructor we first create three buttons controls.
+
+.. code:: cpp
+
+    m_button1 = new QPushButton("Button 1", this);
+    m_button2 = new QPushButton("Button 2", this);
+    m_button3 = new QPushButton("Button 3", this);
+
+Next we create a horisontal layout to place the buttons in. We add the buttons to the layout and set the layout to the window.
+
+.. code:: cpp
+
+    auto layout = new QHBoxLayout(this);
+
+    layout->addWidget(m_button1);
+    layout->addWidget(m_button2);
+    layout->addWidget(m_button3);
+
+    setLayout(layout);
+
+Finally we connect the buttons to the event handlers.
+
+.. code:: cpp
+
+    connect(m_button1, SIGNAL(clicked()), this, SLOT(onButton1Clicked()));
+    connect(m_button2, SIGNAL(clicked()), this, SLOT(onButton2Clicked()));
+    connect(m_button3, SIGNAL(clicked()), this, SLOT(onButton3Clicked()));
+
+In the **onButton1Clicked()** method we disable and enable the other two buttons using the **.setEnabled()** method. We can query the state of the button using the **.isEnabled()** method.
+
+.. code:: cpp
+
+    void MainWindow::onButton1Clicked()
+    {
+        if (m_button2->isEnabled())
+        {
+            m_button2->setEnabled(false);
+            m_button3->setEnabled(false);
+        }
+        else
+        {
+            m_button2->setEnabled(true);
+            m_button3->setEnabled(true);
+        }
+    }
+
+In the **onButton2Clicked()** method we hide and show the third button using the **.hide()** and **.show()** methods. We can query the state of the button using the **.isHidden()** method.
+
+.. code:: cpp
+
+    void MainWindow::onButton2Clicked()
+    {
+        if (m_button3->isVisible())
+            m_button3->setVisible(false);
+        else
+            m_button3->setVisible(true);
+    }
+
+The **onButton3Clicked()** method is empty we just add a message box to show that the button was clicked.
+
+.. code:: cpp
+
+    void MainWindow::onButton3Clicked()
+    {
+        QMessageBox::information(this, "Button3", "Button3 clicked");
+    }
+
+Running the application will show a window with three buttons. The first button will disable and enable the other two buttons. The second button will hide and show the third button. The third button will show a message box when clicked. The finished window is shown below:
+
+.. image:: images/qt_buttons_1.png
+    :align: center
+    :width: 60.0%
+
+When clicking on "Button 1" the other two buttons will be disabled. Disabling controls will still show them, but they will can't be interacted with. By disabling controls we signal to the user that the control is available, but not usable. 
+
+.. image:: images/qt_buttons_2.png
+    :align: center
+    :width: 60.0%
+
+Clicking on "Button 2" will hide the third button. Hiding a button will also trigger the layout to rearrange the controls. When the button is shown again the layout will rearrange the controls again.
+
+.. image:: images/qt_buttons_3.png
+    :align: center
+    :width: 60.0%
+
+
 Radio buttons and Checkboxes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
