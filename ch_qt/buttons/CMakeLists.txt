@@ -42,7 +42,7 @@ else()
 endif()
 
 set_target_properties(
-    qt_step4
+    buttons
     PROPERTIES
     FOLDER "ch_qt"
 )
