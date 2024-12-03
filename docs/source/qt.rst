@@ -478,11 +478,11 @@ Controls in Qt
 
 In this chapter we will go through the most common controls that are used in Qt applications. We will show how to create the controls and how to use them in a user interface. We will also show how to connect the controls to signals and slots to handle events.
 
-Radio buttons and Checkboxes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 Buttons
 ~~~~~~~
+
+Radio buttons and Checkboxes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 List- and combo boxes
 ~~~~~~~~~~~~~~~~~~~~~

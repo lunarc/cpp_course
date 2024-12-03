@@ -38,6 +38,7 @@ Jonas Lindemann, 2024
    eigen
    oop
    qt
+   concurrency
    code_org
    debugging
    mixed_language
