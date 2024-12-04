@@ -788,6 +788,147 @@ The finished window is shown below:
 List- and combo boxes
 ~~~~~~~~~~~~~~~~~~~~~
 
+List boxes are used to display a list of items that the user can select from. The items in the list box are usually strings. The user can select one or multiple items from the list, depending on the configuration of the control. The **QListWidget** class is used to create list boxes in Qt. The **QListWidget** class is a container for items that can be selected. The **QListWidgetItem** class is used to create items in the list box.
+
+To illustrate the use we are going to create a simple application that displays a list box and a combobox where you can add remove and clear items. The layout will consist of two columns. The first column will contain a line edit, listbox and a combobox. The second column will contain buttons for adding, removing and clearing items. First we add the controls that needs to be references and any event methods to our MainWindow class:
+
+.. code:: cpp
+
+    #pragma once
+
+    #include <QComboBox>
+    #include <QLineEdit>
+    #include <QListWidget>
+    #include <QPushButton>
+
+    class MainWindow : public QWidget {
+        Q_OBJECT
+
+    public:
+        explicit MainWindow(QWidget *parent = 0);
+
+    public slots:
+        void onAddButtonClicked();
+        void onRemoveButtonClicked();
+        void onClearButtonClicked();
+        void onItemSelectionChanged();
+        void onComboCurrentTextChanged();
+
+    private:
+        QListWidget *m_listWidget;
+        QLineEdit *m_lineEdit;
+        QComboBox *m_comboBox;
+    };
+
+In the constructor we first create our controls:
+
+.. code:: cpp
+
+    m_listWidget = new QListWidget(this);
+    m_lineEdit = new QLineEdit(this);
+    m_comboBox = new QComboBox(this);
+
+    auto addButton = new QPushButton("Add", this);
+    auto removeButton = new QPushButton("Remove", this);
+    auto clearButton = new QPushButton("Clear", this);
+
+As we don't need to modify the buttons we can create them without attributes in the **MainClass** class. Next we create the layout for the controls. The layout will consist of two columns. The first column will contain the list box, line edit and combobox. The second column will contain the buttons. The layout is created with the following code in the constructor:
+
+.. code:: cpp
+
+    auto mainLayout = new QHBoxLayout(this);
+    auto leftLayout = new QVBoxLayout(this);
+    auto rightLayout = new QVBoxLayout(this);
+
+    leftLayout->addWidget(m_lineEdit);
+    leftLayout->addWidget(m_listWidget);
+    leftLayout->addWidget(m_comboBox);
+
+    rightLayout->addWidget(addButton);
+    rightLayout->addWidget(removeButton);
+    rightLayout->addWidget(clearButton);
+    rightLayout->addStretch();
+
+    mainLayout->addLayout(leftLayout);
+    mainLayout->addLayout(rightLayout);
+
+    setLayout(mainLayout);
+
+Finally we connect the signals to the event methods:
+
+.. code:: cpp
+
+    connect(addButton, &QPushButton::clicked, this, &MainWindow::onAddButtonClicked);
+    connect(removeButton, &QPushButton::clicked, this, &MainWindow::onRemoveButtonClicked);
+    connect(clearButton, &QPushButton::clicked, this, &MainWindow::onClearButtonClicked);
+    connect(m_listWidget, &QListWidget::itemSelectionChanged, this, &MainWindow::onItemSelectionChanged);
+    connect(m_comboBox, &QComboBox::currentTextChanged, this, &MainWindow::onComboCurrentTextChanged);
+
+For the list box we connect the **.itemSelectionChanged()** signal to handle the selection of items. For the combobox we connect the **.currentTextChanged()** signal to handle the selection of items.
+
+Next we implement the event methods for the buttons. First we implement the **onAddButtonClicked()** method. This method will add the text from the line edit control to the list box and combobox. Here we use the **text()** method to retrieve the text in the line edit control. If the text is empty we show a message box to the user, otherwise we add the text to the list box and combobox using the **addItem()** methods.
+
+.. code:: cpp
+
+    void MainWindow::onAddButtonClicked()
+    {
+        // Get the text from the line edit
+
+        QString text = m_lineEdit->text();
+
+        // Check if the text is empty
+
+        if (text.isEmpty())
+        {
+            QMessageBox::warning(this, "Error", "Please enter some text");
+            return;
+        }
+
+        // Add the text to the list widget
+
+        m_listWidget->addItem(text);
+        m_comboBox->addItem(text);
+    }
+
+For the remove button we will use the **currentItem()** method to get the currently selected item. If the item return in **nullptr** nothing was selected by the user and we exit by displaying a message, otherwise we remove the item from the list box by deleting the item. This works as the item destructor will remove the item from the list box. The complete code for the event method is shown below:
+
+.. code:: cpp
+
+    void MainWindow::onRemoveButtonClicked()
+    {
+        // Get the selected item
+
+        auto item = m_listWidget->currentItem();
+
+        // Check if an item is selected
+
+        if (!item)
+        {
+            QMessageBox::warning(this, "Error", "Please select an item to remove");
+            return;
+        }
+
+        delete item;
+    }
+
+For the clear button we use the **.clear()** method to remove all items from the list box and combobox. The complete code for the event method is shown below:
+
+.. code:: cpp
+
+    void MainWindow::onClearButtonClicked()
+    {
+        m_listWidget->clear();
+        m_comboBox->clear();
+    }
+
+The finished application is shown in the following image:
+
+.. image:: images/qt_list_combo_1.png
+    :align: center
+    :width: 60.0%
+
+When clicking on the "Add" button the text from the line edit control will be added to the list box and combobox. When clicking on the "Remove" button the selected item will be removed from the list box.
+
 Sliders and spin boxes
 ~~~~~~~~~~~~~~~~~~~~~~
 

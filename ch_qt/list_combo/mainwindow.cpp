@@ -9,97 +9,119 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
-#include "exprtk.hpp"
-
-MainWindow::MainWindow(QWidget *parent)
-    : QWidget(parent), m_checkBox(nullptr), m_radioButton1(nullptr), m_radioButton2(nullptr)
+MainWindow::MainWindow(QWidget *parent) : QWidget(parent), m_listWidget(nullptr), m_lineEdit(nullptr)
 {
     // Set the window title
-    setWindowTitle("Radio and check buttons");
+    setWindowTitle("List boxes and combos");
     setGeometry(100, 100, 400, 150);
 
-    // Create the buttons
+    m_listWidget = new QListWidget(this);
+    m_lineEdit = new QLineEdit(this);
+    m_comboBox = new QComboBox(this);
 
-    m_radioButton1 = new QRadioButton("Option 1", this);
-    m_radioButton2 = new QRadioButton("Option 2", this);
+    auto addButton = new QPushButton("Add", this);
+    auto removeButton = new QPushButton("Remove", this);
+    auto clearButton = new QPushButton("Clear", this);
 
-    m_checkBox = new QCheckBox("Check 1", this);
+    auto mainLayout = new QHBoxLayout(this);
+    auto leftLayout = new QVBoxLayout(this);
+    auto rightLayout = new QVBoxLayout(this);
 
-    m_checkButton = new QPushButton("Check Button", this);
-    m_changeRadioButton = new QPushButton("Change Radio Button", this);
+    leftLayout->addWidget(m_lineEdit);
+    leftLayout->addWidget(m_listWidget);
+    leftLayout->addWidget(m_comboBox);
 
-    auto layout = new QHBoxLayout(this);
+    rightLayout->addWidget(addButton);
+    rightLayout->addWidget(removeButton);
+    rightLayout->addWidget(clearButton);
+    rightLayout->addStretch();
 
-    auto buttonLayout = new QVBoxLayout(this);
+    mainLayout->addLayout(leftLayout);
+    mainLayout->addLayout(rightLayout);
 
-    buttonLayout->addWidget(m_checkButton);
-    buttonLayout->addWidget(m_changeRadioButton);
+    setLayout(mainLayout);
 
-    auto radioChecklayout = new QVBoxLayout(this);
-
-    radioChecklayout->addWidget(m_radioButton1);
-    radioChecklayout->addWidget(m_radioButton2);
-    radioChecklayout->addWidget(m_checkBox);
-
-    auto rb1 = new QRadioButton("Option 1", this);
-    auto rb2 = new QRadioButton("Option 2", this);
-    auto rb3 = new QRadioButton("Option 3", this);
-
-    auto layout2 = new QVBoxLayout(this);
-
-    auto group = new QGroupBox("Group box");
-
-    layout2->addWidget(rb1);
-    layout2->addWidget(rb2);
-    layout2->addWidget(rb3);
-
-    group->setLayout(layout2);
-
-    layout->addLayout(radioChecklayout);
-    layout->addLayout(buttonLayout);
-    layout->addWidget(group);
-
-    setLayout(layout);
-
-    // Connect the signals
-
-    connect(m_radioButton1, &QRadioButton::toggled, this, &MainWindow::onRadioButton1Toggled);
-    connect(m_radioButton2, &QRadioButton::toggled, this, &MainWindow::onRadioButton2Toggled);
-    connect(m_checkBox, &QCheckBox::toggled, this, &MainWindow::onCheckBoxToggled);
-    connect(m_checkButton, &QPushButton::clicked, this, &MainWindow::onCheckButtonClicked);
-    connect(m_changeRadioButton, &QPushButton::clicked, this, &MainWindow::onChangeRadioButtonClicked);
+    connect(addButton, &QPushButton::clicked, this, &MainWindow::onAddButtonClicked);
+    connect(removeButton, &QPushButton::clicked, this, &MainWindow::onRemoveButtonClicked);
+    connect(clearButton, &QPushButton::clicked, this, &MainWindow::onClearButtonClicked);
+    connect(m_listWidget, &QListWidget::itemSelectionChanged, this, &MainWindow::onItemSelectionChanged);
+    connect(m_comboBox, &QComboBox::currentTextChanged, this, &MainWindow::onComboCurrentTextChanged);
 }
 
-void MainWindow::onRadioButton1Toggled(bool checked)
+void MainWindow::onAddButtonClicked()
 {
-    if (checked)
-        QMessageBox::information(this, "Option 1", "Option 1 is selected");
+    // Get the text from the line edit
+
+    QString text = m_lineEdit->text();
+
+    // Check if the text is empty
+
+    if (text.isEmpty())
+    {
+        QMessageBox::warning(this, "Error", "Please enter some text");
+        return;
+    }
+
+    // Add the text to the list widget
+
+    m_listWidget->addItem(text);
+    m_comboBox->addItem(text);
 }
 
-void MainWindow::onRadioButton2Toggled(bool checked)
+void MainWindow::onRemoveButtonClicked()
 {
-    if (checked)
-        QMessageBox::information(this, "Option 2", "Option 2 is selected");
+    // Get the selected item
+
+    auto item = m_listWidget->currentItem();
+
+    // Check if an item is selected
+
+    if (!item)
+    {
+        QMessageBox::warning(this, "Error", "Please select an item to remove");
+        return;
+    }
+
+    delete item;
 }
 
-void MainWindow::onCheckBoxToggled(bool checked)
+void MainWindow::onClearButtonClicked()
 {
-    if (checked)
-        QMessageBox::information(this, "Check 1", "Check 1 is selected");
+    // Clear all items from the list widget
+
+    m_listWidget->clear();
+    m_comboBox->clear();
 }
 
-void MainWindow::onCheckButtonClicked()
+void MainWindow::onItemSelectionChanged()
 {
-    if (m_checkBox->isChecked())
-        m_checkBox->setChecked(false);
-    else
-        m_checkBox->setChecked(true);
+    // Get the selected item
+
+    auto item = m_listWidget->currentItem();
+
+    // Check if an item is selected
+
+    if (!item)
+    {
+        return;
+    }
+
+    // Get the text of the selected item
+
+    QString text = item->text();
+
+    // Set the text of the line edit
+
+    m_lineEdit->setText(text);
 }
 
-void MainWindow::onChangeRadioButtonClicked()
+void MainWindow::onComboCurrentTextChanged()
 {
-    if (m_radioButton1->isChecked())
-        m_radioButton2->setChecked(true);
-    else
-        m_radioButton1->setChecked(true);
+    // Get the current text of the combo box
+
+    QString text = m_comboBox->currentText();
+
+    // Set the text of the line edit
+
+    m_lineEdit->setText(text);
 }
