@@ -599,6 +599,192 @@ Clicking on "Button 2" will hide the third button. Hiding a button will also tri
 Radio buttons and Checkboxes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Radio and check buttons a are a specialised form of buttons that have state. Radio buttons are used to select one option from a group of options, where only one could be selected at a time. Checkboxes can be used to selection multiple options at the same time. There are no relations between the options. 
+
+State is set by using the **.setChecked()** method. The state of the button can be queried using the **.isChecked()** method. When a state is changed the control sends out the **.toggled()** signal.  
+
+To illustrate the use of the controls we will create an example applications consisting of 2 **QRadioButton** controls and a single **QCheckBox** control. We also add 2 buttons for setting the state of the controls manually from the code. As we need to query the state of the controls we declare them as attributes of the **MainWindow** class. We also add event methods for the controls. The header file for the **MainWindow** class is shown below:
+
+.. code:: cpp
+
+    #pragma once
+
+    #include <QCheckBox>
+    #include <QPushButton>
+    #include <QRadioButton>
+
+    class MainWindow : public QWidget {
+        Q_OBJECT
+
+    public:
+        explicit MainWindow(QWidget *parent = 0);
+
+    public slots:
+        void onRadioButton1Toggled(bool checked);
+        void onRadioButton2Toggled(bool checked);
+        void onCheckBoxToggled(bool checked);
+        void onCheckButtonClicked();
+        void onChangeRadioButtonClicked();
+
+    private:
+        QRadioButton *m_radioButton1;
+        QRadioButton *m_radioButton2;
+        QCheckBox *m_checkBox;
+        QPushButton *m_checkButton;
+        QPushButton *m_changeRadioButton;
+    };
+
+In the constructor we first create the instances of the controls:
+
+.. code:: cpp
+
+    m_radioButton1 = new QRadioButton("Option 1", this);
+    m_radioButton2 = new QRadioButton("Option 2", this);
+
+    m_checkBox = new QCheckBox("Check 1", this);
+
+    m_checkButton = new QPushButton("Check Button", this);
+    m_changeRadioButton = new QPushButton("Change Radio Button", this);
+
+The lauyout will consist of a top level horisontal layout with to vertical layouts for the controls. The first vertical layout will be the radio and check buttons. The second column will be the buttons for setting the state of the controls. The layout is created with the following code in the constructor:
+
+.. code:: cpp
+
+    auto layout = new QHBoxLayout(this);
+
+    auto buttonLayout = new QVBoxLayout(this);
+
+    buttonLayout->addWidget(m_checkButton);
+    buttonLayout->addWidget(m_changeRadioButton);
+
+    auto radioChecklayout = new QVBoxLayout(this);
+
+    radioChecklayout->addWidget(m_radioButton1);
+    radioChecklayout->addWidget(m_radioButton2);
+    radioChecklayout->addWidget(m_checkBox);
+
+    layout->addLayout(radioChecklayout);
+    layout->addLayout(buttonLayout);
+
+    setLayout(layout);
+
+Finally we connect the signals to our event methods.
+
+.. code:: cpp
+
+    connect(m_radioButton1, &QRadioButton::toggled, this, &MainWindow::onRadioButton1Toggled);
+    connect(m_radioButton2, &QRadioButton::toggled, this, &MainWindow::onRadioButton2Toggled);
+    connect(m_checkBox, &QCheckBox::toggled, this, &MainWindow::onCheckBoxToggled);
+    connect(m_checkButton, &QPushButton::clicked, this, &MainWindow::onCheckButtonClicked);
+    connect(m_changeRadioButton, &QPushButton::clicked, this, &MainWindow::onChangeRadioButtonClicked);
+
+.. note::
+
+    The **toggled()** signal and not **clicked()** is emitted when the state of the control is changed. The event have a **bool** parameter to indicate the new state of the control.
+
+For the **toggled()** event methods we just show a message indicating a selected state. 
+
+.. code:: cpp
+
+    void MainWindow::onRadioButton1Toggled(bool checked)
+    {
+        if (checked)
+            QMessageBox::information(this, "Option 1", "Option 1 is selected");
+    }
+
+    void MainWindow::onRadioButton2Toggled(bool checked)
+    {
+        if (checked)
+            QMessageBox::information(this, "Option 2", "Option 2 is selected");
+    }
+
+    void MainWindow::onCheckBoxToggled(bool checked)
+    {
+        if (checked)
+            QMessageBox::information(this, "Check 1", "Check 1 is selected");
+    }
+
+For the **onCheckButtonClicked()** method we check or uncheck the state of the checkbox.
+
+.. code:: cpp
+
+    void MainWindow::onCheckButtonClicked()
+    {
+        if (m_checkBox->isChecked())
+            m_checkBox->setChecked(false);
+        else
+            m_checkBox->setChecked(true);
+    }
+
+For the **onChangeRadioButtonClicked()** method we change the state of the radio buttons.
+
+.. code:: cpp
+
+    void MainWindow::onChangeRadioButtonClicked()
+    {
+        if (m_radioButton1->isChecked())
+            m_radioButton2->setChecked(true);
+        else
+            m_radioButton1->setChecked(true);
+    }
+
+.. note::
+
+    The **setChecked()** method will trigger the **toggled()** signal, so the event methods will be called when the state is changed.
+
+The finished window is shown below:
+
+.. image:: images/qt_radio_check_1.png
+    :align: center
+    :width: 60.0%
+
+When clicking on the radio buttons or the check box a message box will be shown indicating the state of the control. Clicking on the "Check Button" will toggle the state of the check box. Clicking on the "Change Radio Button" will change the state of the radio buttons. The finished window is shown below:
+
+.. image:: images/qt_radio_check_2.png
+    :align: center
+    :width: 60.0%
+
+To have multiple groups of radio buttons they have to be added to groups. This is done by creating a **QButtonGroup** object and adding the radio buttons to the group. The radio buttons in the group will then be mutually exclusive. If the radio buttons are not added to a group they will not be independent of each other.
+
+.. code:: cpp
+
+    auto group = new QButtonGroup(this);
+    group->addButton(rb1);
+    group->addButton(rb2);
+    group->addButton(rb3);
+
+    layout2->addWidget(rb1);
+    layout2->addWidget(rb2);
+    layout2->addWidget(rb3);
+    layout2->
+
+The **QButtonGroup** is not a widget in itself, but defined the groups of related radio buttons. Another option is to use a **QGroupBox**, which also works as a **QWidget** container. The **QGroupBox** can be used to group related controls together. The **QGroupBox** can also have a title that is displayed in the group box.   
+
+In the code below we create a group box with a title and add the radio buttons to the group box:
+
+.. code:: cpp
+
+    auto layout2 = new QVBoxLayout(this);
+
+    auto group = new QGroupBox("Group box");
+
+    layout2->addWidget(rb1);
+    layout2->addWidget(rb2);
+    layout2->addWidget(rb3);
+
+    group->setLayout(layout2);
+
+    layout->addLayout(radioChecklayout);
+    layout->addLayout(buttonLayout);
+    layout->addWidget(group);
+
+The finished window is shown below:
+
+.. image:: images/qt_radio_check_3.png
+    :align: center
+    :width: 60.0%
+
+
 List- and combo boxes
 ~~~~~~~~~~~~~~~~~~~~~
 
