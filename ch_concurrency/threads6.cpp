@@ -17,8 +17,10 @@
 using namespace std;
 
 // Function to perform a computationally intensive task
-void heavyComputation(double *arr, size_t start, size_t end)
+void heavyComputation(double *arr, size_t start, size_t end, std::atomic< double > &sum)
 {
+    double localSum = 0.0;
+
     for (size_t i = start; i < end; ++i)
     {
         arr[i] = std::sin(arr[i]) * std::cos(arr[i]) * std::sqrt(std::abs(arr[i]));
@@ -26,19 +28,21 @@ void heavyComputation(double *arr, size_t start, size_t end)
         {
             arr[i] = std::sin(arr[i]);
         }
+        localSum += arr[i];
     }
+
+    sum += localSum;
 }
 
 // Function to process data sequentially
-void processSequential(double *data, size_t size)
+void processSequential(double *data, size_t size, std::atomic< double > &sum)
 {
-    heavyComputation(data, 0, size);
+    heavyComputation(data, 0, size, sum);
 }
 
-void processParallel(double *data, size_t size, int numThreads)
+void processParallel(double *data, size_t size, int numThreads, std::atomic< double > &sum)
 {
     std::vector< std::jthread > threads;
-    std::atomic< double > sum{0.0};
     threads.reserve(numThreads);
 
     size_t chunkSize = size / numThreads;
@@ -47,7 +51,7 @@ void processParallel(double *data, size_t size, int numThreads)
     {
         size_t start = i * chunkSize;
         size_t end = (i == numThreads - 1) ? size : (i + 1) * chunkSize;
-        threads.emplace_back(heavyComputation, data, start, end);
+        threads.emplace_back(heavyComputation, data, start, end, std::ref(sum));
     }
 
     /*
@@ -70,29 +74,34 @@ int main()
 
     auto seqData = std::make_unique< double[] >(dataSize);
     auto parData = std::make_unique< double[] >(dataSize);
+    std::atomic< double > seqSum{0.0};
+    std::atomic< double > parSum{0.0};
 
     std::printf("Initialising arrays...\n");
 
     std::generate_n(seqData.get(), dataSize, []() { return 1.0; });
+    std::generate_n(parData.get(), dataSize, []() { return 1.0; });
 
     std::printf("Running serially...\n");
 
     auto start = std::chrono::high_resolution_clock::now();
-    processSequential(seqData.get(), dataSize);
+    processSequential(seqData.get(), dataSize, seqSum);
     auto end = std::chrono::high_resolution_clock::now();
 
     std::chrono::duration< double > elapsedSerially = end - start;
     std::printf("Time for sequential processing: %f seconds\n", elapsedSerially.count());
+    std::printf("Sum: %f\n", seqSum.load());
 
     std::printf("Running in parallel...\n");
 
     start = std::chrono::high_resolution_clock::now();
-    processParallel(parData.get(), dataSize, numThreads);
+    processParallel(parData.get(), dataSize, numThreads, parSum);
     end = std::chrono::high_resolution_clock::now();
 
     std::chrono::duration< double > elapsedParallel = end - start;
 
     std::printf("Time for parallel processing: %f seconds\n", elapsedParallel.count());
+    std::printf("Sum: %f\n", parSum.load());
     std::printf("Speedup: %f\n", elapsedSerially.count() / elapsedParallel.count());
 
     return 0;

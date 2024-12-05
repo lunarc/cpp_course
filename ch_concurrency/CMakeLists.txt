@@ -6,7 +6,9 @@ add_executable(threads2 threads2.cpp)
 add_executable(threads3 threads3.cpp)
 add_executable(threads4 threads4.cpp)
 add_executable(threads5 threads5.cpp)
+add_executable(threads6 threads6.cpp)
 add_executable(async1 async1.cpp)
+add_executable(async2 async2.cpp)
 
 
 set_target_properties(
@@ -16,7 +18,9 @@ set_target_properties(
     threads3
     threads4
     threads5
+    threads6
     async1
+    async2
     PROPERTIES
     FOLDER "ch_concurrency"
 )
