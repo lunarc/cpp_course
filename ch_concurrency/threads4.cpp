@@ -56,5 +56,9 @@ int main()
     cout << "Serial execution time = " << timeSerial << " seconds." << endl;
     cout << "Thread execution time = " << timeThreads << " seconds." << endl;
 
+    delete[] x;
+    delete[] y;
+    delete[] z;
+
     return 0;
 }
