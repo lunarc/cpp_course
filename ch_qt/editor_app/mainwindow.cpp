@@ -12,9 +12,10 @@
 #include <QStyle>
 #include <QStyleFactory>
 #include <QTextEdit>
-#include <QToolbar>
+#include <QToolBar>
 #include <QVBoxLayout>
 #include <QVector>
+#include <QTextStream>
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)

@@ -10,8 +10,8 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 if (LINUX)
     find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
-    add_executable(buttons
-        mainwindow.ui
+    add_executable(radio_checkbox
+        mainwindow.h
         mainwindow.cpp
         main.cpp
     )

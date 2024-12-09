@@ -11,7 +11,7 @@ if (LINUX)
     find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
     add_executable(qt_step2
-        mainwindow.ui
+        mainwindow.h
         mainwindow.cpp
         main.cpp
     )

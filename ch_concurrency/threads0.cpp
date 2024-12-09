@@ -1,19 +1,24 @@
 #include <chrono>
-#include <print>
+#define FMT_HEADER_ONLY
+#include <fmt/format.h>
 #include <thread>
+#include <iostream>
 
 using namespace std;
 
+
 void myfunc()
 {
-    std::print("Thread {0} starting.\n", this_thread::get_id());
+    //fmt::print("Thread {} starting.\n", this_thread::get_id());
+    cout << "Thread " << this_thread::get_id() << " starting." << endl;
     this_thread::sleep_for(chrono::seconds(1));
-    std::print("Thread {0} stopping.\n", this_thread::get_id());
+    //fmt::print("Thread {} stopping.\n", this_thread::get_id());
+    cout << "Thread " << this_thread::get_id() << " stopping." << endl;
 }
 
 int main()
 {
     jthread t(myfunc);
     t.join();
-    std::printf("Main thread stopping.\n");
+    fmt::print("Main thread stopping.\n");
 }

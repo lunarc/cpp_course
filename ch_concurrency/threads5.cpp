@@ -8,7 +8,8 @@
 #include <iterator>
 #include <memory>
 #include <numeric>
-#include <print>
+#define FMT_HEADER_ONLY
+#include <fmt/format.h>
 #include <random>
 #include <ranges>
 #include <thread>

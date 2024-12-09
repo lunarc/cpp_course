@@ -1,6 +1,7 @@
 #include <iostream>
 #include <mutex>
-#include <print>
+#define FMT_HEADER_ONLY
+#include <fmt/format.h>
 #include <thread>
 
 using namespace std;
@@ -42,20 +43,20 @@ int main()
         if (i == numThreads - 1)
             i1 += remainder + 1;
 
-        std::print("i0 = {0} i1 = {1}\n", i0, i1);
+        fmt::print("i0 = {0} i1 = {1}\n", i0, i1);
         threads[i] = jthread(sum, i0, i1, i, sums);
     }
 
-    std::print("Waiting for completion...\n");
+    fmt::print("Waiting for completion...\n");
 
     for (int i = 0; i < numThreads; i++)
     {
         threads[i].join();
-        std::print("Sum {0} = {1}\n", i, sums[i]);
+        fmt::print("Sum {0} = {1}\n", i, sums[i]);
         totalSum += sums[i];
     }
 
-    std::print("Total sum = {0}\n", totalSum);
+    fmt::print("Total sum = {0}\n", totalSum);
 
     return 0;
 }

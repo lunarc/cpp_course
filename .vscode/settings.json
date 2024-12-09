@@ -68,7 +68,15 @@
         "cinttypes": "cpp",
         "typeindex": "cpp",
         "typeinfo": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "any": "cpp",
+        "bitset": "cpp",
+        "cfenv": "cpp",
+        "charconv": "cpp",
+        "source_location": "cpp",
+        "ranges": "cpp",
+        "span": "cpp",
+        "strstream": "cpp"
     },
     "esbonio.server.enabled": false,
     "iis.configDir": ""
