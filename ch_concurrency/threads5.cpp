@@ -8,8 +8,7 @@
 #include <iterator>
 #include <memory>
 #include <numeric>
-#define FMT_HEADER_ONLY
-#include <fmt/format.h>
+#include <utils/print.h>
 #include <random>
 #include <ranges>
 #include <thread>
@@ -64,28 +63,28 @@ int main()
     const size_t dataSize = 5000000;
     int numThreads = std::thread::hardware_concurrency();
 
-    std::printf("Data size: %zu\n", dataSize);
-    std::printf("Number of threads: %d\n", numThreads);
+    utils::print("Data size: %zu\n", dataSize);
+    utils::print("Number of threads: %d\n", numThreads);
 
-    std::printf("Allocating arrays...\n");
+    utils::print("Allocating arrays...\n");
 
     auto seqData = std::make_unique< double[] >(dataSize);
     auto parData = std::make_unique< double[] >(dataSize);
 
-    std::printf("Initialising arrays...\n");
+    utils::print("Initialising arrays...\n");
 
     std::generate_n(seqData.get(), dataSize, []() { return 1.0; });
 
-    std::printf("Running serially...\n");
+    utils::print("Running serially...\n");
 
     auto start = std::chrono::high_resolution_clock::now();
     processSequential(seqData.get(), dataSize);
     auto end = std::chrono::high_resolution_clock::now();
 
     std::chrono::duration< double > elapsedSerially = end - start;
-    std::printf("Time for sequential processing: %f seconds\n", elapsedSerially.count());
+    utils::print("Time for sequential processing: %f seconds\n", elapsedSerially.count());
 
-    std::printf("Running in parallel...\n");
+    utils::print("Running in parallel...\n");
 
     start = std::chrono::high_resolution_clock::now();
     processParallel(parData.get(), dataSize, numThreads);
@@ -93,8 +92,8 @@ int main()
 
     std::chrono::duration< double > elapsedParallel = end - start;
 
-    std::printf("Time for parallel processing: %f seconds\n", elapsedParallel.count());
-    std::printf("Speedup: %f\n", elapsedSerially.count() / elapsedParallel.count());
+    utils::print("Time for parallel processing: %f seconds\n", elapsedParallel.count());
+    utils::print("Speedup: %f\n", elapsedSerially.count() / elapsedParallel.count());
 
     return 0;
 }
