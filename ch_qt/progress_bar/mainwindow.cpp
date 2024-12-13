@@ -38,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent), m_timer(nullptr), m_p
 
     layout->addLayout(horizontalLayout);
     layout->addWidget(m_progressBar);
+    layout->addStretch();
 
     // Create a timer
 
