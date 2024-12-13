@@ -9,6 +9,7 @@ add_executable(threads5 threads5.cpp)
 add_executable(threads6 threads6.cpp)
 add_executable(async1 async1.cpp)
 add_executable(async2 async2.cpp)
+add_executable(halo_eigen1 halo_eigen1.cpp)
 
 
 set_target_properties(
@@ -21,6 +22,7 @@ set_target_properties(
     threads6
     async1
     async2
+    halo_eigen1
     PROPERTIES
     FOLDER "ch_concurrency"
 )
