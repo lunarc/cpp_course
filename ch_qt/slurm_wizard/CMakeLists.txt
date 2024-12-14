@@ -11,6 +11,9 @@ if (UNIX)
     find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
     add_executable(calculator
+        slurm_task_farm.h
+        slurm_task_farm.cpp
+        slurm_wizard.h
         slurm_wizard.ui
         slurm_wizard.cpp
         main.cpp
@@ -23,6 +26,8 @@ else()
     qt_standard_project_setup()
 
     qt_add_executable(slurm_wizard
+        slurm_task_farm.h
+        slurm_task_farm.cpp
         slurm_wizard.h
         slurm_wizard.ui
         slurm_wizard.cpp

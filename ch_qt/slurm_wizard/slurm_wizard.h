@@ -3,6 +3,8 @@
 #include <QWidget>
 #include <memory>
 
+#include "slurm_task_farm.h"
+
 namespace Ui
 {
 class SlurmWizardWindow;
@@ -16,6 +18,10 @@ public:
     ~SlurmWizardWindow();
 
 private:
+    slurm::Job m_job;
+
+    void updateUi();
+
 private slots:
 
 private:
