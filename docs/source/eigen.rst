@@ -1,5 +1,5 @@
-Arrays computing with Eigen
-===========================
+Array computing with Eigen
+==========================
 
 Arrays are an important part in any scientific computing applications.
 As C++ is an object oriented language it is sometimes tempting to
@@ -1096,13 +1096,124 @@ This produces the following output:
       1.01693   0.242351  -0.251851   -1.13456    0.28466  -0.149436   -0.17369   0.721883   0.108984  0.0144817
 
 Returning Matrices from functions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------------
+
+The preferred way of returning Eigen-arrays from functions is to return them by value. Eigen in combination with C++ return value optimisation will provide mechanism to avoid unnecessary copying of the returned matrix. An example of this is given below:
+
+.. code:: cpp
+
+   MatrixXd foo()
+   {
+       MatrixXd A(10, 10);
+       A.setRandom();
+       return A;
+   }
+
+   int main()
+   {
+       MatrixXd B = foo();
+       cout << B << endl;
+   }
+
 
 Passing Matrices to functions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------
 
-Accessing raw data
-------------------
+If you really want to make sure no copying is performed it is recommended to pass the Eigen-array as a parameter to the function. This is shown in the following example:
+
+.. code:: cpp
+
+   void bar(const MatrixXd& A)
+   {
+       cout << A << endl;
+   }
+
+   int main()
+   {
+       MatrixXd B(10, 10);
+       B.setRandom();
+       bar(B);
+   }
+
+!!! note The **const** keyword is used to indicate that the matrix can not be modified in the function.
+
+Accessing array raw data
+------------------------
+
+Some times you need to interact with other libraries that require don't support the Eigen-arrays. To solve this Eigen arrays provide a special method that will return a pointer to the raw data. The following code illustrates how this is done:
+
+.. code:: cpp
+
+   int main()
+   {
+       MatrixXd A(10, 10);
+       A.setRandom();
+
+       double* data = A.data();
+
+       for (int i = 0; i < A.size(); i++)
+       {
+           cout << data[i] << " ";
+       }
+   }
+
+In the code above the 2D array is accessed as a 1D array and is accessed in the loop as a 1D array. If you want to access the 2D array as a C++ 2D array you need to do some reinterpretation of the data. All Eigen arrays are stored as a single 1D block in memory. A 2D C++ array is basically an array of pointers to 1D arrays. In the following code we construct a 2D array by creating pointer to raw data array. 
+
+.. code:: cpp
+
+   int main()
+   {
+       MatrixXd A(10, 10);
+       A.setRandom();
+
+       double* data = A.data();
+       double** data2D = new double*[A.rows()];
+
+       for (int i = 0; i < A.rows(); i++)
+           data2D[i] = data + i * A.cols();
+
+       for (int i = 0; i < A.rows(); i++)
+       {
+           for (int j = 0; j < A.cols(); j++)
+               cout << data2D[i][j] << " ";
+           cout << endl;
+       }
+
+       delete[] data2D;
+   }
+
+!!! note In the above code the array data i still owned by the Eigen array. The data should not be deleted. The delete[] method only deletes the array of pointers. 
+
+If you have a library that has functions that take a 2D C++ array as input you need to pass the pointer and information on the size of the array. The following code illustrates how this is done:
+
+
+.. code:: cpp
+
+   void foo(double** data, int rows, int cols)
+   {
+       for (int i = 0; i < rows; i++)
+       {
+           for (int j = 0; j < cols; j++)
+               cout << data[i][j] << " ";
+           cout << endl;
+       }
+   }
+
+   int main()
+   {
+       MatrixXd A(10, 10);
+       A.setRandom();
+
+       double* data = A.data();
+       double** data2D = new double*[A.rows()];
+
+       for (int i = 0; i < A.rows(); i++)
+           data2D[i] = data + i * A.cols();
+
+       foo(data2D, A.rows(), A.cols());
+
+       delete[] data2D;
+   }
 
 Using Eigen with other libraries
 --------------------------------
