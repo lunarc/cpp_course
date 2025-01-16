@@ -1,45 +1,40 @@
 Array computing with Eigen
 ==========================
 
-Arrays are an important part in any scientific computing applications.
-As C++ is an object oriented language it is sometimes tempting to
-implement your own matrix library. However, this is often not a good
-idea as there are many libraries available that are well tested and
-optimized. One of the most popular libraries for linear algebra is
-Eigen. Eigen is a header only library that is easy to use and is very
-fast. Eigen also supports many of the optimised basic linear algebra
-packages such as BLAS and LAPACK, which really can speed up your
-computations. In this section we will cover the basics of Eigen and how
-to use it in your applications.
+Introduction
+------------
 
-Using the Eigen library
------------------------
+Arrays are an important part in any scientific computing applications. As C++ is an object oriented language it is sometimes tempting to implement your own matrix library. However, this is often not a good idea as there are many libraries available that are well tested and optimized. 
 
-To use Eigen in your own application you first have to include the Eigen
-header file. Eigen is a header only library so you don’t have to link
-against any libraries. To include Eigen in your application you can use
-the following code:
+What is Eigen?
+~~~~~~~~~~~~~~
+
+One of the most popular libraries for linear algebra is Eigen. Eigen is a header only library that is easy to use and is very fast. Eigen also supports many of the optimised basic linear algebra packages such as BLAS and LAPACK, which really can speed up your computations. In this section we will cover the basics of Eigen and how to use it in your applications.
+
+Setting up Eigen in your own project
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To use Eigen in your own application you first have to include the Eigen header file. Eigen is a header only library so you don’t have to link against any libraries. To include Eigen in your application you can use the following code:
 
 .. code:: cpp
 
    #include <Eigen/Dense>
 
-This includes the dense matrix module of Eigen. There are other modules,
-but we will cover them later. The ``Eigen/Dense`` module includes all
-the basic matrix operations and is the most commonly used module.
+This includes the dense matrix module of Eigen. There are other modules, but we will cover them later. The ``Eigen/Dense`` module includes all the basic matrix operations and is the most commonly used module.
 
-All Eigen classes are defined in the ``Eigen`` namespace. This means
-that you have to use the ``Eigen::`` prefix when using Eigen classes.
-For example, to define a 3x3 matrix you can use the following code:
+Working with Matrices and Vectors
+---------------------------------
+
+Basic Matrix and Vector types
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+All Eigen classes are defined in the ``Eigen`` namespace. This means that you have to use the ``Eigen::`` prefix when using Eigen classes. For example, to define a 3x3 matrix you can use the following code:
 
 .. code:: cpp
 
    Eigen::Matrix3d A;
 
-This declares a 3x3 matrix using double as the data type for storing
-individiual elements. When you declare a matrix like this, Eigen does
-not initialize the matrix. This means that the matrix will contain
-random values. Printing this matrix will give you something like this:
+This declares a 3x3 matrix using double as the data type for storing individiual elements. When you declare a matrix like this, Eigen does not initialize the matrix. This means that the matrix will contain random values. Printing this matrix will give you something like this:
 
 .. code:: cpp
 
@@ -51,24 +46,19 @@ random values. Printing this matrix will give you something like this:
    -9.25596e+61 -9.25596e+61 -9.25596e+61
    -9.25596e+61 -9.25596e+61 -9.25596e+61
 
-If you want to initialize the matrix you can use the following
-**.setZero()** method:
+.. note ::
+
+   Arrays in Eigen are not initialised to zero by default. Content of an array is undefined until you assign values to it.
+
+If you want to initialize the matrix to zero you can use the **.setZero()** method:
 
 .. code:: cpp
 
    A.setZero();
 
-This will initialise the matrix to zero. You can also use the
-**.setOnes()** method to initialise the matrix to one. There are many
-other methods available to initialize the matrix. You can find them in
-the Eigen documentation.
+This will initialise the matrix to zero. You can also use the **.setOnes()** method to initialise the matrix to one. There are many other methods available to initialize the matrix. You can find them in the Eigen documentation.
 
-Initialising matrices
-~~~~~~~~~~~~~~~~~~~~~
-
-It is also possible to intialise the matrix using lists of values using
-the **<<** operator. For example, to initialise a 3x3 matrix to the
-identity matrix you can use the following code:
+It is also possible to intialise the matrix using lists of values using the **<<** operator. For example, to initialise a 3x3 matrix to the identity matrix you can use the following code:
 
 .. code:: cpp
 
@@ -78,10 +68,7 @@ identity matrix you can use the following code:
         4, 5, 6,
         7, 8, 9;
 
-Please not tha you only use the **<<** operator once followed by a comma
-separated list of values. The values are inserted row by row. If you
-want to insert a column vector you can use the **.col()** method. For
-example, to insert a column vector you can use the following code:
+Please not tha you only use the **<<** operator once followed by a comma separated list of values. The values are inserted row by row. If you want to insert a column vector you can use the **.col()** method. For example, to insert a column vector you can use the following code:
 
 .. code:: cpp
 
@@ -89,9 +76,7 @@ example, to insert a column vector you can use the following code:
    D.col(1) << 4, 5, 6;
    D.col(2) << 7, 8, 9;
 
-The matrix class also support inserting values by rows using the
-**.row()** method. For example, to insert a row vector you can use the
-following code:
+The matrix class also support inserting values by rows using the **.row()** method. For example, to insert a row vector you can use the following code:
 
 .. code:: cpp
 
@@ -99,36 +84,24 @@ following code:
    D.row(1) << 4, 5, 6;
    D.row(2) << 7, 8, 9;
 
-**Matrix3d** and similar declarations are actually type definitions of
-the form **Matrix<double, 3, 3>**. This means that you can also declare
-a matrix using the following code:
+**Matrix3d** and similar declarations are actually type definitions of the form **Matrix<double, 3, 3>**. This means that you can also declare a matrix using the following code:
 
 .. code:: cpp
 
    Eigen::Matrix<double, 3, 3> E;
 
-The first argument is the datatype and the second and third arguments
-are the number of rows and columns respectively. This is useful if you
-want to use a different datatype or if you want to use a dynamic number
-of rows and columns.
+The first argument is the datatype and the second and third arguments are the number of rows and columns respectively. This is useful if you want to use a different datatype or if you want to use a dynamic number of rows and columns.
 
-Dynamic size matrices
-~~~~~~~~~~~~~~~~~~~~~
+Fixed versus Dynamic size matrices
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-It is also possible to have arrays that can be resized in different or
-all dimensions. This can be accomplished by using the **Dynamic**
-keyword instead of the rows or columns sizes in the template type. For
-example, to declare a dynamic size matrix you can use the following
-code:
+In the previous section we used fixed size matrices. This means that the number of rows and columns are fixed at compile time. This is useful if you know the size of the matrix at compile time. However, if the problems is not known at compiler time you can use dynamic size matrices. Eigen supports dynamic size matrices using the **Dynamic** keyword. For example, to declare a dynamic size matrix you can use the following code:
 
 .. code:: cpp
 
    Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic> F;
 
-Before using this array it has to be given a size. This can be done
-either directy when declaring the array variable or later using the
-**.resize()** method. For example, to declare a 3x3 matrix you can use
-the following code:
+Before using this array it has to be given a size. This can be done either directy when declaring the array variable or later using the **.resize()** method. For example, to declare a 3x3 matrix you can use the following code:
 
 .. code:: cpp
 
@@ -141,12 +114,7 @@ or
    Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic> H;
    H.resize(3, 3);
 
-Just like the fixed size arrays the data in the array is not
-initialized. You can initialize the array using the initialisation
-methods mentioned above. If the resize operation does not change the
-number of elements in the array the data is preserved and the operation
-is very fast. If the number of elements is changed the data is lost and
-the operation is slower. The following example illustrates this:
+Just like the fixed size arrays the data in the array is not initialized. You can initialize the array using the initialisation methods mentioned above. If the resize operation does not change the number of elements in the array the data is preserved and the operation is very fast. If the number of elements is changed the data is lost and the operation is slower. The following example illustrates this:
 
 .. code:: cpp
 
@@ -195,17 +163,12 @@ This will output:
    0 0 0 0 0 0
    0 0 0 0 0 0
 
-As you can observe, as long as the number of elements in the array is
-not changed the data is preserved. If the number of elements is changed
-the data is lost and have to be reinitialized.
+As you can observe, as long as the number of elements in the array is not changed the data is preserved. If the number of elements is changed the data is lost and have to be reinitialized.
 
 Vectors
 ~~~~~~~
 
-Just like the Matrix class Eigen also has a Vector class. The Vector
-class is a special case of the Matrix class where the number of rows or
-columns is fixed to 1. For example, to declare a 3x1 vector you can use
-the following code:
+Just like the Matrix class Eigen also has a Vector class. The Vector class is a special case of the Matrix class where the number of rows or columns is fixed to 1. For example, to declare a 3x1 vector you can use the following code:
 
 .. code:: cpp
 
@@ -232,18 +195,13 @@ class.
    Eigen::Vector3d x;
    x.setZero();
 
-The Vector classes are also based on the generic template type
-**Vector<Type, Size>**. This means that the following code is equivalent
-to the previous code:
+The Vector classes are also based on the generic template type **Vector<Type, Size>**. This means that the following code is equivalent to the previous code:
 
 .. code:: cpp
 
    Eigen::Vector<double, 3> y;
 
-The Vector class also supports dynamic sizes. This can be specified by
-using the **Dynamic** keyword instead of the size in the template type.
-For example, to declare a dynamic size vector you can use the following
-code:
+The Vector class also supports dynamic sizes. This can be specified by using the **Dynamic** keyword instead of the size in the template type. For example, to declare a dynamic size vector you can use the following code:
 
 .. code:: cpp
 
@@ -256,10 +214,7 @@ or
    Eigen::Vector<double, Eigen::Dynamic> z;
    z.resize(3);
 
-There is also a specialised version of the **Vector** class called
-**RowVector**. This class is a special case of the **Vector** class
-where the number of rows is fixed to 1. For example, to declare a 1x3
-row vector you can use the following code:
+There is also a specialised version of the **Vector** class called **RowVector**. This class is a special case of the **Vector** class where the number of rows is fixed to 1. For example, to declare a 1x3 row vector you can use the following code:
 
 .. code:: cpp
 
@@ -278,60 +233,10 @@ This will output:
    2
    3
 
-Convenience typedefs for Eige vectors and matrices
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Matrix expressions and operations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-There are several convenience typedefs for fixed-size vectors and
-matrices. For example, **Vector3d** is a typedef for **Vector<double,
-3>** and **Matrix3d** is a typedef for **Matrix<double, 3, 3>**. These
-typedefs are available for sizes 1 to 4. For larger sizes you have to
-use the generic template type. Below are listed some of the most common
-typedefs:
-
-.. code:: cpp
-
-   typedef Matrix<double, 2, 2> Matrix2d;
-   typedef Matrix<double, 3, 3> Matrix3d;
-   typedef Matrix<double, 4, 4> Matrix4d;
-   typedef Matrix<double, 6, 6> Matrix6d;
-   typedef Matrix<double, Dynamic, Dynamic> MatrixXd;
-
-   typedef Matrix<float, 2, 2> Matrix2f;
-   typedef Matrix<float, 3, 3> Matrix3f;
-   typedef Matrix<float, 4, 4> Matrix4f;
-   typedef Matrix<float, 6, 6> Matrix6f;
-   typedef Matrix<float, Dynamic, Dynamic> MatrixXf;
-
-   typedef Matrix<int, 2, 2> Matrix2i;
-   typedef Matrix<int, 3, 3> Matrix3i;
-   typedef Matrix<int, 4, 4> Matrix4i;
-   typedef Matrix<int, 6, 6> Matrix6i;
-   typedef Matrix<int, Dynamic, Dynamic> MatrixXi;
-
-   typedef Vector<double, 2> Vector2d;
-   typedef Vector<double, 3> Vector3d;
-   typedef Vector<double, 4> Vector4d;
-   typedef Vector<double, 6> Vector6d;
-   typedef Vector<double, Dynamic> VectorXd;
-
-   typedef Vector<float, 2> Vector2f;
-   typedef Vector<float, 3> Vector3f;
-   typedef Vector<float, 4> Vector4f;
-   typedef Vector<float, 6> Vector6f;
-   typedef Vector<float, Dynamic> VectorXf;
-
-   typedef Vector<int, 2> Vector2i;
-   typedef Vector<int, 3> Vector3i;
-   typedef Vector<int, 4> Vector4i;
-   typedef Vector<int, 6> Vector6i;
-   typedef Vector<int, Dynamic> VectorXi;
-
-Matrix expressions
-------------------
-
-In the Eigen Matrix classes most normal C++ operators are overloaded, so
-that you perform linear algebra operations in a natural way. For
-example, you can add two matrices using the **+** operator:
+In the Eigen Matrix classes most normal C++ operators are overloaded, so that you perform linear algebra operations in a natural way. For example, you can add two matrices using the **+** operator:
 
 .. code:: cpp
 
@@ -358,12 +263,7 @@ This outputs:
     8 10 12
    14 16 18
 
-For matrix and vector classes you can only perform linear algebra
-expressions. This means that you can only add matrices of the same size
-or multiply a matrix with a vector of the correct size. You can also
-multiply matrices with each other. Multiplying a matrix with a scalar is
-also possible, but adding a scalar to a matrix is not possible. The
-following code illustrates some of these operations:
+For matrix and vector classes you can only perform linear algebra expressions. This means that you can only add matrices of the same size or multiply a matrix with a vector of the correct size. You can also multiply matrices with each other. Multiplying a matrix with a scalar is also possible, but adding a scalar to a matrix is not possible. The following code illustrates some of these operations:
 
 .. code:: cpp
 
@@ -392,27 +292,15 @@ code:
    auto F = E + Matrix3d::Constant(1.0);   
    cout << F << endl;
 
-This will add 1.0 to all elements in the matrix. The **Constant()**
-method is a static method that creates a matrix with all elements set to
-the specified value. The **Array** class is a special class that allows
-you to perform element wise operations. Elementwise addition of a scalar
-can be done using the following code:
+This will add 1.0 to all elements in the matrix. The **Constant()** method is a static method that creates a matrix with all elements set to the specified value. The **Array** class is a special class that allows you to perform element wise operations. Elementwise addition of a scalar can be done using the following code:
 
 .. code:: cpp
 
    Matrix3d G = E.array() + 3.0;
 
-Here we use the **.array()** method to convert the matrix to an array.
-This enables us to use element addition to a scalar. If we then assign
-the result to a matrix the result is a matrix with the same size as the
-original matrix.
+Here we use the **.array()** method to convert the matrix to an array. This enables us to use element addition to a scalar. If we then assign the result to a matrix the result is a matrix with the same size as the original matrix.
 
-Matrix operations
------------------
-
-Eigen has many special methods for matrices. For example, you can
-transpose a matrix using the **.transpose()** method. The following code
-illustrates this:
+Eigen also has many special methods for matrices. For example, you can transpose a matrix using the **.transpose()** method. The following code illustrates this:
 
 .. code:: cpp
 
@@ -433,9 +321,7 @@ This produces the following output:
    2 5 8
    3 6 9
 
-It is also possible to compute the dot product and cross product or
-matrices using the **.dot()** and **.cross()** methods. The following
-code illustrates this:
+It is also possible to compute the dot product and cross product or matrices using the **.dot()** and **.cross()** methods. The following code illustrates this:
 
 .. code:: cpp
 
@@ -457,8 +343,7 @@ This produces the following output:
    -2
    1
 
-It is also possible to compute the inverse of a matrix using the
-**.inverse()** method. The following code shows how this is done.
+It is also possible to compute the inverse of a matrix using the **.inverse()** method. The following code shows how this is done.
 
 .. code:: cpp
 
@@ -478,9 +363,7 @@ This produces the following output:
    -3.58025  6.03704 -2.58025
     1.64815 -2.72222  1.14815
 
-Some other useful function are reduction operations such as **.sum()**,
-**.mean()**, **.minCoeff()**, **.maxCoeff()** and **.norm()**. The
-following code illustrates how these functions are used:
+Some other useful function are reduction operations such as **.sum()**, **.mean()**, **.minCoeff()**, **.maxCoeff()** and **.norm()**. The following code illustrates how these functions are used:
 
 .. code:: cpp
 
@@ -525,16 +408,58 @@ This produces the following output:
    K.determinant()
    0
 
-There are many more matrix methods available in Eigen. You can find them
-in the Eigen documentation.
+There are many more matrix methods available in Eigen. You can find them in the Eigen documentation.
+
+Convenience typedefs for Eigen vectors and matrices
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+There are several convenience typedefs for fixed-size vectors and matrices. For example, **Vector3d** is a typedef for **Vector<double, 3>** and **Matrix3d** is a typedef for **Matrix<double, 3, 3>**. These typedefs are available for sizes 1 to 4. For larger sizes you have to use the generic template type. Below are listed some of the most common typedefs:
+
+.. code:: cpp
+
+   typedef Matrix<double, 2, 2> Matrix2d;
+   typedef Matrix<double, 3, 3> Matrix3d;
+   typedef Matrix<double, 4, 4> Matrix4d;
+   typedef Matrix<double, 6, 6> Matrix6d;
+   typedef Matrix<double, Dynamic, Dynamic> MatrixXd;
+
+   typedef Matrix<float, 2, 2> Matrix2f;
+   typedef Matrix<float, 3, 3> Matrix3f;
+   typedef Matrix<float, 4, 4> Matrix4f;
+   typedef Matrix<float, 6, 6> Matrix6f;
+   typedef Matrix<float, Dynamic, Dynamic> MatrixXf;
+
+   typedef Matrix<int, 2, 2> Matrix2i;
+   typedef Matrix<int, 3, 3> Matrix3i;
+   typedef Matrix<int, 4, 4> Matrix4i;
+   typedef Matrix<int, 6, 6> Matrix6i;
+   typedef Matrix<int, Dynamic, Dynamic> MatrixXi;
+
+   typedef Vector<double, 2> Vector2d;
+   typedef Vector<double, 3> Vector3d;
+   typedef Vector<double, 4> Vector4d;
+   typedef Vector<double, 6> Vector6d;
+   typedef Vector<double, Dynamic> VectorXd;
+
+   typedef Vector<float, 2> Vector2f;
+   typedef Vector<float, 3> Vector3f;
+   typedef Vector<float, 4> Vector4f;
+   typedef Vector<float, 6> Vector6f;
+   typedef Vector<float, Dynamic> VectorXf;
+
+   typedef Vector<int, 2> Vector2i;
+   typedef Vector<int, 3> Vector3i;
+   typedef Vector<int, 4> Vector4i;
+   typedef Vector<int, 6> Vector6i;
+   typedef Vector<int, Dynamic> VectorXi;
+
+Advanced Matrix operations
+--------------------------
 
 Reshaping matrices
-------------------
+~~~~~~~~~~~~~~~~~~
 
-Some times existing matrices must be used in expressions where the
-current shape of the matrix is not suitable. In these cases it is
-possible to reshape the matrix using the **.reshaped()** method. The
-following code illustrates how this is done:
+Some times existing matrices must be used in expressions where the current shape of the matrix is not suitable. In these cases it is possible to reshape the matrix using the **.reshaped()** method. The following code illustrates how this is done:
 
 .. code:: cpp
 
@@ -548,14 +473,7 @@ following code illustrates how this is done:
 
    cout << B << endl;
 
-I this example we have a 3x3 matrix that we want to reshape into a 1x9
-matrix. The **.reshaped()** method takes two arguments. The first
-argument is the number of rows and the second argument is the number of
-columns. The B variables in the above example is actually a special
-class Eigen::Reshaped<> that is a view into the original matrix. This
-means that the data is not copied and that the reshaped matrix is a view
-into the original matrix. This also means that if you change the
-reshaped matrix the original matrix is also changed.
+I this example we have a 3x3 matrix that we want to reshape into a 1x9 matrix. The **.reshaped()** method takes two arguments. The first argument is the number of rows and the second argument is the number of columns. The B variables in the above example is actually a special class Eigen::Reshaped<> that is a view into the original matrix. This means that the data is not copied and that the reshaped matrix is a view into the original matrix. This also means that if you change the reshaped matrix the original matrix is also changed.
 
 Running the previous code produces the following output:
 
@@ -563,9 +481,7 @@ Running the previous code produces the following output:
 
    1 2 3 4 5 6 7 8 9
 
-If we want to use the **B** matrix to assign a new matrix the matrix to
-be assigned needs to be of the **MatrixXd** type. In the following code
-we assign the reshaped matrix to a new matrix:
+If we want to use the **B** matrix to assign a new matrix the matrix to be assigned needs to be of the **MatrixXd** type. In the following code we assign the reshaped matrix to a new matrix:
 
 .. code:: cpp
 
@@ -581,8 +497,7 @@ This produces the following output:
    4 5 6
    7 8 9
 
-We can also reshape the created matrix and transpose it. The following
-code illustrates this:
+We can also reshape the created matrix and transpose it. The following code illustrates this:
 
 .. code:: cpp
 
@@ -604,30 +519,18 @@ This produces the following output:
    6
    9
 
-Notice the ordering of numbers. This is due to the fact that matrices
-are stored in column major order in Eigen. This means that the first
-column is stored first, then the second column and so on. This is the
-opposite of row major order where the first row is stored first, then
-the second row and so on.
+Notice the ordering of numbers. This is due to the fact that matrices are stored in column major order in Eigen. This means that the first column is stored first, then the second column and so on. This is the opposite of row major order where the first row is stored first, then the second row and so on.
 
-Assigning a reshaped matrix to itself is not allowed in Eigen. To solve
-this you can use the **.eval()** method. The **.eval()** method forces
-the reshaped matrix to be evaluated and copied to a new matrix. The
-following code illustrates this:
+Assigning a reshaped matrix to itself is not allowed in Eigen. To solve this you can use the **.eval()** method. The **.eval()** method forces the reshaped matrix to be evaluated and copied to a new matrix. The following code illustrates this:
 
 .. code:: cpp
 
    C = C.reshaped(1, 9).eval();
 
 Slicing and indexing
---------------------
+~~~~~~~~~~~~~~~~~~~~
 
-One of the more common operations in matrix computing is indexing and
-slicing. Eigen has several ways of doing this. The easiest way of
-accessing rows and columns of a matrix in Eigen is using the **.row()**
-and **.col()** methods. The methods can be both used to assign values to
-a row or assign other matrices the values of a row. The following code
-illustrates this:
+One of the more common operations in matrix computing is indexing and slicing. Eigen has several ways of doing this. The easiest way of accessing rows and columns of a matrix in Eigen is using the **.row()** and **.col()** methods. The methods can be both used to assign values to a row or assign other matrices the values of a row. The following code illustrates this:
 
 .. code:: cpp
 
@@ -670,12 +573,9 @@ This produces the following output:
     0  0  0  9  0  0  0  0  0  0
     0  0  0 10  0  0  0  0  0  0
 
-In this example we used the **<<** operator to assign values to the
-rows.
+In this example we used the **<<** operator to assign values to the rows.
 
-It is also possible to assign multiple values at the same time using for
-example the .setConstant() or .setOnes() methods. The following code
-illustrates this:
+It is also possible to assign multiple values at the same time using for example the .setConstant() or .setOnes() methods. The following code illustrates this:
 
 .. code:: cpp
 
@@ -699,9 +599,7 @@ This produces the following output:
     0  1  0  9  0  0  0  0  0  0
     0  1  0 10  0  0  0  0  0  0
 
-Indexing can also be done using the special function Eigen::seq(). In
-its simplest form it can be used to select a range of values. The
-following code illustrates this:
+Indexing can also be done using the special function Eigen::seq(). In its simplest form it can be used to select a range of values. The following code illustrates this:
 
 .. code:: cpp
 
@@ -727,8 +625,7 @@ This produces the following output:
    0 0 0 0 0 0 0 0 0 0
    0 0 0 0 0 0 0 0 0 0
 
-It is also possible to use a step value in the **seq()** function, which
-is shown in the following code:
+It is also possible to use a step value in the **seq()** function, which is shown in the following code:
 
 .. code:: cpp
 
@@ -751,9 +648,7 @@ This produces the following output:
    2 0 2 0 2 0 2 0 2 0
    0 0 0 0 0 0 0 0 0 0
 
-There are also special selectors for selecting rows and columns. The
-**all** selector selects all rows or columns. The **last** selector
-selects the last column or row. The following code illustrates this:
+There are also special selectors for selecting rows and columns. The **all** selector selects all rows or columns. The **last** selector selects the last column or row. The following code illustrates this:
 
 .. code:: cpp
 
@@ -792,8 +687,7 @@ This produces the following output:
    2 0 2 0 2 0 2 0 4 3
    0 0 0 0 0 0 0 0 4 3
 
-It is also possible to use std::vector based indeces to select a
-submatrix from a matrix. This is shown in the following code:
+It is also possible to use std::vector based indeces to select a submatrix from a matrix. This is shown in the following code:
 
 .. code:: cpp
 
@@ -826,15 +720,195 @@ This produces the following output:
     18  38  48  68  78  98
     20  40  50  70  80 100
 
-Implementing functions with Eigen
----------------------------------
+Linear System Solving
+~~~~~~~~~~~~~~~~~~~~~
 
-There are some considerations to think about when passing matrices and
-vector to methods and functions. The general rule is to always pass
-Eigen matrices and vectors by reference. The exception to this rule is
-when returning a matrix or vector from a function. In this case you
-should return the matrix or vector by value. In the following example we
-have a function that creates a matrix given some non-matrix input:
+Eigen has a library of decomposition methods that can be used to solve linear systems of equations. For smaller matrices (up to 4x4) it is often better to use the **.inverse()** method. For larger matrices it is better to use the decomposition methods. The following code illustrates how to solve a linear system of equations using the **.inverse()** method:
+
+.. code:: cpp
+
+   int main()
+   {
+       Matrix3d A;
+       A.setRandom();
+
+       Vector3d b;
+
+       b.setRandom();
+
+       Vector3d x = A.inverse() * b;
+
+       cout << "The solution is:\n"
+            << x << endl;
+
+       cout << "b is:\n"
+            << b << endl;
+
+       cout << "A * x is:\n"
+            << A * x << endl;
+
+       cout << "The error is:\n"
+            << (A * x - b).norm() << endl;
+   }
+
+This produces the following output:
+
+.. code:: text
+
+   The solution is:
+    -1.36005
+    -1.53203
+   -0.275723
+   b is:
+     0.49321
+   -0.651784
+    0.717887
+   A * x is:
+     0.49321
+   -0.651784
+    0.717887
+   The error is:
+   0
+
+Matrix Decompositions
+~~~~~~~~~~~~~~~~~~~~~
+
+For larger matrices it is better to use the decomposition methods. Which decomposition method to chose is determined by your specific problem. The following code illustrates how to solve a linear system of equations using the **ColPivHouseholderQR** decomposition:
+
+.. code:: cpp
+
+   int main()
+   {
+       MatrixXd A(10, 10);
+       A.setRandom();
+
+       VectorXd b(10);
+       b.setRandom();
+
+       VectorXd x = A.colPivHouseholderQr().solve(b);
+
+       cout << "The solution is:\n"
+            << x << endl;
+
+       cout << "b is:\n"
+            << b << endl;
+
+       cout << "A * x is:\n"
+            << A * x << endl;
+
+       cout << "The error is:\n"
+            << (A * x - b).norm() << endl;
+   }
+
+The key is the line:
+
+.. code:: cpp
+
+   VectorXd x = A.colPivHouseholderQr().solve(b);
+
+When calling the **.colPivHouseholderQr()** method on the matrix it returns a **ColPivHouseholderQR** object. This object has a **.solve()** method that can be used to solve the linear system of equations. The **.solve()** method takes a vector as input and returns a vector as output.
+
+.. note:: 
+   
+   The **ColPivHouseholderQR** decomposition is a good choice for    general matrices. For symmetric matrices the **LDLT** decomposition is a good choice.
+
+It is of couse also possible to explicitely create a **ColPivHouseholderQR** object and use it to solve the linear system of equations, which is shown below:
+
+.. code:: cpp
+
+   FullPivLU<MatrixXd> ldlt(A);
+   VectorXd x = ldlt.solve(b);
+
+.. note:: 
+   
+   The **FullPivLU** decomposition is a good choice for general matrices. For symmetric matrices the **LDLT** decomposition is a good choice.
+
+The advantage of separating the construction from solving the system is that the decomposition can be reused for multiple systems. The **.solve()** method can also be called with a matrix as input. This will solve the system for each column in the matrix. As the following code illustrates:
+
+.. code:: cpp
+
+   MatrixXd A(10, 10);
+   A.setRandom();
+
+   MatrixXd b(10, 10);
+   b.setRandom();
+
+   FullPivLU<MatrixXd> ldlt(A);
+   MatrixXd x = ldlt.solve(b);
+
+   cout << "The solution is:\n"
+           << x << endl;
+
+This produces the following output:
+
+.. code:: text
+
+   The solution is:
+      1.18453  -0.410319  -0.623361  -0.321932 -0.0895882  0.0497296  -0.648823   0.124508   0.493074   0.480588
+     0.535632  0.0616908   -0.28512  -0.318507 0.00406816  0.0258458 -0.0848685  -0.477436    1.24756   0.838648
+   -0.0107144  -0.367311   0.244476   0.137709  -0.815272  -0.280075  -0.628219   0.208019  -0.206337  -0.640611
+     -2.13074    1.62113 -0.0941863       1.03   -0.03775    1.03846   0.293851    1.14827   -3.90631   -1.16682
+     0.879087   0.477271   -1.28075    1.28879    2.52322    -1.4507    1.27269  -0.578986    0.24615    2.08061
+    -0.732436  -0.704311    1.06786  -0.596086    -2.3671    1.43309   -1.39648  0.0979355  -0.356579   -1.55783
+     0.127638  -0.668733  -0.507232 -0.0496553   0.521617   0.220945   -0.16289  -0.664471    1.69368   0.876999
+    -0.569963 -0.0353519  -0.507716  0.0109401   0.415603   0.829978  -0.209561  0.0241958  -0.291877 -0.0407887
+     -2.30094    1.32775  -0.272818   0.388941   -0.53578    1.08094   0.510719   0.903556   -4.88332   -1.75593
+      1.01693   0.242351  -0.251851   -1.13456    0.28466  -0.149436   -0.17369   0.721883   0.108984  0.0144817
+
+
+Best Practices and Integration
+------------------------------
+
+In many cases you will have to use Eigen together with other libraries and frameworks. This section will give some advice on how to do this.
+
+Returning Matrices from functions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The preferred way of returning Eigen-arrays from functions is to return them by value. Eigen in combination with C++ return value optimisation will provide mechanism to avoid unnecessary copying of the returned matrix. An example of this is given below:
+
+.. code:: cpp
+
+   MatrixXd foo()
+   {
+       MatrixXd A(10, 10);
+       A.setRandom();
+       return A;
+   }
+
+   int main()
+   {
+       MatrixXd B = foo();
+       cout << B << endl;
+   }
+
+
+Passing Matrices to functions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you really want to make sure no copying is performed it is recommended to pass the Eigen-array as a parameter to the function. This is shown in the following example:
+
+.. code:: cpp
+
+   void bar(const MatrixXd& A)
+   {
+       cout << A << endl;
+   }
+
+   int main()
+   {
+       MatrixXd B(10, 10);
+       B.setRandom();
+       bar(B);
+   }
+
+.. note:: 
+   
+   The **const** keyword is used to indicate that the matrix can not be modified in the function.
+
+Implementing functions with Eigen
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+There are some considerations to think about when passing matrices and vector to methods and functions. The general rule is to always pass Eigen matrices and vectors by reference. The exception to this rule is when returning a matrix or vector from a function. In this case you should return the matrix or vector by value. In the following example we have a function that  eates a matrix given some non-matrix input:
 
 .. code:: cpp
 
@@ -945,200 +1019,9 @@ Running the code produces the following output:
    -0.353553 -0.353553  0.353553  0.353553
    -0.353553 -0.353553  0.353553  0.353553
 
-Solving linear systems of equations
------------------------------------
-
-Eigen has a library of decomposition methods that can be used to solve
-linear systems of equations. For smaller matrices (up to 4x4) it is
-often better to use the **.inverse()** method. For larger matrices it is
-better to use the decomposition methods. The following code illustrates
-how to solve a linear system of equations using the **.inverse()**
-method:
-
-.. code:: cpp
-
-   int main()
-   {
-       Matrix3d A;
-       A.setRandom();
-
-       Vector3d b;
-
-       b.setRandom();
-
-       Vector3d x = A.inverse() * b;
-
-       cout << "The solution is:\n"
-            << x << endl;
-
-       cout << "b is:\n"
-            << b << endl;
-
-       cout << "A * x is:\n"
-            << A * x << endl;
-
-       cout << "The error is:\n"
-            << (A * x - b).norm() << endl;
-   }
-
-This produces the following output:
-
-.. code:: text
-
-   The solution is:
-    -1.36005
-    -1.53203
-   -0.275723
-   b is:
-     0.49321
-   -0.651784
-    0.717887
-   A * x is:
-     0.49321
-   -0.651784
-    0.717887
-   The error is:
-   0
-
-For larger matrices it is better to use the decomposition methods. Which
-decomposition method to chose is determined by your specific problem.
-The following code illustrates how to solve a linear system of equations
-using the **ColPivHouseholderQR** decomposition:
-
-.. code:: cpp
-
-   int main()
-   {
-       MatrixXd A(10, 10);
-       A.setRandom();
-
-       VectorXd b(10);
-       b.setRandom();
-
-       VectorXd x = A.colPivHouseholderQr().solve(b);
-
-       cout << "The solution is:\n"
-            << x << endl;
-
-       cout << "b is:\n"
-            << b << endl;
-
-       cout << "A * x is:\n"
-            << A * x << endl;
-
-       cout << "The error is:\n"
-            << (A * x - b).norm() << endl;
-   }
-
-The key is the line:
-
-.. code:: cpp
-
-   VectorXd x = A.colPivHouseholderQr().solve(b);
-
-When calling the **.colPivHouseholderQr()** method on the matrix it
-returns a **ColPivHouseholderQR** object. This object has a **.solve()**
-method that can be used to solve the linear system of equations. The
-**.solve()** method takes a vector as input and returns a vector as
-output.
-
-!!! note The **ColPivHouseholderQR** decomposition is a good choice for
-general matrices. For symmetric matrices the **LDLT** decomposition is a
-good choice.
-
-It is of couse also possible to explicitely create a
-**ColPivHouseholderQR** object and use it to solve the linear system of
-equations, which is shown below:
-
-.. code:: cpp
-
-   FullPivLU<MatrixXd> ldlt(A);
-   VectorXd x = ldlt.solve(b);
-
-!!! note The **FullPivLU** decomposition is a good choice for general
-matrices. For symmetric matrices the **LDLT** decomposition is a good
-choice.
-
-The advantage of separating the construction from solving the system is
-that the decomposition can be reused for multiple systems. The
-**.solve()** method can also be called with a matrix as input. This will
-solve the system for each column in the matrix. As the following code
-illustrates:
-
-.. code:: cpp
-
-   MatrixXd A(10, 10);
-   A.setRandom();
-
-   MatrixXd b(10, 10);
-   b.setRandom();
-
-   FullPivLU<MatrixXd> ldlt(A);
-   MatrixXd x = ldlt.solve(b);
-
-   cout << "The solution is:\n"
-           << x << endl;
-
-This produces the following output:
-
-.. code:: text
-
-   The solution is:
-      1.18453  -0.410319  -0.623361  -0.321932 -0.0895882  0.0497296  -0.648823   0.124508   0.493074   0.480588
-     0.535632  0.0616908   -0.28512  -0.318507 0.00406816  0.0258458 -0.0848685  -0.477436    1.24756   0.838648
-   -0.0107144  -0.367311   0.244476   0.137709  -0.815272  -0.280075  -0.628219   0.208019  -0.206337  -0.640611
-     -2.13074    1.62113 -0.0941863       1.03   -0.03775    1.03846   0.293851    1.14827   -3.90631   -1.16682
-     0.879087   0.477271   -1.28075    1.28879    2.52322    -1.4507    1.27269  -0.578986    0.24615    2.08061
-    -0.732436  -0.704311    1.06786  -0.596086    -2.3671    1.43309   -1.39648  0.0979355  -0.356579   -1.55783
-     0.127638  -0.668733  -0.507232 -0.0496553   0.521617   0.220945   -0.16289  -0.664471    1.69368   0.876999
-    -0.569963 -0.0353519  -0.507716  0.0109401   0.415603   0.829978  -0.209561  0.0241958  -0.291877 -0.0407887
-     -2.30094    1.32775  -0.272818   0.388941   -0.53578    1.08094   0.510719   0.903556   -4.88332   -1.75593
-      1.01693   0.242351  -0.251851   -1.13456    0.28466  -0.149436   -0.17369   0.721883   0.108984  0.0144817
-
-Returning Matrices from functions
----------------------------------
-
-The preferred way of returning Eigen-arrays from functions is to return them by value. Eigen in combination with C++ return value optimisation will provide mechanism to avoid unnecessary copying of the returned matrix. An example of this is given below:
-
-.. code:: cpp
-
-   MatrixXd foo()
-   {
-       MatrixXd A(10, 10);
-       A.setRandom();
-       return A;
-   }
-
-   int main()
-   {
-       MatrixXd B = foo();
-       cout << B << endl;
-   }
-
-
-Passing Matrices to functions
------------------------------
-
-If you really want to make sure no copying is performed it is recommended to pass the Eigen-array as a parameter to the function. This is shown in the following example:
-
-.. code:: cpp
-
-   void bar(const MatrixXd& A)
-   {
-       cout << A << endl;
-   }
-
-   int main()
-   {
-       MatrixXd B(10, 10);
-       B.setRandom();
-       bar(B);
-   }
-
-!!! note The **const** keyword is used to indicate that the matrix can not be modified in the function.
 
 Accessing array raw data
-------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 Some times you need to interact with other libraries that require don't support the Eigen-arrays. To solve this Eigen arrays provide a special method that will return a pointer to the raw data. The following code illustrates how this is done:
 
@@ -1182,10 +1065,14 @@ In the code above the 2D array is accessed as a 1D array and is accessed in the 
        delete[] data2D;
    }
 
-!!! note In the above code the array data i still owned by the Eigen array. The data should not be deleted. The delete[] method only deletes the array of pointers. 
+.. note:: 
+   
+   In the above code the array data i still owned by the Eigen array. The data should not be deleted. The delete[] method only deletes the array of pointers.
 
-If you have a library that has functions that take a 2D C++ array as input you need to pass the pointer and information on the size of the array. The following code illustrates how this is done:
+Using Eigen with other libraries
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+If you have a library that has functions that take two-dimensional C++ arrays as input you need to perform some additional steps to convert Eigen arrays to a 2D C++ array. It is not possible to just pass the Eigen data pointer to the function. First, we neeed to create a 2D array of pointers to the raw data. It is a pointer to this array that will be passed to the function. An example of this is shown in the code below:
 
 .. code:: cpp
 
@@ -1200,7 +1087,7 @@ If you have a library that has functions that take a 2D C++ array as input you n
    }
 
    int main()
-   {
+   {  
        MatrixXd A(10, 10);
        A.setRandom();
 
@@ -1208,15 +1095,20 @@ If you have a library that has functions that take a 2D C++ array as input you n
        double** data2D = new double*[A.rows()];
 
        for (int i = 0; i < A.rows(); i++)
-           data2D[i] = data + i * A.cols();
+           data2D[i] = A.row(i).data();
 
        foo(data2D, A.rows(), A.cols());
 
        delete[] data2D;
    }
 
-Using Eigen with other libraries
---------------------------------
+If you get warnings about buffer overruns in the line **data2D[i] = A.row(i).data();** you can tell the compiler to ignore the warning by adding the following line before the line:
+
+.. code:: cpp
+
+   data2D[i] = const_cast<double*>(A.row(i).data());
+
+This will tell the compiler that the data is not modified in the function. If it is modified in the function you need to remove this cast.
 
 Summary
 -------

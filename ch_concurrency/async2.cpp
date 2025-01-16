@@ -9,9 +9,6 @@
 #include <iterator>
 #include <memory>
 #include <numeric>
-#define FMT_HEADER_ONLY
-#include <fmt/format.h>
-#include <fmt/printf.h>
 #include <random>
 #include <ranges>
 #include <thread>
@@ -70,32 +67,32 @@ int main()
     const size_t dataSize = 5000000;
     int numThreads = std::thread::hardware_concurrency();
 
-    fmt::printf("Data size: %zu\n", dataSize);
-    fmt::printf("Number of threads: %d\n", numThreads);
+    std::printf("Data size: %zu\n", dataSize);
+    std::printf("Number of threads: %d\n", numThreads);
 
-    fmt::print("Allocating arrays...\n");
+    std::printf("Allocating arrays...\n");
 
     auto seqData = std::make_unique< double[] >(dataSize);
     auto parData = std::make_unique< double[] >(dataSize);
     double seqSum{0.0};
     double parSum{0.0};
 
-    fmt::print("Initialising arrays...\n");
+    std::printf("Initialising arrays...\n");
 
     std::generate_n(seqData.get(), dataSize, []() { return 1.0; });
     std::generate_n(parData.get(), dataSize, []() { return 1.0; });
 
-    fmt::print("Running serially...\n");
+    std::printf("Running serially...\n");
 
     auto start = std::chrono::high_resolution_clock::now();
     seqSum = processSequential(seqData.get(), dataSize);
     auto end = std::chrono::high_resolution_clock::now();
 
     std::chrono::duration< double > elapsedSerially = end - start;
-    fmt::printf("Time for sequential processing: %f seconds\n", elapsedSerially.count());
-    fmt::printf("Sum: %f\n", seqSum);
+    std::printf("Time for sequential processing: %f seconds\n", elapsedSerially.count());
+    std::printf("Sum: %f\n", seqSum);
 
-    fmt::print("Running in parallel...\n");
+    std::printf("Running in parallel...\n");
 
     start = std::chrono::high_resolution_clock::now();
     parSum = processAsync(parData.get(), dataSize, numThreads);
@@ -103,9 +100,9 @@ int main()
 
     std::chrono::duration< double > elapsedParallel = end - start;
 
-    fmt::printf("Time for parallel processing: %f seconds\n", elapsedParallel.count());
-    fmt::printf("Sum: %f\n", parSum);
-    fmt::printf("Speedup: %f\n", elapsedSerially.count() / elapsedParallel.count());
+    std::printf("Time for parallel processing: %f seconds\n", elapsedParallel.count());
+    std::printf("Sum: %f\n", parSum);
+    std::printf("Speedup: %f\n", elapsedSerially.count() / elapsedParallel.count());
 
     return 0;
 }

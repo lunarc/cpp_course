@@ -1,4 +1,5 @@
 {
     "esbonio.server.enabled": false,
-    "iis.configDir": ""
+    "iis.configDir": "",
+    "esbonio.sphinx.confDir": "/D:/Users/Jonas/Development/cpp_course/docs/source"
 }

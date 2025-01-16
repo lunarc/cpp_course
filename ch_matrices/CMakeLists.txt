@@ -34,6 +34,9 @@ target_link_libraries(matrix_solver_3 PRIVATE Eigen3::Eigen)
 add_executable(matrix_solver_4 matrix_solver_4.cpp)
 target_link_libraries(matrix_solver_4 PRIVATE Eigen3::Eigen)
 
+add_executable(eigen_c_arrays1 eigen_c_arrays1.cpp)
+target_link_libraries(eigen_c_arrays1 PRIVATE Eigen3::Eigen)
+
 set_target_properties(
     matrix1_eig
     matrix2_eig
@@ -47,6 +50,7 @@ set_target_properties(
     matrix_solver_2
     matrix_solver_3
     matrix_solver_4
+    eigen_c_arrays1
     PROPERTIES
     FOLDER "ch_matrices"
 )

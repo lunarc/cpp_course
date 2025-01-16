@@ -1,7 +1,7 @@
 #include <iostream>
 #include <mutex>
-#include <utils/print.h>
 #include <thread>
+#include <utils/print.h>
 
 using namespace std;
 
@@ -42,20 +42,20 @@ int main()
         if (i == numThreads - 1)
             i1 += remainder + 1;
 
-        utils::print("i0 = {0} i1 = {1}\n", i0, i1);
+        std::print("i0 = {0} i1 = {1}\n", i0, i1);
         threads[i] = jthread(sum, i0, i1, i, sums);
     }
 
-    utils::print("Waiting for completion...\n");
+    std::print("Waiting for completion...\n");
 
     for (int i = 0; i < numThreads; i++)
     {
         threads[i].join();
-        utils::print("Sum {0} = {1}\n", i, sums[i]);
+        std::print("Sum {0} = {1}\n", i, sums[i]);
         totalSum += sums[i];
     }
 
-    utils::print("Total sum = {0}\n", totalSum);
+    std::print("Total sum = {0}\n", totalSum);
 
     return 0;
 }

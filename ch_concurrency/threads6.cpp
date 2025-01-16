@@ -8,10 +8,10 @@
 #include <iterator>
 #include <memory>
 #include <numeric>
-#include <utils/print.h>
 #include <random>
 #include <ranges>
 #include <thread>
+#include <utils/print.h>
 #include <vector>
 
 using namespace std;
@@ -93,10 +93,10 @@ int main()
     const size_t dataSize = 500000;
     int numThreads = std::thread::hardware_concurrency();
 
-    utils::printf("Data size: %zu\n", dataSize);
-    utils::printf("Number of threads: %d\n", numThreads);
+    std::printf("Data size: %zu\n", dataSize);
+    std::printf("Number of threads: %d\n", numThreads);
 
-    utils::print("Allocating arrays...\n");
+    std::print("Allocating arrays...\n");
 
     auto seqData = std::make_unique< double[] >(dataSize);
     auto parData = std::make_unique< double[] >(dataSize);
@@ -105,22 +105,22 @@ int main()
 
     // ----- SERIAL CODE -----
 
-    utils::print("Initialising arrays serially...\n");
+    std::print("Initialising arrays serially...\n");
 
     std::generate_n(seqData.get(), dataSize, []() { return 1.0; });
     /*
     std::generate_n(parData.get(), dataSize, []() { return 1.0; });
     */
 
-    utils::print("Running serially...\n");
+    std::print("Running serially...\n");
 
     auto start = std::chrono::high_resolution_clock::now();
     processSequential(seqData.get(), dataSize, seqSum);
     auto end = std::chrono::high_resolution_clock::now();
 
     std::chrono::duration< double > elapsedSerially = end - start;
-    utils::printf("Time for sequential processing: %f seconds\n", elapsedSerially.count());
-    utils::printf("Sum: %f\n", seqSum.load());
+    std::printf("Time for sequential processing: %f seconds\n", elapsedSerially.count());
+    std::printf("Sum: %f\n", seqSum.load());
 
     // ----- PARALLEL CODE -----
 
@@ -129,9 +129,9 @@ int main()
     end = std::chrono::high_resolution_clock::now();
 
     std::chrono::duration< double > elapsedInitParallel = end - start;
-    utils::printf("Time for parallel processing: %f seconds\n", elapsedInitParallel.count());
+    std::printf("Time for parallel processing: %f seconds\n", elapsedInitParallel.count());
 
-    utils::print("Running in parallel...\n");
+    std::print("Running in parallel...\n");
 
     start = std::chrono::high_resolution_clock::now();
     processParallel(parData.get(), dataSize, numThreads, parSum);
@@ -139,9 +139,9 @@ int main()
 
     std::chrono::duration< double > elapsedParallel = end - start;
 
-    utils::printf("Time for parallel processing: %f seconds\n", elapsedParallel.count());
-    utils::printf("Sum: %f\n", parSum.load());
-    utils::printf("Speedup: %f\n", elapsedSerially.count() / elapsedParallel.count());
+    std::printf("Time for parallel processing: %f seconds\n", elapsedParallel.count());
+    std::printf("Sum: %f\n", parSum.load());
+    std::printf("Speedup: %f\n", elapsedSerially.count() / elapsedParallel.count());
 
     return 0;
 }
