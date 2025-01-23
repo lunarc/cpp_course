@@ -25,30 +25,58 @@ This includes the dense matrix module of Eigen. There are other modules, but we 
 Working with Matrices and Vectors
 ---------------------------------
 
-Basic Matrix and Vector types
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Eigen has several classes for different types of matrix and vector types. Most commonly used are Matrix and Vector classes. All Eigen classes are template classes and can be used with different data types. The most commonly used data types are **float**, **double** and **int**. All Eigen classes are defined in the ``Eigen`` namespace. This means that you have to use the ``Eigen::`` prefix when using Eigen classes. If you don't want to use the ``Eigen::`` prefix you can use the following code:
 
-All Eigen classes are defined in the ``Eigen`` namespace. This means that you have to use the ``Eigen::`` prefix when using Eigen classes. For example, to define a 3x3 matrix you can use the following code:
+.. code:: cpp
+
+   using namespace Eigen;
+
+However, this is not recommended as it can lead to name clashes with other libraries. For smaller examples it is ok, but for larger projects it is recommended to use the ``Eigen::`` prefix.
+
+A typical Matrix declaration of a 3 by 3 matrix of double values looks like this:
+
+.. code:: cpp
+
+   Eigen::Matrix<double, 3, 3> A;
+
+To make it easier to work with Eigen also defines several typedefs for common matrix and vector types. For example, the following code declares also a declares a 3x3 matrix of double values:
+
+.. code:: cpp
+
+   Eigen::Matrix3d B;
+
+Vector are used in similar ways:
+
+.. code:: cpp
+
+   Eigen::Vector<double, 3> v;
+
+or
+
+.. code:: cpp
+
+   Eigen::Vector3d w;
+
+Vectors are Matrices with with one column or row that is fixed to 1. This means that you can use the same operations on vectors as you can on matrices.
+
+Declaring and initialising arrays
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you declare a matrices in Eigen they are not automatically set to zero. This means that the matrix will contain random values. In the following example we declare a 3x3 matrix and print it to the console:
 
 .. code:: cpp
 
    Eigen::Matrix3d A;
 
-This declares a 3x3 matrix using double as the data type for storing individiual elements. When you declare a matrix like this, Eigen does not initialize the matrix. This means that the matrix will contain random values. Printing this matrix will give you something like this:
-
-.. code:: cpp
-
    std::cout << A << std::endl;
+
+This will output:
 
 .. code:: text
 
    -9.25596e+61 -9.25596e+61 -9.25596e+61
    -9.25596e+61 -9.25596e+61 -9.25596e+61
    -9.25596e+61 -9.25596e+61 -9.25596e+61
-
-.. note ::
-
-   Arrays in Eigen are not initialised to zero by default. Content of an array is undefined until you assign values to it.
 
 If you want to initialize the matrix to zero you can use the **.setZero()** method:
 
@@ -58,7 +86,7 @@ If you want to initialize the matrix to zero you can use the **.setZero()** meth
 
 This will initialise the matrix to zero. You can also use the **.setOnes()** method to initialise the matrix to one. There are many other methods available to initialize the matrix. You can find them in the Eigen documentation.
 
-It is also possible to intialise the matrix using lists of values using the **<<** operator. For example, to initialise a 3x3 matrix to the identity matrix you can use the following code:
+To initialise arrays with values you can use the **<<** operator. For example, to initialise a 3x3 matrix to the identity matrix you can use the following code:
 
 .. code:: cpp
 
@@ -68,7 +96,7 @@ It is also possible to intialise the matrix using lists of values using the **<<
         4, 5, 6,
         7, 8, 9;
 
-Please not tha you only use the **<<** operator once followed by a comma separated list of values. The values are inserted row by row. If you want to insert a column vector you can use the **.col()** method. For example, to insert a column vector you can use the following code:
+Please note that you only use the **<<** operator once followed by a comma separated list of values to be assigned. The values are inserted row by row. If you want to insert a column vector you can use the **.col()** method. For example, to insert a column vector you can use the following code:
 
 .. code:: cpp
 
@@ -84,13 +112,6 @@ The matrix class also support inserting values by rows using the **.row()** meth
    D.row(1) << 4, 5, 6;
    D.row(2) << 7, 8, 9;
 
-**Matrix3d** and similar declarations are actually type definitions of the form **Matrix<double, 3, 3>**. This means that you can also declare a matrix using the following code:
-
-.. code:: cpp
-
-   Eigen::Matrix<double, 3, 3> E;
-
-The first argument is the datatype and the second and third arguments are the number of rows and columns respectively. This is useful if you want to use a different datatype or if you want to use a dynamic number of rows and columns.
 
 Fixed versus Dynamic size matrices
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -118,7 +139,8 @@ Just like the fixed size arrays the data in the array is not initialized. You ca
 
 .. code:: cpp
 
-   Matrix<double, Dynamic, Dynamic> A_dyn(3, 3); // Shorthand for MatrixXd
+   Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic> A_dyn(3, 3); 
+   // Equivalent to Eigen::MatrixXd A_dyn(3,3);
 
    A_dyn << 1, 2, 3,
             4, 5, 6,
@@ -168,7 +190,7 @@ As you can observe, as long as the number of elements in the array is not change
 Vectors
 ~~~~~~~
 
-Just like the Matrix class Eigen also has a Vector class. The Vector class is a special case of the Matrix class where the number of rows or columns is fixed to 1. For example, to declare a 3x1 vector you can use the following code:
+Just like the Matrix class Eigen also has a Vector class. As mentioned before, the Vector class is a special case of the Matrix class where the number of rows or columns is fixed to 1. For example, to declare a 3x1 vector you can use the following code:
 
 .. code:: cpp
 
@@ -455,6 +477,8 @@ There are several convenience typedefs for fixed-size vectors and matrices. For 
 
 Advanced Matrix operations
 --------------------------
+
+This chapter covers some of the more advanced matrix operations that are available in Eigen. These operations are not commonly used, but can be useful for more complex oprations.
 
 Reshaping matrices
 ~~~~~~~~~~~~~~~~~~
@@ -1110,5 +1134,32 @@ If you get warnings about buffer overruns in the line **data2D[i] = A.row(i).dat
 
 This will tell the compiler that the data is not modified in the function. If it is modified in the function you need to remove this cast.
 
-Summary
--------
+Eigen for MPI and OpenMP applications
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+
+Eigen is not a library directly designed for parallel computing. However, it is possible to use Eigen in parallel computing applications. As Eigen always gives you access to the underlying array storage it is easy to use Eigen for the arrays that are shared between threads or processes. The following code illustrates how to use Eigen in an OpenMP application:
+
+.. code:: cpp
+
+   #include <Eigen/Dense>
+   #include <iostream>
+   #include <omp.h>
+
+   using namespace Eigen;
+   using namespace std;
+
+   int main()
+   {
+       MatrixXd A(10, 10);
+       A.setRandom();
+
+       double* data = A.data();
+
+       #pragma omp parallel for
+       for (int i = 0; i < A.size(); i++)
+       {
+           data[i] = omp_get_thread_num();
+       }
+
+       cout << A << endl;
+   }
