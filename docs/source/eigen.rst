@@ -1163,3 +1163,5 @@ Eigen is not a library directly designed for parallel computing. However, it is 
 
        cout << A << endl;
    }
+
+In this example we do a parallel for loop where each threads writes its thread number in the array. The **.data()** method is used to get a pointer to the raw array storage. The **omp_get_thread_num()** function is used to get the thread number. The **#pragma omp parallel for** directive is used to parallelize the for loop.
