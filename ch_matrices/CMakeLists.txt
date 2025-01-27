@@ -2,7 +2,7 @@ add_executable(matrix1_eig matrix1_eig.cpp)
 target_link_libraries(matrix1_eig PRIVATE Eigen3::Eigen)
 
 add_executable(matrix2_eig matrix2_eig.cpp)
-target_link_libraries(matrix2_eig PRIVATE Eigen3::Eigen)
+target_link_libraries(matrix2_eig PRIVATE Eigen3::Eigen) 
 
 add_executable(matrix3_eig matrix3_eig.cpp calfem_eig.h calfem_eig.cpp)
 target_link_libraries(matrix3_eig PRIVATE Eigen3::Eigen)
@@ -37,6 +37,12 @@ target_link_libraries(matrix_solver_4 PRIVATE Eigen3::Eigen)
 add_executable(eigen_c_arrays1 eigen_c_arrays1.cpp)
 target_link_libraries(eigen_c_arrays1 PRIVATE Eigen3::Eigen)
 
+add_executable(matrix_openmp_1 matrix_openmp_1.cpp)
+target_link_libraries(matrix_openmp_1 PRIVATE Eigen3::Eigen)
+
+add_executable(matrix_openmp_2 matrix_openmp_2.cpp)
+target_link_libraries(matrix_openmp_2 PRIVATE Eigen3::Eigen)
+
 set_target_properties(
     matrix1_eig
     matrix2_eig
@@ -51,6 +57,8 @@ set_target_properties(
     matrix_solver_3
     matrix_solver_4
     eigen_c_arrays1
+    matrix_openmp_1
+    matrix_openmp_2
     PROPERTIES
     FOLDER "ch_matrices"
 )

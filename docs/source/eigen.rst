@@ -934,160 +934,221 @@ Implementing functions with Eigen
 
 There are some considerations to think about when passing matrices and vector to methods and functions. The general rule is to always pass Eigen matrices and vectors by reference. The exception to this rule is when returning a matrix or vector from a function. In this case you should return the matrix or vector by value. In the following example we have a function that  eates a matrix given some non-matrix input:
 
-.. code:: cpp
+.. tabs::
 
-   enum TAnalysisType {PLANE_STRESS, PLANE_STRAIN};
+   .. tab:: Code
 
-   MatrixXd hooke(TAnalysisType ptype, double E, double v)
-   {
-       MatrixXd D;
-       switch (ptype) {
-           case PLANE_STRESS:
-               D.resize(3,3);
-               D << 1.0, v,   0.0,
-                    v,   1.0, 0.0,
-                    0.0, 0.0, (1.0-v)*0.5;
-               break;
-           case PLANE_STRAIN:
-               D.resize(4,4);
-               D << 1.0-v, v    , v     , 0.0,
-                    v    , 1.0-v, v     , 0.0,
-                    v    , v    , 1.0-v , 0.0,
-                    0.0  , 0.0  , 0.0   , 0.5*(1.0-2*v);
-               break;
-           default:
-               break;
-       }
-       return D;
-   }
+      .. code:: cpp
 
-   int main()
-   {
-       MatrixXd Dpstress = hooke(PLANE_STRESS, 2.1e9, 0.35);
-       MatrixXd Dpstrain = hooke(PLANE_STRAIN, 2.1e9, 0.35);
-       
-       cout << "D,pstress = " << endl;
-       cout << Dpstress << endl;
-       cout << "D,pstrain = " << endl;
-       cout << Dpstrain << endl;
-   }
+         enum TAnalysisType {PLANE_STRESS, PLANE_STRAIN};
 
-This produces the following output:
+         MatrixXd hooke(TAnalysisType ptype, double E, double v)
+         {
+            MatrixXd D;
+            switch (ptype) {
+               case PLANE_STRESS:
+                     D.resize(3,3);
+                     D << 1.0, v,   0.0,
+                        v,   1.0, 0.0,
+                        0.0, 0.0, (1.0-v)*0.5;
+                     break;
+               case PLANE_STRAIN:
+                     D.resize(4,4);
+                     D << 1.0-v, v    , v     , 0.0,
+                        v    , 1.0-v, v     , 0.0,
+                        v    , v    , 1.0-v , 0.0,
+                        0.0  , 0.0  , 0.0   , 0.5*(1.0-2*v);
+                     break;
+               default:
+                     break;
+            }
+            return D;
+         }
 
-.. code:: text
+         int main()
+         {
+            MatrixXd Dpstress = hooke(PLANE_STRESS, 2.1e9, 0.35);
+            MatrixXd Dpstrain = hooke(PLANE_STRAIN, 2.1e9, 0.35);
+            
+            cout << "D,pstress = " << endl;
+            cout << Dpstress << endl;
+            cout << "D,pstrain = " << endl;
+            cout << Dpstrain << endl;
+         }
 
-   D,pstress =
-       1  0.35     0
-    0.35     1     0
-       0     0 0.325
-   D,pstrain =
-   0.65 0.35 0.35    0
-   0.35 0.65 0.35    0
-   0.35 0.35 0.65    0
-      0    0    0 0.15
+   .. tab:: Output
+
+      .. code:: text
+
+         D,pstress = 
+            1  0.35     0
+         0.35     1     0
+            0     0 0.325
+         D,pstrain = 
+         0.65 0.35 0.35    0
+         0.35 0.65 0.35    0
+         0.35 0.35 0.65    0
+            0    0    0 0.15
+
+.. raw:: html
+
+   <a href="https://godbolt.org/z/MffxaKs6b" class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-outline-primary reference external" style="background-color: transparent;" target="_blank">Try example</a>    
+
 
 In the next example we have a function that takes **Vector<>** as inputs
 and returns a matrix.
 
-.. code:: cpp
+.. tabs::
 
-   Matrix4d bar2e(const Vector2d& ex, const Vector2d& ey, const Vector2d& ep)
-   {
-       double E = ep(0);
-       double A = ep(1);
-       double L = sqrt(pow(ex(1)-ex(0),2)+pow(ey(1)-ey(0),2));
-       double C = E*A/L;
-       
-       Matrix2d Ke_loc(2,2);
+   .. tab:: Code
 
-       Ke_loc <<  C, -C,
-                 -C,  C;
-       
-       double nxx = (ex(1)-ex(0))/L;
-       double nyx = (ey(1)-ey(0))/L;
-       
-       MatrixXd G(2,4);
-       
-       G << nxx, nyx, 0.0, 0.0,
-            0.0, 0.0, nxx, nyx;
-       
-       Matrix4d Ke = G.transpose()*Ke_loc*G;
-       return Ke;
-   }
+      .. code:: cpp
 
-Below is an example of how this function can be called:
+         Matrix4d bar2e(const Vector2d& ex, const Vector2d& ey, const Vector2d& ep)
+         {
+            double E = ep(0);
+            double A = ep(1);
+            double L = sqrt(pow(ex(1)-ex(0),2)+pow(ey(1)-ey(0),2));
+            double C = E*A/L;
+            
+            Matrix2d Ke_loc(2,2);
 
-.. code:: cpp
+            Ke_loc <<  C, -C,
+                     -C,  C;
+            
+            double nxx = (ex(1)-ex(0))/L;
+            double nyx = (ey(1)-ey(0))/L;
+            
+            MatrixXd G(2,4);
+            
+            G << nxx, nyx, 0.0, 0.0,
+                  0.0, 0.0, nxx, nyx;
+            
+            Matrix4d Ke = G.transpose()*Ke_loc*G;
+            return Ke;
+         }
 
-   int main()
-   {
-       VectorXd ex(2);
-       VectorXd ey(2);
-       VectorXd ep(2);
-       
-       ex << 0.0, 1.0;
-       ey << 0.0, 1.0;
-       ep << 1.0, 1.0;
-       
-       MatrixXd Ke = bar2e(ex, ey, ep);
-       
-       cout << Ke << endl;
-   }
+         int main()
+         {
+            VectorXd ex(2);
+            VectorXd ey(2);
+            VectorXd ep(2);
+            
+            ex << 0.0, 1.0;
+            ey << 0.0, 1.0;
+            ep << 1.0, 1.0;
+            
+            MatrixXd Ke = bar2e(ex, ey, ep);
+            
+            cout << Ke << endl;
+         }
 
-Running the code produces the following output:
+   .. tab:: Output
+      
+      .. code:: text
 
-.. code:: text
+         0.353553  0.353553 -0.353553 -0.353553
+         0.353553  0.353553 -0.353553 -0.353553
+        -0.353553 -0.353553  0.353553  0.353553
+        -0.353553 -0.353553  0.353553  0.353553   
 
-    0.353553  0.353553 -0.353553 -0.353553
-    0.353553  0.353553 -0.353553 -0.353553
-   -0.353553 -0.353553  0.353553  0.353553
-   -0.353553 -0.353553  0.353553  0.353553
+.. raw:: html
 
+   <a href="https://godbolt.org/z/4d5csPWTn" class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-outline-primary reference external" style="background-color: transparent;" target="_blank">Try example</a>  
 
 Accessing array raw data
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 Some times you need to interact with other libraries that require don't support the Eigen-arrays. To solve this Eigen arrays provide a special method that will return a pointer to the raw data. The following code illustrates how this is done:
 
-.. code:: cpp
+.. tabs::
 
-   int main()
-   {
-       MatrixXd A(10, 10);
-       A.setRandom();
+   .. tab:: Code
 
-       double* data = A.data();
+      .. code:: cpp
 
-       for (int i = 0; i < A.size(); i++)
-       {
-           cout << data[i] << " ";
-       }
-   }
+         #include <Eigen/Dense>
+         #include <iostream>
+
+         using namespace Eigen;
+         using namespace std;
+
+         int main()
+         {
+            MatrixXd A(10, 10);
+            A.setRandom();
+
+            double* data = A.data();
+
+            for (int i = 0; i < A.size(); i++)
+            {
+               cout << data[i] << " ";
+            }
+         }
+
+   .. tab:: Output
+
+      .. code:: text
+
+         0.696235 0.205189 -0.414795 0.33421 -0.469531 0.927654 0.445064 -0.632501 0.0241114 0.0722581 0.432106 -0.046008 0.134119 -0.159573 -0.00985718 -0.498144 -0.727247 0.740165 -0.756752 0.740565 -0.216464 0.852317 0.834695 -0.833781 -0.77815 -0.757623 -0.711254 -0.467268 0.00720412 0.220277 0.858701 -0.316277 0.429178 -0.0105883 0.498262 -0.553856 -0.601805 -0.489601 -0.481724 0.0916964 0.915093 -0.605917 -0.469558 0.626704 -0.700028 0.534993 -0.430885 -0.709873 -0.357397 0.670719 -0.990484 -0.577336 -0.584678 -0.359399 0.609677 0.673726 0.0663685 0.728608 -0.00537724 0.134456 -0.797706 0.453268 -0.111835 -0.230297 0.0229337 0.671631 -0.442717 0.44016 0.0273544 0.906204 0.813056 -0.838199 0.647739 -0.523765 0.245723 0.936956 -0.719861 -0.780573 0.133617 -0.300931 0.429551 0.188999 -0.535005 -0.0405608 -0.29008 -0.870618 -0.554428 0.402401 -0.818408 -0.264327 0.489326 -0.124668 -0.937149 -0.0622315 -0.916112 0.353017 -0.99246 0.500271 0.171177 0.964884
+
+.. raw:: html
+
+   <a href="https://godbolt.org/z/zbGKhj75v" class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-outline-primary reference external" style="background-color: transparent;" target="_blank">Try example</a>    
 
 In the code above the 2D array is accessed as a 1D array and is accessed in the loop as a 1D array. If you want to access the 2D array as a C++ 2D array you need to do some reinterpretation of the data. All Eigen arrays are stored as a single 1D block in memory. A 2D C++ array is basically an array of pointers to 1D arrays. In the following code we construct a 2D array by creating pointer to raw data array. 
 
-.. code:: cpp
+.. tabs::
 
-   int main()
-   {
-       MatrixXd A(10, 10);
-       A.setRandom();
+   .. tab:: Code
 
-       double* data = A.data();
-       double** data2D = new double*[A.rows()];
+      .. code:: cpp
 
-       for (int i = 0; i < A.rows(); i++)
-           data2D[i] = data + i * A.cols();
+         #include <Eigen/Dense>
+         #include <iostream>
 
-       for (int i = 0; i < A.rows(); i++)
-       {
-           for (int j = 0; j < A.cols(); j++)
-               cout << data2D[i][j] << " ";
-           cout << endl;
-       }
+         using namespace Eigen;
+         using namespace std;
+            
+         int main()
+         {
+            MatrixXd A(10, 10);
+            A.setRandom();
 
-       delete[] data2D;
-   }
+            double* data = A.data();
+            double** data2D = new double*[A.rows()];
+
+            for (int i = 0; i < A.rows(); i++)
+               data2D[i] = data + i * A.cols();
+
+            for (int i = 0; i < A.rows(); i++)
+            {
+               for (int j = 0; j < A.cols(); j++)
+                     cout << data2D[i][j] << " ";
+               cout << endl;
+            }
+
+            delete[] data2D;
+         }
+
+   .. tab:: Output
+
+      .. code:: text
+
+         0.696235 0.205189 -0.414795 0.33421 -0.469531 0.927654 0.445064 -0.632501 0.0241114 0.0722581 
+         0.432106 -0.046008 0.134119 -0.159573 -0.00985718 -0.498144 -0.727247 0.740165 -0.756752 0.740565 
+         -0.216464 0.852317 0.834695 -0.833781 -0.77815 -0.757623 -0.711254 -0.467268 0.00720412 0.220277 
+         0.858701 -0.316277 0.429178 -0.0105883 0.498262 -0.553856 -0.601805 -0.489601 -0.481724 0.0916964 
+         0.915093 -0.605917 -0.469558 0.626704 -0.700028 0.534993 -0.430885 -0.709873 -0.357397 0.670719 
+         -0.990484 -0.577336 -0.584678 -0.359399 0.609677 0.673726 0.0663685 0.728608 -0.00537724 0.134456 
+         -0.797706 0.453268 -0.111835 -0.230297 0.0229337 0.671631 -0.442717 0.44016 0.0273544 0.906204 
+         0.813056 -0.838199 0.647739 -0.523765 0.245723 0.936956 -0.719861 -0.780573 0.133617 -0.300931 
+         0.429551 0.188999 -0.535005 -0.0405608 -0.29008 -0.870618 -0.554428 0.402401 -0.818408 -0.264327 
+         0.489326 -0.124668 -0.937149 -0.0622315 -0.916112 0.353017 -0.99246 0.500271 0.171177 0.964884      
+
+.. raw:: html
+
+   <a href="https://godbolt.org/z/9zWsY5WeY" class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-outline-primary reference external" style="background-color: transparent;" target="_blank">Try example</a>    
 
 .. note:: 
    
@@ -1098,33 +1159,63 @@ Using Eigen with other libraries
 
 If you have a library that has functions that take two-dimensional C++ arrays as input you need to perform some additional steps to convert Eigen arrays to a 2D C++ array. It is not possible to just pass the Eigen data pointer to the function. First, we neeed to create a 2D array of pointers to the raw data. It is a pointer to this array that will be passed to the function. An example of this is shown in the code below:
 
-.. code:: cpp
 
-   void foo(double** data, int rows, int cols)
-   {
-       for (int i = 0; i < rows; i++)
-       {
-           for (int j = 0; j < cols; j++)
-               cout << data[i][j] << " ";
-           cout << endl;
-       }
-   }
+.. tabs::
 
-   int main()
-   {  
-       MatrixXd A(10, 10);
-       A.setRandom();
+   .. tab:: Code
 
-       double* data = A.data();
-       double** data2D = new double*[A.rows()];
+      .. code:: cpp
 
-       for (int i = 0; i < A.rows(); i++)
-           data2D[i] = A.row(i).data();
+         #include <Eigen/Dense>
+         #include <iostream>
 
-       foo(data2D, A.rows(), A.cols());
+         using namespace Eigen;
+         using namespace std;
 
-       delete[] data2D;
-   }
+         void foo(double** data, int rows, int cols)
+         {
+            for (int i = 0; i < rows; i++)
+            {
+               for (int j = 0; j < cols; j++)
+                     cout << data[i][j] << " ";
+               cout << endl;
+            }
+         }
+
+         int main()
+         {
+            MatrixXd A(10, 10);
+            A.setRandom();
+
+            double* data = A.data();
+            double** data2D = new double*[A.rows()];
+
+            for (int i = 0; i < A.rows(); i++)
+               data2D[i] = A.row(i).data();
+
+            foo(data2D, A.rows(), A.cols());
+
+            delete[] data2D;
+         }
+
+   .. tab:: Output
+
+      .. code-block:: text
+
+         0.696235 0.205189 -0.414795 0.33421 -0.469531 0.927654 0.445064 -0.632501 0.0241114 0.0722581 
+         0.205189 -0.414795 0.33421 -0.469531 0.927654 0.445064 -0.632501 0.0241114 0.0722581 0.432106 
+         -0.414795 0.33421 -0.469531 0.927654 0.445064 -0.632501 0.0241114 0.0722581 0.432106 -0.046008 
+         0.33421 -0.469531 0.927654 0.445064 -0.632501 0.0241114 0.0722581 0.432106 -0.046008 0.134119 
+         -0.469531 0.927654 0.445064 -0.632501 0.0241114 0.0722581 0.432106 -0.046008 0.134119 -0.159573 
+         0.927654 0.445064 -0.632501 0.0241114 0.0722581 0.432106 -0.046008 0.134119 -0.159573 -0.00985718 
+         0.445064 -0.632501 0.0241114 0.0722581 0.432106 -0.046008 0.134119 -0.159573 -0.00985718 -0.498144 
+         -0.632501 0.0241114 0.0722581 0.432106 -0.046008 0.134119 -0.159573 -0.00985718 -0.498144 -0.727247 
+         0.0241114 0.0722581 0.432106 -0.046008 0.134119 -0.159573 -0.00985718 -0.498144 -0.727247 0.740165 
+         0.0722581 0.432106 -0.046008 0.134119 -0.159573 -0.00985718 -0.498144 -0.727247 0.740165 -0.756752 
+
+.. raw:: html
+
+   <a href="https://godbolt.org/z/6jh3bo7P4" class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-outline-primary reference external" style="background-color: transparent;" target="_blank">Try example</a>
 
 If you get warnings about buffer overruns in the line **data2D[i] = A.row(i).data();** you can tell the compiler to ignore the warning by adding the following line before the line:
 
@@ -1134,34 +1225,277 @@ If you get warnings about buffer overruns in the line **data2D[i] = A.row(i).dat
 
 This will tell the compiler that the data is not modified in the function. If it is modified in the function you need to remove this cast.
 
-Eigen for MPI and OpenMP applications
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+Using Eigen in Parallel Applications
+------------------------------------
 
-Eigen is not a library directly designed for parallel computing. However, it is possible to use Eigen in parallel computing applications. As Eigen always gives you access to the underlying array storage it is easy to use Eigen for the arrays that are shared between threads or processes. The following code illustrates how to use Eigen in an OpenMP application:
+Eigen is mainly an array library providing efficient array and vector data types. However, it will take advantage of underlying linear algebra libraries if available. The underlying array storage is often C++ array, which can be accessed through the **.data()** method providing ways of interfacing with other libraries. Some of the operations in the library can also use OpenMP for parallelization. In the following sections we will look at how to use Eigen in parallel applications.
 
-.. code:: cpp
+Eigen and OpenMP applications
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 
-   #include <Eigen/Dense>
-   #include <iostream>
-   #include <omp.h>
+Eigen support parallelization in several ways. Some of the operations in Eigen use OpenMP for parallelization. According to the Eigen documentation the following operations uses OpenMP:
 
-   using namespace Eigen;
-   using namespace std;
+   * general dense matrix - matrix products
+   * PartialPivLU
+   * row-major-sparse * dense vector/matrix products
+   * ConjugateGradient with Lower|Upper as the UpLo template parameter.
+   * BiCGSTAB with a row-major sparse matrix format.
+   * LeastSquaresConjugateGradient
 
-   int main()
-   {
-       MatrixXd A(10, 10);
-       A.setRandom();
+The access methods have also been designed to be thread safe, so it is quite easy to use Eigen in parallel applications. In the following example an OpenMP a parallel for loop is used to fill the A matrix with the current thread number:
 
-       double* data = A.data();
+.. tabs::
 
-       #pragma omp parallel for
-       for (int i = 0; i < A.size(); i++)
-       {
-           data[i] = omp_get_thread_num();
-       }
+   .. tab:: Code
 
-       cout << A << endl;
-   }
+      .. code:: cpp
+
+         #include <Eigen/Dense>
+         #include <iostream>
+         #include <omp.h>
+
+         using namespace Eigen;
+         using namespace std;
+
+         int main()
+         {
+            MatrixXd A(10, 10);
+            A.setRandom();
+
+            cout << "Number of threads: " << omp_get_max_threads() << "\n\n";
+
+            #pragma omp parallel for
+            for (int i = 0; i < A.rows(); i++)
+            {
+               for (int j = 0; j < A.cols(); j++)
+               {
+                     A(i, j) = omp_get_thread_num();
+               }
+            }
+
+            cout << A << endl;
+         }
+
+
+   .. tab:: Output
+
+      .. code-block:: text
+
+         Number of threads: 2
+
+         0 0 0 0 0 0 0 0 0 0
+         0 0 0 0 0 0 0 0 0 0
+         0 0 0 0 0 0 0 0 0 0
+         0 0 0 0 0 0 0 0 0 0
+         0 0 0 0 0 0 0 0 0 0
+         1 1 1 1 1 1 1 1 1 1
+         1 1 1 1 1 1 1 1 1 1
+         1 1 1 1 1 1 1 1 1 1
+         1 1 1 1 1 1 1 1 1 1
+         1 1 1 1 1 1 1 1 1 1
+
+.. raw:: html
+
+   <a href="https://godbolt.org/z/asYr6xzjo" class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-outline-primary reference external" style="background-color: transparent;" target="_blank">Try example</a>
+
+However, there can be some overhead of using the accessmethods like A(i,j) with bounds checking and other safety checks. If you want to avoid this overhead you can use the **.data()** method to get a pointer to the raw data. The following code illustrates this:
+
+.. tabs::
+
+   .. tab:: Code
+
+      .. code:: cpp
+
+         #include <Eigen/Dense>
+         #include <iostream>
+         #include <omp.h>
+
+         using namespace Eigen;
+         using namespace std;
+
+         int main()
+         {
+            MatrixXd A(10, 10);
+            A.setRandom();
+
+            double* data = A.data();
+
+            #pragma omp parallel for
+            for (int i = 0; i < A.size(); i++)
+            {
+               data[i] = omp_get_thread_num();
+            }
+
+            cout << A << endl;
+         }
+
+   .. tab:: Output
+
+      .. code-block:: text
+
+         0 0 0 0 0 1 1 1 1 1
+         0 0 0 0 0 1 1 1 1 1
+         0 0 0 0 0 1 1 1 1 1
+         0 0 0 0 0 1 1 1 1 1
+         0 0 0 0 0 1 1 1 1 1
+         0 0 0 0 0 1 1 1 1 1
+         0 0 0 0 0 1 1 1 1 1
+         0 0 0 0 0 1 1 1 1 1
+         0 0 0 0 0 1 1 1 1 1
+         0 0 0 0 0 1 1 1 1 1         
+
+.. raw:: html
+
+   <a href="https://godbolt.org/z/KjvoT5PcK" class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-outline-primary reference external" style="background-color: transparent;" target="_blank">Try example</a>
 
 In this example we do a parallel for loop where each threads writes its thread number in the array. The **.data()** method is used to get a pointer to the raw array storage. The **omp_get_thread_num()** function is used to get the thread number. The **#pragma omp parallel for** directive is used to parallelize the for loop.
+
+Using Eigen with MPI
+~~~~~~~~~~~~~~~~~~~~
+
+```cpp
+#include <mpi.h>
+#include <Eigen/Dense>
+#include <iostream>
+#include <vector>
+#include <random>
+#include <chrono>
+
+using Eigen::MatrixXd;
+using Eigen::VectorXd;
+
+class MPIMatrix {
+private:
+    int m_rank;
+    int m_size;
+    int m_rows;
+    int m_cols;
+
+    MatrixXd m_localMatrix;
+    
+public:
+    MPIMatrix(int r, int c) 
+        : m_rows(r), m_cols(c), m_rank(0), m_size(1) 
+    {
+        MPI_Comm_rank(MPI_COMM_WORLD, &m_rank);
+        MPI_Comm_size(MPI_COMM_WORLD, &m_size);
+        
+        // Calculate local matrix size
+
+        int localRows = m_rows / m_size;
+
+        if (m_rank < m_rows % m_size) {
+            localRows++;
+        }
+        
+        m_localMatrix = MatrixXd::Zero(localRows, m_cols);
+    }
+    
+    void randomize(unsigned seed = std::chrono::system_clock::now().time_since_epoch().count()) 
+    {
+        std::mt19937 gen(seed + m_rank);  // Different seed for each process
+        std::uniform_real_distribution<> dis(-1.0, 1.0);
+        
+        for (int i = 0; i < m_localMatrix.rows(); ++i) {
+            for (int j = 0; j < m_localMatrix.cols(); ++j) {
+                m_localMatrix(i, j) = dis(gen);
+            }
+        }
+    }
+    
+    VectorXd multiply(const VectorXd& vec) const 
+    {
+    
+        // Local multiplication
+    
+        VectorXd localResult = m_localMatrix * vec;
+        
+        // Gather results
+    
+        std::vector<int> recvCounts(m_size);
+        std::vector<int> displs(m_size);
+        
+        // Calculate receive counts and displacements
+    
+        int baseCount = m_rows / m_size;
+        int remainder = m_rows % m_size;
+        
+        for (int i = 0; i < m_size; ++i) 
+        {
+            recvCounts[i] = baseCount + (i < remainder ? 1 : 0);
+            displs[i] = (i > 0) ? displs[i-1] + recvCounts[i-1] : 0;
+        }
+        
+        // Allocate space for complete result
+
+        VectorXd globalResult;
+
+        if (m_rank == 0) 
+            globalResult.resize(m_rows);
+        
+        // Gather all local results to rank 0
+        
+        MPI_Gatherv(localResult.data(), localResult.size(), MPI_DOUBLE,
+                    globalResult.data(), recvCounts.data(), displs.data(),
+                    MPI_DOUBLE, 0, MPI_COMM_WORLD);
+        
+        return globalResult;
+    }
+    
+    const MatrixXd& localMatrix() const {
+        return m_localMatrix;
+    }
+};
+
+int main(int argc, char** argv) 
+{
+    constexpr int MatrixSize = 10000;
+    int rank;
+    
+    MPI_Init(&argc, &argv);
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    
+    try 
+    { 
+        // Create distributed matrix
+
+        MPIMatrix distMatrix(MatrixSize, MatrixSize);
+        distMatrix.randomize();
+        
+        // Create x vector
+
+        VectorXd x = VectorXd::Random(MatrixSize);
+        
+        // Broadcast x vector to all processes
+
+        MPI_Bcast(x.data(), MatrixSize, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+        
+        // Perform distributed matrix-vector multiplication
+
+        auto startTime = std::chrono::high_resolution_clock::now();
+        VectorXd result = distMatrix.multiply(x);
+        auto endTime = std::chrono::high_resolution_clock::now();
+        
+        if (rank == 0) 
+        {
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+                endTime - startTime);
+
+            std::cout << "Matrix size (rows x cols): " << MatrixSize << " x " << MatrixSize << std::endl;
+            std::cout << "Matrix memory size (MB): " << sizeof(double) * MatrixSize * MatrixSize / 1e6 << std::endl;
+            std::cout << "Matrix-vector multiplication completed in " << duration.count() << " ms\n";
+            std::cout << "First few elements of result: \n" << result.head(5).transpose() << std::endl;
+        }
+        
+    } 
+    catch (const std::exception& e) 
+    {
+        std::cerr << "Error on rank " << rank << ": " << e.what() << std::endl;
+        MPI_Abort(MPI_COMM_WORLD, 1);
+    }
+    
+    MPI_Finalize();
+    return 0;
+}
+```
+

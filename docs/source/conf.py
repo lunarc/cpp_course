@@ -21,7 +21,8 @@ extensions = [
     'sphinx.ext.imgconverter',
     'sphinx_copybutton',
     'sphinx_design',
-    'sphinx_tabs.tabs'
+    'sphinx_tabs.tabs',
+    'sphinx_design'
     #'custom_latex_builder'
     ]
 
