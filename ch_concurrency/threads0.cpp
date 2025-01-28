@@ -1,7 +1,7 @@
 #include <chrono>
 #include <iostream>
+#include <print>
 #include <thread>
-#include <utils/print.h>
 
 using namespace std;
 
@@ -14,14 +14,14 @@ std::string to_string(std::thread::id id)
 
 void myfunc()
 {
-    std::printf("Thread {} starting.\n", to_string(this_thread::get_id()));
+    std::print("Thread {} starting.\n", to_string(this_thread::get_id()));
     this_thread::sleep_for(chrono::seconds(1));
-    std::printf("Thread {} stopping.\n", to_string(this_thread::get_id()));
+    std::print("Thread {} stopping.\n", to_string(this_thread::get_id()));
 }
 
 int main()
 {
     jthread t(myfunc);
     t.join();
-    std::print("Main thread stopping.\n");
+    std::printf("Main thread stopping.\n");
 }
