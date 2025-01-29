@@ -1358,7 +1358,7 @@ Using Eigen with MPI is quite straightforward. The main thing to remember is tha
 .. image:: images/mpi_eigen1.svg
    :width: 100.0%
 
-To implement the matrix vector multiplication we implement a special matrix class, **MPIMatrix**, which will implement the distribution of the matrix and the multiplication. In the constructor of the class we query the rank and size from MPI and store these in the class attributes **m_rank** and **m_size**. We then calculate the local matrix size based on the number of ranks. The local matrix is then created using the **MatrixXd::Zero()** method. In this way each rank will have its own local matrix. The class declaration and contructor is shown below:
+To implement the matrix vector multiplication we implement a special matrix class, **MPIMatrix**, which will implement the distribution of the matrix and the multiplication. In the constructor of the class we query the rank and size from MPI and store these in the class attributes **m_rank** and **m_size**. We then calculate the local matrix size based on the number of ranks. The local matrix and local result vector is then created using the **.resize(...)** method. Please not we don't initialise to zero here as we will do this in a separate method. In this way each rank will have its own local matrix and result vector. The class declaration and contructor is shown below:
 
 .. code:: cpp
 
@@ -1370,10 +1370,11 @@ To implement the matrix vector multiplication we implement a special matrix clas
       int m_cols;
 
       MatrixXd m_localMatrix;
+      VectorXd m_localResult;
       
    public:
       MPIMatrix(int r, int c) 
-         : m_rows(r), m_cols(c), m_rank(0), m_size(1) 
+         : m_rank(0), m_size(1), m_rows(r), m_cols(c)  
       {
          MPI_Comm_rank(MPI_COMM_WORLD, &m_rank);
          MPI_Comm_size(MPI_COMM_WORLD, &m_size);
@@ -1386,72 +1387,79 @@ To implement the matrix vector multiplication we implement a special matrix clas
                localRows++;
          }
          
-         m_localMatrix = MatrixXd::Zero(localRows, m_cols);
+         m_localMatrix.resize(localRows, m_cols);
+         m_localResult.resize(localRows);
       }
 
 Initialisation of the array is performed in the **.randomize()** method and each rank intialiases its own part of the array. The random seed is alos initialised separately for each rank. 
 
 .. code:: cpp
 
-   void randomize(unsigned seed = std::chrono::system_clock::now().time_since_epoch().count()) 
+   void randomize() 
    {
-      std::mt19937 gen(seed + m_rank);  // Different seed for each process
-      std::uniform_real_distribution<> dis(-1.0, 1.0);
-      
-      for (int i = 0; i < m_localMatrix.rows(); ++i) {
-            for (int j = 0; j < m_localMatrix.cols(); ++j) {
-               m_localMatrix(i, j) = dis(gen);
-            }
-      }
+      srand(std::chrono::system_clock::now().time_since_epoch().count());
+
+      m_localMatrix.setRandom();
    }
 
-The actual matrix multiplication is implemented in the **.multiply(...)** methodm which takes the shared vector as input. The local matrix is multiplied with the vector and the results are gathered to the root process. The **MPI_Gatherv()** function is used to gather the results to the root process. It is only the root process that stores the globalResults vector. This works as the non-root ranks does not have a requirement of a receive buffer. The **MPI_Gatherv()** function takes the local result, the receive counts and displacements, the global result, and the root process as input. The receive counts and displacements are calculated based on the number of rows in the matrix and the number of ranks. The **.multiply()** method is shown below:
+The actual matrix multiplication is implemented in the **.multiply(...)** methodm which takes the shared vector as input. The local matrix is then multiplied with the vector and the result is stored in the local result vector. 
 
 .. code:: cpp
 
-      VectorXd multiply(const VectorXd& vec) const 
+   void multiply(const VectorXd& vec) 
+   {
+      // Local multiplication
+
+      m_localResult = m_localMatrix * vec;
+   }
+
+To print the complete result vector we need to gather the local results vectors and combine them together before printing. This is done in the **.printResult()** method. The method first calculates the receive counts and displacements for the **MPI_Gatherv()** function. The local results are then gathered to the rank 0 process and printed.
+
+.. code:: cpp
+
+   void printResult() const 
+   {
+      // Gather results (only done to illustrate how to gather results for printing)
+
+      std::vector<int> recvCounts(m_size);
+      std::vector<int> displs(m_size);
+      
+      // Calculate receive counts and displacements
+
+      int baseCount = m_rows / m_size;
+      int remainder = m_rows % m_size;
+      
+      for (int i = 0; i < m_size; ++i) 
       {
-         // Local multiplication [localRows x m_cols] x [m_cols x 1] = [localRows x 1]
-      
-         VectorXd localResult = m_localMatrix * vec;
-         
-         // Gather results
-      
-         std::vector<int> recvCounts(m_size);
-         std::vector<int> displs(m_size);
-         
-         // Calculate receive counts and displacements
-      
-         int baseCount = m_rows / m_size;
-         int remainder = m_rows % m_size;
-         
-         for (int i = 0; i < m_size; ++i) 
-         {
-               recvCounts[i] = baseCount + (i < remainder ? 1 : 0);
-               displs[i] = (i > 0) ? displs[i-1] + recvCounts[i-1] : 0;
-         }
-         
-         // Allocate space for complete result
-
-         VectorXd globalResult;
-
-         if (m_rank == 0) 
-               globalResult.resize(m_rows);
-         
-         // Gather all local results to rank 0
-         
-         MPI_Gatherv(localResult.data(), localResult.size(), MPI_DOUBLE,
-                     globalResult.data(), recvCounts.data(), displs.data(),
-                     MPI_DOUBLE, 0, MPI_COMM_WORLD);
-         
-         return globalResult;
+         recvCounts[i] = baseCount + (i < remainder ? 1 : 0);
+         displs[i] = (i > 0) ? displs[i-1] + recvCounts[i-1] : 0;
       }
+      
+      // Allocate space for complete result
 
-.. note::
+      VectorXd globalResult;
 
-   It is only the root process that allocates the globalResults vector. This works as the non-root calls to the **MPI_Gatherv()** does not have a requirement of having a receive buffer.
+      if (m_rank == 0) 
+         globalResult.resize(m_rows);
+      
+      // Gather all local results to rank 0
 
-We can also see here that the interaction between the Eigen library and MPI library is handled by passing the **.data()** and **.size()** methods to the MPI functions. 
+      MPI_Gatherv(m_localResult.data(), m_localResult.size(), MPI_DOUBLE,
+                  globalResult.data(), recvCounts.data(), displs.data(),
+                  MPI_DOUBLE, 0, MPI_COMM_WORLD);
+
+      // Print result on rank 0
+
+      if (m_rank == 0) 
+      {
+         std::cout << "First few elements of result: \n" << globalResult.head(5).transpose() << std::endl;
+      }
+   }   
+
+.. note:: 
+   
+   In this example we use **MPI_Gatherv()** function to display results from multiple nodes standard output. However a real world example would be to write results to a single output file. However, this is not recommended for large data sets as data could be larger than the memory on the rank 0 process. A better solution would be to write the data to separate files on each rank and then combine them later. Another approach would be to use a parallel I/O library like **HDF5** or use the MPI I/O functions.
+
 
 I the main function we first initialise the MPI library and some required variables.
 
@@ -1469,15 +1477,27 @@ Next, we create our distributed matrix and randomize it. We also create a random
 
 .. code:: cpp
 
-      // Create distributed matrix
-
       MPIMatrix distMatrix(MatrixSize, MatrixSize);
       distMatrix.randomize();
-      
-      // Create x vector
 
-      VectorXd x = VectorXd::Random(MatrixSize);
-      
+      // Create a random x vector
+
+      VectorXd x;
+
+      if (rank == 0)
+      { 
+         // Generate random x vector on rank 0
+
+         std::cout << "Generating random vector x...\n";
+         x = VectorXd::Random(MatrixSize);
+      }
+      else
+      {
+         // Just resize x on other ranks
+
+         x.resize(MatrixSize);
+      }
+
       // Broadcast x vector to all processes
 
       MPI_Bcast(x.data(), MatrixSize, MPI_DOUBLE, 0, MPI_COMM_WORLD);
@@ -1486,20 +1506,23 @@ Now we are ready to call our multiplication method and measure the time it takes
 
 .. code:: cpp
 
+      // Perform distributed matrix-vector multiplication
+
       auto startTime = std::chrono::high_resolution_clock::now();
-      VectorXd result = distMatrix.multiply(x);
+      distMatrix.multiply(x);
       auto endTime = std::chrono::high_resolution_clock::now();
-      
+
       if (rank == 0) 
       {
-            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
                endTime - startTime);
 
-            std::cout << "Matrix size (rows x cols): " << MatrixSize << " x " << MatrixSize << std::endl;
-            std::cout << "Matrix memory size (MB): " << sizeof(double) * MatrixSize * MatrixSize / 1e6 << std::endl;
-            std::cout << "Matrix-vector multiplication completed in " << duration.count() << " ms\n";
-            std::cout << "First few elements of result: \n" << result.head(5).transpose() << std::endl;
+         std::cout << "Matrix size (rows x cols): " << MatrixSize << " x " << MatrixSize << std::endl;
+         std::cout << "Matrix memory size (MB): " << sizeof(double) * MatrixSize * MatrixSize / 1e6 << std::endl;
+         std::cout << "Matrix-vector multiplication completed in " << duration.count() << " ms\n";
       }
+      
+      distMatrix.printResult();
 
 To summarise, using Eigen for array managment simplifies a lot of the tasks when working with MPI, such as memory allocation and data distribution. It still retains the ability to get to the underlying data storage when needed. In most cases the resulting code is shorter and easier to maintain.
 
@@ -1525,10 +1548,11 @@ The complete code is shown below:
       int m_cols;
 
       MatrixXd m_localMatrix;
+      VectorXd m_localResult;
       
    public:
       MPIMatrix(int r, int c) 
-         : m_rows(r), m_cols(c), m_rank(0), m_size(1) 
+         : m_rank(0), m_size(1), m_rows(r), m_cols(c)  
       {
          MPI_Comm_rank(MPI_COMM_WORLD, &m_rank);
          MPI_Comm_size(MPI_COMM_WORLD, &m_size);
@@ -1540,30 +1564,34 @@ The complete code is shown below:
          if (m_rank < m_rows % m_size) {
                localRows++;
          }
+
+         // Initialise local matrices
          
-         m_localMatrix = MatrixXd::Zero(localRows, m_cols);
+         m_localMatrix.resize(localRows, m_cols);
+         m_localResult.resize(localRows);
       }
       
-      void randomize(unsigned seed = std::chrono::system_clock::now().time_since_epoch().count()) 
+      void randomize() 
       {
-         std::mt19937 gen(seed + m_rank);  // Different seed for each process
-         std::uniform_real_distribution<> dis(-1.0, 1.0);
-         
-         for (int i = 0; i < m_localMatrix.rows(); ++i) {
-               for (int j = 0; j < m_localMatrix.cols(); ++j) {
-                  m_localMatrix(i, j) = dis(gen);
-               }
-         }
+         // Initialise random seed. Different seed for each process
+
+         srand(std::chrono::system_clock::now().time_since_epoch().count());
+
+         // Randomize local matrix
+
+         m_localMatrix.setRandom();
       }
       
-      VectorXd multiply(const VectorXd& vec) const 
+      void multiply(const VectorXd& vec) 
       {
+         // Local multiplication
       
-         // Local multiplication [localRows x m_cols] x [m_cols x 1] = [localRows x 1]
-      
-         VectorXd localResult = m_localMatrix * vec;
-         
-         // Gather results
+         m_localResult = m_localMatrix * vec;
+      }
+
+      void printResult() const 
+      {
+         // Gather results (only done to illustrate how to gather results for printing)
       
          std::vector<int> recvCounts(m_size);
          std::vector<int> displs(m_size);
@@ -1587,12 +1615,17 @@ The complete code is shown below:
                globalResult.resize(m_rows);
          
          // Gather all local results to rank 0
-         
-         MPI_Gatherv(localResult.data(), localResult.size(), MPI_DOUBLE,
+
+         MPI_Gatherv(m_localResult.data(), m_localResult.size(), MPI_DOUBLE,
                      globalResult.data(), recvCounts.data(), displs.data(),
                      MPI_DOUBLE, 0, MPI_COMM_WORLD);
-         
-         return globalResult;
+
+         // Print result on rank 0
+
+         if (m_rank == 0) 
+         {
+               std::cout << "First few elements of result: \n" << globalResult.head(5).transpose() << std::endl;
+         }
       }
       
       const MatrixXd& localMatrix() const {
@@ -1604,6 +1637,7 @@ The complete code is shown below:
    {
       constexpr int MatrixSize = 10000;
       int rank;
+
       
       MPI_Init(&argc, &argv);
       MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -1615,9 +1649,19 @@ The complete code is shown below:
          MPIMatrix distMatrix(MatrixSize, MatrixSize);
          distMatrix.randomize();
          
-         // Create x vector
+         // Create a random x vector
 
-         VectorXd x = VectorXd::Random(MatrixSize);
+         VectorXd x;
+
+         if (rank == 0)
+         { 
+               std::cout << "Generating random vector x...\n";
+               x = VectorXd::Random(MatrixSize);
+         }
+         else
+         {
+               x.resize(MatrixSize);
+         }
          
          // Broadcast x vector to all processes
 
@@ -1626,7 +1670,7 @@ The complete code is shown below:
          // Perform distributed matrix-vector multiplication
 
          auto startTime = std::chrono::high_resolution_clock::now();
-         VectorXd result = distMatrix.multiply(x);
+         distMatrix.multiply(x);
          auto endTime = std::chrono::high_resolution_clock::now();
          
          if (rank == 0) 
@@ -1637,8 +1681,8 @@ The complete code is shown below:
                std::cout << "Matrix size (rows x cols): " << MatrixSize << " x " << MatrixSize << std::endl;
                std::cout << "Matrix memory size (MB): " << sizeof(double) * MatrixSize * MatrixSize / 1e6 << std::endl;
                std::cout << "Matrix-vector multiplication completed in " << duration.count() << " ms\n";
-               std::cout << "First few elements of result: \n" << result.head(5).transpose() << std::endl;
          }
+         distMatrix.printResult();
          
       } 
       catch (const std::exception& e) 
@@ -1650,4 +1694,3 @@ The complete code is shown below:
       MPI_Finalize();
       return 0;
    }
-
