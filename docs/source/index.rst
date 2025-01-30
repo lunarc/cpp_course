@@ -1,7 +1,7 @@
 The Engineer's Guide to C++
 ===========================
 
-.. image:: images/front_page_alt.png
+.. image:: images/engineers-guide.png
    :width: 100.0%
 
 This course is intended as an introduction to C++ for engineers or

@@ -1,6 +1,9 @@
 Input and output
 ================
 
+.. image:: images/input_output.png
+   :width: 100.0%
+
 One important aspect of programming is the ability to read and write
 from standard input/output and from files in different ways. In C++ the
 main way of reading and writing data is using the stream classes in the

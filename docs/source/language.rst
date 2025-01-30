@@ -5,6 +5,9 @@
 The C++ Language
 ================
 
+.. image:: images/language.png
+   :width: 100.0%
+
 This chapter will go through the language elements of C++. To understand
 the language we will start with the fundamentals and transition to more
 modern features as we continue through this book.

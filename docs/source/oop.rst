@@ -1,6 +1,9 @@
 Object-oriented programming
 ===========================
 
+.. image:: images/oop.png
+   :width: 100.0%
+
 In procedural programming, data and subroutines are treated separately. Subroutines operate on provided data structures and variables. In object-oriented programming data and subroutines are combined into objects. Objects in numerical computing can be different matrix types, particles, vectors or solvers. The major benefits are that the actual data structures used in the implementation of an object can be hidden from the user of the object, enabling the developer of an object to improve the implementation without affecting users of the objects (encapsulation). Another important feature of object-oriented programming is the ability to inherit and extend the functionality of objects (inheritance). This enables users of objects and developers to extend and modify the functionality of existing objects, relying on the functionality of the parent object. 
 
 The functionality and data structures of objects are defined in classes in most programming object-oriented languages. Classes can be seen as templates or blueprints for objects. When an object is to be created the class is used as the template to construct the new object. Created objects are also called instances of a class. 

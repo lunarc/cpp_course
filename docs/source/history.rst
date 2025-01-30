@@ -1,6 +1,9 @@
 C++ History
 ===========
 
+.. image:: images/history.png
+   :width: 100.0%
+
 C++ is a language wit a long history. It was first created by Bjarne Stroustrup in 1979 when he started work on “C with Classes”. He was inspired by Simula which was used in large software development. However, it was too slow for practical use.
 
 “C with Classes” included features like classes, derived classes, strong type checking, inlining, default arguments, and argument type checking.

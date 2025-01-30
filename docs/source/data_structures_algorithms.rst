@@ -1,6 +1,9 @@
 Data structures and algorithms
 ==============================
 
+.. image:: images/data_structures.png
+   :width: 100.0%
+
 The C++ standard library contains many common data structures that are
 useful when implementing your application. Most of the data structures
 defined only support various basic functionality, instead algorithmic

@@ -1,6 +1,9 @@
 User interfaces with Qt
 =======================
 
+.. image:: images/user_interface.png
+   :width: 100.0%
+
 Qt is a user interface framework that is widely used for developing GUI applications. It is a cross-platform framework that is available for Windows, Linux, and macOS. It is a C++ library that provides a wide range of functionality for implementing user interfaces. It includes a set of widgets that can be used to create windows, buttons, menus, and other GUI elements. Qt also provides support for event handling, graphics, and multimedia.
 
 Qt is a good example of how object-oriented can be used to simplify and make it easier to develop  applications with complex user interfaces. The framework also abstracts the lower lever details of implemeting user interfaces on different platforms. This means that you can write your application once and run it on different platforms without having to make changes to the code.

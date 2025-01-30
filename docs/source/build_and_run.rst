@@ -1,6 +1,9 @@
 Building and running C++ code
 =============================
 
+.. image:: images/building.png
+   :width: 100.0%
+
 To install and run C++, you will need a compiler. There are severalcompilers available for C++ that work on all major platforms. For thiscourse, we will be using the GNU C++ compiler. Along with the compiler,it is recommended to have a good text editor that has support for C++.To further simplify the process of compiling, running, and debugging C++code, a development environment is recommended. In this course, we willuse Qt Creator, which is an advanced environment specifically designedfor C++. It provides features such as building, debugging, and runningboth command line and graphical applications using Qt.
 
 As we are not going to develop commercial code in this course we can download and use the open source version of Qt Creator, which can bedownloaded from the following URL:

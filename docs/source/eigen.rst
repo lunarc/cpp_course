@@ -1,6 +1,9 @@
 Array computing with Eigen
 ==========================
 
+.. image:: images/array_computing.png
+   :width: 100.0%
+
 Introduction
 ------------
 
@@ -1242,7 +1245,102 @@ Eigen support parallelization in several ways. Some of the operations in Eigen u
    * BiCGSTAB with a row-major sparse matrix format.
    * LeastSquaresConjugateGradient
 
-The access methods have also been designed to be thread safe, so it is quite easy to use Eigen in parallel applications. In the following example an OpenMP a parallel for loop is used to fill the A matrix with the current thread number:
+The access methods have also been designed to be thread safe, so it is quite easy to use Eigen in parallel applications. 
+
+Using Eigen with OpenMP is very easy if you are using the Eigen operations that take advantage of OpenMP. In the following example 2 matrices are multiplied in parallel and assigned to the result matrix C:
+
+.. tabs:: 
+
+   .. tab:: Code
+
+      .. code:: cpp
+
+         #include <iostream>
+         #include <omp.h>
+         #include <Eigen/Dense>
+
+         using namespace std;
+         using Eigen::MatrixXd;
+
+
+         int main()
+         {
+            const int n = 20000;
+            
+            MatrixXd A(n, n);
+            MatrixXd B(n, n);
+
+            A = MatrixXd::Random(n, n);
+            B = MatrixXd::Random(n, n);
+
+            MatrixXd C(n, n);
+
+            int threads[] = {1, 2, 4, 8, 12, 24, 48};
+
+            for (int i=0; i<7; i++)
+            {
+               auto n_threads = threads[i];
+               omp_set_num_threads(n_threads);
+
+               double start = omp_get_wtime();
+               C = A * B;
+               double end = omp_get_wtime();
+
+               cout << n_threads << ";" << end - start << endl;
+            }
+
+            return 0;
+         }
+
+   .. tab:: Output
+
+      .. code-block:: text
+
+         1;870.111
+         2;427.386
+         4;217.594
+         8;109.546
+         12;74.3131
+         24;40.5742
+         48;22.6571
+
+The output tab shows the scaling if running it with different number of threads and shows that even the common operations in Eigen can be parallelized with good performance using OpenMP.
+
+It is of course also possible to use Eigen for array storage and implement the parallelization yourself. In the example below a matrix vector multiplication is implemented using OpenMP. To make the implementation more efficient we allocate the Eigen arrays in RowMajor order. By default Eigen stores the arrays in ColumnMajor order. 
+
+.. code:: cpp
+
+   using Matrix = Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>;
+   using Vector = Eigen::VectorXd;
+
+   Vector customMatVecMult(const Matrix& A, const Vector& x) {
+    const int rows = A.rows();
+    const int cols = A.cols();
+    Vector result(rows);
+    
+    // Get raw pointers to the data
+    const double* A_data = A.data();
+    const double* x_data = x.data();
+    double* result_data = result.data();
+    
+    #pragma omp parallel for schedule(static)
+    for (int i = 0; i < rows; i++) {
+        double sum = 0.0;
+        const double* row = A_data + i * cols;  // Point to start of row i
+        
+        for (int j = 0; j < cols; j++) {
+            sum += row[j] * x_data[j];
+        }
+        
+        result_data[i] = sum;
+    }
+    
+    return result;
+   }
+
+In this example the **.data()** is used to get access to the underlying array storage directly. Using this approach it is developer that is fully responsible for bounds checking and memory management. The **#pragma omp parallel for** directive is used to parallelize the loop. The **schedule(static)** is used to distribute the iterations evenly among the threads.
+
+A complete example with a comparison with corresponding Eigen operation is shown below:
 
 .. tabs::
 
@@ -1250,105 +1348,87 @@ The access methods have also been designed to be thread safe, so it is quite eas
 
       .. code:: cpp
 
-         #include <Eigen/Dense>
          #include <iostream>
+         #include <vector>
+         #include <Eigen/Dense>
          #include <omp.h>
+         #include <chrono>
 
-         using namespace Eigen;
-         using namespace std;
+         using Matrix = Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>;
+         using Vector = Eigen::VectorXd;
 
-         int main()
-         {
-            MatrixXd A(10, 10);
-            A.setRandom();
-
-            cout << "Number of threads: " << omp_get_max_threads() << "\n\n";
-
-            #pragma omp parallel for
-            for (int i = 0; i < A.rows(); i++)
-            {
-               for (int j = 0; j < A.cols(); j++)
-               {
-                     A(i, j) = omp_get_thread_num();
+         // Simple and efficient matrix-vector multiplication with OpenMP
+         Vector customMatVecMult(const Matrix& A, const Vector& x) {
+            const int rows = A.rows();
+            const int cols = A.cols();
+            Vector result(rows);
+            
+            // Get raw pointers to the data
+            const double* A_data = A.data();
+            const double* x_data = x.data();
+            double* result_data = result.data();
+            
+            #pragma omp parallel for schedule(static)
+            for (int i = 0; i < rows; i++) {
+               double sum = 0.0;
+               const double* row = A_data + i * cols;  // Point to start of row i
+               
+               for (int j = 0; j < cols; j++) {
+                     sum += row[j] * x_data[j];
                }
+               
+               result_data[i] = sum;
             }
-
-            cout << A << endl;
+            
+            return result;
          }
 
-
-   .. tab:: Output
-
-      .. code-block:: text
-
-         Number of threads: 2
-
-         0 0 0 0 0 0 0 0 0 0
-         0 0 0 0 0 0 0 0 0 0
-         0 0 0 0 0 0 0 0 0 0
-         0 0 0 0 0 0 0 0 0 0
-         0 0 0 0 0 0 0 0 0 0
-         1 1 1 1 1 1 1 1 1 1
-         1 1 1 1 1 1 1 1 1 1
-         1 1 1 1 1 1 1 1 1 1
-         1 1 1 1 1 1 1 1 1 1
-         1 1 1 1 1 1 1 1 1 1
-
-.. raw:: html
-
-   <a href="https://godbolt.org/z/asYr6xzjo" class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-outline-primary reference external" style="background-color: transparent;" target="_blank">Try example</a>
-
-However, there can be some overhead of using the accessmethods like A(i,j) with bounds checking and other safety checks. If you want to avoid this overhead you can use the **.data()** method to get a pointer to the raw data. The following code illustrates this:
-
-.. tabs::
-
-   .. tab:: Code
-
-      .. code:: cpp
-
-         #include <Eigen/Dense>
-         #include <iostream>
-         #include <omp.h>
-
-         using namespace Eigen;
-         using namespace std;
-
-         int main()
-         {
-            MatrixXd A(10, 10);
-            A.setRandom();
-
-            double* data = A.data();
-
-            #pragma omp parallel for
-            for (int i = 0; i < A.size(); i++)
-            {
-               data[i] = omp_get_thread_num();
+         int main() {
+            // Set up test matrices of different sizes
+            const std::vector<int> sizes = {40000};
+            const int num_threads = 4;  // Adjust based on your system
+            
+            omp_set_num_threads(num_threads);
+            
+            for (int size : sizes) {
+               // Initialize random matrix and vector
+               Matrix A = Matrix::Random(size, size);
+               Vector x = Vector::Random(size);
+               
+               // Timing custom OpenMP implementation
+               auto start = std::chrono::high_resolution_clock::now();
+               Vector result_omp = customMatVecMult(A, x);
+               auto end = std::chrono::high_resolution_clock::now();
+               auto duration_omp = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+               
+               // Timing Eigen's built-in implementation
+               start = std::chrono::high_resolution_clock::now();
+               Vector result_eigen = A * x;
+               end = std::chrono::high_resolution_clock::now();
+               auto duration_eigen = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+               
+               // Verify results
+               double error = (result_omp - result_eigen).norm() / result_eigen.norm();
+               
+               std::cout << "Matrix size: " << size << "x" << size << std::endl;
+               std::cout << "OpenMP implementation time: " << duration_omp.count() << "ms" << std::endl;
+               std::cout << "Eigen implementation time: " << duration_eigen.count() << "ms" << std::endl;
+               std::cout << "Relative error: " << error << std::endl;
+               std::cout << "------------------------" << std::endl;
             }
-
-            cout << A << endl;
+            
+            return 0;
          }
 
-   .. tab:: Output
+      .. tab:: Output (48 cores)
 
-      .. code-block:: text
+         .. code:: text
 
-         0 0 0 0 0 1 1 1 1 1
-         0 0 0 0 0 1 1 1 1 1
-         0 0 0 0 0 1 1 1 1 1
-         0 0 0 0 0 1 1 1 1 1
-         0 0 0 0 0 1 1 1 1 1
-         0 0 0 0 0 1 1 1 1 1
-         0 0 0 0 0 1 1 1 1 1
-         0 0 0 0 0 1 1 1 1 1
-         0 0 0 0 0 1 1 1 1 1
-         0 0 0 0 0 1 1 1 1 1         
-
-.. raw:: html
-
-   <a href="https://godbolt.org/z/KjvoT5PcK" class="sd-sphinx-override sd-btn sd-text-wrap sd-btn-outline-primary reference external" style="background-color: transparent;" target="_blank">Try example</a>
-
-In this example we do a parallel for loop where each threads writes its thread number in the array. The **.data()** method is used to get a pointer to the raw array storage. The **omp_get_thread_num()** function is used to get the thread number. The **#pragma omp parallel for** directive is used to parallelize the for loop.
+            Matrix size: 40000x40000
+            OpenMP implementation time: 352ms
+            Eigen implementation time: 389ms
+            Relative error: 7.35186e-15
+            ------------------------
 
 Using Eigen with MPI
 ~~~~~~~~~~~~~~~~~~~~

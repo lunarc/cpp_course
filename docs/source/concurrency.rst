@@ -1,6 +1,9 @@
 Concurrency
 ===========
 
+.. image:: images/concurrency.png
+   :width: 100.0%
+
 Concurrencey is the ability to run mutiple tasks simultaneously. This concept becomes more and more important as the number of cores in CPUs increases. In a single core CPU, the operating system can switch between tasks so fast that it appears that they are running simultaneously. However, in a multi-core CPU, the tasks can actually run simultaneously. As the clock frequencies of modern processor are not increasing as fast as they used to, the number of cores in CPUs is increasing. This means that in the future, the performance of a program will depend on how well it can utilize multiple cores. This is why concurency is important.
 
 In C++ this can be acomplished using threads or processes. A process is an independent execution unit that has its own memory space. Processes are typically applications runing on your computer like a web browser or a text editor. Threads are similar to processes, but they share the same memory space. This means that threads can communicate with each other by reading and writing to the same memory locations. Threads are typically used for tasks that are closely related and need to share data. 

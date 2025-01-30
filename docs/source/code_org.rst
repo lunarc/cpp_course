@@ -1,6 +1,10 @@
 Organising your code
 ====================
 
+.. image:: images/organising_code.png
+   :width: 100.0%
+
+
 Modern C++ has introduced the concept of modules just like Fortran and
 Python. However, using C++ modules currently is problematic as different
 compiler vendors have implemented this is different ways. The current
@@ -64,19 +68,30 @@ less code, avoids name clashes and improves compile speed.
 
 The following example shows how to use header guards and pragma once.
 
+Using header guards
+~~~~~~~~~~~~~~~~~~~
+
 .. tabs::
 
-   .. tab:: Using header guards
+   .. tab:: array_utils.h
+      
       .. literalinclude:: ../../ch_functions/array_utils.h
 
-      Source file - header_files.cpp
+   .. tab:: header_files.cpp
 
       .. literalinclude:: ../../ch_functions/header_files.cpp
 
-   .. tab:: Source file - header_files.cpp
+
+Using pragma once
+~~~~~~~~~~~~~~~~~
+
+.. tabs::
+      
+   .. tab:: array_utils2.h
+
       .. literalinclude:: ../../ch_functions/array_utils2.h
 
-      Source file - header_files.cpp
+   .. tab:: header_files.cpp
 
       .. literalinclude:: ../../ch_functions/header_files2.cpp
 
