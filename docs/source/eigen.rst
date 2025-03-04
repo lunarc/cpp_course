@@ -325,6 +325,70 @@ This will add 1.0 to all elements in the matrix. The **Constant()** method is a 
 
 Here we use the **.array()** method to convert the matrix to an array. This enables us to use element addition to a scalar. If we then assign the result to a matrix the result is a matrix with the same size as the original matrix.
 
+It is also possible to initialise vectors using the **.setLinSpaced()** method. This method creates a vector with values linearly spaced between two values. The following code illustrates this:
+
+.. code:: cpp
+
+   Vector3d v;
+   v.setLinSpaced(3, 1, 2);
+
+   cout << v << endl;
+
+This produces the following output:
+
+.. code:: text
+
+   1
+   1.5
+   2
+
+In the example above the method **.setLinSpaced()** takes three arguments. The first argument is the number of elements in the vector. The second argument is the start value and the third argument is the end value.
+
+The Vector class also has a **.setRandom()** method that can be used to initialise a vector with random values. The following code illustrates this:
+
+.. code:: cpp
+
+   Vector3d w;
+   w.setRandom();
+
+   cout << w << endl;
+
+This produces the following output:
+
+.. code:: text
+
+   0.680375
+   0.340187
+   0.510281
+
+The Vector classes also have special component wise operations. For example, you can compute the square root of all elements in the vector using the **.cwiseSqrt()** method. There are several other component wise operations available. The following code illustrates this:
+
+.. code:: cpp
+
+   Vector3d x(1, 4, 9);
+
+   auto y = x.cwiseSqrt();
+
+   cout << y << endl;
+
+This produces the following output:
+
+.. code:: text
+
+   1
+   2
+   3
+
+It is also possible to perform the same operations by usiing .array() method. The following code illustrates this:
+
+.. code:: cpp
+
+   Vector3d z(1, 4, 9);
+
+   auto w = z.array().sqrt();
+
+   cout << w << endl;
+   
 Eigen also has many special methods for matrices. For example, you can transpose a matrix using the **.transpose()** method. The following code illustrates this:
 
 .. code:: cpp
