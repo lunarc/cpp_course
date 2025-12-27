@@ -1,61 +1,71 @@
 #include <iostream>
-#include <mutex>
 #include <thread>
 #include <utils/print.h>
+#include <vector>
 
 using namespace std;
 
-static const auto numThreads = 8;
-std::mutex sumLock;
-
-void sum(const double a, const double b, const int id, double *sum)
+void sum(const int a, const int b, const int id, long long *sums)
 {
-    double localSum = 0;
+    long long localSum = 0;
 
-    for (double i = a; i <= b; i++)
+    for (int i = a; i <= b; i++)
         localSum += i;
 
-    std::lock_guard< std::mutex > lock(sumLock);
-    sum[id] = localSum;
+    sums[id] = localSum;
 }
 
 int main()
 {
-    double a = 0;
-    double b = 10000000000;
+    int a = 0;
+    int b = 100000000;
 
-    jthread threads[numThreads];
-    double sums[numThreads];
+    const auto numThreads = std::min(8u, std::thread::hardware_concurrency());
 
-    // a ---- | ---- | ---- | ---- b
+    std::vector< std::jthread > threads;
 
-    double chunkSize = (b - a) / numThreads;
-    double remainder = (b - a) - chunkSize * numThreads;
+    std::vector< long long > sums;
+    sums.resize(numThreads);
+    
+    int chunkSize = (b - a + 1) / numThreads;
+    int remainder = (b - a + 1) % numThreads;
 
-    double totalSum = 0;
-    double i0, i1;
+    std::print("Summing from {0} to {1} using {2} threads\n", a, b, numThreads);
+    std::print("Chunk size = {0}, Remainder = {1}\n", chunkSize, remainder);
 
-    for (int i = 0; i < numThreads; i++)
+    long long totalSum = 0;
+    int i0, i1;
+
+    for (auto i = 0; i < numThreads; i++)
     {
-        i0 = chunkSize * i;
-        i1 = chunkSize * (i + 1) - 1;
-        if (i == numThreads - 1)
-            i1 += remainder + 1;
+        i0 = a + chunkSize * i + std::min(i, remainder);
+        i1 = i0 + chunkSize - 1;
 
-        std::print("i0 = {0} i1 = {1}\n", i0, i1);
-        threads[i] = jthread(sum, i0, i1, i, sums);
+        if (i < remainder)
+            i1++;
+
+        std::print("Thread {0}: i0 = {1}, i1 = {2} (count = {3})\n", i, i0, i1, i1 - i0 + 1);
+        threads.emplace_back(sum, i0, i1, i, sums.data());
     }
 
     std::print("Waiting for completion...\n");
 
-    for (int i = 0; i < numThreads; i++)
+    for (auto& thread : threads)
+        thread.join();
+
+    auto i = 0;
+
+    for (auto& sum : sums)
     {
-        threads[i].join();
-        std::print("Sum {0} = {1}\n", i, sums[i]);
-        totalSum += sums[i];
+        totalSum += sum;
+        std::print("Sum {0} = {1}\n", i, sums[i++]);
     }
 
     std::print("Total sum = {0}\n", totalSum);
+    
+    long long expected = (long long)(b - a + 1) * (a + b) / 2;
+    std::print("Expected sum = {0}\n", expected);
+    std::print("Difference = {0}\n", totalSum - expected);
 
     return 0;
 }

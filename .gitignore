@@ -58,6 +58,8 @@ bin/*
 bin/release/*
 build-debug/*
 build-release/*
+build-default/*
+build-vs2022/*
 build/*
 
 /vcpkg_installed

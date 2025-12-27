@@ -23,14 +23,16 @@ void myfunc()
 
 int main()
 {
-    cout << "I have " << thread::hardware_concurrency() << " hardware threads." << endl;
+    auto numThreads = thread::hardware_concurrency();
+
+    cout << "I have " << numThreads << " hardware threads." << endl;
     
-    vector<thread> threads;
+    vector<jthread> threads;
     
     cout << "Starting threads..." << endl;
     
-    for (auto i=0; i<10; i++)
-        threads.push_back(thread(myfunc));
+    for (auto i=0; i<numThreads; i++)
+        threads.emplace_back(myfunc);
         
     cout << "Waiting for thread completion..." << endl;
     

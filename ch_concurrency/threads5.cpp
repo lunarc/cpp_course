@@ -22,10 +22,8 @@ void heavyComputation(double *arr, size_t start, size_t end)
     for (size_t i = start; i < end; ++i)
     {
         arr[i] = std::sin(arr[i]) * std::cos(arr[i]) * std::sqrt(std::abs(arr[i]));
-        for (int j = 0; j < 1000; ++j)
-        {
+        for (int j = 0; j < 100; ++j)
             arr[i] = std::sin(arr[i]);
-        }
     }
 }
 
@@ -63,8 +61,8 @@ int main()
     const size_t dataSize = 5000000;
     int numThreads = std::thread::hardware_concurrency();
 
-    std::print("Data size: %zu\n", dataSize);
-    std::print("Number of threads: %d\n", numThreads);
+    std::print("Data size: {0}\n", dataSize);
+    std::print("Number of threads: {0}\n", numThreads);
 
     std::print("Allocating arrays...\n");
 
@@ -82,7 +80,7 @@ int main()
     auto end = std::chrono::high_resolution_clock::now();
 
     std::chrono::duration< double > elapsedSerially = end - start;
-    std::print("Time for sequential processing: %f seconds\n", elapsedSerially.count());
+    std::print("Time for sequential processing: {0} seconds\n", elapsedSerially.count());
 
     std::print("Running in parallel...\n");
 
@@ -92,8 +90,8 @@ int main()
 
     std::chrono::duration< double > elapsedParallel = end - start;
 
-    std::print("Time for parallel processing: %f seconds\n", elapsedParallel.count());
-    std::print("Speedup: %f\n", elapsedSerially.count() / elapsedParallel.count());
+    std::print("Time for parallel processing: {0} seconds\n", elapsedParallel.count());
+    std::print("Speedup: {0}\n", elapsedSerially.count() / elapsedParallel.count());
 
     return 0;
 }

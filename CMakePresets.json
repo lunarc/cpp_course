@@ -3,7 +3,108 @@
   "configurePresets": [
     {
       "name": "default",
-      "toolchainFile": "e:/vcpkg/scripts/buildsystems/vcpkg.cmake"
-    }
+      "displayName": "Default Config",
+      "description": "Default build using vcpkg (autodetected)",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build-${presetName}",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "debug",
+      "displayName": "Debug",
+      "description": "Debug build using vcpkg",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "BUILD_QT_EXAMPLES": "ON",
+        "BUILD_VTK_EXAMPLES": "OFF",
+        "BUILD_EIGEN_EXAMPLES": "ON",
+        "BUILD_MIXED_LANG_EXAMPLES": "OFF"
+      }
+    },
+    {
+      "name": "release",
+      "displayName": "Release",
+      "description": "Release build using vcpkg",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "BUILD_QT_EXAMPLES": "ON",
+        "BUILD_VTK_EXAMPLES": "OFF",
+        "BUILD_EIGEN_EXAMPLES": "ON",
+        "BUILD_MIXED_LANG_EXAMPLES": "OFF"
+      }
+    },
+    {
+      "name": "vs2022",
+      "displayName": "Visual Studio 2022",
+      "description": "Visual Studio 2022 build using vcpkg",
+      "generator": "Visual Studio 17 2022",
+      "binaryDir": "${sourceDir}/build-vs2022",
+      "cacheVariables": {
+        "BUILD_QT_EXAMPLES": "ON",
+        "BUILD_VTK_EXAMPLES": "OFF",
+        "BUILD_EIGEN_EXAMPLES": "ON",
+        "BUILD_MIXED_LANG_EXAMPLES": "OFF"
+      }
+    },
+    {
+      "name": "vs2026-debug",
+      "displayName": "Visual Studio 2026",
+      "description": "Visual Studio 2026 build using vcpkg",
+      "generator": "Visual Studio 18 2026",
+      "binaryDir": "${sourceDir}/build-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "BUILD_QT_EXAMPLES": "ON",
+        "BUILD_VTK_EXAMPLES": "OFF",
+        "BUILD_EIGEN_EXAMPLES": "ON",
+        "BUILD_MIXED_LANG_EXAMPLES": "OFF"
+      }
+    },
+    {
+      "name": "vs2026-release",
+      "displayName": "Visual Studio 2026",
+      "description": "Visual Studio 2026 build using vcpkg",
+      "generator": "Visual Studio 18 2026",
+      "binaryDir": "${sourceDir}/build-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "BUILD_QT_EXAMPLES": "ON",
+        "BUILD_VTK_EXAMPLES": "OFF",
+        "BUILD_EIGEN_EXAMPLES": "ON",
+        "BUILD_MIXED_LANG_EXAMPLES": "OFF"
+      }
+    }    
+  ],
+  "buildPresets": [
+    {
+      "name": "debug",
+      "configurePreset": "debug",
+      "displayName": "Debug Build",
+      "description": "Build in Debug mode"
+    },
+    {
+      "name": "release",
+      "configurePreset": "release",
+      "displayName": "Release Build",
+      "description": "Build in Release mode"
+    },
+    {
+      "name": "vs2026-debug",
+      "configurePreset": "vs2026-debug",
+      "displayName": "Debug Build",
+      "description": "Build in Debug mode"
+    },
+    {
+      "name": "vs2026-release",
+      "configurePreset": "vs2026-release",
+      "displayName": "Release Build",
+      "description": "Build in Release mode"
+    }       
   ]
 }

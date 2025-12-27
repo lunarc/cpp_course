@@ -2,36 +2,32 @@
 #include <atomic>
 #include <chrono>
 #include <cmath>
-#include <ctime>
-#include <execution>
-#include <iostream>
-#include <iterator>
 #include <memory>
-#include <numeric>
-#include <random>
-#include <ranges>
 #include <thread>
-#include <utils/print.h>
 #include <vector>
+#include <print>
 
 using namespace std;
 
 // Function to perform a computationally intensive task
-void heavyComputation(double *arr, size_t start, size_t end, std::atomic< double > &sum)
+void heavyComputation(double *arr, size_t start, size_t end, std::atomic<double> &sum)
 {
     double localSum = 0.0;
 
     for (size_t i = start; i < end; ++i)
     {
         arr[i] = std::sin(arr[i]) * std::cos(arr[i]) * std::sqrt(std::abs(arr[i]));
-        for (int j = 0; j < 1000; ++j)
+        for (int j = 0; j < 100; ++j)
         {
             arr[i] = std::sin(arr[i]);
         }
         localSum += arr[i];
     }
 
-    sum += localSum;
+    // Atomically add localSum to sum
+    double current = sum.load();
+    while (!sum.compare_exchange_weak(current, current + localSum))
+        ;
 }
 
 void initialiseArray(double *arr, size_t start, size_t end, double value)
@@ -41,34 +37,32 @@ void initialiseArray(double *arr, size_t start, size_t end, double value)
 }
 
 // Function to process data sequentially
-void processSequential(double *data, size_t size, std::atomic< double > &sum)
+void processSequential(double *data, size_t size, std::atomic<double> &sum)
 {
     heavyComputation(data, 0, size, sum);
 }
 
 void initialiseParallel(double *data, size_t size, double value)
 {
-    size_t chunkSize = size / std::thread::hardware_concurrency();
+    size_t numThreads = std::thread::hardware_concurrency();
+    size_t chunkSize = size / numThreads;
 
-    std::vector< std::jthread > threads;
-    threads.reserve(std::thread::hardware_concurrency());
+    std::vector<std::jthread> threads;
+    threads.reserve(numThreads);
 
-    for (int i = 0; i < std::thread::hardware_concurrency(); ++i)
+    for (size_t i = 0; i < numThreads; ++i)
     {
         size_t start = i * chunkSize;
-        size_t end = (i == std::thread::hardware_concurrency() - 1) ? size : (i + 1) * chunkSize;
+        size_t end = (i == numThreads - 1) ? size : (i + 1) * chunkSize;
         threads.emplace_back(initialiseArray, data, start, end, value);
     }
 
-    for (auto &thread : threads)
-    {
-        thread.join();
-    }
+    // jthread automatically joins when it goes out of scope - no manual join needed
 }
 
-void processParallel(double *data, size_t size, int numThreads, std::atomic< double > &sum)
+void processParallel(double *data, size_t size, int numThreads, std::atomic<double> &sum)
 {
-    std::vector< std::jthread > threads;
+    std::vector<std::jthread> threads;
     threads.reserve(numThreads);
 
     size_t chunkSize = size / numThreads;
@@ -80,17 +74,13 @@ void processParallel(double *data, size_t size, int numThreads, std::atomic< dou
         threads.emplace_back(heavyComputation, data, start, end, std::ref(sum));
     }
 
-    /*
-    for (auto &thread : threads)
-    {
-        thread.join();
-    }
-    */
+    // jthread automatically joins when threads vector goes out of scope
+    // Manual join is not needed and would cause issues
 }
 
 int main()
 {
-    const size_t dataSize = 500000;
+    const size_t dataSize = 800000;
     int numThreads = std::thread::hardware_concurrency();
 
     std::printf("Data size: %zu\n", dataSize);
@@ -98,19 +88,16 @@ int main()
 
     std::print("Allocating arrays...\n");
 
-    auto seqData = std::make_unique< double[] >(dataSize);
-    auto parData = std::make_unique< double[] >(dataSize);
-    std::atomic< double > seqSum{0.0};
-    std::atomic< double > parSum{0.0};
+    auto seqData = std::make_unique<double[]>(dataSize);
+    auto parData = std::make_unique<double[]>(dataSize);
+    std::atomic<double> seqSum{0.0};
+    std::atomic<double> parSum{0.0};
 
-    // ----- SERIAL CODE -----
+    // ----- SERIAL CODE ----
 
     std::print("Initialising arrays serially...\n");
 
     std::generate_n(seqData.get(), dataSize, []() { return 1.0; });
-    /*
-    std::generate_n(parData.get(), dataSize, []() { return 1.0; });
-    */
 
     std::print("Running serially...\n");
 
@@ -118,18 +105,22 @@ int main()
     processSequential(seqData.get(), dataSize, seqSum);
     auto end = std::chrono::high_resolution_clock::now();
 
-    std::chrono::duration< double > elapsedSerially = end - start;
+    std::chrono::duration<double> elapsedSerially = end - start;
+
     std::printf("Time for sequential processing: %f seconds\n", elapsedSerially.count());
     std::printf("Sum: %f\n", seqSum.load());
 
     // ----- PARALLEL CODE -----
 
+    std::print("Initialising arrays in parallel...\n");
+
     start = std::chrono::high_resolution_clock::now();
     initialiseParallel(parData.get(), dataSize, 1.0);
     end = std::chrono::high_resolution_clock::now();
 
-    std::chrono::duration< double > elapsedInitParallel = end - start;
-    std::printf("Time for parallel processing: %f seconds\n", elapsedInitParallel.count());
+    std::chrono::duration<double> elapsedInitParallel = end - start;
+    
+    std::printf("Time for parallel initialisation: %f seconds\n", elapsedInitParallel.count());
 
     std::print("Running in parallel...\n");
 
@@ -137,11 +128,11 @@ int main()
     processParallel(parData.get(), dataSize, numThreads, parSum);
     end = std::chrono::high_resolution_clock::now();
 
-    std::chrono::duration< double > elapsedParallel = end - start;
+    std::chrono::duration<double> elapsedParallel = end - start;
 
     std::printf("Time for parallel processing: %f seconds\n", elapsedParallel.count());
     std::printf("Sum: %f\n", parSum.load());
-    std::printf("Speedup: %f\n", elapsedSerially.count() / elapsedParallel.count());
+    std::printf("Speedup: %fx\n", elapsedSerially.count() / elapsedParallel.count());
 
     return 0;
 }

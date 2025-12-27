@@ -17,14 +17,16 @@ void myfunc()
 
 int main()
 {
-    std::print("I have {0} hardware threads.\n", std::thread::hardware_concurrency());
+    auto numThreads = std::thread::hardware_concurrency();
+
+    std::print("I have {0} hardware threads.\n", numThreads);
 
     std::vector< std::jthread > threads;
 
     std::print("Starting threads...\n");
 
-    for (auto i = 0; i < 10; i++)
-        threads.push_back(std::jthread(myfunc));
+    for (auto i = 0; i < numThreads; i++)
+        threads.emplace_back(myfunc);
 
     std::print("Waiting for threads to complete...\n");
 

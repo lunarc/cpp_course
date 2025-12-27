@@ -59,12 +59,26 @@ The basic way of creating a thread is to create a thread object and pass a funct
 
 In the example above we have defined a function, `myfunc()` that prints its id and waits for a second and the prints that it is stopping. To executed this function on a thread, we create a `std::jthread` object `t` and pass the function to it. The thread will execute immediately when created. As the thread is executed concurrently the main routine can terminate before the thread function terminates, which can lead to undefined behavior. To solve this the thread object has special method, `.join()`, which can be used to wait for the thread to finish.
 
-Syncronization
---------------
+Managing Multiple Threads
+-------------------------
 
-Data sharing and race conditions
---------------------------------
+Synchronization and Mutexes
+---------------------------
 
-Modern concurency features
---------------------------
+Advanced Synchronization with Lock Guards
+-----------------------------------------
 
+Practical Parallel Computing
+----------------------------
+
+Advanced Thread Patterns
+------------------------
+
+Async and Futures
+-----------------
+
+Real-World Example: Parallel Stencil Computation
+------------------------------------------------
+
+Best Practices and Common Pitfalls
+----------------------------------

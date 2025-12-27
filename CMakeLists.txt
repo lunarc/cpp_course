@@ -1,5 +1,45 @@
 cmake_minimum_required(VERSION 3.20)
 
+# Autodetect vcpkg if not already configured
+if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+  # Check common vcpkg installation locations
+  if(DEFINED ENV{VCPKG_ROOT})
+    set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+        CACHE STRING "Vcpkg toolchain file")
+    message(STATUS "Using vcpkg from VCPKG_ROOT: $ENV{VCPKG_ROOT}")
+  elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake")
+    set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake"
+        CACHE STRING "Vcpkg toolchain file")
+    message(STATUS "Using vcpkg from project directory")
+  elseif(WIN32)
+    # Check common Windows locations
+    if(EXISTS "C:/vcpkg/scripts/buildsystems/vcpkg.cmake")
+      set(CMAKE_TOOLCHAIN_FILE "C:/vcpkg/scripts/buildsystems/vcpkg.cmake"
+          CACHE STRING "Vcpkg toolchain file")
+      message(STATUS "Using vcpkg from C:/vcpkg")
+    elseif(EXISTS "E:/vcpkg/scripts/buildsystems/vcpkg.cmake")
+      set(CMAKE_TOOLCHAIN_FILE "E:/vcpkg/scripts/buildsystems/vcpkg.cmake"
+          CACHE STRING "Vcpkg toolchain file")
+      message(STATUS "Using vcpkg from E:/vcpkg")
+    endif()
+  elseif(UNIX)
+    # Check common Unix/Linux locations
+    if(EXISTS "$ENV{HOME}/vcpkg/scripts/buildsystems/vcpkg.cmake")
+      set(CMAKE_TOOLCHAIN_FILE "$ENV{HOME}/vcpkg/scripts/buildsystems/vcpkg.cmake"
+          CACHE STRING "Vcpkg toolchain file")
+      message(STATUS "Using vcpkg from home directory")
+    elseif(EXISTS "/opt/vcpkg/scripts/buildsystems/vcpkg.cmake")
+      set(CMAKE_TOOLCHAIN_FILE "/opt/vcpkg/scripts/buildsystems/vcpkg.cmake"
+          CACHE STRING "Vcpkg toolchain file")
+      message(STATUS "Using vcpkg from /opt/vcpkg")
+    endif()
+  endif()
+  
+  if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+    message(WARNING "vcpkg toolchain file not found. Please set VCPKG_ROOT environment variable or CMAKE_TOOLCHAIN_FILE.")
+  endif()
+endif()
+
 # set(CMAKE_C_COMPILER /opt/local/bin/gcc)
 # set(CMAKE_CXX_COMPILER /opt/local/bin/g++)
 
