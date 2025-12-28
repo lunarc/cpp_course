@@ -1,97 +1,54 @@
 #include "shape.h"
 
-#include <iostream>
-
-using namespace std;
+#include <print>
 
 Shape::Shape()
 : m_x(0.0), m_y(0.0), m_name("Shape")
 {
-    cout << "Shape created (default)." << endl;
+    std::print("Shape created (default).\n");
 }
 
 Shape::Shape(double x, double y)
+: m_x(x), m_y(y), m_name("Shape")
 {
-    cout << "Shape created." << endl;
-    m_x = x;
-    m_y = y;
-    m_name = "Shape";
-}
-
-Shape::Shape(const Shape& other)
-: m_x(other.m_x), m_y(other.m_y), m_name(other.m_name)
-{
-}
-
-Shape& Shape::operator=(const Shape& other)
-{
-    m_x = other.m_x;
-    m_y = other.m_y;
-    m_name = other.m_name;
-    return *this;
-}
-
-Shape::Shape(Shape&& other) noexcept
-{
-    m_x = other.m_x;
-	m_y = other.m_y;
-	m_name = other.m_name;
-	other.m_x = 0.0;
-	other.m_y = 0.0;
-	other.m_name = "Shape";
-}
-
-Shape& Shape::operator=(Shape&& other) noexcept
-{
-    m_x = other.m_x;
-	m_y = other.m_y;
-	m_name = other.m_name;
-	other.m_x = 0.0;
-	other.m_y = 0.0;
-	other.m_name = "Shape";
-	return *this;
-}
-
-bool Shape::operator==(const Shape& other) const
-{
-	return m_x == other.m_x && m_y == other.m_y && m_name == other.m_name;
+    std::print("Shape created.\n");
 }
 
 Shape::~Shape()
 {
-    cout << "Shape destructor called." << endl;
+    std::print("Shape destructor called.\n");
 }
 
 void Shape::print() const
 {
-    cout << "--------------------------" << endl;
-    cout << "Shape name: " << m_name << endl;
-    cout << "x = " << m_x << ", y = " << m_y << endl;
-    cout << "area = " << this->area() << endl;
+    std::print("--------------------------\n");
+    std::print("Shape name: {}\n", m_name);
+    std::print("x = {}, y = {}\n", m_x, m_y);
+    std::print("area = {}\n", this->area());
 }
 
-void Shape::setPosition(double x, double y)
+void Shape::setPosition(double x, double y) noexcept
 {
     m_x = x;
     m_y = y;
 }
 
-double Shape::x() const
+double Shape::x() const noexcept
 {
 	return m_x;
 }
 
 void Shape::draw() const
 {
-    cout << "Drawing a shape." << endl;
-    cout << "Using fill color: ";
-    cout << "(" << m_fillColor[0] << ", " << m_fillColor[1] << ", " << m_fillColor[2] << ", " << m_fillColor[3] << ")" << endl;
-    cout << "Using line color: ";
-    cout << "(" << m_lineColor[0] << ", " << m_lineColor[1] << ", " << m_lineColor[2] << ", " << m_lineColor[3] << ")" << endl;
-    cout << "Position: (" << m_x << ", " << m_y << ")" << endl;
+    std::print("Drawing a shape.\n");
+    std::print("Using fill color: ({}, {}, {}, {})\n", 
+        m_fillColor[0], m_fillColor[1], m_fillColor[2], m_fillColor[3]);
+    std::print("Using line color: ({}, {}, {}, {})\n", 
+        m_lineColor[0], m_lineColor[1], m_lineColor[2], m_lineColor[3]);
+    std::print("Position: ({}, {})\n", m_x, m_y);
 }
 
-double Shape::y() const
+double Shape::y() const noexcept
 {
     return m_y;
 }
@@ -111,7 +68,7 @@ std::string Shape::name() const
     return m_name;
 }
 
-void Shape::setFillColor(double r, double g, double b, double a)
+void Shape::setFillColor(double r, double g, double b, double a) noexcept
 {
     m_fillColor[0] = r;
 	m_fillColor[1] = g;
@@ -119,7 +76,7 @@ void Shape::setFillColor(double r, double g, double b, double a)
 	m_fillColor[3] = a;
 }
 
-void Shape::setLineColor(double r, double g, double b, double a)
+void Shape::setLineColor(double r, double g, double b, double a) noexcept
 {
     m_lineColor[0] = r;
 	m_lineColor[1] = g;
@@ -127,18 +84,12 @@ void Shape::setLineColor(double r, double g, double b, double a)
 	m_lineColor[3] = a;
 }
 
-void Shape::getFillColor(double& r, double& g, double& b, double& a) const
+std::array<double, 4> Shape::getFillColor() const noexcept
 {
-    r = m_fillColor[0];
-	g = m_fillColor[1];
-	b = m_fillColor[2];
-	a = m_fillColor[3];
+    return m_fillColor;
 }
 
-void Shape::getLineColor(double& r, double& g, double& b, double& a) const
+std::array<double, 4> Shape::getLineColor() const noexcept
 {
-    r = m_lineColor[0];
-	g = m_lineColor[1];
-	b = m_lineColor[2];
-	a = m_lineColor[3];
+    return m_lineColor;
 }

@@ -1,67 +1,54 @@
 #include "rectangle.h"
 
-#include <iostream>
+#include <print>
 #include <cmath>
-
-using namespace std;
 
 Rectangle::Rectangle()
 :Shape(), m_width(1.0), m_height(1.0)
 {
-    cout << "Rectangle created (default)." << endl;
+    std::print("Rectangle created (default).\n");
     this->setName("Rectangle");
 }
 
 Rectangle::Rectangle(double x, double y, double width, double height)
-:Shape(x, y)
+:Shape(x, y), m_width(width), m_height(height)
 {
     this->setName("Rectangle");
-    m_width = width;
-    m_height = height;
-}
-
-Rectangle::Rectangle(const Rectangle& other)
-{
-	cout << "Rectangle created (copy)." << endl;
-	this->setName(other.name());
-	m_width = other.m_width;
-	m_height = other.m_height;
 }
 
 Rectangle::~Rectangle()
 {
-    cout << "Rectangle destructor called." << endl;
+    std::print("Rectangle destructor called.\n");
 }
-
 
 void Rectangle::print() const
 {
     Shape::print();
-    cout << "width = " << m_width << endl;
-    cout << "height = " << m_height << endl;
+    std::print("width = {}\n", m_width);
+    std::print("height = {}\n", m_height);
 }
 
 double Rectangle::area() const
 {
-    return m_width*m_height;
+    return m_width * m_height;
 }
 
-double Rectangle::width() const
+double Rectangle::width() const noexcept
 {
     return m_width;
 }
 
-void Rectangle::setWidth(double width)
+void Rectangle::setWidth(double width) noexcept
 {
     m_width = width;
 }
 
-double Rectangle::height() const
+double Rectangle::height() const noexcept
 {
-    return 0.0;
+    return m_height;
 }
 
-void Rectangle::setHeight(double height)
+void Rectangle::setHeight(double height) noexcept
 {
     m_height = height;
 }

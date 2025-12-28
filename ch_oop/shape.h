@@ -1,39 +1,40 @@
 #pragma once
 
 #include <string>
+#include <array>
 
 class Shape {
 private:
     double m_x{};
     double m_y{};
-    double m_fillColor[4]{ 1.0, 0.0, 0.0, 1.0};
-    double m_lineColor[4]{ 0.0, 0.0, 0.0, 1.0};
+    std::array<double, 4> m_fillColor{ 1.0, 0.0, 0.0, 1.0};
+    std::array<double, 4> m_lineColor{ 0.0, 0.0, 0.0, 1.0};
     std::string m_name{};
 public:
     Shape();
     Shape(double x, double y);
-    Shape(const Shape& other);
-    Shape& operator=(const Shape& other);
-    Shape(Shape&& other) noexcept;
-    Shape& operator=(Shape&& other) noexcept;
+    Shape(const Shape& other) = default;
+    Shape& operator=(const Shape& other) = default;
+    Shape(Shape&& other) noexcept = default;
+    Shape& operator=(Shape&& other) noexcept = default;
 
-    bool operator==(const Shape& other) const;
+    bool operator==(const Shape& other) const = default;
     virtual ~Shape();
     
     virtual void print() const;
-    virtual double area() const;
+    [[nodiscard]] virtual double area() const;
     virtual void draw() const;
     
-    void setPosition(double x, double y);
-    double x() const;
-    double y() const;
+    void setPosition(double x, double y) noexcept;
+    [[nodiscard]] double x() const noexcept;
+    [[nodiscard]] double y() const noexcept;
 
-    void setFillColor(double r, double g, double b, double a);
-    void setLineColor(double r, double g, double b, double a);
+    void setFillColor(double r, double g, double b, double a) noexcept;
+    void setLineColor(double r, double g, double b, double a) noexcept;
 
-    void getFillColor(double& r, double& g, double& b, double& a) const;
-    void getLineColor(double& r, double& g, double& b, double& a) const;
+    [[nodiscard]] std::array<double, 4> getFillColor() const noexcept;
+    [[nodiscard]] std::array<double, 4> getLineColor() const noexcept;
 
     void setName(const std::string& name);
-    std::string name() const;
+    [[nodiscard]] std::string name() const;
 };

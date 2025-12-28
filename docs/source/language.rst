@@ -8,29 +8,52 @@ The C++ Language
 .. image:: images/language.png
    :width: 100.0%
 
-This chapter will go through the language elements of C++. To understand
-the language we will start with the fundamentals and transition to more
-modern features as we continue through this book.
+This chapter will go through the language elements of C++. We focus on
+**modern C++** (C++11 and beyond) as it provides safer, more expressive
+features particularly valuable for scientific and engineering applications.
+For readers coming from Python or Fortran, you'll find that modern C++
+offers similar expressiveness while maintaining the performance advantages
+of a compiled language.
 
-Example of C++ code
--------------------
+Example of Modern C++ Code
+---------------------------
 
-An example of a simple C++ program is shown in the following example.
+An example of a simple modern C++ program is shown in the following example.
 
 
 .. tabs::
 
-   .. tab:: Code
+   .. tab:: Modern C++ (Recommended)
+
+      .. code-block:: cpp
+
+         #include <vector>
+         #include <print>
+
+         int main() 
+         {
+             std::vector<int> numbers{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+             
+             // Range-based for loop (modern C++)
+             for (const auto& num : numbers) 
+                 std::println(num);
+
+             std::println("Hello, Modern C++");
+             return 0;
+         }
+
+   .. tab:: Classic C++ (Legacy)
 
       .. code-block:: cpp
 
          #include <iostream>
-         using namespace std;
+         using namespace std;  // Discouraged in modern C++
 
-         int main() {
-             for (int i = 0; i < 10; i++) {
+         int main()
+         {
+             for (int i = 0; i < 10; i++) 
                  cout << i << endl;
-             }
+
              cout << "Hello, C++" << endl;
              return 0;
          }
@@ -51,21 +74,27 @@ An example of a simple C++ program is shown in the following example.
          9
          Hello, C++
 
-The example starts by including the **iostream** header, which provide
-means to output text in the terminal. The **using namespace std**
-statement just tells the compiler that the default namespace for the C++
-standard library, **std**, will be used as the default, making it
-possible to omit the **std::**-prefix in front of all functions and
-objects. Namespaces will be covered later in the course.
+The modern example includes the **print** header for terminal output and
+**vector** for dynamic arrays. 
 
-**int main()** is the C++ main function, which will be called when the
-application starts. It is sometimes also called the application entry
-point.
+**int main()** is the C++ main function (entry point) called when the
+application starts.
 
-**cout** is a special predefined object in C++ that can be used to
-output text and variables to the terminal. The **<<**-operator is used
-to send data to the **cout** object which will be sent to standard
-output for display in the terminal.
+**std::cout** is the standard output stream object. In modern C++, we explicitly
+use the **std::** prefix rather than **using namespace std**, which can cause
+name conflicts in larger projects. The **<<** operator sends data to the output.
+
+The **range-based for loop** (**for (const auto& num : numbers)**) is the modern
+way to iterate over containers - similar to Python's **for num in numbers**.
+This is safer and more readable than index-based loops.
+
+.. note::
+   **For Python developers**: Range-based for loops work like Python's for-in loops.
+   **For Fortran developers**: Similar to Fortran's DO CONCURRENT or array syntax.
+
+.. warning::
+   Avoid **using namespace std;** in modern C++. It can cause naming conflicts
+   and makes code less clear. Always use explicit **std::** prefixes.
 
 Variables
 ---------
@@ -138,49 +167,54 @@ Variable initialisation
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 Before a variable is used it should be initialized, that is given a
-value. There are 2 ways of initialising a variable in C++. As C++
-inherits a lot from C, variables can be initialised just like in C by
-assigning a value when the variable is declared using the equal (=)
-operator. In the following example we initialise variables at the same
-time as they are created using C style initialisation.
+value. Modern C++ provides several initialization methods, but **uniform
+initialization with braces {}** is strongly recommended for new code.
+
+**Uniform Initialization (Modern C++11+, Recommended)**
+
+Uniform initialization uses curly braces and is the safest method because
+it prevents narrowing conversions (data loss), which is critical in
+scientific computing:
 
 .. code:: cpp
 
-   int i = 0;
+   int i{0};              // Recommended
+   float x{0.0f};
+   double pi{3.14159};    
+   int count{};           // Default initialization to 0
+
+   // int bad{3.14};      // Compiler error! Prevents data loss
+
+.. note::
+   **For Python developers**: Similar to Python's type hints catching errors.
+   **For Fortran developers**: Like Fortran's strict type checking.
+
+**Legacy Initialization Methods**
+
+C-style initialization with **=** (legacy, still widely used):
+
+.. code:: cpp
+
+   int i = 0;             // Works, but allows narrowing
    float x = 0.0;
+   int lossy = 3.14;      // Silently truncates to 3! Dangerous!
 
-Another way of initializing variables is using constructor-based
-initialization, which is specific to the C++ language. In this method,
-the variable is initialized by specifying the initial value in
-parenthesis:
+Constructor-based initialization with **()** (legacy):
 
 .. code:: cpp
 
-   int i(0);
+   int i(0);              // Can be confused with function declaration
    float x(0.0);
 
-The final way of initializing values is using uniform initialization.
-This is also specific to the C++ language and uses curly brackets to
-assign initial values to variables.
+**Recommendation**: Use uniform initialization **{}** for new code as it:
 
-.. code:: cpp
+- Prevents accidental narrowing conversions (type safety)
+- Works consistently for all types (built-in, classes, containers)
+- Provides clear, explicit initialization syntax
+- Helps catch bugs at compile-time
 
-   int i{0};
-   float x{0.0};
-
-It is also possible to leave out the value of the initialisation. This
-initialises the variable to its default value.
-
-.. code:: cpp
-
-   int i{};
-   float x{};
-
-All these ways of initializing variables are equivalent. You will see
-some different ways of initializing variables in this book. Which type
-of initialization is chosen depends on the situation. In certain
-situations, one method can be more efficient than others. In other cases
-the code can be more readable using a certain example.
+You will see different initialization styles in existing code and libraries,
+but prefer **{}** in your own scientific and engineering applications.
 
 Variable types
 ~~~~~~~~~~~~~~
@@ -200,6 +234,44 @@ Sizes of variables types depend on platform and compiler. C++ only
 specifies sizes relative to other types with at least number of bits.
 
 In the following chapters we will cover these datatypes in more details.
+
+C++ Type System - Language Comparison
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For readers coming from Python or Fortran, here's a quick reference:
+
+.. list-table:: Type Comparison Across Languages
+   :header-rows: 1
+   :widths: 25 25 25 25
+
+   * - Concept
+     - Python
+     - Fortran
+     - Modern C++
+   * - Integer
+     - ``x = 42``
+     - ``INTEGER :: x = 42``
+     - ``int x{42};`` or ``auto x{42};``
+   * - Float (double)
+     - ``x = 3.14``
+     - ``REAL(8) :: x = 3.14``
+     - ``double x{3.14};``
+   * - String
+     - ``s = "hello"``
+     - ``CHARACTER(LEN=5) :: s``
+     - ``std::string s{"hello"};``
+   * - Dynamic array
+     - ``data = [1, 2, 3]``
+     - ``ALLOCATABLE :: data(:)``
+     - ``std::vector<int> data{1,2,3};``
+   * - Fixed array
+     - ``data = [0]*10``
+     - ``REAL(8) :: data(10)``
+     - ``std::array<double,10> data{};``
+
+.. note::
+   The **auto** keyword in C++ provides type inference similar to Python's
+   dynamic typing, but happens at compile-time for maximum performance.
 
 Integer types
 ~~~~~~~~~~~~~
@@ -367,7 +439,7 @@ Numerical limits
 ~~~~~~~~~~~~~~~~
 
 To query the capabilites of datatypes, C++ provides functions for this
-in the **** include file. Using the functions in this module it is
+in the include file. Using the functions in this module it is
 possible to query max and min ranges for any standard data types. To
 query the largest value of a datatype use the
 **std::numeric_limits<[datatype]>::max()** function. In the same way
@@ -494,79 +566,70 @@ A complete example is shown below.
 
          Color is Cyan
 
-Arrays
-~~~~~~
+Arrays and Containers
+~~~~~~~~~~~~~~~~~~~~~
 
-Arrays are collections of elements with a shared datatype. Elements in
-the array are accessed using an index 0 … n-1, where n is the size of
-the array. Indices are given in brackets. A simple array is declared as
-follows:
+In scientific and engineering applications, arrays are fundamental data
+structures. Modern C++ provides safe, efficient container types that are
+superior to C-style arrays.
 
-.. code:: cpp
+**Modern C++ Containers (Recommended)**
 
-   int a[10];
-
-In this example an array, **a**, with 10 integer elements is declared. A
-value in the array can be accessed by specifying an index in a bracket
-as shown in the following code:
+For dynamic arrays, use **std::vector** (similar to Python lists or Fortran
+ALLOCATABLE arrays):
 
 .. code:: cpp
 
-   cout << a[4] << endl;
-
-Here the value in position 5 of the array is printed on the screen.
-
-Accessing an array outside its defined range can lead to undefined
-behavior and ultimately crash the program.
-
-An array can be initialised with values using initialiser lists or by
-direct assignment of values specifying its index. Initialiser assignment
-is shown below:
-
-.. code:: cpp
-
-   a = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-
-Direct assignment using indices is shown below:
-
-.. code:: cpp
-
-   for (int i=0; i<10; i++)
-       a[i] = i;
-
-Values of an unassigned array is considered to be undefined and can
-contain any values that corresponds to the values in the memory location
-of the variable.
-
-If an array is initialised with a initialiser list, the size of the
-array can be omitted.
-
-.. code:: cpp
-
-   int c[] = { 7, 6, 5, 4, 3, 2, 1 }; // equivalent to int c[7]
-
-Multidimensional arrays can also be created by specifying 2 or more
-dimensions when declaring the array:
-
-.. code:: cpp
-
-   int b[2][2] = { { 1, 2 }, { 3, 4 } };
+   #include <vector>
+   
+   std::vector<int> data{0, 1, 2, 3, 4};     // Initialize with values
+   std::vector<double> values(100);          // 100 elements, default-initialized
+   std::vector<double> zeros(100, 0.0);      // 100 elements, all zeros
+   
+   // Access elements (with bounds checking in debug mode)
+   data[0] = 42;                              // Array notation
+   data.at(1) = 21;                          // Bounds-checked access
+   
+   // Dynamic sizing
+   data.push_back(5);                        // Append element
+   int size = data.size();                   // Get size
+   data.resize(200);                         // Resize array
 
 .. note::
-   Contigous multidimensional arrays are not directly supported in C++. It however possible to create a similar datatype using some tricks, but this is covered in later sections.
+   **For Python developers**: ``std::vector`` is like Python's list - dynamic,
+   resizable, and handles memory automatically.
+   
+   **For Fortran developers**: Similar to ALLOCATABLE arrays with automatic
+   memory management.
 
-.. tabs::
+For fixed-size arrays, use **std::array** (safer than C arrays):
 
-   .. tab:: Code
+.. code:: cpp
 
-         .. literalinclude:: ../../ch_variables/array_types1.cpp
+   #include <array>
+   
+   std::array<int, 10> fixedData{};          // 10 integers, zero-initialized
+   std::array<double, 3> coords{1.0, 2.0, 3.0};
+   
+   int arraySize = fixedData.size();         // Size available at runtime
+   
+.. note::
+   **std::array** provides the performance of C arrays with safety features:
+   bounds checking (in debug), size tracking, and compatibility with
+   standard algorithms.
 
-   .. tab:: Output
+**Legacy C-Style Arrays (Avoid in New Code)**
 
-      .. code-block:: text
+C-style arrays are still supported for compatibility but should be avoided
+in new code due to lack of bounds checking and error-prone syntax:
 
-         1, 2
-         1, 2, 3, 42
+.. code:: cpp
+
+   int oldStyle[10];                         // C-style array (not recommended)
+   oldStyle[0] = 42;                         // No bounds checking
+   // sizeof(oldStyle) gives bytes, not element count
+   // Cannot be easily passed to functions
+   // Easy to cause buffer overflows
 
 C Strings
 ~~~~~~~~~
@@ -1006,7 +1069,7 @@ decide the statement above then becomes:
 
    auto a = 42;
 
-We can validate using the **** include in the standard library using the
+We can validate using the include in the standard library using the
 following code.
 
 .. code:: cpp
@@ -1058,9 +1121,11 @@ The complete example is given below:
          d
          f
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/xns1z4G5d>`__\ { .md-button
-.target=“\_blank”}
+.. button-link:: https://godbolt.org/z/xns1z4G5d
+    :color: primary
+    :outline:
+    
+    Try example
 
 A good use of the **auto** keyword is to use it as the data type for
 loop variables. The compiler will then automatically select the correct
@@ -1079,9 +1144,11 @@ loop is shown in the following example:
 
          99999999, i
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/1YsE9joT5>`__\ { .md-button
-.target=“\_blank”}
+.. button-link:: https://godbolt.org/z/1YsE9joT5
+    :color: primary
+    :outline:
+    
+    Try example
 
 Increase the range of the loop in the example and see how the datatype
 changes.
@@ -1090,14 +1157,162 @@ The **auto** keyword becomes more interesting when working with data
 structures and algorithm by reducing the complexity of the required
 declarations.
 
+Type Aliases (using)
+~~~~~~~~~~~~~~~~~~~~
+
+For scientific and engineering code, type aliases improve readability and
+maintainability by giving meaningful names to types:
+
+.. code:: cpp
+
+   // Define common types for your domain
+   using Real = double;              // Precision type for calculations
+   using Index = std::size_t;        // Array indexing type
+   using Vector = std::vector<Real>; // 1D array
+   using Matrix = std::vector<Vector>; // 2D array (row-major)
+   
+   // Use in code
+   Vector velocities(1000);
+   Matrix stiffnessMatrix(100, Vector(100));
+   
+   Real temperature{273.15};
+   Index numNodes{1000};
+
+.. note::
+   **For Fortran developers**: Similar to defining custom types or using
+   PARAMETER for type kinds.
+   
+   **For Python developers**: Like type aliases in type hints:
+   ``Vector = List[float]``
+
+**Benefits**:
+
+- Easy to change precision (Real = float vs double vs long double)
+- Self-documenting code (Vector vs std::vector<double>)
+- Consistent types across codebase
+- Simpler refactoring
+
+.. code:: cpp
+
+   // Legacy typedef (still valid but using is preferred)
+   typedef std::vector<double> Vector;  // Old style
+   
+   // Modern using (recommended)
+   using Vector = std::vector<double>;  // New style, clearer
+
+Structured Bindings (C++17)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Structured bindings allow unpacking multiple return values elegantly,
+useful for functions returning multiple results (common in scientific computing):
+
+.. code:: cpp
+
+   #include <algorithm>
+   #include <vector>
+   
+   std::vector<double> data{3.1, 1.4, 5.9, 2.6};
+   
+   // Get min and max in one call
+   auto [minIt, maxIt] = std::minmax_element(data.begin(), data.end());
+   std::cout << "Min: " << *minIt << ", Max: " << *maxIt << '\n';
+
+**Returning multiple values from functions**:
+
+.. code:: cpp
+
+   #include <tuple>
+   
+   // Function returns multiple values
+   std::tuple<double, double, double> computeStats(const std::vector<double>& data) {
+       auto [minIt, maxIt] = std::minmax_element(data.begin(), data.end());
+       double mean = std::accumulate(data.begin(), data.end(), 0.0) / data.size();
+       return {*minIt, *maxIt, mean};
+   }
+   
+   // Unpack results
+   auto [min, max, mean] = computeStats(data);
+   std::cout << "Min: " << min << ", Max: " << max << ", Mean: " << mean << '\n';
+
+.. note::
+   **For Python developers**: Similar to tuple unpacking:
+   ``min_val, max_val, mean = compute_stats(data)``
+   
+   **For Fortran developers**: Like multiple return values through INTENT(OUT)
+   parameters but more concise.
+
+Handling Missing Data (std::optional)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**std::optional** (C++17) provides a type-safe way to represent values that
+may or may not exist - useful for error handling in numerical computations:
+
+.. code:: cpp
+
+   #include <optional>
+   #include <cmath>
+   
+   // Function that might not return a valid result
+   std::optional<double> safeSqrt(double x) {
+       if (x < 0.0) {
+           return std::nullopt;  // No valid result
+       }
+       return std::sqrt(x);
+   }
+   
+   // Use the result
+   auto result = safeSqrt(-4.0);
+   if (result.has_value()) {
+       std::cout << "Result: " << result.value() << '\n';
+   } else {
+       std::cout << "No valid result (negative input)\n";
+   }
+   
+   // Or use value_or for default
+   double value = safeSqrt(-4.0).value_or(0.0);  // Returns 0.0 if no value
+
+**Division by zero handling**:
+
+.. code:: cpp
+
+   std::optional<double> safeDivide(double numerator, double denominator) {
+       if (std::abs(denominator) < 1e-10) {  // Too close to zero
+           return std::nullopt;
+       }
+       return numerator / denominator;
+   }
+   
+   auto result = safeDivide(10.0, 0.0);
+   if (result) {  // Implicit conversion to bool
+       std::cout << "Result: " << *result << '\n';  // Dereference like pointer
+   }
+
+.. note::
+   **For Python developers**: Similar to returning ``None`` for invalid results,
+   but type-safe at compile time.
+   
+   **For Fortran developers**: Like using special values (NaN) or status flags,
+   but safer and more explicit.
+
 Strings
 -------
 
-To overcome many of the limitations of the C based string, C++ provides
-its own string type, **std::string**. This is a very flexible string
-type that also provides more safety. The string type also provides
-compatibility with the C string by providing a special method for
-passing it as character string using the **.c_str()** method.
+Modern C++ provides **std::string**, a powerful and safe string type that
+should be used instead of C-style character arrays. For scientists and engineers,
+**std::string** offers:
+
+- Automatic memory management (no manual allocation/deallocation)
+- Dynamic sizing (grows as needed)
+- Rich set of operations (search, replace, substring, etc.)
+- Safety (bounds checking in debug mode)
+- Interoperability with C libraries when needed
+
+.. note::
+   **For Python developers**: ``std::string`` works similarly to Python strings
+   with automatic memory management and rich operations.
+   
+   **For Fortran developers**: More flexible than CHARACTER variables - no fixed
+   length declarations needed.
 
 To use the C++ string type we need to add the following include:
 
@@ -1207,9 +1422,11 @@ In the following example these methods are illustrated.
          s3 = hello, world. Strings in C++ are great and nice! 
          s4 = great 
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/qP9WdGf7x>`__\ { .md-button
-.target=“\_blank”}
+.. button-link:: https://godbolt.org/z/qP9WdGf7x
+    :color: primary
+    :outline:
+    
+    Try example
 
 Searching C++ strings
 ~~~~~~~~~~~~~~~~~~~~~
@@ -1237,9 +1454,11 @@ shown in the following example:
          The first 'o' is at position 12
          The next 'o' is at position 17
 
-`:fontawesome-solid-gears: Try
-example <https://godbolt.org/z/hzferG7d3>`__\ { .md-button
-.target=“\_blank”}
+.. button-link:: https://godbolt.org/z/hzferG7d3
+    :color: primary
+    :outline:
+    
+    Try example
 
 Compatibility with C strings (char\*)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1694,6 +1913,53 @@ In this example *counter* is initalised and the first iteration of the **do**-st
 for-statement
 ~~~~~~~~~~~~~
 
+**Range-Based For Loop (Modern C++11+, Recommended)**
+
+The range-based for loop is the modern, preferred way to iterate over containers
+and arrays. It's safer and more readable than index-based loops:
+
+.. code:: cpp
+
+   std::vector<int> data{1, 2, 3, 4, 5};
+   
+   // Modern range-based for loop (recommended)
+   for (const auto& value : data) {
+       std::cout << value << '\n';
+   }
+   
+   // For modifying elements
+   for (auto& value : data) {
+       value *= 2;    // Double each element
+   }
+
+.. note::
+   **For Python developers**: ``for value in data`` becomes ``for (auto value : data)``
+   
+   **For Fortran developers**: Similar to ``DO i = 1, SIZE(array)`` but automatic
+
+**Benefits of range-based for loops**:
+
+- No off-by-one errors
+- Clearer intent ("for each item")
+- Works with any container (vector, array, list, etc.)
+- Compiler optimizations often make it faster
+
+**Traditional Index-Based For Loop (When Needed)**
+
+Use traditional for loops when you need the index or specific control:
+
+.. code:: cpp
+
+   // When you need indices
+   for (size_t i = 0; i < data.size(); i++) {
+       std::cout << "Element " << i << ": " << data[i] << '\n';
+   }
+   
+   // Custom step or reverse iteration
+   for (int i = 10; i > 0; i--) {
+       std::cout << i << '\n';
+   }
+
 To create a shorter version of the **do/while**-statements which also can initialise and update a loop variable we can use the **for**-statement instead. The syntax of this statement is as follows:
 
 > for([start statements]; [conditional expression]; [step statements])
@@ -1724,7 +1990,12 @@ statement containing initalisation, conditional expression and loop
 variable update.
 
 .. note::
-   The loop variable declared in the **for**-statement is not available outside the code block of the loop. 
+   The loop variable declared in the **for**-statement is not available outside the code block of the loop.
+   
+.. note::
+   **Use auto in range-based for loops**: ``for (const auto& item : container)``
+   lets the compiler deduce the type, making code more maintainable and preventing
+   type mismatches. 
 
 The parameters in the **for**-statement are not required. If give an
 empty parameters we get an endless loop as in the following example:
@@ -2268,11 +2539,9 @@ function.
 Running the above code will print out **43** as the function has
 assigned 43 to the reference variable **a** in the function.
 
-=== “Example”
-
 .. tabs::
 
-   .. tab:: Code
+   .. tab:: Example
 
       .. literalinclude:: ../../ch_functions/functions5.cpp
 
@@ -2418,6 +2687,75 @@ modifier.
 Memory allocation
 -----------------
 
+**Modern C++ Memory Management (Recommended)**
+
+Modern C++ (C++11 and later) provides **smart pointers** that automatically
+manage memory, preventing memory leaks and dangling pointers. This is the
+recommended approach for dynamic memory in scientific and engineering applications.
+
+**std::unique_ptr - Unique Ownership**
+
+Use **std::unique_ptr** when an object has a single owner:
+
+.. code:: cpp
+
+   #include <memory>
+   #include <vector>
+   
+   // Single value
+   std::unique_ptr<double> value = std::make_unique<double>(3.14);
+   *value = 2.718;  // Modify value
+   // Memory automatically freed when value goes out of scope
+   
+   // Dynamic array
+   std::unique_ptr<double[]> array = std::make_unique<double[]>(1000);
+   array[0] = 1.0;
+   // Memory automatically freed
+
+.. note::
+   **For Python developers**: Like Python's automatic garbage collection,
+   but happens immediately when the object goes out of scope.
+   
+   **For Fortran developers**: Similar to DEALLOCATE but automatic - no need
+   to manually free memory.
+
+**std::shared_ptr - Shared Ownership**
+
+Use **std::shared_ptr** when multiple parts of code need to access the same data:
+
+.. code:: cpp
+
+   #include <memory>
+   
+   std::shared_ptr<std::vector<double>> data = 
+       std::make_shared<std::vector<double>>(10000);
+   
+   auto alias = data;  // Both point to same data
+   // Memory freed when last shared_ptr is destroyed
+
+**std::vector - Best Choice for Dynamic Arrays**
+
+For most cases, **std::vector** is superior to manual allocation:
+
+.. code:: cpp
+
+   std::vector<double> data(1000000);     // 1M elements
+   data.resize(2000000);                   // Grow as needed
+   // Automatic memory management, bounds checking, size tracking
+
+.. warning::
+   **Avoid manual new/delete in modern C++**. Use:
+   
+   - ``std::vector`` for dynamic arrays
+   - ``std::unique_ptr`` for single objects with unique ownership
+   - ``std::shared_ptr`` for shared ownership
+   - ``std::make_unique`` and ``std::make_shared`` for safe allocation
+
+**Legacy Memory Allocation (For Reference Only)**
+
+The following sections on **new** and **delete** are included for understanding
+legacy code. Modern C++ code should use smart pointers and containers instead.
+
 In C++, memory allocation can be broadly classified into two types:
 stack-based memory allocation and heap-based memory allocation.
 
@@ -2500,6 +2838,64 @@ automatically.
 Allocating arrays
 ~~~~~~~~~~~~~~~~~
 
+.. warning::
+   **Modern C++ Recommendation**: Use ``std::vector`` for most cases, or ``std::unique_ptr`` for raw arrays when interfacing with legacy APIs. Avoid manual **new[]** and **delete[]**.
+
+**Modern Approaches (Recommended)**
+
+.. tabs::
+
+   .. tab:: std::vector (Best Choice)
+
+      .. code:: cpp
+
+         #include <vector>
+         
+         // Dynamic array with automatic memory management
+         std::vector<float> arr(100);           // 100 elements, default-initialized
+         std::vector<float> zeros(100, 0.0f);   // 100 elements, all zeros
+         
+         // Access elements
+         arr[0] = 42.0f;
+         arr[50] = 21.0f;
+         
+         // Automatic cleanup when arr goes out of scope
+         // Resizable, bounds-checking available with .at()
+
+   .. tab:: std::unique_ptr (For Raw Arrays)
+
+      .. code:: cpp
+
+         #include <memory>
+         
+         // When you need a raw array (e.g., C API compatibility)
+         std::unique_ptr<float[]> arr = std::make_unique<float[]>(100);
+         
+         // Access like normal array
+         arr[0] = 42.0f;
+         for (int i = 0; i < 100; i++)
+             arr[i] = 0.0f;
+         
+         // Automatic cleanup - no delete[] needed!
+
+.. note::
+   **Why std::vector?**
+   
+   - Automatic memory management (no memory leaks)
+   - Knows its own size: ``arr.size()``
+   - Bounds checking in debug mode: ``arr.at(i)``
+   - Can grow/shrink: ``arr.resize(200)``
+   - Works with standard algorithms
+   
+   **Why std::unique_ptr<T[]>?**
+   
+   - When interfacing with C libraries requiring raw pointers
+   - Still automatic cleanup (RAII)
+   - Zero overhead compared to raw pointers
+   - Prevents memory leaks
+
+**Legacy Array Allocation (For Reference Only)**
+
 Allocating basic scalar types in C++ is overkill. The real benefits of
 heap memory allocation is to allocate large arrays of different
 datatypes. C++ has special versions of the **new** and **delete**
@@ -2539,6 +2935,101 @@ arrays, **delete []**.
 
 Two-dimensional arrays C++ Style
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. warning::
+   **Modern C++ Recommendation**: Use ``std::vector<std::vector<T>>`` (simple) or a flattened ``std::vector<T>`` with index calculation (high performance). The following manual pointer-based approaches are for legacy code understanding only.
+
+**Modern Approaches for 2D Arrays**
+
+.. tabs::
+
+   .. tab:: vector of vectors (Simple)
+
+      .. code:: cpp
+
+         #include <vector>
+         
+         const int rows = 4;
+         const int cols = 8;
+         
+         // Create 2D array
+         std::vector<std::vector<int>> array(rows, std::vector<int>(cols, 0));
+         
+         // Access elements
+         array[1][1] = 42;
+         
+         // Iterate
+         for (auto& row : array) {
+             for (auto& elem : row) {
+                 std::cout << elem << ", ";
+             }
+             std::cout << '\n';
+         }
+         
+         // Automatic cleanup - no delete needed!
+
+   .. tab:: Flattened vector (Performance)
+
+      .. code:: cpp
+
+         #include <vector>
+         
+         const int rows = 4;
+         const int cols = 8;
+         
+         // Single contiguous memory block (cache-friendly)
+         std::vector<int> array(rows * cols, 0);
+         
+         // Access using row-major indexing
+         array[1 * cols + 1] = 42;  // array[1][1]
+         
+         // Helper lambda for cleaner access
+         auto at = [&](int i, int j) -> int& {
+             return array[i * cols + j];
+         };
+         
+         at(1, 1) = 42;  // Much clearer!
+         
+         // Iterate
+         for (int i = 0; i < rows; i++) {
+             for (int j = 0; j < cols; j++) {
+                 std::cout << at(i, j) << ", ";
+             }
+             std::cout << '\n';
+         }
+
+   .. tab:: unique_ptr (C API Compatible)
+
+      .. code:: cpp
+
+         #include <memory>
+         
+         const int rows = 4;
+         const int cols = 8;
+         
+         // Array of unique_ptrs for each row
+         auto array = std::make_unique<std::unique_ptr<int[]>[]>(rows);
+         for (int i = 0; i < rows; i++) {
+             array[i] = std::make_unique<int[]>(cols);
+             for (int j = 0; j < cols; j++)
+                 array[i][j] = 0;
+         }
+         
+         // Access
+         array[1][1] = 42;
+         
+         // Automatic cleanup - no manual delete needed!
+
+.. note::
+   **Performance comparison:**
+   
+   - **Flattened std::vector**: Best cache locality, fastest for computation
+   - **vector of vectors**: Easy to use, slight overhead per row
+   - **unique_ptr approach**: For C API compatibility, automatic cleanup
+   
+   For scientific computing, **flattened vector** is usually best.
+
+**Legacy Pointer-Based 2D Arrays (For Reference Only)**
 
 C++ has no direct support for dynamically allocated two-dimensional
 arrays. However, we can create arrays of pointers to arrays to simulate
@@ -2622,6 +3113,9 @@ A complete example of this is shown below:
 Two-dimensional array Fortran Style
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. note::
+   **Modern Alternative**: The flattened ``std::vector`` shown above is the modern equivalent of this Fortran-style approach, with automatic memory management and better safety.
+
 The method using an array of pointers is not a very efficient data
 structure in computational codes as it creates as it allocates many
 smaller memory blocks. To solve this we can use the same approach as in
@@ -2686,6 +3180,35 @@ A complete example is available below:
 
 Functions for 2D arrays
 ~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+   **Modern C++ Alternative**: Instead of manual functions with raw pointers, use a simple wrapper class with ``std::vector`` for automatic memory management:
+   
+   .. code:: cpp
+   
+      class Matrix {
+          std::vector<int> data;
+          int rows_, cols_;
+      public:
+          Matrix(int rows, int cols, int initValue = 0)
+              : data(rows * cols, initValue), rows_(rows), cols_(cols) {}
+          
+          int& operator()(int i, int j) { return data[i * cols_ + j]; }
+          const int& operator()(int i, int j) const { return data[i * cols_ + j]; }
+          
+          int rows() const { return rows_; }
+          int cols() const { return cols_; }
+          
+          void fill(int value) { std::fill(data.begin(), data.end(), value); }
+      };
+      
+      // Usage
+      Matrix array(4, 8, 0);  // 4x8 matrix, initialized to 0
+      array(1, 1) = 42;       // Access element
+      array.fill(0);          // Reset all to zero
+      // Automatic cleanup!
+
+**Legacy Manual Memory Management Functions (For Reference Only)**
 
 To make it easier to used two-dimensional arrays in C++ we will
 implement three functions for this purpose:
@@ -2803,6 +3326,66 @@ A complete example of this is shown below:
 
 Dynamic arrays of struct
 ~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. warning::
+   **Modern C++ Recommendation**: Use ``std::vector<StructType>`` for dynamic arrays of structures. This provides automatic memory management and size tracking.
+
+**Modern Approach (Recommended)**
+
+.. code:: cpp
+
+   struct coord3D {
+       double x;
+       double y;
+       double z;
+   };
+   
+   // Modern: std::vector of structs
+   std::vector<coord3D> coords(10);  // 10 coordinates
+   
+   // Initialize
+   double counter = 0.0;
+   for (auto& coord : coords) {
+       coord.x = counter++;
+       coord.y = counter++;
+       coord.z = counter++;
+   }
+   
+   // Print
+   for (const auto& coord : coords) {
+       std::cout << coord.x << ", " << coord.y << ", " << coord.z << '\n';
+   }
+   
+   // Automatic cleanup - no delete needed!
+   // Also: coords.size() gives you the size
+   // coords.push_back({x, y, z}) to add more
+
+.. note::
+   **Benefits of std::vector<coord3D>:**
+   
+   - No manual memory management
+   - Knows its size: ``coords.size()``
+   - Can grow dynamically: ``coords.push_back({1.0, 2.0, 3.0})``
+   - Range-based for loops work perfectly
+   - Exception-safe
+
+**Alternative: std::unique_ptr (When Raw Pointer Needed)**
+
+.. code:: cpp
+
+   // If you need a raw array for C API compatibility
+   auto coords = std::make_unique<coord3D[]>(10);
+   
+   double counter = 0.0;
+   for (int i = 0; i < 10; i++) {
+       coords[i].x = counter++;
+       coords[i].y = counter++;
+       coords[i].z = counter++;
+   }
+   
+   // Automatic cleanup - no delete[] needed!
+
+**Legacy new/delete Approach (For Reference Only)**
 
 Just as it is possible to create arrays of the basic variable types it
 is also possible to create arrays of defined datatypes with the
@@ -2963,3 +3546,212 @@ The complete example is shown below:
 
     Try example
 
+
+Standard Library Algorithms - Preview
+-------------------------------------
+
+Modern C++ provides a rich set of algorithms in the **<algorithm>** and
+**<numeric>** headers that are essential for scientific and engineering
+applications. These algorithms work seamlessly with containers like
+**std::vector** and are often more efficient and safer than manual loops.
+
+**For Python developers**: These are similar to Python's list comprehensions,
+``map()``, ``filter()``, and NumPy operations.
+
+**For Fortran developers**: Similar to array operations and intrinsic functions
+like ``SUM``, ``MAXVAL``, ``MINVAL``, but work with any container.
+
+Quick Preview
+~~~~~~~~~~~~~
+
+.. code:: cpp
+
+   #include <algorithm>
+   #include <numeric>
+   #include <vector>
+   
+   std::vector<double> data{3.1, 1.4, 2.7, 5.9, 2.6};
+   
+   // Sort in ascending order
+   std::sort(data.begin(), data.end());
+   
+   // Find min and max
+   auto [minIt, maxIt] = std::minmax_element(data.begin(), data.end());
+   
+   // Sum all elements
+   double sum = std::accumulate(data.begin(), data.end(), 0.0);
+   
+   // Transform: square each element
+   std::transform(data.begin(), data.end(), data.begin(),
+                  [](double x) { return x * x; });
+
+Language Comparison
+~~~~~~~~~~~~~~~~~~~
+
+.. code:: cpp
+
+   // Python: total = sum(data)
+   // Fortran: total = SUM(data)
+   // C++:
+   double total = std::accumulate(data.begin(), data.end(), 0.0);
+
+.. code:: cpp
+
+   // Python: max_val = max(data)  
+   // Fortran: max_val = MAXVAL(data)
+   // C++:
+   auto maxIt = std::max_element(data.begin(), data.end());
+   double max_val = *maxIt;
+
+.. note::
+   **For comprehensive coverage** of C++ algorithms including sorting, searching,
+   transformations, reductions, parallel algorithms, and much more, see the
+   **Data Structures and Algorithms** chapter.
+   
+   The standard library provides dozens of optimized algorithms suitable for
+   scientific computing applications.
+
+Modern C++ Best Practices Summary
+----------------------------------
+
+For engineers and scientists transitioning to C++ from Python or Fortran,
+here are the key modern C++ practices to adopt:
+
+**Memory Management**
+
+✅ **Do**: Use ``std::vector`` for dynamic arrays
+
+✅ **Do**: Use ``std::array`` for fixed-size arrays
+
+✅ **Do**: Use ``std::unique_ptr`` / ``std::shared_ptr`` for dynamic objects
+
+❌ **Avoid**: Raw ``new`` / ``delete`` and manual memory management
+
+❌ **Avoid**: C-style arrays (``int arr[100]``)
+
+**Initialization**
+
+✅ **Do**: Use uniform initialization ``{}`` for type safety
+
+.. code:: cpp
+
+   int value{42};
+   std::vector<double> data{1.0, 2.0, 3.0};
+   auto x{3.14};  // Type deduced as double
+
+❌ **Avoid**: Uninitialized variables
+
+**Iteration**
+
+✅ **Do**: Use range-based for loops
+
+.. code:: cpp
+
+   for (const auto& element : container) {
+       // Process element
+   }
+
+❌ **Avoid**: Manual index loops when not needed
+
+**Strings**
+
+✅ **Do**: Use ``std::string``
+
+❌ **Avoid**: C-style strings (``char*``, ``char[]``)
+
+**Type Deduction**
+
+✅ **Do**: Use ``auto`` for complex types and iterators
+
+.. code:: cpp
+
+   auto result = computeComplexValue();
+   for (auto it = container.begin(); it != container.end(); ++it) { }
+
+**Standard Algorithms**
+
+✅ **Do**: Use ``<algorithm>`` and ``<numeric>`` functions
+
+.. code:: cpp
+
+   std::sort(data.begin(), data.end());
+   double sum = std::accumulate(data.begin(), data.end(), 0.0);
+
+❌ **Avoid**: Manual loops for common operations
+
+**Namespaces**
+
+✅ **Do**: Use explicit ``std::`` prefix
+
+.. code:: cpp
+
+   std::cout << "Hello\n";
+   std::vector<int> data;
+
+❌ **Avoid**: ``using namespace std;`` (especially in headers)
+
+**Constants**
+
+✅ **Do**: Use ``const`` and ``constexpr``
+
+.. code:: cpp
+
+   const double PI{3.14159265359};
+   constexpr int MAX_SIZE{1000};
+
+**Error Handling**
+
+✅ **Do**: Use ``std::optional`` for values that might not exist
+
+✅ **Do**: Use exceptions for exceptional conditions
+
+✅ **Do**: Use return values or ``std::tuple`` for multiple outputs
+
+Quick Reference: Python/Fortran to Modern C++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 35 35
+
+   * - Operation
+     - Python / Fortran
+     - Modern C++
+   * - Dynamic array
+     - ``data = [1, 2, 3]`` / ``ALLOCATABLE``
+     - ``std::vector<int> data{1, 2, 3};``
+   * - Array size
+     - ``len(data)`` / ``SIZE(data)``
+     - ``data.size()``
+   * - Append to array
+     - ``data.append(x)`` / ``[allocate larger]``
+     - ``data.push_back(x);``
+   * - Iterate array
+     - ``for x in data:`` / ``DO i=1,n``
+     - ``for (const auto& x : data)``
+   * - Sum array
+     - ``sum(data)`` / ``SUM(data)``
+     - ``std::accumulate(data.begin(), data.end(), 0.0)``
+   * - Max element
+     - ``max(data)`` / ``MAXVAL(data)``
+     - ``*std::max_element(data.begin(), data.end())``
+   * - Sort array
+     - ``sorted(data)`` / ``[manual]``
+     - ``std::sort(data.begin(), data.end());``
+   * - Transform array
+     - ``[x*2 for x in data]`` / ``data * 2``
+     - ``std::transform(..., [](auto x){return x*2;})``
+   * - String concat
+     - ``s1 + s2`` / ``TRIM(s1)//s2``
+     - ``s1 + s2``
+   * - String length
+     - ``len(s)`` / ``LEN_TRIM(s)``
+     - ``s.length()`` or ``s.size()``
+   * - Type inference
+     - ``x = 42`` (dynamic)
+     - ``auto x{42};`` (compile-time)
+
+.. note::
+   Modern C++ provides the expressiveness of high-level languages while
+   maintaining the performance of compiled code. The learning curve is worth
+   the performance benefits for scientific and engineering applications.

@@ -1,6 +1,5 @@
-#include <iostream>
-
-using namespace std;
+#include <print>
+#include <memory>
 
 #include "point.h"
 #include "circle.h"
@@ -20,8 +19,6 @@ int main()
     Rectangle r0(0.0, 0.0, 2.0, 1.0);
     r0.print();
     
-    Rectangle* rect = new Rectangle(0.0, 0.0, 1.0, 2.0);
+    auto rect = std::make_unique<Rectangle>(1.0, 1.0, 3.0, 4.0);
     rect->print();
-    delete rect;
-    
 }

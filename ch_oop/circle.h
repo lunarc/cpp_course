@@ -7,18 +7,18 @@ private:
     double m_radius;
 public:
     Circle(double x = 0.0, double y = 0.0, double radius = 1.0);
-    bool operator==(const Circle& other) const;
-    Circle(const Circle& other);
-    Circle& operator=(const Circle& other);
-    Circle(Circle&& other);
-    Circle& operator=(Circle&& other);
+    bool operator==(const Circle& other) const = default;
+    Circle(const Circle& other) = default;
+    Circle& operator=(const Circle& other) = default;
+    Circle(Circle&& other) noexcept = default;
+    Circle& operator=(Circle&& other) noexcept = default;
 
-    virtual ~Circle();
+    ~Circle() override;
 
-    virtual void print() const override;
-    virtual double area() const override;
-    virtual void draw() const override;
+    void print() const override;
+    [[nodiscard]] double area() const override;
+    void draw() const override;
     
-    double radius() const;
-    void setRadius(double radius);
+    [[nodiscard]] double radius() const noexcept;
+    void setRadius(double radius) noexcept;
 };

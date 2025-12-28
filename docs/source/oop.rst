@@ -184,79 +184,105 @@ will produce the following output:
 
 We can clearly see that the constructor is called when the **Vector** object is created. We can also see that the member variables have changed their default values to -1 and -2. 
 
-Constructor with arguments
---------------------------
+Uniform initialization syntax
+------------------------------
 
-For our **Vector** class it would also be nice to be able to create an object in a single statement where we give it the vector components in the declaration. This can be done by modifying our existing class constructor: 
+Modern C++ (C++11 and later) introduced **uniform initialization** using braces ``{}``. This is the recommended way to create objects as it prevents narrowing conversions and is more consistent across different contexts.
+
+.. code:: cpp
+
+   Vector v1{1.0f, 2.0f};  // Recommended: uniform initialization
+   Vector v2(1.0f, 2.0f);  // Also works: traditional initialization
+   Vector v3;              // Uses default constructor
+
+The brace initialization syntax is preferred because:
+
+- It prevents accidental narrowing (e.g., float to int)
+- Works consistently for all types (arrays, classes, etc.)
+- Prevents "most vexing parse" issues
+
+.. note::
+   **For Python programmers**: Creating a C++ object with ``Vector v{1.0, 2.0};`` is similar to Python's ``v = Vector(1.0, 2.0)``, but in C++ this object is automatically managed (created and destroyed) without needing manual memory management or garbage collection.
+
+The Rule of Zero
+-----------------
+
+If no constructor is declared, C++ will automatically generate default constructors and other special member functions for your class. For simple classes like **Vector** that don't manage resources (files, raw pointers, network connections), the compiler-generated versions are correct and efficient. This is known as the **Rule of Zero**.
+
+The compiler automatically generates:
+
+.. code:: cpp
+
+   Vector v0;            // Default constructor (if = default or none declared)
+   Vector v1{1.0, 2.0};  // Custom constructor (if you provide one)
+   Vector v2 = v1;       // Copy constructor (compiler-generated)
+   Vector v3 = std::move(v1);  // Move constructor (compiler-generated)
+   v0 = v2;              // Copy assignment operator (compiler-generated)
+   v0 = std::move(v3);   // Move assignment operator (compiler-generated)
+
+.. note::
+   **Rule of Zero**: If your class doesn't manage resources, don't write custom copy constructors, assignment operators, or destructors. Let the compiler generate them. They will be correct and efficient.
+
+.. note::
+   **For Fortran programmers**: This is similar to how Fortran handles derived types with default component-wise copying, but C++ gives you more control when needed.
+
+When the Rule of Zero applies
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For the **Vector** class, all members (``m_x``, ``m_y``) are simple types that the compiler knows how to copy. The compiler-generated copy constructor and assignment operator will correctly copy each member:
 
 .. code:: cpp
 
    class Vector {
    private:
-       float m_x{};
-       float m_y{};
+       float m_x{0.0f};
+       float m_y{0.0f};
    public:
-       Vector(float x=0.0, float y=0.0)
-       :m_x{x}, m_y{y}
-       {}
-       ...
+       Vector() = default;  // Explicitly request compiler-generated version
+       Vector(float x, float y) : m_x{x}, m_y{y} {}
+       
+       // No need to write:
+       // - Copy constructor
+       // - Copy assignment operator  
+       // - Move constructor
+       // - Move assignment operator
+       // - Destructor
+       // The compiler generates correct versions automatically!
+   };
 
-By using default arguments to the constructor it is still possible to declare a **Vector** object without any arguments. A vector can now be created using the following code: 
+When you need custom special members
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code:: cpp
+You only need to write custom copy constructors, assignment operators, and destructors (the **Rule of Five**) when your class manages resources:
 
-   Vector v{1.0, -2.0};
-
-If no constructor is declared, C++ will automatically generate default constructors for your class. For simple classes this is often enough, for more complex classes these constructors need to be provided by the classes. The following example shows when the different constructors are used: 
-
-.. code:: cpp
-
-   Vector v0;            // Default constructor
-   Vector v1{1.0, -2.0}; // Default or constructor with arguments.
-   Vector v2 = v1;       // Copy constructor
-   v0 = v2;              // Assignment operator
-
-The copy constructor
---------------------
-
-A special constructor is called when initialising a new object by assigning an existing object. It looks like the code below: 
+- Raw pointers allocated with ``new`` (but use smart pointers instead!)
+- File handles
+- Network connections
+- Locks or other system resources
 
 .. code:: cpp
 
+   // Example of when you WOULD need custom special members:
+   class FileWrapper {
+   private:
+       FILE* m_file{nullptr};
+   public:
+       FileWrapper(const char* filename) {
+           m_file = fopen(filename, "r");
+       }
+       
+       ~FileWrapper() {
+           if (m_file) fclose(m_file);  // Must clean up resource
+       }
+       
+       // Would also need copy constructor, copy assignment, etc.
+       // OR better: delete them and use move-only semantics
+       FileWrapper(const FileWrapper&) = delete;  // Prevent copying
+       FileWrapper& operator=(const FileWrapper&) = delete;
+   };
 
-   Vector v2 = v1;
-
-In the constructor we need to copy the values of the **v1** object into the new object **v2**. Adding a copy constructor to the **Vector** class is shown below: 
-
-.. code:: cpp
-
-   Vector(const Vector& other)
-   : m_x{other.m_x}, m_y{other.m_y}
-   {}
-
-In the constructor we initialise the local class variables with the **other** objects corresponding variables. Please note that the incoming **other** object is declared as const and passed by reference. This avoids copying of the object and accidental modification. 
-
-The assignment operator
------------------------
-
-A similar operation to the copy constructor is the assignment operator. This operator is called when one object is assigned from a another object. As shown in the followng code: 
-
-.. code:: cpp
-
-   v0 = v2; // Assignment operator
-
-To implement an assignment operator we add the following code to our class:
-
-.. code:: cpp
-
-   Vector& operator=(const Vector& other)
-   {
-       m_x = other.m_x;
-       m_y = other.m_y;
-       return *this;
-   }
-
-The difference from the copy constructor is that the assignment is done in the function body and we need to return a pointer to our own object (\*this).
+.. warning::
+   **For beginners**: Start with the Rule of Zero. If you find yourself writing a destructor, copy constructor, or assignment operator, ask yourself: "Should I be using a smart pointer or standard library container instead?" The answer is usually yes.
 
 Implementing vector operations
 ------------------------------
@@ -330,6 +356,43 @@ Which gives us the length of 1:
 .. note:: 
    The reason we add the **const** keyword in functions and argument lists is to indicate behavior to the compiler. The compiler can check for variable modifications and also generate more efficient code if it knows that a function will not modify the member variables of a class. 
 
+.. note::
+   **For Python programmers**: The ``const`` keyword is similar to Python's convention of not modifying parameters, but C++ enforces it at compile time. A ``const`` method like ``length() const`` is similar to a Python ``@property`` - it promises not to modify the object's state.
+
+Modern C++ best practices summary
+----------------------------------
+
+Before moving on to inheritance, let's summarize the modern C++ best practices for classes:
+
+**Initialization**
+
+1. Always use default member initializers: ``float m_x{0.0f};``
+2. Use uniform initialization with braces: ``Vector v{1.0, 2.0};``
+3. Use member initializer lists in constructors, not assignment in the body
+4. Explicitly use ``= default`` for compiler-generated constructors when appropriate
+
+**Memory management**
+
+1. Prefer stack allocation for most objects
+2. Use ``std::unique_ptr`` when you need heap allocation
+3. Use ``std::shared_ptr`` only when multiple owners are truly needed
+4. Never write ``new`` or ``delete`` in modern C++ code
+
+**Special member functions (Rule of Zero/Five)**
+
+1. Follow the **Rule of Zero**: Don't write destructors, copy/move constructors, or assignment operators unless managing resources
+2. If you must write one special member function, you probably need all five (Rule of Five)
+3. Use ``= default`` to explicitly request compiler-generated versions
+4. Use ``= delete`` to prevent copying/moving when not appropriate
+
+**const correctness**
+
+1. Mark methods that don't modify the object as ``const``
+2. Pass objects by ``const&`` to avoid copying
+3. Use ``const`` to document and enforce immutability
+
+These practices will help you write safe, efficient, and maintainable C++ code that takes advantage of modern language features.
+
 Inheritance
 -----------
 
@@ -352,6 +415,7 @@ To define our classes, we start by defining a base class, in this case, it could
    public:
        Shape();
        Shape(double x, double y);
+       virtual ~Shape() = default;  // Virtual destructor!
        
        void setPosition(double x, double y);
        double x() const;
@@ -371,25 +435,27 @@ To define our classes, we start by defining a base class, in this case, it could
        virtual void draw() const;
    };
 
-We also need some common methods for our new **Shape** class such as **.draw()**, **.print()** and **.area()**. These methods should be implemented by other inherited classes and only skeleton implementations are provided by **Shape**. Methods that are supposed to be overridden by inherited classes should be marked with **virtual**. This also makes it possible for the correct methods to be called when working with a collection of different types of shapes. The following code is added to the class: 
+We also need some common methods for our new **Shape** class such as **.draw()**, **.print()** and **.area()**. These methods should be implemented by other inherited classes and only skeleton implementations are provided by **Shape**. Methods that are supposed to be overridden by inherited classes should be marked with **virtual**. This also makes it possible for the correct methods to be called when working with a collection of different types of shapes.
+
+As the **Shape** class should not intended be instantiated directly we can make sure that this is not possible by marking them as pure virtual functions. This is done by assigning them 0 in the class definitions as shown in the updated example below:
 
 .. code:: cpp
 
-   public:
-       ...
-       virtual void print() const;
-       virtual double area() const;
-       virtual void draw() const;
-       ...
+    class Shape {
+    private:
+        // ...
+    public:
+        // ... 
 
-.. code:: cpp
+        // Pure virtual functions
+        virtual void print() const = 0;
+        virtual double area() const = 0;
+        virtual void draw() const = 0;  
+    };
 
-   public:
-       ...
-       virtual void print() const;
-       virtual double area() const;
-       virtual void draw() const;
-       ...
+.. warning::
+   **Critical**: When a class has virtual functions (polymorphism), it **must** have a virtual destructor! Without it, deleting a derived class object through a base class pointer will not call the derived class destructor, causing resource leaks.
+
 
 Implementing a Circle shape.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -453,10 +519,15 @@ The implementation of these classes are shown below:
 
 Notice that as we are overriding the **print()**-method of the **Shape** class. If we need any functionality of the base class we need to explicitely call this method from our overridden method, as shown in the **print()** and **draw()** method. For the **area()** method this is not required as we don’t need any functionality from the **Shape** **area()** method. 
 
-Instantiating classes
----------------------
+Instantiating classes and memory management
+-------------------------------------------
 
-To create an instance of a class we use the same syntax as for creating a variable. The following code creates a **Circle** object and calls the **print()** method.
+Understanding how objects are created and managed in memory is crucial for writing efficient and safe C++ code.
+
+Stack allocation (the default choice)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To create an instance of a class, use the same syntax as for creating a variable. The following code creates a **Circle** object and calls the **print()** method.
 
 .. code:: cpp
 
@@ -471,24 +542,32 @@ The output of the code will be:
    Position: (1, 1)
    radius = 2
 
-Instances created in this way are allocated on the stack. The stack is a memory area that is automatically managed by the compiler. The stack is used for local variables and function calls. The stack is fast and efficient but has a limited size.
+Objects created this way are allocated on the **stack**. The stack is:
 
-If more memory is required than the stack can provide, we need to allocate memory on the heap. The heap is a memory area that is managed by the operating system. Usually, the heap is slower than the stack but can hold much more data.
+- **Fast**: Allocation is just moving a stack pointer
+- **Automatic**: Memory is freed automatically when the object goes out of scope
+- **Safe**: No memory leaks possible
+- **Limited in size**: Typically a few MB (enough for most objects)
 
-If we want to allocate the object on the heap we can use the **new** keyword. The following code creates a **Circle** object on the heap and calls the **print()** method.
+.. note::
+   **For Python/Fortran programmers**: Stack allocation is like local variables in Python or automatic variables in Fortran, but with more predictable and immediate cleanup. When the variable goes out of scope (end of block ``}``), the destructor is called immediately - no garbage collector needed!
 
-.. code:: cpp
+**When to use stack allocation:**
 
-   Circle* c = new Circle{1.0, 1.0, 2.0};
-   c->print();
+- Default choice for most objects
+- When object size is known and reasonable (< few KB)
+- When object lifetime matches the current scope
+- For local variables, function parameters, return values
 
-When we have allocated an object on the heap it has to be deallocated when it is no longer needed. This is done using the **delete** keyword. The following code shows how to deallocate the **Circle** object.
+Smart pointers (when you need heap allocation)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code:: cpp
+Sometimes you need objects that outlive the current scope or are too large for the stack. Modern C++ uses **smart pointers** to automatically manage heap-allocated memory. Smart pointers are objects that automatically deallocate memory when it is no longer needed.
 
-   delete c;
+.. warning::
+   **Never use raw ``new`` and ``delete`` in modern C++!** Always use smart pointers instead. If you write ``new`` or ``delete`` in your code, you're probably doing something wrong.
 
-The use of **new** and **delete** is discouraged in modern C++ programming. The reason for that is that it is easy to forget to deallocate memory, which can lead to memory leaks. Modern C++ programming uses smart pointers to manage memory allocation and deallocation. Smart pointers are a type of object that automatically deallocates memory when it is no longer needed. The following code shows how to create a **Circle** object using a smart pointer. 
+The following code shows how to create a **Circle** object using a smart pointer: 
 
 .. code:: cpp
 
@@ -503,24 +582,87 @@ The **std::unique_ptr** is a smart pointer that can only have one owner. This me
 
    std::unique_ptr<Circle> c2 = std::move(c);
 
-After this code **c** will be empty and **c2** will own the **Circle** object.
+After this code, **c1** will be empty (nullptr) and **c2** will own the **Circle** object.
 
-If an object needs to be shared between multiple owners we can use the **std::shared_ptr** smart pointer. The **std::shared_ptr** keeps track of how many owners the object has and deallocates the object when the last owner is destroyed. The following code shows how to create a **Circle** object using a **std::shared_ptr**. 
+**When to use std::unique_ptr:**
+
+- Object needs to outlive current scope
+- Clear single owner (most common case)
+- Storing polymorphic objects in containers
+- Factory functions returning heap objects
+
+**std::shared_ptr - shared ownership**
+
+If an object needs to be shared between multiple owners, use **std::shared_ptr**. The **std::shared_ptr** keeps track of how many owners the object has and deallocates the object when the last owner is destroyed.
 
 .. code:: cpp
 
    std::shared_ptr<Circle> c = std::make_shared<Circle>(1.0, 1.0, 2.0);
    c->print();
 
-Using **std::shared_ptr** a pointer can easily be transferred to another owner. The following code shows how to transfer ownership of the **c** object to a new smart pointer. 
+Using **std::shared_ptr**, multiple pointers can share ownership:
 
 .. code:: cpp
 
-   std::shared_ptr<Circle> c2 = c;
+   std::shared_ptr<Circle> c1 = std::make_shared<Circle>(1.0, 1.0, 2.0);
+   std::shared_ptr<Circle> c2 = c1;  // OK: Both own the object
 
-After this code **c** and **c2** will both own the **Circle** object. When the last owner is destroyed the object will be deallocated.
+After this code, **c1** and **c2** both own the **Circle** object. When the last owner is destroyed, the object will be deallocated.
 
-To illustrate how we can creata simple class that prints out when it is created and destroyed.
+**When to use std::shared_ptr:**
+
+- Object genuinely needs multiple owners
+- Graph structures or complex relationships
+- Caching scenarios
+- When you're unsure about ownership (but try to avoid this!)
+
+.. note::
+   **Performance consideration**: ``std::shared_ptr`` has overhead (reference counting, atomic operations). Use ``std::unique_ptr`` when possible - it has zero overhead compared to raw pointers.
+
+Practical decision guide
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+For scientists and engineers new to C++, here's a simple decision tree:
+
+**1. Can the object live on the stack?**
+
+- ✓ Yes → Use stack allocation: ``Circle c{1, 2, 3};``
+- ✗ No → Continue to step 2
+
+**2. Does one clear owner manage the object's lifetime?**
+
+- ✓ Yes → Use ``std::unique_ptr``
+- ✗ No → Continue to step 3
+
+**3. Do multiple objects need to share ownership?**
+
+- ✓ Yes → Use ``std::shared_ptr``
+- ✗ No → Reconsider your design or use references
+
+**Quick reference:**
+
+.. code:: cpp
+
+   // Stack allocation - DEFAULT CHOICE
+   Circle c{1.0, 2.0, 3.0};           // Automatic cleanup, fast
+   
+   // Heap with unique ownership
+   auto c1 = std::make_unique<Circle>(1.0, 2.0, 3.0);  // Clear ownership
+   
+   // Heap with shared ownership
+   auto c2 = std::make_shared<Circle>(1.0, 2.0, 3.0);  // Multiple owners
+   
+   // NEVER do this in modern C++:
+   // Circle* c = new Circle{1.0, 2.0, 3.0};  // ❌ Don't use raw new!
+   // delete c;  // ❌ Don't use delete!
+
+.. note::
+   **For Python programmers**: Think of ``std::unique_ptr`` as clear ownership documentation ("this object owns that resource") and ``std::shared_ptr`` as similar to Python's reference counting, but explicit. Stack allocation is like Python locals but with immediate, predictable cleanup.
+
+Lifetime visualization
+~~~~~~~~~~~~~~~~~~~~~~
+
+To illustrate object lifetimes, we can create a simple class that prints out when it is created and destroyed.
 
 .. code:: cpp
 
@@ -685,6 +827,8 @@ Composition is a way to combine objects to create more complex objects. Composit
 
 .. code:: cpp
 
+   #include <array>
+
    class Wheel {
    public:
        Wheel() { std::printf("Wheel() constructor called.\n"); }
@@ -693,7 +837,7 @@ Composition is a way to combine objects to create more complex objects. Composit
 
    class Car {
    private:
-       Wheel m_wheels[4];
+       std::array<Wheel, 4> m_wheels;  // Modern: use std::array instead of C-style array
    public:
        Car() { std::printf("Car() constructor called.\n"); }
        ~Car() { std::printf("~Car() destructor called.\n"); }
@@ -757,6 +901,7 @@ This file contains the class definition for the **Shape** class. Usually the hea
    public:
        Shape();
        Shape(double x, double y);
+       virtual ~Shape() = default;  // Virtual destructor for polymorphic base class
        
        void setPosition(double x, double y);
        double x() const;
@@ -985,11 +1130,12 @@ The following code shows an example of how the classes could be implemented.
 
    class Vector {
    private:
-       double m_x;
-       double m_y;
+       double m_x{0.0};  // Default member initializer
+       double m_y{0.0};
    public:
+       Vector() = default;  // Compiler-generated default constructor
        Vector(double x, double y)
-           : m_x(x), m_y(y)
+           : m_x{x}, m_y{y}
        {}
 
        double x() const { return m_x; }
@@ -1130,6 +1276,45 @@ Comments on object-oriented analysis
 
 Object-oriented analysis is a powerful tool for designing complex systems. By identifying the objects in a system and how they interact with each other, we can create a clear and concise design. Object-oriented analysis is used in many fields, including software development, engineering, and business. By using object-oriented analysis, we can create systems that are easy to understand, maintain, and extend. 
 
-When using object-oriented analysis in computation science it is also important to consider the performance of the system. Object-oriented programming can introduce overhead in terms of memory and processing time. It is important to consider the trade-offs between performance and maintainability when designing a system. 
+When using object-oriented analysis in computational science it is also important to consider the performance of the system. Object-oriented programming can introduce overhead in terms of memory and processing time. It is important to consider the trade-offs between performance and maintainability when designing a system. 
 
-In the previous example the **Particle** class was instantiated in a **std::vector** and every particle allocated on the heap. This design can lead to performance issues when the number of particles is large. An alternative approach would be to implement a **Particles** class that implements a fixed-size array of particles. This would reduce the overhead of memory allocation and deallocation and improve performance. It is also possible to use a memory pool to allocate and deallocate particles more efficiently. 
+Performance considerations for particle systems
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In the previous example the **Particle** class was instantiated in a **std::vector** with every particle allocated on the heap using ``std::shared_ptr``. This design can lead to performance issues when the number of particles is large. Consider these modern C++ alternatives:
+
+**1. Store objects directly in containers** (best performance):
+
+.. code:: cpp
+
+   std::vector<Particle> particles;  // Particles stored contiguously in memory
+   particles.emplace_back(position, velocity, ...);  // Construct in-place
+
+**2. Use std::unique_ptr for polymorphism**:
+
+.. code:: cpp
+
+   std::vector<std::unique_ptr<BaseParticle>> particles;  // Lower overhead than shared_ptr
+
+**3. Structure of Arrays (SoA) layout** for maximum performance:
+
+.. code:: cpp
+
+   class ParticleSystem {
+   private:
+       std::vector<Vector> m_positions;     // All positions together
+       std::vector<Vector> m_velocities;    // All velocities together
+       std::vector<double> m_masses;        // All masses together
+       // Better cache locality, enables SIMD optimizations
+   };
+
+**General performance tips:**
+
+- Store objects directly in containers when possible (avoid pointers)
+- Use ``std::vector`` with ``reserve()`` to avoid reallocations
+- Consider memory layout for cache efficiency (SoA vs AoS)
+- Use ``std::unique_ptr`` instead of ``std::shared_ptr`` when possible
+- Profile before optimizing - clarity first, optimize bottlenecks later
+
+.. note::
+   **For scientists**: Start with the clearest design (objects in vectors). Profile your code to find actual bottlenecks. Modern compilers are excellent at optimizing clean, simple C++ code. Premature optimization often makes code harder to understand without meaningful performance gains. 

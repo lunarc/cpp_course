@@ -1,8 +1,6 @@
 #include "point.h"
 
-#include <iostream>
-
-using namespace std;
+#include <print>
 
 Point::Point(double x, double y)
 :Shape(x, y)
@@ -12,7 +10,7 @@ Point::Point(double x, double y)
 
 Point::~Point()
 {
-    cout << "Point destructor called." << endl;
+    std::print("Point destructor called.\n");
 }
 
 double Point::area() const
