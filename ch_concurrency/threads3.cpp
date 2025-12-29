@@ -1,43 +1,62 @@
 #include <iostream>
 #include <vector>
 #include <thread>
-#include <chrono>
 #include <mutex>
+#include <print>
 
-using namespace std;
 
-mutex g_output;
+// Shared resource that multiple threads will modify
+int g_counter = 0;
+std::mutex g_counter_mutex;
 
-void myfunc()
+void increment_counter_unsafe(int iterations)
 {
-    g_output.lock();
-    cout << "Thread " << this_thread::get_id() << " starting." << endl;
-    g_output.unlock();
-    
-    this_thread::sleep_for(chrono::seconds(1));
-    
-    g_output.lock();
-    cout << "Thread " << this_thread::get_id() << " stopping." << endl;
-    g_output.unlock();
+    for (auto i = 0; i < iterations; i++)
+        g_counter++;
+}
+
+void increment_counter_safe(int iterations)
+{
+    for (auto i = 0; i < iterations; i++)
+    {
+        std::lock_guard<std::mutex> lock(g_counter_mutex);
+        g_counter++;
+    }
 }
 
 int main()
 {
-    auto numThreads = thread::hardware_concurrency();
+    const int num_threads = 10;
+    const int iterations_per_thread = 100000;
+    
+    // Test 1: Without mutex (race condition)
+ 
+    std::println("Test 1: WITHOUT mutex protection");
+    g_counter = 0;
+    
+    {
+        std::vector<std::jthread> threads;
+        for (int i = 0; i < num_threads; i++)
+            threads.emplace_back(increment_counter_unsafe, iterations_per_thread);
+    }
 
-    cout << "I have " << numThreads << " hardware threads." << endl;
+    std::println("Expected: {}", num_threads * iterations_per_thread);
+    std::println("Actual:   {}", g_counter);
+    std::println("Lost updates: {}", num_threads * iterations_per_thread - g_counter);
     
-    vector<jthread> threads;
+    // Test 2: With mutex (correct)
+    std::println("Test 2: WITH mutex protection (using lock_guard)");
+    g_counter = 0;
     
-    cout << "Starting threads..." << endl;
+    {
+        std::vector<std::jthread> threads;
+        for (int i = 0; i < num_threads; i++)
+            threads.emplace_back(increment_counter_safe, iterations_per_thread);
+    }
     
-    for (auto i=0; i<numThreads; i++)
-        threads.emplace_back(myfunc);
-        
-    cout << "Waiting for thread completion..." << endl;
+    std::println("Expected: {}", num_threads * iterations_per_thread);
+    std::println("Actual:   {}", g_counter);
+    std::println("Lost updates: {}", num_threads * iterations_per_thread - g_counter);
     
-    for (auto& thread : threads)
-        thread.join();
+    return 0;
 }
-    
-    

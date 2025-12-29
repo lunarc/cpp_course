@@ -1,20 +1,11 @@
+#include <print>
 #include <algorithm>
 #include <atomic>
 #include <chrono>
 #include <cmath>
-#include <ctime>
-#include <execution>
-#include <iostream>
-#include <iterator>
 #include <memory>
-#include <numeric>
-#include <random>
-#include <ranges>
 #include <thread>
-#include <utils/print.h>
 #include <vector>
-
-using namespace std;
 
 // Function to perform a computationally intensive task
 void heavyComputation(double *arr, size_t start, size_t end)
@@ -36,7 +27,6 @@ void processSequential(double *data, size_t size)
 void processParallel(double *data, size_t size, int numThreads)
 {
     std::vector< std::jthread > threads;
-    std::atomic< double > sum{0.0};
     threads.reserve(numThreads);
 
     size_t chunkSize = size / numThreads;
@@ -47,13 +37,6 @@ void processParallel(double *data, size_t size, int numThreads)
         size_t end = (i == numThreads - 1) ? size : (i + 1) * chunkSize;
         threads.emplace_back(heavyComputation, data, start, end);
     }
-
-    /*
-    for (auto &thread : threads)
-    {
-        thread.join();
-    }
-    */
 }
 
 int main()

@@ -1,8 +1,7 @@
-#include <iostream>
 #include <execution>
 #include <numeric>
 #include <vector>
-#include <utils/print.h>
+#include <print>
 
 using namespace std;
 

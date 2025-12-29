@@ -7,8 +7,6 @@
 #include <vector>
 #include <print>
 
-using namespace std;
-
 // Function to perform a computationally intensive task
 void heavyComputation(double *arr, size_t start, size_t end, std::atomic<double> &sum)
 {
@@ -25,9 +23,14 @@ void heavyComputation(double *arr, size_t start, size_t end, std::atomic<double>
     }
 
     // Atomically add localSum to sum
+
+    sum += localSum;
+
+    /*
     double current = sum.load();
     while (!sum.compare_exchange_weak(current, current + localSum))
         ;
+    */
 }
 
 void initialiseArray(double *arr, size_t start, size_t end, double value)
@@ -81,7 +84,7 @@ void processParallel(double *data, size_t size, int numThreads, std::atomic<doub
 int main()
 {
     const size_t dataSize = 800000;
-    int numThreads = std::thread::hardware_concurrency();
+    const int numThreads = std::thread::hardware_concurrency();
 
     std::printf("Data size: %zu\n", dataSize);
     std::printf("Number of threads: %d\n", numThreads);
@@ -90,6 +93,7 @@ int main()
 
     auto seqData = std::make_unique<double[]>(dataSize);
     auto parData = std::make_unique<double[]>(dataSize);
+
     std::atomic<double> seqSum{0.0};
     std::atomic<double> parSum{0.0};
 
@@ -97,13 +101,19 @@ int main()
 
     std::print("Initialising arrays serially...\n");
 
+    auto start = std::chrono::high_resolution_clock::now();
     std::generate_n(seqData.get(), dataSize, []() { return 1.0; });
+    auto end = std::chrono::high_resolution_clock::now();
+
+    std::chrono::duration< double > elapsedInitSerially = end - start;
+
+    std::printf("Time for serial initialisation: %f seconds\n", elapsedInitSerially.count());
 
     std::print("Running serially...\n");
 
-    auto start = std::chrono::high_resolution_clock::now();
+    start = std::chrono::high_resolution_clock::now();
     processSequential(seqData.get(), dataSize, seqSum);
-    auto end = std::chrono::high_resolution_clock::now();
+    end = std::chrono::high_resolution_clock::now();
 
     std::chrono::duration<double> elapsedSerially = end - start;
 

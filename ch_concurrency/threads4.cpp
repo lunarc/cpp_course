@@ -8,7 +8,7 @@ using namespace std;
 
 void saxpy_serial(double z[], double a, double x[], double y[], long n)
 {
-    std::print("Performing SAXPY serially.\n");
+    std::println("Performing SAXPY serially.");
 
     for (long i = 0; i < n; i++)
         z[i] = a * x[i] + y[i];
@@ -18,7 +18,7 @@ void saxpy(double z[], double a, double x[], double y[], long n)
 {
     const auto numThreads = std::min(8u, std::thread::hardware_concurrency());
 
-    std::print("Performing SAXPY with {0} threads.\n", numThreads);
+    std::println("Performing SAXPY with {0} threads.", numThreads);
     
     auto lambda = [z, a, x, y](long start, long end) {
         for (long i = start; i < end; i++)

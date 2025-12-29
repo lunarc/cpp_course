@@ -10,9 +10,9 @@ sys.path.append(os.path.abspath('.'))
 
 
 project = "The Engineer's Guide to C++"
-copyright = '2024, Jonas Lindemann'
+copyright = '2024-25, Jonas Lindemann'
 author = 'Jonas Lindemann'
-release = '0.1'
+release = '0.2'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

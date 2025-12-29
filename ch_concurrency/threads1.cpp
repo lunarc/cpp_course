@@ -1,9 +1,6 @@
-#include <iostream>
 #include <thread>
-#include <utils/print.h>
 #include <vector>
-
-using namespace std;
+#include <print>
 
 void sum(const int a, const int b, const int id, long long *sums)
 {
@@ -17,8 +14,8 @@ void sum(const int a, const int b, const int id, long long *sums)
 
 int main()
 {
-    int a = 0;
-    int b = 100000000;
+    const int a = 0;
+    const int b = 100000000;
 
     const auto numThreads = std::min(8u, std::thread::hardware_concurrency());
 
@@ -27,13 +24,12 @@ int main()
     std::vector< long long > sums;
     sums.resize(numThreads);
     
-    int chunkSize = (b - a + 1) / numThreads;
-    int remainder = (b - a + 1) % numThreads;
+    const int chunkSize = (b - a + 1) / numThreads;
+    const int remainder = (b - a + 1) % numThreads;
 
     std::print("Summing from {0} to {1} using {2} threads\n", a, b, numThreads);
     std::print("Chunk size = {0}, Remainder = {1}\n", chunkSize, remainder);
 
-    long long totalSum = 0;
     int i0, i1;
 
     for (auto i = 0; i < numThreads; i++)
@@ -53,6 +49,7 @@ int main()
     for (auto& thread : threads)
         thread.join();
 
+    long long totalSum = 0;
     auto i = 0;
 
     for (auto& sum : sums)
