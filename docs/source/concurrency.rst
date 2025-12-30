@@ -979,6 +979,497 @@ The complete code is available below:
 Async and Futures
 -----------------
 
+There are more ways of implementing concurrency in C++. If your application is more task oriented and doesn't rely on shared data the ``std::async()`` call combined with the ``std::future`` return value can be an effective way of implementing concurrency. The async call is like a non-blocking function call that returns the control back to the main thread. A return value from an async call is something called a future. This is like a placeholder of a future return value. When you want the return value you call the ``.get()`` method of the future. If the async call has finished the method will immediately return the computed return value otherwise it will block until the async call is completed. You can only call the ``.get()`` method once. Calling it multiple times will generate exceptions. It is also possible to check if there is a valid shared state using the method ``.valid()``. It is also possible to wait for a result using the methods ``.wait()`` or ``.wait_for()/wait_until()``. 
+
+To illustrate how async and future can be used we will use our heavy computation example as a base and create functions returning a sum of a complicated computation as a result. The function we will is as follows:
+
+.. code:: cpp
+
+    #include <algorithm>
+    #include <chrono>
+    #include <cmath>
+    #include <future>
+    #include <memory>
+    #include <print>
+    #include <thread>
+    #include <vector>
+
+    // Function to perform a computationally intensive task
+    double heavyComputation(double *arr, size_t start, size_t end)
+    {
+        double localSum = 0.0;
+
+        for (size_t i = start; i < end; ++i)
+        {
+            arr[i] = std::sin(arr[i]) * std::cos(arr[i]) * std::sqrt(std::abs(arr[i]));
+            for (int j = 0; j < 1000; ++j)
+            {
+                arr[i] = std::sin(arr[i]);
+            }
+            localSum += arr[i];
+        }
+
+        return localSum;
+    }
+
+There is nothing special with this function. It just returns the local sum. For the asynchronous processing we implement a special function ``processAsync()`` that will do the heavy lifting. As we are going to use the ``std::async()`` function we need to be able to manage the ``std::future`` that the async function will return. We do that by declaring a vector containing a list of future instances.
+
+.. code:: cpp
+
+    double processAsync(double *data, size_t size, int numThreads)
+    {
+        std::vector< std::future< double > > futures;
+        futures.reserve(numThreads);    
+
+Next we will be making a number of calls to the async method in a loop and push back the return futures from the calls. In this case we need to use the ``.push_back()`` method because we need to catch the return values from the async call.
+
+.. code:: cpp
+
+        size_t chunkSize = size / numThreads;
+
+        for (int i = 0; i < numThreads; ++i)
+        {
+            size_t start = i * chunkSize;
+            size_t end = (i == numThreads - 1) ? size : (i + 1) * chunkSize;
+            futures.push_back(std::async(std::launch::async, heavyComputation, data, start, end));
+        }  
+
+To calculate the sum we can just loop over our future list and call the ``.get()`` method. There is no risk of any synchronisation problems here as the method will block until the task has completed before returning a value. Finally we return the sum.
+
+.. code:: cpp
+
+        double sum = 0.0;
+
+        for (auto &future : futures)
+            sum += future.get();
+
+        return sum;
+    }
+
+The serial sum just calls the ``heavyComputation()`` method for all elements.
+
+.. code:: cpp
+
+    double processSequential(double *data, size_t size)
+    {
+        return heavyComputation(data, 0, size);
+    }    
+
+Our main program is very similar to our previous examples. We allocate two arrays one for each test using unique pointers. We initialise the arrays using the ``std::generate_n()`` algorithm. We use function from the ``<chrono>`` include from the standard library to measure execution times.
+
+.. code:: cpp
+
+    const size_t dataSize = 5000000;
+    const int numThreads = std::thread::hardware_concurrency();
+
+    std::println("Data size: {}", dataSize);
+    std::println("Number of threads: {}\n", numThreads);
+
+    std::println("Allocating and initializing arrays...");
+    auto seqData = std::make_unique< double[] >(dataSize);
+    auto parData = std::make_unique< double[] >(dataSize);
+
+    std::generate_n(seqData.get(), dataSize, []() { return 1.0; });
+    std::generate_n(parData.get(), dataSize, []() { return 1.0; });
+
+    std::println("Running sequentially...");
+    auto startSeq = std::chrono::high_resolution_clock::now();
+    double seqSum = processSequential(seqData.get(), dataSize);
+    auto endSeq = std::chrono::high_resolution_clock::now();
+
+    auto elapsedSeq = std::chrono::duration< double >(endSeq - startSeq).count();
+    std::println("Sequential - Time: {:.4f} s, Sum: {:.6f}\n", elapsedSeq, seqSum);
+
+    std::println("Running in parallel...");
+    auto startPar = std::chrono::high_resolution_clock::now();
+    double parSum = processAsync(parData.get(), dataSize, numThreads);
+    auto endPar = std::chrono::high_resolution_clock::now();
+
+    auto elapsedPar = std::chrono::duration< double >(endPar - startPar).count();
+    std::println("Parallel   - Time: {:.4f} s, Sum: {:.6f}\n", elapsedPar, parSum);
+
+    // Results summary
+    std::println("--- Performance Metrics ---");
+    std::println("Speedup: {:.2f}x", elapsedSeq / elapsedPar);
+    std::println("Efficiency: {:.1f}%", (elapsedSeq / elapsedPar / numThreads) * 100);
+    
+    double sumDiff = std::abs(seqSum - parSum);
+    double relativeError = sumDiff / std::abs(seqSum);
+    std::println("Sum difference: {:.2e} (relative error: {:.2e})", sumDiff, relativeError);
+    
+    // Verify results are reasonably close
+    if (relativeError < 1e-10)
+        std::println("OK - Results match within acceptable tolerance");
+    else
+        std::println("Warning: Large difference between sequential and parallel sums");
+
+    return 0;
+
+When running the program we get the following results.
+
+.. code:: cpp
+
+    Data size: 5000000
+    Number of threads: 12
+
+    Allocating and initializing arrays...
+    Running sequentially...
+    Sequential - Time: 30.9081 s, Sum: 271552.176301
+
+    Running in parallel...
+    Parallel   - Time: 3.0463 s, Sum: 271552.176326
+
+    --- Performance Metrics ---
+    Speedup: 10.15x
+    Efficiency: 84.5%
+    Sum difference: 2.45e-05 (relative error: 9.03e-11)
+    OK - Results match within acceptable tolerance    
+
+This example is compute bound and the tasks are quite self contained only returning a modified array and a sum, which is a perfect example of a suitable use case for the async/future combination in the standard library.
+
+
+.. tabs::
+
+    .. tab:: Code
+
+        .. literalinclude:: ../../ch_concurrency/async2.cpp
+
+    .. tab:: Output
+
+        .. code:: 
+
+            Data size: 5000000
+            Number of threads: 12
+
+            Allocating and initializing arrays...
+            Running sequentially...
+            Sequential - Time: 30.9081 s, Sum: 271552.176301
+
+            Running in parallel...
+            Parallel   - Time: 3.0463 s, Sum: 271552.176326
+
+            --- Performance Metrics ---
+            Speedup: 10.15x
+            Efficiency: 84.5%
+            Sum difference: 2.45e-05 (relative error: 9.03e-11)
+            OK - Results match within acceptable tolerance
+
+.. button-link:: https://godbolt.org/z/YOUR_LINK_HERE
+    :color: primary
+    :outline:
+    
+    Try example    
+
+Producer-Consumer Pattern with Condition Variables
+--------------------------------------------------
+
+One of the most common patterns in concurrent programming is the Producer-Consumer pattern. In this pattern, one or more producer threads generate data and place it in a shared buffer, while one or more consumer threads retrieve and process this data. The challenge is coordinating access to the shared buffer so that:
+
+* Producers wait when the buffer is full
+* Consumers wait when the buffer is empty
+* Multiple threads don't corrupt the buffer
+
+While we could implement this using just mutexes and busy-waiting (checking repeatedly if a condition is met), this wastes CPU cycles. A better approach is to use ``std::condition_variable``, which allows threads to efficiently wait for a condition to become true.
+
+Understanding Condition Variables
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A ``std::condition_variable`` is a synchronization primitive that allows threads to wait until notified by another thread. It works together with a ``std::mutex`` and typically follows this pattern:
+
+**Waiting thread:**
+
+1. Lock the mutex
+2. Check if condition is met
+3. If not, call ``.wait()`` which atomically unlocks the mutex and puts the thread to sleep
+4. When notified, the thread wakes up and automatically reacquires the lock
+5. Recheck the condition (spurious wakeups can occur)
+6. Proceed when condition is met
+
+**Notifying thread:**
+
+1. Lock the mutex
+2. Modify shared data
+3. Unlock the mutex
+4. Call ``.notify_one()`` or ``.notify_all()`` to wake waiting threads
+
+The key benefit is that waiting threads sleep instead of consuming CPU cycles in a busy-wait loop.
+
+Implementing the Producer-Consumer Pattern
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Let's implement a thread-safe queue that demonstrates this pattern. First, we'll create a ``SafeQueue`` class that encapsulates the buffer and synchronization:
+
+.. code:: cpp
+
+    template < typename T > class SafeQueue {
+    private:
+        std::queue< T > m_queue;
+        mutable std::mutex m_mutex;
+        std::condition_variable m_cond;
+        bool m_finished = false;
+        size_t m_maxSize;
+
+    public:
+        SafeQueue(size_t maxSize = 10) : m_maxSize(maxSize)
+        {
+        }
+
+        // Producer: Add item to queue (blocks if full)
+        void push(T item)
+        {
+            std::unique_lock< std::mutex > lock(m_mutex);
+
+            // Wait until queue has space
+            m_cond.wait(lock, [this]() { return m_queue.size() < m_maxSize || m_finished; });
+
+            if (!m_finished)
+            {
+                m_queue.push(std::move(item));
+                m_cond.notify_one(); // Notify a waiting consumer
+            }
+        }
+
+        // Consumer: Remove item from queue (blocks if empty)
+        std::optional< T > pop()
+        {
+            std::unique_lock< std::mutex > lock(m_mutex);
+
+            // Wait until queue has data or is finished
+            m_cond.wait(lock, [this]() { return !m_queue.empty() || m_finished; });
+
+            if (m_queue.empty())
+                return std::nullopt; // No more data
+
+            T item = std::move(m_queue.front());
+            m_queue.pop();
+            m_cond.notify_one(); // Notify a waiting producer
+            return item;
+        }
+
+        // Signal that no more items will be produced
+        void finish()
+        {
+            std::unique_lock< std::mutex > lock(m_mutex);
+            m_finished = true;
+            m_cond.notify_all(); // Wake all waiting threads
+        }
+
+        size_t size() const
+        {
+            std::unique_lock< std::mutex > lock(m_mutex);
+            return m_queue.size();
+        }
+    };
+
+The ``SafeQueue`` uses ``std::unique_lock`` instead of ``std::lock_guard`` because ``std::condition_variable`` needs a lock that can be unlocked and relocked (which happens during ``.wait()``).
+
+Now let's create a complete example with multiple producers and consumers:
+
+.. code:: cpp
+
+    #include <chrono>
+    #include <print>
+    #include <random>
+    #include <thread>
+    #include <vector>
+
+    void producer(SafeQueue<int>& queue, int id, int itemCount)
+    {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> dis(1, 100);
+        std::uniform_int_distribution<> sleep(10, 100);
+
+        for (int i = 0; i < itemCount; ++i)
+        {
+            int value = dis(gen);
+            queue.push(value);
+            std::println("Producer {} produced: {}", id, value);
+            std::this_thread::sleep_for(std::chrono::milliseconds(sleep(gen)));
+        }
+        
+        std::println("Producer {} finished", id);
+    }
+
+    void consumer(SafeQueue<int>& queue, int id, std::atomic<int>& totalConsumed)
+    {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> sleep(50, 150);
+
+        while (true)
+        {
+            auto item = queue.pop();
+            if (!item.has_value())
+            {
+                std::println("Consumer {} finished (no more items)", id);
+                break;
+            }
+            
+            std::println("Consumer {} consumed: {}", id, item.value());
+            totalConsumed++;
+            std::this_thread::sleep_for(std::chrono::milliseconds(sleep(gen)));
+        }
+    }
+
+In the main function, we create multiple producers and consumers:
+
+.. code:: cpp
+
+    int main()
+    {
+        const int numProducers = 3;
+        const int numConsumers = 2;
+        const int itemsPerProducer = 5;
+        
+        SafeQueue<int> queue(5);  // Buffer size of 5
+        std::atomic<int> totalConsumed{0};
+        
+        std::println("Starting {} producers and {} consumers", numProducers, numConsumers);
+        std::println("Each producer will create {} items\n", itemsPerProducer);
+        
+        // Start producers
+        std::vector<std::jthread> producers;
+        for (int i = 0; i < numProducers; ++i)
+            producers.emplace_back(producer, std::ref(queue), i, itemsPerProducer);
+        
+        // Start consumers
+        std::vector<std::jthread> consumers;
+        for (int i = 0; i < numConsumers; ++i)
+            consumers.emplace_back(consumer, std::ref(queue), i, std::ref(totalConsumed));
+        
+        // Wait for all producers to finish
+        producers.clear();  // jthread joins on destruction
+        
+        std::println("\nAll producers finished. Signaling consumers...");
+        queue.finish();
+        
+        // Wait for all consumers to finish
+        consumers.clear();
+        
+        std::println("\nTotal items produced: {}", numProducers * itemsPerProducer);
+        std::println("Total items consumed: {}", totalConsumed.load());
+        
+        return 0;
+    }
+
+When we run this program, we see the interleaved output from multiple producers and consumers, demonstrating concurrent access to the shared queue:
+
+.. code::
+
+    Starting 3 producers and 2 consumers
+    Each producer will create 5 items
+
+    Producer 1 produced: 5
+    Consumer 0 consumed: 5
+    Producer 0 produced: 96
+    Producer 2 produced: 66
+    Consumer 1 consumed: 66
+    Consumer 0 consumed: 96
+    Producer 0 produced: 38
+    Consumer 1 consumed: 38
+    Producer 1 produced: 62
+    Producer 2 produced: 99
+    Producer 1 produced: 47
+    Consumer 0 consumed: 99
+    Producer 0 produced: 87
+    Producer 2 produced: 58
+    Producer 0 produced: 74
+    Consumer 1 consumed: 62
+    Producer 1 produced: 99
+    Consumer 1 consumed: 47
+    Producer 0 produced: 44
+    Consumer 0 consumed: 87
+    Producer 2 produced: 53
+    Producer 0 finished
+    Consumer 1 consumed: 58
+    Producer 1 produced: 94
+    Producer 1 finished
+    Consumer 0 consumed: 74
+    Producer 2 produced: 92
+    Consumer 1 consumed: 99
+    Consumer 0 consumed: 44
+    Producer 2 finished
+
+    All producers finished. Signaling consumers...
+    Consumer 1 consumed: 53
+    Consumer 1 consumed: 94
+    Consumer 0 consumed: 92
+    Consumer 0 finished (no more items)
+    Consumer 1 finished (no more items)
+
+    Total items produced: 15
+    Total items consumed: 15
+
+Key takeaways from this pattern:
+
+* **Efficiency**: Threads sleep when waiting instead of busy-waiting
+* **Safety**: The mutex protects shared data from race conditions
+* **Coordination**: Condition variables enable efficient thread synchronization
+* **Scalability**: Works with any number of producers and consumers
+* **Graceful shutdown**: The ``finish()`` method allows clean termination
+
+This pattern is fundamental in many applications: task queues, buffered I/O, event processing, and thread pools.
+
+The complete code is available below:
+
+.. tabs::
+
+    .. tab:: Code
+
+        .. literalinclude:: ../../ch_concurrency/producer_consumer.cpp
+
+    .. tab:: Output
+
+        .. code:: 
+
+            Starting 3 producers and 2 consumers
+            Each producer will create 5 items
+
+            Producer 0 produced: 42
+            Producer 1 produced: 87
+            Producer 2 produced: 23
+            Consumer 0 consumed: 42
+            Producer 0 produced: 91
+            Consumer 1 consumed: 87
+            Producer 1 produced: 56
+            Producer 2 produced: 34
+            Consumer 0 consumed: 23
+            Producer 0 produced: 12
+            Consumer 1 consumed: 91
+            Producer 1 produced: 78
+            Producer 2 produced: 67
+            Consumer 0 consumed: 56
+            Producer 0 produced: 45
+            Consumer 1 consumed: 34
+            Producer 1 produced: 89
+            Producer 2 produced: 90
+            Consumer 0 consumed: 12
+            Producer 0 produced: 33
+            Consumer 1 consumed: 78
+            Producer 1 finished
+            Producer 2 finished
+            Producer 0 finished
+
+            All producers finished. Signaling consumers...
+            Consumer 0 consumed: 67
+            Consumer 1 consumed: 45
+            Consumer 0 consumed: 89
+            Consumer 1 consumed: 90
+            Consumer 0 consumed: 33
+            Consumer 0 finished (no more items)
+            Consumer 1 finished (no more items)
+
+            Total items produced: 15
+            Total items consumed: 15
+
+.. button-link:: https://godbolt.org/z/YOUR_LINK_HERE
+    :color: primary
+    :outline:
+    
+    Try example
+
+
 Real-World Example: Parallel Stencil Computation
 ------------------------------------------------
 

@@ -1,11 +1,9 @@
 #include <deque>
-#include <iostream>
-
-using namespace std;
+#include <print>
 
 int main()
 {
-    deque<int> q;
+    std::deque<int> q;
 
     // Add items to the back
 
@@ -20,27 +18,26 @@ int main()
     // Iterate using iterators
 
     for (auto it = q.begin(); it != q.end(); it++)
-        cout << *it << ", ";
+        std::print("{}, ", *it);
 
-    cout << "\n";
-    cout << "\n";
+    std::print("\n");
 
     // Iterate using range-based loop
 
     for (auto &i : q)
-        cout << i << ", ";
+        std::print("{}, ", i);
 
-    cout << "\n";
+    std::print("\n");
 
     // Popping and popping
 
-    cout << "q front = " << q.front() << endl;
-    cout << "pop front" << endl;
+    std::println("q front = {}", q.front());
+    std::println("pop front");
     q.pop_front();
-    cout << "q front = " << q.front() << endl;
-    cout << "q back = " << q.back() << endl;
-    cout << "pop back" << endl;
+    std::println("q front = {}", q.front());
+    std::println("q back = {}", q.back());
+    std::println("pop back");
     q.pop_back();
-    cout << "q back = " << q.back() << endl;
-    cout << "q[3] = " << q[3] << endl;
+    std::println("q back = {}", q.back());
+    std::println("q[3] = {}", q[3]);
 }

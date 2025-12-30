@@ -1,20 +1,11 @@
 #include <algorithm>
-#include <atomic>
 #include <chrono>
 #include <cmath>
-#include <ctime>
-#include <execution>
 #include <future>
-#include <iostream>
-#include <iterator>
 #include <memory>
-#include <numeric>
-#include <random>
-#include <ranges>
+#include <print>
 #include <thread>
 #include <vector>
-
-using namespace std;
 
 // Function to perform a computationally intensive task
 double heavyComputation(double *arr, size_t start, size_t end)
@@ -40,9 +31,12 @@ double processSequential(double *data, size_t size)
     return heavyComputation(data, 0, size);
 }
 
+// Function to process data in parallel using std::async
 double processAsync(double *data, size_t size, int numThreads)
 {
     std::vector< std::future< double > > futures;
+    futures.reserve(numThreads);
+    
     size_t chunkSize = size / numThreads;
 
     for (int i = 0; i < numThreads; ++i)
@@ -55,9 +49,7 @@ double processAsync(double *data, size_t size, int numThreads)
     double sum = 0.0;
 
     for (auto &future : futures)
-    {
         sum += future.get();
-    }
 
     return sum;
 }
@@ -65,44 +57,51 @@ double processAsync(double *data, size_t size, int numThreads)
 int main()
 {
     const size_t dataSize = 5000000;
-    int numThreads = std::thread::hardware_concurrency();
+    const int numThreads = std::thread::hardware_concurrency();
 
-    std::printf("Data size: %zu\n", dataSize);
-    std::printf("Number of threads: %d\n", numThreads);
+    std::println("Data size: {}", dataSize);
+    std::println("Number of threads: {}\n", numThreads);
 
-    std::printf("Allocating arrays...\n");
-
+    // Allocate separate arrays for sequential and parallel processing
+    std::println("Allocating and initializing arrays...");
     auto seqData = std::make_unique< double[] >(dataSize);
     auto parData = std::make_unique< double[] >(dataSize);
-    double seqSum{0.0};
-    double parSum{0.0};
-
-    std::printf("Initialising arrays...\n");
 
     std::generate_n(seqData.get(), dataSize, []() { return 1.0; });
     std::generate_n(parData.get(), dataSize, []() { return 1.0; });
 
-    std::printf("Running serially...\n");
+    // Sequential processing
+    std::println("Running sequentially...");
+    auto startSeq = std::chrono::high_resolution_clock::now();
+    double seqSum = processSequential(seqData.get(), dataSize);
+    auto endSeq = std::chrono::high_resolution_clock::now();
 
-    auto start = std::chrono::high_resolution_clock::now();
-    seqSum = processSequential(seqData.get(), dataSize);
-    auto end = std::chrono::high_resolution_clock::now();
+    auto elapsedSeq = std::chrono::duration< double >(endSeq - startSeq).count();
+    std::println("Sequential - Time: {:.4f} s, Sum: {:.6f}\n", elapsedSeq, seqSum);
 
-    std::chrono::duration< double > elapsedSerially = end - start;
-    std::printf("Time for sequential processing: %f seconds\n", elapsedSerially.count());
-    std::printf("Sum: %f\n", seqSum);
+    // Parallel processing
+    std::println("Running in parallel...");
+    auto startPar = std::chrono::high_resolution_clock::now();
+    double parSum = processAsync(parData.get(), dataSize, numThreads);
+    auto endPar = std::chrono::high_resolution_clock::now();
 
-    std::printf("Running in parallel...\n");
+    auto elapsedPar = std::chrono::duration< double >(endPar - startPar).count();
+    std::println("Parallel   - Time: {:.4f} s, Sum: {:.6f}\n", elapsedPar, parSum);
 
-    start = std::chrono::high_resolution_clock::now();
-    parSum = processAsync(parData.get(), dataSize, numThreads);
-    end = std::chrono::high_resolution_clock::now();
-
-    std::chrono::duration< double > elapsedParallel = end - start;
-
-    std::printf("Time for parallel processing: %f seconds\n", elapsedParallel.count());
-    std::printf("Sum: %f\n", parSum);
-    std::printf("Speedup: %f\n", elapsedSerially.count() / elapsedParallel.count());
+    // Results summary
+    std::println("--- Performance Metrics ---");
+    std::println("Speedup: {:.2f}x", elapsedSeq / elapsedPar);
+    std::println("Efficiency: {:.1f}%", (elapsedSeq / elapsedPar / numThreads) * 100);
+    
+    double sumDiff = std::abs(seqSum - parSum);
+    double relativeError = sumDiff / std::abs(seqSum);
+    std::println("Sum difference: {:.2e} (relative error: {:.2e})", sumDiff, relativeError);
+    
+    // Verify results are reasonably close
+    if (relativeError < 1e-10)
+        std::println("OK - Results match within acceptable tolerance");
+    else
+        std::println("Warning: Large difference between sequential and parallel sums");
 
     return 0;
 }

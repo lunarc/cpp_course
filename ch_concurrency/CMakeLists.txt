@@ -11,6 +11,12 @@ add_executable(threads6 threads6.cpp)
 add_executable(async1 async1.cpp)
 add_executable(async2 async2.cpp)
 add_executable(halo_eigen1 halo_eigen1.cpp)
+add_executable(producer_consumer safe_queue.h producer_consumer.cpp)
+add_executable(par_algo1 par_algo1.cpp)
+add_executable(par_algo2 par_algo2.cpp)
+add_executable(par_algo3 par_algo3.cpp)
+add_executable(par_for_each1 par_for_each1.cpp)
+add_executable(par_transform1 par_transform1.cpp)
 
 
 set_target_properties(
@@ -24,6 +30,12 @@ set_target_properties(
     threads6
     async1
     async2
+    producer_consumer
+    par_algo1
+    par_algo2
+    par_algo3
+    par_for_each1
+    par_transform1
     halo_eigen1
     PROPERTIES
     FOLDER "ch_concurrency"

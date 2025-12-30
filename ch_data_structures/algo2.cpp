@@ -1,11 +1,10 @@
 #include <algorithm>
-#include <iostream>
-#include <string>
+#include <print>
 #include <vector>
 
 void myfunc(int i)
 {
-    std::cout << i << "\n";
+    std::print("{}\n", i);
 }
 
 bool greaterThan5(int i)
@@ -21,15 +20,15 @@ int main()
 
     auto it = std::find_if(vec.begin(), vec.end(), greaterThan5);
 
-    std::cout << "found " << *it << "\n";
+    std::print("found {}\n", *it);
 
     std::sort(vec.begin(), vec.end());
 
     std::for_each(vec.begin(), vec.end(), myfunc);
 
-    std::cout << "max value = " << *std::max_element(vec.begin(), vec.end()) << "\n";
+    std::print("max value = {}\n", *std::max_element(vec.begin(), vec.end()));
 
-    std::cout << "min value = " << *std::min_element(vec.begin(), vec.end()) << "\n";
+    std::print("min value = {}\n", *std::min_element(vec.begin(), vec.end()));
 
     std::fill(vec.begin(), vec.end(), 0);
 

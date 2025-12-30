@@ -1,6 +1,5 @@
 #include <algorithm>
-#include <iostream>
-#include <string>
+#include <print>
 #include <vector>
 
 int main()
@@ -10,24 +9,21 @@ int main()
     auto it = std::find(vec.begin(), vec.end(), 4);
 
     if (it != vec.end())
-        std::cout << "found " << *it << "\n";
+        std::print("found {}\n", *it);
     else
-        std::cout << "Value not found."
-                  << "\n";
+        std::print("Value not found.\n");
 
     it = find(++it, vec.end(), 4);
 
     if (it != vec.end())
-        std::cout << "found " << *it << "\n";
+        std::print("found {}\n", *it);
     else
-        std::cout << "Value not found."
-                  << "\n";
+        std::print("Value not found.\n");
 
     it = std::find(++it, vec.end(), 4);
 
     if (it != vec.end())
-        std::cout << "found " << *it << "\n";
+        std::print("found {}\n", *it);
     else
-        std::cout << "Value not found."
-                  << "\n";
+        std::print("Value not found.\n");
 }
