@@ -408,6 +408,7 @@ This example clearly shows that is very important to synchronising access to res
     .. tab:: Example
 
         .. literalinclude:: ../../ch_concurrency/threads3.cpp
+            :language: cpp
 
     .. tab:: Output
 
@@ -577,6 +578,7 @@ The complete example is available here:
     .. tab:: Code
 
         .. literalinclude:: ../../ch_concurrency/threads4.cpp
+            :language: cpp           
 
     .. tab:: Output
 
@@ -723,6 +725,7 @@ The complete code is available below:
     .. tab:: Code
 
         .. literalinclude:: ../../ch_concurrency/threads5.cpp
+            :language: cpp
 
     .. tab:: Output
 
@@ -950,6 +953,7 @@ The complete code is available below:
     .. tab:: Code
 
         .. literalinclude:: ../../ch_concurrency/threads6.cpp
+            :language: cpp
 
     .. tab:: Output
 
@@ -1133,6 +1137,8 @@ This example is compute bound and the tasks are quite self contained only return
     .. tab:: Code
 
         .. literalinclude:: ../../ch_concurrency/async2.cpp
+            :language: cpp
+
 
     .. tab:: Output
 
@@ -1418,6 +1424,8 @@ The complete code is available below:
     .. tab:: Code
 
         .. literalinclude:: ../../ch_concurrency/producer_consumer.cpp
+            :language: cpp
+
 
     .. tab:: Output
 
@@ -1468,6 +1476,435 @@ The complete code is available below:
     :outline:
     
     Try example
+
+Parallelism and the standard library
+------------------------------------
+
+Since C++17 the standard library have been extended to support parallel execution of some of the built-in algorithms. The functionality is accessed through the ``<execution>`` include. To use the functionality you can tell the algorithm to use a specific execution policy. Currently available execution options are:
+
+* Sequenced - ``std::execution::seq`` - Executes just like normal standard library algorithms. Single threaded and strictly ordered. Baseline for correctnes and debugging.
+* Parallel - ``std::execution::par`` - Allows execution over multiple threads. Ordering is unspecified. Iterations may run concurrently but every element only processed once. You are reponsible for thread safety. You need to provide synchronisation to shared state.
+* Parallel and unsequenced - ``std::execution::par_unseq`` - Enables both multi-threading and SIMD operations. Execution order is completely unspecified and may overlap even within a single thread. Strongest performance potential, but requires you to give strict safety guarantees. No data dependencies between iterations, no locks, atomics or blocking synchronisation and no assumption about ordering.
+
+A quick rule of thumb:
+
+* Use ``seq`` for correctness and debugging.
+* Use ``par`` for when iterations are indepenendent, but not vectorisation safe.
+* Use ``par_unseq`` for pure side-effect free numerical kernels. 
+
+In the following section we will illustrate how this concepts can be used with some of the common algorithms in the standard library.
+
+Parallel for each
+^^^^^^^^^^^^^^^^^
+
+In this example we are going to check all numbers in a vector if they are a prime number or not. By doing this we will also have an operation that is compute-bound so that the parallelisation will be efficient. We start by implemeting a function for determining if an integer is a prime number or not. Perhaps not the most efficient implementation, but is works for this example.
+
+.. code:: cpp
+
+    #include <vector>
+    #include <print>
+    #include <algorithm>
+    #include <execution>
+    #include <chrono>
+
+    bool is_prime(int num) 
+    {
+        if (num < 2)
+            return false;
+
+        for (int i = 2; i * i <= num; ++i)
+        {
+            if (num % i == 0)
+                return false;
+        }
+        return true;
+    };
+
+We will use this function in our ```for_each`` loop later. Next we initialise 2 vectors, one for a sequential version and one for the parallel version. We initialise the vectors with values from 0..N-1.
+
+.. code:: cpp
+
+    int main()
+    {
+        const int N = 10000000;
+
+        std::vector<int> seqVec(N);
+        std::vector<int> parVec(N);
+
+        std::generate(seqVec.begin(), seqVec.end(), [n = 0]() mutable { return n++; });
+        std::generate(parVec.begin(), parVec.end(), [n = 0]() mutable { return n++; });
+
+We are now ready to perform our first try of the parallel features of the standard library. As the algoritm doesn't have any dependencies on previous computations we can use the policy ``std::execution::par_unseq``. The call to the ```std::for_each()`` function then becomes (with time keeping):
+
+.. code:: cpp
+
+	auto startPar = std::chrono::high_resolution_clock::now();
+    std::for_each(std::execution::par_unseq, parVec.begin(), parVec.end(), [](int &n) {
+        n = is_prime(n) ? n : 0;
+    });
+    auto endPar = std::chrono::high_resolution_clock::now();
+
+	std::chrono::duration< double > durationPar = endPar - startPar;
+
+The loop will write a 0 if ``n`` is a prime number and ``n`` if it is a prime number. In the end we will have an array with zeros and prime numbers only. 
+
+For comparison we can execute the same function with the ``std::execution::seq`` instead to validate that we get the same results.
+
+.. code:: cpp
+
+	auto startSeq = std::chrono::high_resolution_clock::now();
+    std::for_each(std::execution::seq, seqVec.begin(), seqVec.end(), [](int &n) {
+        n = is_prime(n) ? n : 0; 
+    });
+    auto endSeq = std::chrono::high_resolution_clock::now();
+
+    std::chrono::duration< double > durationSeq = endSeq - startSeq;
+
+We print out a comparison and the first 10 elements of each array.
+
+.. code:: cpp
+
+	std::print("Time taken sequentially : {} seconds\n", durationSeq.count());
+    std::print("Time taken in parallel  : {} seconds\n", durationPar.count());
+
+    std::print("Speedup: {}x\n", durationSeq.count() / durationPar.count());
+    std::print("Data size in megabytes: {} MB\n", (N * sizeof(int)) / (1024.0 * 1024.0));
+
+	std::print("First 10 elements after parallel for_each: ");
+
+    for (auto n : parVec | std::views::take(10))
+    {
+        std::print("{} ", n);
+    }
+    std::print("\n");
+
+	std::print("First 10 elements after sequential for_each: ");
+    for (auto n : seqVec | std::views::take(10))
+    {
+        std::print("{} ", n);
+    }
+    std::print("\n");
+
+.. note:: 
+    
+    The print loops use another nice features in the ``<ranges>`` include of the standard library, ``std::view::take()`` that returns a view of up to a certain number of elements from a sequence. 
+
+The output from the run gives us the following output:
+
+.. code::
+
+    Time taken sequentially : 2.4123562 seconds
+    Time taken in parallel  : 0.4349576 seconds
+    Speedup: 5.546187030643907x
+    Data size in megabytes: 38.14697265625 MB
+    First 10 elements after parallel for_each: 0 0 2 3 0 5 0 7 0 0
+    First 10 elements after sequential for_each: 0 0 2 3 0 5 0 7 0 0    
+
+This example was run on a 6 core AMD processor. A 5.5x speedup is a good result considering that you only change a single parameter in the call to the standard library function. Important to note though is that the tasks performed needs to be compute-bound otherwise the scaling will be bad. 
+
+The complete code is available below:
+
+.. tabs::
+
+    .. tab:: Code
+
+        .. literalinclude:: ../../ch_concurrency/par_for_each1.cpp
+            :language: cpp
+
+    .. tab:: Output
+
+        .. code:: 
+
+            Time taken sequentially : 2.4123562 seconds
+            Time taken in parallel  : 0.4349576 seconds
+            Speedup: 5.546187030643907x
+            Data size in megabytes: 38.14697265625 MB
+            First 10 elements after parallel for_each: 0 0 2 3 0 5 0 7 0 0
+            First 10 elements after sequential for_each: 0 0 2 3 0 5 0 7 0 0    
+
+.. button-link:: https://godbolt.org/z/nrKzs4c1e
+    :color: primary
+    :outline:
+    
+    Try example (only single thread...)
+
+Parallel sorting
+^^^^^^^^^^^^^^^^
+
+Another operation than can benefit from parallel execution is sorting. In this example we are going to sort a long random vectors of integers. First we need to generate 2 long random vectors. For this we are going to use the modern random number generation functions in the ``random`` include header. First we define a random number generator in this case we use the mersenne twister generator, ``std::mt19937``. To get our distribution we use the ``std::uniform_int_distribution<>``. We use the ``std::generate()`` function to assign random numbers to our vector. To be able to compare the parallel sorting algorithm with the sequential version we copy the random numbers from the ``parData`` to ``seqData``.
+
+.. code:: cpp
+
+    #include <vector>
+    #include <algorithm>
+    #include <execution>
+    #include <chrono>
+    #include <print>
+    #include <random>    
+
+    int main() 
+    {    
+        const int N = 100000000;    
+        std::vector< int > parData(100000000);
+        std::vector< int > seqData(100000000);
+
+        // Initialize the vector with some values
+
+        std::print("Initializing data...\n");
+
+        std::mt19937 gen(42); // Fixed seed for reproducibility
+        std::uniform_int_distribution<> dis(1, 10000000);
+        std::generate(parData.begin(), parData.end(), [&]() { return dis(gen); });
+        std::copy(parData.begin(), parData.end(), seqData.begin());
+
+Now we use the standard library function ``std::sort()`` with the execution policy ``std::execution::par``. We time it and calcualte the run duration.
+
+.. code:: cpp
+
+    auto startPar = std::chrono::high_resolution_clock::now();
+    std::sort(std::execution::par, parData.begin(), parData.end());
+	auto endPar = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> durationPar = endPar - startPar;    
+
+For the sequential comparison we just change the execution policy to ``std::execution::seq``.
+
+.. code:: cpp
+
+    auto startSeq = std::chrono::high_resolution_clock::now();
+    std::sort(std::execution::seq, seqData.begin(), seqData.end());
+    auto endSeq = std::chrono::high_resolution_clock::now();
+    std::chrono::duration< double > durationSeq = endSeq - startSeq;
+
+To validate that the sorting was performed correctly we can use the standard library function ``std::is_sorted()``. This function can also be provided an execution policy, so we do that.
+
+.. code:: cpp
+
+    std::is_sorted(std::execution::par, parData.begin(), parData.end()) ? 
+        std::print("Parallel sort successful.\n") : 
+        std::print("Parallel sort failed.\n");
+
+    std::is_sorted(std::execution::par, seqData.begin(), seqData.end()) ?
+        std::print("Sequential sort successful.\n") : 
+        std::print("Sequential sort failed.\n");    
+
+	std::print("Parallel sort time: {} seconds\n", durationPar.count());
+    std::print("Sequential sort time: {} seconds\n", durationSeq.count());
+    std::print("Speedup: {:.2f}x\n", durationSeq.count() / durationPar.count());    
+
+Running the code also shows a good speedup compared to the sequential version.
+
+.. code:: 
+
+    Initializing data...
+    Starting sort operations...
+    Verifying sorted data...
+    Parallel sort successful.
+    Sequential sort successful.
+    Parallel sort time: 1.3105185 seconds
+    Sequential sort time: 7.7848976 seconds
+    Speedup: 5.94x        
+
+.. tabs::
+
+    .. tab:: Code
+
+        .. literalinclude:: ../../ch_concurrency/par_algo3.cpp
+            :language: cpp
+
+
+    .. tab:: Output
+
+        .. code:: 
+
+            Initializing data...
+            Starting sort operations...
+            Verifying sorted data...
+            Parallel sort successful.
+            Sequential sort successful.
+            Parallel sort time: 1.3105185 seconds
+            Sequential sort time: 7.7848976 seconds
+            Speedup: 5.94x       
+
+.. button-link:: https://godbolt.org/z/o3Y4WqceP
+    :color: primary
+    :outline:
+    
+    Try example (only single thread...)
+
+Parallel transform
+^^^^^^^^^^^^^^^^^^
+
+In the final example we are going to look at is how to use the ``std::transform()`` function from the standard library. This function applies a tranform on an input vector and transforms it either to itself or to a result array. For the parallel algorithm to be effective it needs to be compute bound otherwise the sequential version is probarbly more efficient. 
+
+In the example we will be applying some heavy floating point operations to each element of the array and write back the result to the same element. We first initalise our data structure:
+
+.. code:: cpp
+
+    int main() 
+    {
+        std::vector<double> dataSeq(size);
+        std::vector<double> dataPar(size);
+
+        // Initialize with simple values first
+        std::iota(dataSeq.begin(), dataSeq.end(), 0.0);
+        std::iota(dataPar.begin(), dataPar.end(), 0.0);
+
+Next we define our computational function as a lambda function.
+
+.. code:: cpp
+
+    // Computationally intensive transformation
+    auto heavyTransform = [](double x) {
+        double result = x;
+        for (int i = 0; i < 100; ++i) {
+            result = std::sin(result) * std::cos(result);
+        }
+        return result;
+    };
+
+Now we execute the ``std::transform()`` function with a parallel execution policy.
+
+.. code:: cpp
+
+    auto startPar = std::chrono::high_resolution_clock::now();
+    std::transform(std::execution::par, dataPar.begin(), dataPar.end(), 
+                    dataPar.begin(), heavyTransform);
+    auto endPar = std::chrono::high_resolution_clock::now();    
+
+The fourth parameter of the call could be replaced by a result vector as well. We then repeat for the sequential version as well.
+
+.. code:: cpp
+
+    auto startSeq = std::chrono::high_resolution_clock::now();
+    std::transform(std::execution::seq, dataSeq.begin(), dataSeq.end(), 
+                    dataSeq.begin(), heavyTransform);
+    auto endSeq = std::chrono::high_resolution_clock::now();    
+
+We then calcuate the execution times and compare the vectors using the ``std::equal()`` function of the standard library.
+
+.. code:: cpp
+
+    auto durationSeq = std::chrono::duration<double>(endSeq - startSeq).count();
+    auto durationPar = std::chrono::duration<double>(endPar - startPar).count();
+
+    std::println("========================================");
+    std::println("Data size: {}", size);
+    std::println("Data size in MB: {:.2f}", size * sizeof(double) / (1024.0 * 1024.0));
+    std::println("Sequential time: {:.4f} s", durationSeq);
+    std::println("Parallel time: {:.4f} s", durationPar);
+    
+    if (durationPar > 0) {
+        std::println("Speedup: {:.2f}x", durationSeq / durationPar);
+        std::println("Efficiency: {:.1f}%", (durationSeq / durationPar / std::thread::hardware_concurrency()) * 100);
+    }
+    
+    // Verify results match
+    bool resultsMatch = std::equal(dataSeq.begin(), dataSeq.end(), dataPar.begin(),
+        [](double a, double b) { return std::abs(a - b) < 1e-10; });
+    std::println("Results match: {}", resultsMatch ? "Yes" : "No");
+
+In the full example in the source code tree we also iterate over different problem sizes to see how the speedup depends on the problem size. Running the example we get:
+
+.. code::
+
+    ========================================
+    Data size: 10000
+    Data size in MB: 0.08
+    Sequential time: 0.0084 s
+    Parallel time: 0.0016 s
+    Speedup: 5.42x
+    Efficiency: 45.2%
+    Results match: Yes
+    ========================================
+    Data size: 100000
+    Data size in MB: 0.76
+    Sequential time: 0.0844 s
+    Parallel time: 0.0097 s
+    Speedup: 8.66x
+    Efficiency: 72.2%
+    Results match: Yes
+    ========================================
+    Data size: 1000000
+    Data size in MB: 7.63
+    Sequential time: 0.8038 s
+    Parallel time: 0.0810 s
+    Speedup: 9.93x
+    Efficiency: 82.7%
+    Results match: Yes
+    ========================================
+    Data size: 10000000
+    Data size in MB: 76.29
+    Sequential time: 8.0549 s
+    Parallel time: 0.7785 s
+    Speedup: 10.35x
+    Efficiency: 86.2%
+    Results match: Yes
+    ========================================
+    Data size: 100000000
+    Data size in MB: 762.94
+    Sequential time: 85.5011 s
+    Parallel time: 8.5313 s
+    Speedup: 10.02x
+    Efficiency: 83.5%
+    Results match: Yes    
+
+We can clearly see that having larger problem sizes and heavier computational loads benefits parallelisation. This is due to the large overhead of starting up threads. 
+
+The complete example can be found here:
+
+.. tabs::
+
+    .. tab:: Code
+
+        .. literalinclude:: ../../ch_concurrency/par_algo1.cpp
+            :language: cpp
+
+
+    .. tab:: Output
+
+        .. code:: 
+
+            ========================================
+            Data size: 10000
+            Data size in MB: 0.08
+            Sequential time: 0.0084 s
+            Parallel time: 0.0016 s
+            Speedup: 5.42x
+            Efficiency: 45.2%
+            Results match: Yes
+            ========================================
+            Data size: 100000
+            Data size in MB: 0.76
+            Sequential time: 0.0844 s
+            Parallel time: 0.0097 s
+            Speedup: 8.66x
+            Efficiency: 72.2%
+            Results match: Yes
+            ========================================
+            Data size: 1000000
+            Data size in MB: 7.63
+            Sequential time: 0.8038 s
+            Parallel time: 0.0810 s
+            Speedup: 9.93x
+            Efficiency: 82.7%
+            Results match: Yes
+            ========================================
+            Data size: 10000000
+            Data size in MB: 76.29
+            Sequential time: 8.0549 s
+            Parallel time: 0.7785 s
+            Speedup: 10.35x
+            Efficiency: 86.2%
+            Results match: Yes
+            ========================================
+            Data size: 100000000
+            Data size in MB: 762.94
+            Sequential time: 85.5011 s
+            Parallel time: 8.5313 s
+            Speedup: 10.02x
+            Efficiency: 83.5%
+            Results match: Yes    
+
 
 
 Real-World Example: Parallel Stencil Computation
