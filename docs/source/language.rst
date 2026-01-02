@@ -673,278 +673,6 @@ available in the standard such as **char16_t**, **char32_t** and
 We will not go too deep into C strings as C++ has a built-in string
 type, **std::string**, which is much easier and safer to use.
 
-Pointers
-~~~~~~~~
-
-Pointers are variables that store memory references to locations in
-memory. Pointer in C++ can be both typed and untyped. A pointer variable
-is declared with a star operator (\*). The syntax for a pointer
-declaration is:
-
-   [datatype]\* name;
-
-The following code shows a typical pointer declaration:
-
-.. code:: cpp
-
-   int* a;
-
-**a** is pointer to a memory location containing an integer.
-
-To get a pointer to a non-pointer variable the **&** operator can be
-used. In the following example we assigne the memory location of **b**
-to the pointer variable **a**.
-
-.. code:: cpp
-
-   int* a;
-   int b;
-
-   a = &b; // a now points to the memory location of b
-
-If we want to get the value of the memory location the pointer variable
-references we can use the star (\*) operator dereference the pointer.
-
-.. code:: cpp
-
-   int* a;
-   int b = 42;
-
-   a = &b;
-
-   cout << *a << "\n"; // Dereferencing pointer a,
-                       // Displaying the value a points to
-
-In this example the value of **a** is printed, which actually is value
-of b.
-
-In C++ we can also declare an untyped pointer using the void datatype.
-This pointer can be assigned any typed pointer. However assigning a
-non-typed pointer to a typed pointer requires a type cast.
-
-.. code:: cpp
-
-   int* a;
-   int b = 42;
-   void* c;
-
-   a = &b;
-   c = a;  // OK assigning a typed pointer to a non-typed.
-
-   a = static_cast<int*>(c); // Assigning a non-typed pointer to 
-                             // an typed pointer requires a cast.
-
-.. tabs::
-
-   .. tab:: Code
-
-         .. literalinclude:: ../../ch_variables/pointers1.cpp
-
-   .. tab:: Output
-
-      .. code-block:: text
-
-         a = 42
-         b = 0x291bfffb4c
-         &a = 0x291bfffb4c
-         *b = 42
-         c = 0x291bfffb4c
-
-The following figures illustrate how pointers are assigned in the
-previous code example:
-
-.. image:: images/pointers1.svg
-   :width: 40%
-   :align: center
-
-Assigning pointer b with the & operator
-
-.. image:: images/pointers1-2.svg
-   :width: 40%
-   :align: center
-
-
-\*b is the value stored at memory location b
-
-
-Array pointer duality
-~~~~~~~~~~~~~~~~~~~~~
-
-Arrays and pointers are very closely related in C++. Pointer types can
-be accessed using array notation and arrays can be accessed with
-pointers. This enables both flexibility as well as increasing the risk
-for errors. The concept is best illustrated with an example.
-
-First we declare an array **a** with some values.
-
-.. code:: cpp
-
-   int a[] = {0, 1, 2, 3};
-
-Next we declare a pointer variable **b**.
-
-.. code:: cpp
-
-   int* b;
-
-An array variable can be directly assigned to a pointer variable of the
-same datatype like this:
-
-.. code:: cpp
-
-   b = a;
-
-The pointer variable **b** now points to the first element of the **a**
-array. If we print out these variables we get:
-
-.. code:: cpp
-
-   cout << "a = " << a << "\n";
-   cout << "b = " << b << "\n";
-
-::
-
-   a = 0x7fff5fbff6a0
-   b = 0x7fff5fbff6a0
-
-Both the array **a** and the pointer variable **b** point to the same
-address. Also, **a** when printing does not print the array but the
-memory address. This is the C++ array/pointer duality.
-
-Both **a** and **b** can accessed using array notation. Printing
-**a[0]** and **b[0]** should give the same values.
-
-.. code:: cpp
-
-   cout << "a[0] = " << a[0] << "\n";
-   cout << "b[0] = " << b[0] << "\n";
-
-::
-
-   a[0] = 0
-   b[0] = 0
-
-So array and pointer declarations are equivalent except that an is
-allocated a memory location for the provided values.
-
-It is also possible to get a pointer to a specific element of an array
-using a combination of the **&** operator and array notation.
-
-.. code:: cpp
-
-   int* c;
-
-   c = &a[2];
-
-**c** now stores a pointer to the third value of the **a** array. We can
-also use some pointer arithmetic to do the same thing by using the **+**
-operator on a pointer variable.
-
-.. code:: cpp
-
-   int* d;
-
-   d = b + 2;
-
-**d** now points to a location 2 integers from the memory location of
-**b**. **c** and **b** points to the same locations.
-
-.. code:: cpp
-
-   c = &a[2];
-
-   cout << "c = " << c << "\n";
-   cout << "*c = " << *c << "\n";
-
-   d = b + 2;
-
-   cout << "d = " << d << "\n";
-   cout << "*d = " << *d << "\n";
-
-::
-
-   c = 0x156bdff8a8
-   *c = 2
-   d = 0x156bdff8a8
-   *d = 2
-
-Pointer variables can be modified using the **++**, **–**, **+** and
-**-** operators. Increments are done in multiples of the size of the
-actual datatype.
-
-.. note::
-   It is important to make sure that the location a pointer variable references is a valid memory location. Dereferencing a memory location that has not been allocated memory often leads to crashes and undefined behavior.
-
-Below is the complete example in this section.
-
-.. tabs::
-
-   .. tab:: Code
-
-      .. literalinclude:: ../../ch_variables/pointers2.cpp
-
-   .. tab:: Output
-
-      .. code-block:: text
-
-         a = 0x7fff5fbff6a0
-         b = 0x7fff5fbff6a0
-         a[0] = 0
-         b[0] = 0
-         *b = 0
-         *a = 0
-         c = 0x7fff5fbff6a8
-         *c = 2
-
-
-Pointer operations in the previous example is illustrated in the following figure.
-
-.. image:: images/pointers1-3.svg
-   :width: 40%
-   :align: center
-   
-
-
-References
-~~~~~~~~~~
-
-References are alternative names for variables of the same data type. It
-is mainly used for return parameters in functions, but can also be used
-as variables. A reference variable defined by using the **&** operator
-after the datatype declaration. The syntax is:
-
-   [data type]& name
-
-A reference variable must be initialised and can’t be declared without
-an initialisation. The following code shows an example of how a
-reference variable can be declared.
-
-.. code:: cpp
-
-   int a = 42;
-   int& b = a;
-
-In this code **b** is a reference to **a** and can be used just like the
-**a** variable.
-
-We will look more on this when declaring functions.
-
-A complete example on how references are used is shown below:
-
-.. tabs::
-
-   .. tab:: Code
-
-      .. literalinclude:: ../../ch_variables/reference_type.cpp
-
-   .. tab:: Output
-
-      .. code-block:: text
-
-         a = 42
-         b = 42
-         &a = 0x7fff5fbff6bc
-         &b = 0x7fff5fbff6bc
 
 Constants
 ~~~~~~~~~
@@ -1199,100 +927,6 @@ maintainability by giving meaningful names to types:
    
    // Modern using (recommended)
    using Vector = std::vector<double>;  // New style, clearer
-
-Structured Bindings (C++17)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Structured bindings allow unpacking multiple return values elegantly,
-useful for functions returning multiple results (common in scientific computing):
-
-.. code:: cpp
-
-   #include <algorithm>
-   #include <vector>
-   
-   std::vector<double> data{3.1, 1.4, 5.9, 2.6};
-   
-   // Get min and max in one call
-   auto [minIt, maxIt] = std::minmax_element(data.begin(), data.end());
-   std::cout << "Min: " << *minIt << ", Max: " << *maxIt << '\n';
-
-**Returning multiple values from functions**:
-
-.. code:: cpp
-
-   #include <tuple>
-   
-   // Function returns multiple values
-   std::tuple<double, double, double> computeStats(const std::vector<double>& data) {
-       auto [minIt, maxIt] = std::minmax_element(data.begin(), data.end());
-       double mean = std::accumulate(data.begin(), data.end(), 0.0) / data.size();
-       return {*minIt, *maxIt, mean};
-   }
-   
-   // Unpack results
-   auto [min, max, mean] = computeStats(data);
-   std::cout << "Min: " << min << ", Max: " << max << ", Mean: " << mean << '\n';
-
-.. note::
-   **For Python developers**: Similar to tuple unpacking:
-   ``min_val, max_val, mean = compute_stats(data)``
-   
-   **For Fortran developers**: Like multiple return values through INTENT(OUT)
-   parameters but more concise.
-
-Handling Missing Data (std::optional)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-**std::optional** (C++17) provides a type-safe way to represent values that
-may or may not exist - useful for error handling in numerical computations:
-
-.. code:: cpp
-
-   #include <optional>
-   #include <cmath>
-   
-   // Function that might not return a valid result
-   std::optional<double> safeSqrt(double x) {
-       if (x < 0.0) {
-           return std::nullopt;  // No valid result
-       }
-       return std::sqrt(x);
-   }
-   
-   // Use the result
-   auto result = safeSqrt(-4.0);
-   if (result.has_value()) {
-       std::cout << "Result: " << result.value() << '\n';
-   } else {
-       std::cout << "No valid result (negative input)\n";
-   }
-   
-   // Or use value_or for default
-   double value = safeSqrt(-4.0).value_or(0.0);  // Returns 0.0 if no value
-
-**Division by zero handling**:
-
-.. code:: cpp
-
-   std::optional<double> safeDivide(double numerator, double denominator) {
-       if (std::abs(denominator) < 1e-10) {  // Too close to zero
-           return std::nullopt;
-       }
-       return numerator / denominator;
-   }
-   
-   auto result = safeDivide(10.0, 0.0);
-   if (result) {  // Implicit conversion to bool
-       std::cout << "Result: " << *result << '\n';  // Dereference like pointer
-   }
-
-.. note::
-   **For Python developers**: Similar to returning ``None`` for invalid results,
-   but type-safe at compile time.
-   
-   **For Fortran developers**: Like using special values (NaN) or status flags,
-   but safer and more explicit.
 
 Strings
 -------
@@ -2684,13 +2318,458 @@ modifier.
 .. note::
    Consider declaring as many input arguments as possible using the **const** modifier. This prevents accidental modification of arguments as well as give important hints to the compiler so it can generate more efficient code.
 
-Memory allocation
+Structured Bindings (C++17)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Structured bindings allow unpacking multiple return values elegantly,
+useful for functions returning multiple results (common in scientific computing):
+
+.. code:: cpp
+
+   #include <algorithm>
+   #include <vector>
+   
+   std::vector<double> data{3.1, 1.4, 5.9, 2.6};
+   
+   // Get min and max in one call
+   auto [minIt, maxIt] = std::minmax_element(data.begin(), data.end());
+   std::cout << "Min: " << *minIt << ", Max: " << *maxIt << '\n';
+
+**Returning multiple values from functions**:
+
+.. code:: cpp
+
+   #include <tuple>
+   
+   // Function returns multiple values
+   std::tuple<double, double, double> computeStats(const std::vector<double>& data) {
+       auto [minIt, maxIt] = std::minmax_element(data.begin(), data.end());
+       double mean = std::accumulate(data.begin(), data.end(), 0.0) / data.size();
+       return {*minIt, *maxIt, mean};
+   }
+   
+   // Unpack results
+   auto [min, max, mean] = computeStats(data);
+   std::cout << "Min: " << min << ", Max: " << max << ", Mean: " << mean << '\n';
+
+.. note::
+   **For Python developers**: Similar to tuple unpacking:
+   ``min_val, max_val, mean = compute_stats(data)``
+   
+   **For Fortran developers**: Like multiple return values through INTENT(OUT)
+   parameters but more concise.
+
+Handling Missing Data (std::optional)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**std::optional** (C++17) provides a type-safe way to represent values that
+may or may not exist - useful for error handling in numerical computations:
+
+.. code:: cpp
+
+   #include <optional>
+   #include <cmath>
+   
+   // Function that might not return a valid result
+   std::optional<double> safeSqrt(double x) {
+       if (x < 0.0) {
+           return std::nullopt;  // No valid result
+       }
+       return std::sqrt(x);
+   }
+   
+   // Use the result
+   auto result = safeSqrt(-4.0);
+   if (result.has_value()) {
+       std::cout << "Result: " << result.value() << '\n';
+   } else {
+       std::cout << "No valid result (negative input)\n";
+   }
+   
+   // Or use value_or for default
+   double value = safeSqrt(-4.0).value_or(0.0);  // Returns 0.0 if no value
+
+**Division by zero handling**:
+
+.. code:: cpp
+
+   std::optional<double> safeDivide(double numerator, double denominator) {
+       if (std::abs(denominator) < 1e-10) {  // Too close to zero
+           return std::nullopt;
+       }
+       return numerator / denominator;
+   }
+   
+   auto result = safeDivide(10.0, 0.0);
+   if (result) {  // Implicit conversion to bool
+       std::cout << "Result: " << *result << '\n';  // Dereference like pointer
+   }
+
+.. note::
+   **For Python developers**: Similar to returning ``None`` for invalid results,
+   but type-safe at compile time.
+   
+   **For Fortran developers**: Like using special values (NaN) or status flags,
+   but safer and more explicit.
+
+Pointers and references
+-----------------------
+
+Pointers are variables that store memory references to locations in
+memory. Pointer in C++ can be both typed and untyped. A pointer variable
+is declared with a star operator (\*). The syntax for a pointer
+declaration is:
+
+   [datatype]\* name;
+
+The following code shows a typical pointer declaration:
+
+.. code:: cpp
+
+   int* a;
+
+**a** is pointer to a memory location containing an integer.
+
+To get a pointer to a non-pointer variable the **&** operator can be
+used. In the following example we assigne the memory location of **b**
+to the pointer variable **a**.
+
+.. code:: cpp
+
+   int* a;
+   int b;
+
+   a = &b; // a now points to the memory location of b
+
+If we want to get the value of the memory location the pointer variable
+references we can use the star (\*) operator dereference the pointer.
+
+.. code:: cpp
+
+   int* a;
+   int b = 42;
+
+   a = &b;
+
+   cout << *a << "\n"; // Dereferencing pointer a,
+                       // Displaying the value a points to
+
+In this example the value of **a** is printed, which actually is value
+of b.
+
+In C++ we can also declare an untyped pointer using the void datatype.
+This pointer can be assigned any typed pointer. However assigning a
+non-typed pointer to a typed pointer requires a type cast.
+
+.. code:: cpp
+
+   int* a;
+   int b = 42;
+   void* c;
+
+   a = &b;
+   c = a;  // OK assigning a typed pointer to a non-typed.
+
+   a = static_cast<int*>(c); // Assigning a non-typed pointer to 
+                             // an typed pointer requires a cast.
+
+.. tabs::
+
+   .. tab:: Code
+
+         .. literalinclude:: ../../ch_variables/pointers1.cpp
+
+   .. tab:: Output
+
+      .. code-block:: text
+
+         a = 42
+         b = 0x291bfffb4c
+         &a = 0x291bfffb4c
+         *b = 42
+         c = 0x291bfffb4c
+
+The following figures illustrate how pointers are assigned in the
+previous code example:
+
+.. image:: images/pointers1.svg
+   :width: 40%
+   :align: center
+
+Assigning pointer b with the & operator
+
+.. image:: images/pointers1-2.svg
+   :width: 40%
+   :align: center
+
+
+\*b is the value stored at memory location b
+
+
+Array pointer duality
+~~~~~~~~~~~~~~~~~~~~~
+
+Arrays and pointers are very closely related in C++. Pointer types can
+be accessed using array notation and arrays can be accessed with
+pointers. This enables both flexibility as well as increasing the risk
+for errors. The concept is best illustrated with an example.
+
+First we declare an array **a** with some values.
+
+.. code:: cpp
+
+   int a[] = {0, 1, 2, 3};
+
+Next we declare a pointer variable **b**.
+
+.. code:: cpp
+
+   int* b;
+
+An array variable can be directly assigned to a pointer variable of the
+same datatype like this:
+
+.. code:: cpp
+
+   b = a;
+
+The pointer variable **b** now points to the first element of the **a**
+array. If we print out these variables we get:
+
+.. code:: cpp
+
+   cout << "a = " << a << "\n";
+   cout << "b = " << b << "\n";
+
+::
+
+   a = 0x7fff5fbff6a0
+   b = 0x7fff5fbff6a0
+
+Both the array **a** and the pointer variable **b** point to the same
+address. Also, **a** when printing does not print the array but the
+memory address. This is the C++ array/pointer duality.
+
+Both **a** and **b** can accessed using array notation. Printing
+**a[0]** and **b[0]** should give the same values.
+
+.. code:: cpp
+
+   cout << "a[0] = " << a[0] << "\n";
+   cout << "b[0] = " << b[0] << "\n";
+
+::
+
+   a[0] = 0
+   b[0] = 0
+
+So array and pointer declarations are equivalent except that an is
+allocated a memory location for the provided values.
+
+It is also possible to get a pointer to a specific element of an array
+using a combination of the **&** operator and array notation.
+
+.. code:: cpp
+
+   int* c;
+
+   c = &a[2];
+
+**c** now stores a pointer to the third value of the **a** array. We can
+also use some pointer arithmetic to do the same thing by using the **+**
+operator on a pointer variable.
+
+.. code:: cpp
+
+   int* d;
+
+   d = b + 2;
+
+**d** now points to a location 2 integers from the memory location of
+**b**. **c** and **b** points to the same locations.
+
+.. code:: cpp
+
+   c = &a[2];
+
+   cout << "c = " << c << "\n";
+   cout << "*c = " << *c << "\n";
+
+   d = b + 2;
+
+   cout << "d = " << d << "\n";
+   cout << "*d = " << *d << "\n";
+
+::
+
+   c = 0x156bdff8a8
+   *c = 2
+   d = 0x156bdff8a8
+   *d = 2
+
+Pointer variables can be modified using the **++**, **–**, **+** and
+**-** operators. Increments are done in multiples of the size of the
+actual datatype.
+
+.. note::
+   It is important to make sure that the location a pointer variable references is a valid memory location. Dereferencing a memory location that has not been allocated memory often leads to crashes and undefined behavior.
+
+Below is the complete example in this section.
+
+.. tabs::
+
+   .. tab:: Code
+
+      .. literalinclude:: ../../ch_variables/pointers2.cpp
+
+   .. tab:: Output
+
+      .. code-block:: text
+
+         a = 0x7fff5fbff6a0
+         b = 0x7fff5fbff6a0
+         a[0] = 0
+         b[0] = 0
+         *b = 0
+         *a = 0
+         c = 0x7fff5fbff6a8
+         *c = 2
+
+
+Pointer operations in the previous example is illustrated in the following figure.
+
+.. image:: images/pointers1-3.svg
+   :width: 40%
+   :align: center
+   
+
+
+References
+~~~~~~~~~~
+
+References are alternative names for variables of the same data type. It
+is mainly used for return parameters in functions, but can also be used
+as variables. A reference variable defined by using the **&** operator
+after the datatype declaration. The syntax is:
+
+   [data type]& name
+
+A reference variable must be initialised and can’t be declared without
+an initialisation. The following code shows an example of how a
+reference variable can be declared.
+
+.. code:: cpp
+
+   int a = 42;
+   int& b = a;
+
+In this code **b** is a reference to **a** and can be used just like the
+**a** variable.
+
+We will look more on this when declaring functions.
+
+A complete example on how references are used is shown below:
+
+.. tabs::
+
+   .. tab:: Code
+
+      .. literalinclude:: ../../ch_variables/reference_type.cpp
+
+   .. tab:: Output
+
+      .. code-block:: text
+
+         a = 42
+         b = 42
+         &a = 0x7fff5fbff6bc
+         &b = 0x7fff5fbff6bc
+
+
+Memory management
 -----------------
 
-**Modern C++ Memory Management (Recommended)**
+Memory in C++ can be allocated in two ways: **stack-based** (automatic, for local
+variables with fixed size) and **heap-based** (dynamic, for runtime-determined sizes).
+
+This section teaches **modern C++ first** (smart pointers and containers with automatic
+memory management), followed by legacy manual memory management techniques for
+understanding existing code.
+
+.. note::
+   **Quick guidance:**
+   
+   - For dynamic arrays → use ``std::vector``
+   - For single objects with unique ownership → use ``std::unique_ptr``
+   - For shared ownership → use ``std::shared_ptr``
+   - **Avoid manual new/delete** in modern code
+
+Stack and Heap Memory
+~~~~~~~~~~~~~~~~~~~~~
+
+To understand why modern C++ memory management tools are so valuable, it's
+important to understand the two types of memory allocation:
+
+**Stack Memory (Automatic)**
+
+Stack-based memory allocation is automatic and is used for all local
+variables defined in functions and code blocks. When a variable goes out
+of scope (execution leaves the code block), the memory is automatically freed.
+
+.. code:: cpp
+
+   void function() {
+       int x = 42;              // Allocated on stack
+       double arr[100];         // Fixed-size array on stack
+       // Memory automatically freed when function returns
+   }
+
+**Key characteristics:**
+
+- Automatic allocation and deallocation (LIFO - Last In, First Out)
+- Very fast (just moving a stack pointer)
+- Size must be known at compile time
+- Limited in size (typically a few MB)
+- No memory leaks possible
+
+**Heap Memory (Dynamic)**
+
+The heap is managed by the operating system and allows runtime-determined sizes.
+Allocating on the heap requires an OS call and returns a memory address that
+you must manage.
+
+**Key characteristics:**
+
+- Size can be determined at runtime
+- Much larger available space (limited by system memory)
+- Slower than stack allocation (requires OS interaction)
+- Must be explicitly freed (risk of memory leaks with manual management)
+- Allows data to outlive the function that created it
+
+**Why This Matters for Modern C++**
+
+In legacy C++, heap allocation required manual `new`/`delete`, making it error-prone.
+Modern C++ provides **automatic heap memory management** through:
+
+- **std::vector** - dynamic arrays with automatic cleanup
+- **std::unique_ptr** - single-owner heap objects with automatic cleanup  
+- **std::shared_ptr** - shared heap objects with reference counting
+
+These tools give you heap memory's flexibility with stack memory's safety!
+
+.. note::
+   **For Python developers**: Python always uses heap allocation with garbage
+   collection. C++ smart pointers provide similar automatic cleanup but with
+   deterministic timing (immediate when out of scope, not delayed).
+   
+   **For Fortran developers**: Like ALLOCATABLE arrays, but cleanup is automatic
+   - no need for DEALLOCATE statements.
+
+Smart Pointers for Heap Allocation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Modern C++ (C++11 and later) provides **smart pointers** that automatically
-manage memory, preventing memory leaks and dangling pointers. This is the
+manage heap memory, preventing memory leaks and dangling pointers. This is the
 recommended approach for dynamic memory in scientific and engineering applications.
 
 **std::unique_ptr - Unique Ownership**
@@ -2701,15 +2780,11 @@ Use **std::unique_ptr** when an object has a single owner:
 
    #include <memory>
    #include <vector>
-   
-   // Single value
-   std::unique_ptr<double> value = std::make_unique<double>(3.14);
-   *value = 2.718;  // Modify value
-   // Memory automatically freed when value goes out of scope
-   
+     
    // Dynamic array
    std::unique_ptr<double[]> array = std::make_unique<double[]>(1000);
    array[0] = 1.0;
+
    // Memory automatically freed
 
 .. note::
@@ -2727,10 +2802,10 @@ Use **std::shared_ptr** when multiple parts of code need to access the same data
 
    #include <memory>
    
-   std::shared_ptr<std::vector<double>> data = 
-       std::make_shared<std::vector<double>>(10000);
+   std::shared_ptr<<double[]> data = std::make_shared<double[]>(1000)
    
    auto alias = data;  // Both point to same data
+
    // Memory freed when last shared_ptr is destroyed
 
 **std::vector - Best Choice for Dynamic Arrays**
@@ -2741,6 +2816,7 @@ For most cases, **std::vector** is superior to manual allocation:
 
    std::vector<double> data(1000000);     // 1M elements
    data.resize(2000000);                   // Grow as needed
+
    // Automatic memory management, bounds checking, size tracking
 
 .. warning::
@@ -2751,193 +2827,12 @@ For most cases, **std::vector** is superior to manual allocation:
    - ``std::shared_ptr`` for shared ownership
    - ``std::make_unique`` and ``std::make_shared`` for safe allocation
 
-**Legacy Memory Allocation (For Reference Only)**
-
-The following sections on **new** and **delete** are included for understanding
-legacy code. Modern C++ code should use smart pointers and containers instead.
-
-In C++, memory allocation can be broadly classified into two types:
-stack-based memory allocation and heap-based memory allocation.
-
-Stack-based memory allocation is automatic and is utilized for all local
-variables defined in the main program, functions, and code blocks. When
-a stack-based variable goes out of scope, meaning the execution leaves
-the corresponding code block, the memory occupied by that variable is
-automatically freed. The name “stack” comes from the way memory is
-managed for these variables - they are pushed onto the stack when
-defined in the code block and popped off the stack when the code block
-execution is completed.
-
-.. note::
-   Please note that in stack-based memory allocation, the size of the memory allocated to a variable is fixed and determined at compile time. This means that the memory for variables is allocated and deallocated in a last-in, first-out (LIFO) manner, following the order of variable declaration and scope.
-
-The other kind of memory allocation is heap-based memory allocation. The
-heap is an area that is managed by the operating system and allocating
-memory on the heap requires a call to the operating system, which can be
-costly. However, in many cases the amount of memory required can’t
-always be determined at compile time, then we have to use heap-based
-allocation.
-
-When we allocate on the heap we will receive a memory address from the
-operating system which we assign to a pointer variable. It is also
-important to note that it is the developer’s responsibility to release
-allocated heap memory when it is not needed anymore.
-
-In the following sections, we will cover how memory on the heap is
-allocated using the builtin methods for this in C++
-
-Memory allocation in C++
+Multi-dimensional Arrays
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-In C++ allocation on the heap is using the **new** operator. The **new**
-operator has the following syntax:
+Multidimensional arrays is an important data structure for numerical computing. This section demonstrate how to implement this using the standard data structures in C++. If you are going to do more serious array computing please see the chapter on the Eigen library. 
 
-.. code:: cpp
-
-   new type initialiser
-
-new returns a pointer to the allocated type. In the following example we
-allocate a single floating point value.
-
-.. code:: cpp
-
-   float* pvalue = nullptr;
-   pvalue = new float;
-
-To access and assign a value to the newly created memory we need to
-dereference the pointer.
-
-.. code:: cpp
-
-   *pvalue = 42.0f;
-   cout << *pvalue << "\n";
-
-When we are done using the allocated memory we need to release it again
-to the operating system. If we don’t release the memory we have created
-a memory leak in our program and if memory is allocated continuously
-during the lifetime of your application the application will at some
-point have consumed all memory in your computer, which can lead to
-crashes and your computer slowing down. To release memory allocated on
-the heap the **delete** operator is used. The syntax is:
-
-.. code:: cpp
-
-   delete pointer-variable;
-
-To delete our previously allocated memory the code becomes.
-
-.. code:: cpp
-
-   delete pvalue;
-
-The allocated memory has now been release back to the operating system.
-We will discuss in the coming chapters how we can avoid creating memory
-leaks by using smart pointers, that handle the deallocation of memory
-automatically.
-
-Allocating arrays
-~~~~~~~~~~~~~~~~~
-
-.. warning::
-   **Modern C++ Recommendation**: Use ``std::vector`` for most cases, or ``std::unique_ptr`` for raw arrays when interfacing with legacy APIs. Avoid manual **new[]** and **delete[]**.
-
-**Modern Approaches (Recommended)**
-
-.. tabs::
-
-   .. tab:: std::vector (Best Choice)
-
-      .. code:: cpp
-
-         #include <vector>
-         
-         // Dynamic array with automatic memory management
-         std::vector<float> arr(100);           // 100 elements, default-initialized
-         std::vector<float> zeros(100, 0.0f);   // 100 elements, all zeros
-         
-         // Access elements
-         arr[0] = 42.0f;
-         arr[50] = 21.0f;
-         
-         // Automatic cleanup when arr goes out of scope
-         // Resizable, bounds-checking available with .at()
-
-   .. tab:: std::unique_ptr (For Raw Arrays)
-
-      .. code:: cpp
-
-         #include <memory>
-         
-         // When you need a raw array (e.g., C API compatibility)
-         std::unique_ptr<float[]> arr = std::make_unique<float[]>(100);
-         
-         // Access like normal array
-         arr[0] = 42.0f;
-         for (int i = 0; i < 100; i++)
-             arr[i] = 0.0f;
-         
-         // Automatic cleanup - no delete[] needed!
-
-.. note::
-   **Why std::vector?**
-   
-   - Automatic memory management (no memory leaks)
-   - Knows its own size: ``arr.size()``
-   - Bounds checking in debug mode: ``arr.at(i)``
-   - Can grow/shrink: ``arr.resize(200)``
-   - Works with standard algorithms
-   
-   **Why std::unique_ptr<T[]>?**
-   
-   - When interfacing with C libraries requiring raw pointers
-   - Still automatic cleanup (RAII)
-   - Zero overhead compared to raw pointers
-   - Prevents memory leaks
-
-**Legacy Array Allocation (For Reference Only)**
-
-Allocating basic scalar types in C++ is overkill. The real benefits of
-heap memory allocation is to allocate large arrays of different
-datatypes. C++ has special versions of the **new** and **delete**
-functions for allocating arrays.
-
-To allocate an array in C++ we add a bracket with the size of the array
-when we allocate memory for the array.
-
-.. code:: cpp
-
-   float* arr = nullptr;
-
-   arr = new float[100];
-
-or in a single statement.
-
-.. code:: cpp
-
-   float* arr = new float[100];
-
-As pointers can be used using array notation by default an array created
-with **new** can doesn’t have to be dereferenced as with the basic
-types.
-
-.. code:: cpp
-
-   for (int i=0; i<100; i++)
-       arr[i] = 0.0f;
-
-When the array is no longer needed it has to be released with
-**delete**. However, we need to use a special version of **delete** on
-arrays, **delete []**.
-
-.. code:: cpp
-
-   delete [] arr;
-
-Two-dimensional arrays C++ Style
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. warning::
-   **Modern C++ Recommendation**: Use ``std::vector<std::vector<T>>`` (simple) or a flattened ``std::vector<T>`` with index calculation (high performance). The following manual pointer-based approaches are for legacy code understanding only.
+In the following table some approaches for implementing multidimensional arrays using the standard library.
 
 **Modern Approaches for 2D Arrays**
 
@@ -3029,7 +2924,273 @@ Two-dimensional arrays C++ Style
    
    For scientific computing, **flattened vector** is usually best.
 
-**Legacy Pointer-Based 2D Arrays (For Reference Only)**
+**Matrix Class Wrapper (Recommended for Repeated Use)**
+
+The following code shows how a simple matrix class can be implemented using a modern approach and using the standard library. However, consider using a matrix library such as Eigen or Armadillo for more serious array computing.
+
+.. code:: cpp
+
+   class Matrix {
+       std::vector<int> data;
+       int rows_, cols_;
+   public:
+       Matrix(int rows, int cols, int initValue = 0)
+           : data(rows * cols, initValue), rows_(rows), cols_(cols) {}
+       
+       int& operator()(int i, int j) { return data[i * cols_ + j]; }
+       const int& operator()(int i, int j) const { return data[i * cols_ + j]; }
+       
+       int rows() const { return rows_; }
+       int cols() const { return cols_; }
+       
+       void fill(int value) { std::fill(data.begin(), data.end(), value); }
+   };
+   
+   // Usage
+   Matrix array(4, 8, 0);  // 4x8 matrix, initialized to 0
+   array(1, 1) = 42;       // Access element
+   array.fill(0);          // Reset all to zero
+   // Automatic cleanup!
+
+Dynamic Arrays of Structures
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Modern Approach with std::vector (Recommended)**
+
+.. code:: cpp
+
+   struct coord3D {
+       double x;
+       double y;
+       double z;
+   };
+   
+   // Modern: std::vector of structs
+   std::vector<coord3D> coords(10);  // 10 coordinates
+   
+   // Initialize
+   double counter = 0.0;
+   for (auto& coord : coords) {
+       coord.x = counter++;
+       coord.y = counter++;
+       coord.z = counter++;
+   }
+   
+   // Print
+   for (const auto& coord : coords) {
+       std::cout << coord.x << ", " << coord.y << ", " << coord.z << '\n';
+   }
+   
+   // Automatic cleanup - no delete needed!
+   // Also: coords.size() gives you the size
+   // coords.push_back({x, y, z}) to add more
+
+.. note::
+   **Benefits of std::vector<coord3D>:**
+   
+   - No manual memory management
+   - Knows its size: ``coords.size()``
+   - Can grow dynamically: ``coords.push_back({1.0, 2.0, 3.0})``
+   - Range-based for loops work perfectly
+   - Exception-safe
+
+**Alternative: std::unique_ptr (When Raw Pointer Needed)**
+
+.. code:: cpp
+
+   // If you need a raw array for C API compatibility
+   auto coords = std::make_unique<coord3D[]>(10);
+   
+   double counter = 0.0;
+   for (int i = 0; i < 10; i++) {
+       coords[i].x = counter++;
+       coords[i].y = counter++;
+       coords[i].z = counter++;
+   }
+   
+   // Automatic cleanup - no delete[] needed!
+
+Standard Library Algorithms - Preview
+-------------------------------------
+
+Modern C++ provides a rich set of algorithms in the **<algorithm>** and
+**<numeric>** headers that are essential for scientific and engineering
+applications. These algorithms work seamlessly with containers like
+**std::vector** and are often more efficient and safer than manual loops.
+
+**For Python developers**: These are similar to Python's list comprehensions,
+``map()``, ``filter()``, and NumPy operations.
+
+**For Fortran developers**: Similar to array operations and intrinsic functions
+like ``SUM``, ``MAXVAL``, ``MINVAL``, but work with any container.
+
+Quick Preview
+~~~~~~~~~~~~~
+
+.. code:: cpp
+
+   #include <algorithm>
+   #include <numeric>
+   #include <vector>
+   
+   std::vector<double> data{3.1, 1.4, 2.7, 5.9, 2.6};
+   
+   // Sort in ascending order
+   std::sort(data.begin(), data.end());
+   
+   // Find min and max
+   auto [minIt, maxIt] = std::minmax_element(data.begin(), data.end());
+   
+   // Sum all elements
+   double sum = std::accumulate(data.begin(), data.end(), 0.0);
+   
+   // Transform: square each element
+   std::transform(data.begin(), data.end(), data.begin(),
+                  [](double x) { return x * x; });
+
+Language Comparison
+~~~~~~~~~~~~~~~~~~~
+
+.. code:: cpp
+
+   // Python: total = sum(data)
+   // Fortran: total = SUM(data)
+   // C++:
+   double total = std::accumulate(data.begin(), data.end(), 0.0);
+
+.. code:: cpp
+
+   // Python: max_val = max(data)  
+   // Fortran: max_val = MAXVAL(data)
+   // C++:
+   auto maxIt = std::max_element(data.begin(), data.end());
+   double max_val = *maxIt;
+
+.. note::
+   **For comprehensive coverage** of C++ algorithms including sorting, searching,
+   transformations, reductions, parallel algorithms, and much more, see the
+   **Data Structures and Algorithms** chapter.
+   
+   The standard library provides dozens of optimized algorithms suitable for
+   scientific computing applications.
+
+
+Legacy Memory Management (For Reference Only)
+---------------------------------------------
+
+.. danger::
+   **The following sections describe manual memory management with new/delete.**
+   
+   These techniques are **NOT RECOMMENDED** for modern C++ code. They are
+   included here only for:
+   
+   - Understanding legacy C++ codebases
+   - Maintaining existing code that uses manual memory management
+   - Learning how memory management works under the hood
+   
+   **For new code, always use the modern approaches described above.**
+
+.. note::
+   Stack vs heap memory fundamentals are covered in the modern section above.
+   The following sections demonstrate the low-level mechanics of manual heap
+   allocation that modern C++ abstracts away.
+
+Manual new/delete Operators
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In C++, manual heap allocation uses the **new** operator. The **new**
+operator has the following syntax:
+
+.. code:: cpp
+
+   new type initialiser
+
+new returns a pointer to the allocated type. In the following example we
+allocate a single floating point value.
+
+.. code:: cpp
+
+   float* pvalue = nullptr;
+   pvalue = new float;
+
+To access and assign a value to the newly created memory we need to
+dereference the pointer.
+
+.. code:: cpp
+
+   *pvalue = 42.0f;
+   cout << *pvalue << "\n";
+
+When we are done using the allocated memory we need to release it again
+to the operating system. If we don’t release the memory we have created
+a memory leak in our program and if memory is allocated continuously
+during the lifetime of your application the application will at some
+point have consumed all memory in your computer, which can lead to
+crashes and your computer slowing down. To release memory allocated on
+the heap the **delete** operator is used. The syntax is:
+
+.. code:: cpp
+
+   delete pointer-variable;
+
+To delete our previously allocated memory the code becomes.
+
+.. code:: cpp
+
+   delete pvalue;
+
+The allocated memory has now been release back to the operating system.
+Modern C++ smart pointers (shown in the modern section above) handle this
+deallocation automatically.
+
+Manual Array Allocation with new[]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. warning::
+   **Modern C++ Recommendation**: Use ``std::vector`` for most cases, or ``std::unique_ptr`` for raw arrays when interfacing with legacy APIs. Avoid manual **new[]** and **delete[]**.
+
+Allocating basic scalar types in C++ is overkill. The real benefits of
+heap memory allocation is to allocate large arrays of different
+datatypes. C++ has special versions of the **new** and **delete**
+functions for allocating arrays.
+
+To allocate an array in C++ we add a bracket with the size of the array
+when we allocate memory for the array.
+
+.. code:: cpp
+
+   float* arr = nullptr;
+
+   arr = new float[100];
+
+or in a single statement.
+
+.. code:: cpp
+
+   float* arr = new float[100];
+
+As pointers can be used using array notation by default an array created
+with **new** can doesn’t have to be dereferenced as with the basic
+types.
+
+.. code:: cpp
+
+   for (int i=0; i<100; i++)
+       arr[i] = 0.0f;
+
+When the array is no longer needed it has to be released with
+**delete**. However, we need to use a special version of **delete** on
+arrays, **delete []**.
+
+.. code:: cpp
+
+   delete [] arr;
+
+Legacy 2D Arrays - Array of Pointers Approach
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. warning::
+   **Modern C++ Recommendation**: Use ``std::vector<std::vector<T>>`` (simple) or a flattened ``std::vector<T>`` with index calculation (high performance). The following manual pointer-based approaches are for legacy code understanding only.
 
 C++ has no direct support for dynamically allocated two-dimensional
 arrays. However, we can create arrays of pointers to arrays to simulate
@@ -3110,11 +3271,11 @@ A complete example of this is shown below:
 
     Try example
 
-Two-dimensional array Fortran Style
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Legacy 2D Arrays - Fortran-Style Contiguous Allocation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. note::
-   **Modern Alternative**: The flattened ``std::vector`` shown above is the modern equivalent of this Fortran-style approach, with automatic memory management and better safety.
+   **Modern Alternative**: The flattened ``std::vector`` shown in the modern section above is the modern equivalent of this Fortran-style approach, with automatic memory management and better safety.
 
 The method using an array of pointers is not a very efficient data
 structure in computational codes as it creates as it allocates many
@@ -3178,8 +3339,8 @@ A complete example is available below:
     Try example
 
 
-Functions for 2D arrays
-~~~~~~~~~~~~~~~~~~~~~~~
+Legacy Helper Functions for 2D Arrays
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. note::
    **Modern C++ Alternative**: Instead of manual functions with raw pointers, use a simple wrapper class with ``std::vector`` for automatic memory management:
@@ -3207,8 +3368,6 @@ Functions for 2D arrays
       array(1, 1) = 42;       // Access element
       array.fill(0);          // Reset all to zero
       // Automatic cleanup!
-
-**Legacy Manual Memory Management Functions (For Reference Only)**
 
 To make it easier to used two-dimensional arrays in C++ we will
 implement three functions for this purpose:
@@ -3324,68 +3483,11 @@ A complete example of this is shown below:
 
     Try example
 
-Dynamic arrays of struct
-~~~~~~~~~~~~~~~~~~~~~~~~
+Legacy Dynamic Arrays of Struct
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. warning::
    **Modern C++ Recommendation**: Use ``std::vector<StructType>`` for dynamic arrays of structures. This provides automatic memory management and size tracking.
-
-**Modern Approach (Recommended)**
-
-.. code:: cpp
-
-   struct coord3D {
-       double x;
-       double y;
-       double z;
-   };
-   
-   // Modern: std::vector of structs
-   std::vector<coord3D> coords(10);  // 10 coordinates
-   
-   // Initialize
-   double counter = 0.0;
-   for (auto& coord : coords) {
-       coord.x = counter++;
-       coord.y = counter++;
-       coord.z = counter++;
-   }
-   
-   // Print
-   for (const auto& coord : coords) {
-       std::cout << coord.x << ", " << coord.y << ", " << coord.z << '\n';
-   }
-   
-   // Automatic cleanup - no delete needed!
-   // Also: coords.size() gives you the size
-   // coords.push_back({x, y, z}) to add more
-
-.. note::
-   **Benefits of std::vector<coord3D>:**
-   
-   - No manual memory management
-   - Knows its size: ``coords.size()``
-   - Can grow dynamically: ``coords.push_back({1.0, 2.0, 3.0})``
-   - Range-based for loops work perfectly
-   - Exception-safe
-
-**Alternative: std::unique_ptr (When Raw Pointer Needed)**
-
-.. code:: cpp
-
-   // If you need a raw array for C API compatibility
-   auto coords = std::make_unique<coord3D[]>(10);
-   
-   double counter = 0.0;
-   for (int i = 0; i < 10; i++) {
-       coords[i].x = counter++;
-       coords[i].y = counter++;
-       coords[i].z = counter++;
-   }
-   
-   // Automatic cleanup - no delete[] needed!
-
-**Legacy new/delete Approach (For Reference Only)**
 
 Just as it is possible to create arrays of the basic variable types it
 is also possible to create arrays of defined datatypes with the
@@ -3467,8 +3569,8 @@ The complete example can found below:
     Try example
 
 
-Dynamic arrays of struct pointers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Legacy Dynamic Arrays of Struct Pointers
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In some cases it can be required to allocate the individual structs
 themself dynamically. To do this we allocate an array of pointers to the
@@ -3545,71 +3647,6 @@ The complete example is shown below:
     
 
     Try example
-
-
-Standard Library Algorithms - Preview
--------------------------------------
-
-Modern C++ provides a rich set of algorithms in the **<algorithm>** and
-**<numeric>** headers that are essential for scientific and engineering
-applications. These algorithms work seamlessly with containers like
-**std::vector** and are often more efficient and safer than manual loops.
-
-**For Python developers**: These are similar to Python's list comprehensions,
-``map()``, ``filter()``, and NumPy operations.
-
-**For Fortran developers**: Similar to array operations and intrinsic functions
-like ``SUM``, ``MAXVAL``, ``MINVAL``, but work with any container.
-
-Quick Preview
-~~~~~~~~~~~~~
-
-.. code:: cpp
-
-   #include <algorithm>
-   #include <numeric>
-   #include <vector>
-   
-   std::vector<double> data{3.1, 1.4, 2.7, 5.9, 2.6};
-   
-   // Sort in ascending order
-   std::sort(data.begin(), data.end());
-   
-   // Find min and max
-   auto [minIt, maxIt] = std::minmax_element(data.begin(), data.end());
-   
-   // Sum all elements
-   double sum = std::accumulate(data.begin(), data.end(), 0.0);
-   
-   // Transform: square each element
-   std::transform(data.begin(), data.end(), data.begin(),
-                  [](double x) { return x * x; });
-
-Language Comparison
-~~~~~~~~~~~~~~~~~~~
-
-.. code:: cpp
-
-   // Python: total = sum(data)
-   // Fortran: total = SUM(data)
-   // C++:
-   double total = std::accumulate(data.begin(), data.end(), 0.0);
-
-.. code:: cpp
-
-   // Python: max_val = max(data)  
-   // Fortran: max_val = MAXVAL(data)
-   // C++:
-   auto maxIt = std::max_element(data.begin(), data.end());
-   double max_val = *maxIt;
-
-.. note::
-   **For comprehensive coverage** of C++ algorithms including sorting, searching,
-   transformations, reductions, parallel algorithms, and much more, see the
-   **Data Structures and Algorithms** chapter.
-   
-   The standard library provides dozens of optimized algorithms suitable for
-   scientific computing applications.
 
 Modern C++ Best Practices Summary
 ----------------------------------
