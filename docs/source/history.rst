@@ -18,6 +18,8 @@ In 1998 C++98 was released, which also standardized the language.
 
 After this the language was standardized every three years. Currently released standards include C++03, C++11, C++14, and C++17, C++20 and C++23.
 
+In this book we will be primarily be focusing on C++23.
+
 For more information see
 `Wikipedia <https://en.wikipedia.org/wiki/C%2B%2B#History>`__ or `Bjarne
 Stroustrup’s homepage <http://www.stroustrup.com/hopl2.pdf>`__.
