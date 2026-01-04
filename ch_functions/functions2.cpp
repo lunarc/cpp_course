@@ -1,10 +1,8 @@
-#include <iostream>
-
-using namespace std;
+#include <print>
 
 void simple(int a)
 {
-    cout << "The value of a = " << a << endl;
+    std::println("The value of a = {}", a);
 }
 
 int main()

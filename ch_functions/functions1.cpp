@@ -1,10 +1,8 @@
-#include <iostream>
-
-using namespace std;
+#include <print>
 
 void simple()
 {
-    cout << "Hello, from function!" << endl;
+    std::println("Hello, from function!");
 }
 
 int main()

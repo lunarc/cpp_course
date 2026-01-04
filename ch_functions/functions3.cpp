@@ -1,11 +1,10 @@
 #include <iostream>
-
-using namespace std;
+#include <print>
 
 void simple(int a)
 {
-    cout << "The value of a = " << a << endl;
-    cout << "&a = " << &a << endl;
+    std::println("The value of a = {}", a);
+    std::println("&a = {}", static_cast<void*>(&a));
 }
 
 int main()
@@ -13,5 +12,5 @@ int main()
     int a = 42;
     simple(a);
     
-    cout << "&a = " << &a << endl;
+    std::println("&a = {}", static_cast<void*>(&a));
 }

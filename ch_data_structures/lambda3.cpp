@@ -1,5 +1,5 @@
 #include <algorithm>
-#include <iostream>
+#include <print>
 #include <functional>
 #include <cmath>
 
@@ -7,12 +7,12 @@ void tabulate_c(double x_start, double x_end, double dx, double (*f)(double))
 {
     auto x = x_start;
 
-    std::cout << "x, f(x)" << std::endl;
-    std::cout << "-------------------" << std::endl;
+    std::println("x, f(x)");
+    std::println("-------------------");
 
     while (x <= x_end)
     {
-        std::cout << x << ", " << f(x) << std::endl;
+        std::println("{}, {}", x, f(x));
         x += dx;
     }
 }
@@ -21,12 +21,12 @@ void tabulate(double x_start, double x_end, double dx, std::function<double(doub
 {
     auto x = x_start;
 
-    std::cout << "x, f(x)" << std::endl;
-    std::cout << "-------------------" << std::endl;
+    std::println("x, f(x)");
+    std::println("-------------------");
 
     while (x <= x_end)
     {
-        std::cout << x << ", " << f(x) << std::endl;
+        std::println("{}, {}", x, f(x));
         x += dx;
     }
 }

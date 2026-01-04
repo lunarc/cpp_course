@@ -1,14 +1,11 @@
 #include <iostream>
 #include <fstream>
-#include <iomanip>
-
-using namespace std;
 
 int main()
 {
-    ofstream myfile;
+    std::ofstream myfile;
     myfile.open("myfile.txt");
-    myfile << "Hello file!" << endl;
-    myfile << "Second line" << endl;
+    myfile << "Hello file!" << "\n";
+    myfile << "Second line" << "\n";
     myfile.close();
 }

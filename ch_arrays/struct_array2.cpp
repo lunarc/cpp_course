@@ -1,6 +1,5 @@
 #include <iostream>
-
-using namespace std;
+#include <print>
 
 struct coord3D {
     double x;
@@ -23,7 +22,7 @@ int main()
     }
     
     for (auto i=0; i<10; i++)
-        cout << coords[i]->x << ", " << coords[i]->y << ", " << coords[i]->z << endl;
+        std::println("{}, {}, {}", coords[i]->x, coords[i]->y, coords[i]->z);
     
     for (auto i=0; i<10; i++)
         delete coords[i];

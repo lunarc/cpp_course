@@ -1,14 +1,13 @@
 #include <iostream>
-
-using namespace std;
+#include <print>
 
 int main()
 {
     for (int i=1; i<=10; i++)
     {
         if (i==5)
-            cout << "i == 5" << endl;
+            std::println("i == 5");
         else
-            cout << "i != 5" << endl;
+            std::println("i != 5");
     }
 }

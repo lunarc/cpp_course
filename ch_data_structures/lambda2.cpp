@@ -1,12 +1,12 @@
 #include <algorithm>
-#include <iostream>
+#include <print>
 #include <vector>
 
 void print_vector(auto v)
 {
     for (auto& item : v)
-        std::cout << item << " ";
-    std::cout << std::endl;
+        std::print("{} ", item);
+    std::println("");
 }
 
 int main()

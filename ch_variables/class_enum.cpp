@@ -1,6 +1,4 @@
-#include <iostream>
-
-using namespace std;
+#include <print>
 
 int main()
 {
@@ -14,7 +12,7 @@ int main()
     Color color = Color::Cyan;
 
     if (color == Color::Cyan)
-        cout << "Color is Cyan" << endl;
+        std::println("Color is Cyan");
     else
-        cout << "Color is not Cyan" << endl;
+        std::println("Color is not Cyan");
 }

@@ -1,19 +1,19 @@
 #include <algorithm>
-#include <iostream>
+#include <print>
 
 int main()
 {
     int c = 42;
 
     auto f = [](int x) { return x * x; };
-    std::cout << f(5) << std::endl;
+    std::println("{}", f(5));
 
     auto g = [=](int x) { return x * x + c; };
-    std::cout << g(5) << std::endl;
+    std::println("{}", g(5));
 
     auto h = [&](int x) { return x * x + c; };
-    std::cout << h(5) << std::endl;
+    std::println("{}", h(5));
 
     auto p = [&c](int x) -> int { return x * x + c; };
-    std::cout << p(5) << std::endl;
+    std::println("{}", p(5));
 }

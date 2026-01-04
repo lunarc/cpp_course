@@ -1,6 +1,4 @@
-#include <iostream>
-
-using namespace std;
+#include <print>
 
 int main()
 {
@@ -16,9 +14,9 @@ int main()
 
     b = static_cast<int*>(c);
     
-    cout << "a = " << a << "\n";
-    cout << "b = " << b << "\n";
-    cout << "&a = " << &a << "\n";
-    cout << "*b = " << *b << "\n";
-    cout << "c = " << c << "\n";
+    std::println("a = {}", a);
+    std::println("b = {}", static_cast<void*>(b));
+    std::println("&a = {}", static_cast<void*>(&a));
+    std::println("*b = {}", *b);
+    std::println("c = {}", c);
 }

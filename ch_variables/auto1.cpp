@@ -1,7 +1,5 @@
-#include <iostream>
+#include <print>
 #include <typeinfo>
-
-using namespace std;
 
 int main()
 {
@@ -10,8 +8,8 @@ int main()
     auto c = 42.0;  // By default a double
     auto d = 42.0f; // suffix denotes a float
 
-    cout << typeid(a).name() << endl;
-    cout << typeid(b).name() << endl;
-    cout << typeid(c).name() << endl;
-    cout << typeid(d).name() << endl;
+    std::println("{}", typeid(a).name());
+    std::println("{}", typeid(b).name());
+    std::println("{}", typeid(c).name());
+    std::println("{}", typeid(d).name());
 }

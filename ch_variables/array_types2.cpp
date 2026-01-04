@@ -1,6 +1,4 @@
-#include <iostream>
-
-using namespace std;
+#include <print>
 
 int main()
 {
@@ -9,9 +7,9 @@ int main()
     
     a[3] = 42;
     
-    cout << a[0] << ", " << a[1] << ", " << a[2] << ", " << a[3] << endl;
+    std::println("{}, {}, {}, {}", a[0], a[1], a[2], a[3]);
     
     b = a;
 
-    cout << b[0] << ", " << b[1] << ", " << b[2] << ", " << b[3] << endl;
+    std::println("{}, {}, {}, {}", b[0], b[1], b[2], b[3]);
 }

@@ -1,6 +1,4 @@
-#include <iostream>
-
-using namespace std;
+#include <print>
 
 int main()
 {
@@ -11,6 +9,6 @@ int main()
     b = ++a;
     c = a++;
     
-    cout << "b = " << b << endl;
-    cout << "c = " << c << endl;
+    std::println("b = {}", b);
+    std::println("c = {}", c);
 }

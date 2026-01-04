@@ -1,14 +1,12 @@
-#include <iostream>
-
-using namespace std;
+#include <print>
 
 int main()
 {
     int a = 42;
     int& b = a;
     
-    cout << "a = " << a << endl;
-    cout << "b = " << b << endl;
-    cout << "&a = " << &a << endl;
-    cout << "&b = " << &b << endl;
+    std::println("a = {}", a);
+    std::println("b = {}", b);
+    std::println("&a = {}", static_cast<void*>(&a));
+    std::println("&b = {}", static_cast<void*>(&b));
 }

@@ -1,6 +1,5 @@
 #include <iostream>
-
-using namespace std;
+#include <print>
 
 void simple(int* a)
 {
@@ -11,7 +10,7 @@ int main()
 {
     int a = 42;
     
-    cout << "Before function call: a = " << a << endl;
+    std::println("Before function call: a = {}", a);
     simple(&a);
-    cout << "After function call : a = " << a << endl;
+    std::println("After function call : a = {}", a);
 }

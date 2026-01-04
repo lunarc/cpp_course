@@ -1,4 +1,4 @@
-#include <iostream>
+#include <print>
 #include <vector>
 #include <cstdlib>
 #include <algorithm>
@@ -17,5 +17,5 @@ int main()
     std::reverse(vec.begin(), vec.end());
     
     for (auto it=vec.begin(); it!=vec.end(); it++)
-        std::cout << *it << "\n";
+        std::println("{}", *it);
 }

@@ -1,10 +1,8 @@
-#include <iostream>
+#include <print>
 #include <string>
-
-using namespace std;
 
 int main()
 {
-    string s = "hello";
-    cout << "a = '" << s << "'" << endl;
+    std::string s = "hello";
+    std::println("a = '{}'", s);
 }

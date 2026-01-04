@@ -1,18 +1,16 @@
-#include <iostream>
-
-using namespace std;
+#include <print>
 
 int main()
 {
     for (int i=1; i<=10; i++)
     {
-        cout << "i = " << i << ": ";
+        std::print("i = {}: ", i);
         
         if (i==5)
-            cout << "i == 5" << endl;
+            std::println("i == 5");
         else if ( (i>=2)&&(i<=3) )
-            cout << "2 <= i <= 3" << endl;
+            std::println("2 <= i <= 3");
         else
-            cout << "-" << endl;
+            std::println("-");
     }
 }

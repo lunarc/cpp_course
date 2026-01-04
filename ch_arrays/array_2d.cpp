@@ -1,6 +1,5 @@
 #include <iostream>
-
-using namespace std;
+#include <print>
 
 const int rows = 4;
 const int cols = 8;
@@ -22,9 +21,9 @@ int main()
     for (auto i=0; i<rows; i++)
     {
         for (auto j=0; j<cols; j++)
-            cout << array[i][j] << ", ";
+            std::print("{}, ", array[i][j]);
         
-        cout << endl;
+        std::println("");
     }
 
     // Deleting row arrays

@@ -1,8 +1,6 @@
-#include <iostream>
+#include <print>
 #include <cstdlib>
 #include <ctime>
-
-using namespace std;
 
 int main()
 {
@@ -16,13 +14,13 @@ int main()
         switch (color)
         {
             case RED:
-                cout << "Color is red." << endl;
+                std::println("Color is red.");
                 break;
             case GREEN:
-                cout << "Color is green." << endl;
+                std::println("Color is green.");
                 break;
             default:
-                cout << "Color is either BLUE, YELLOW or ORANGE." << endl;
+                std::println("Color is either BLUE, YELLOW or ORANGE.");
                 break;
         }
     }

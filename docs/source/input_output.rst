@@ -5,51 +5,233 @@ Input and output
    :width: 100.0%
 
 One important aspect of programming is the ability to read and write
-from standard input/output and from files in different ways. In C++ the
-main way of reading and writing data is using the stream classes in the
-C++ input/output library. Using streams, data can be read and written
-using special operators to files. It is also possible to read and write
-to stream in memory.
+from standard input/output and from files in different ways. Modern C++
+provides two main approaches for input and output:
 
-The stream classes are defined in the **iostreams** header which is
-included with the following code:
+- **Modern formatted output** (C++23): ``std::print`` and ``std::println`` for console output with format strings
+- **Stream-based I/O**: Stream classes for both console and file operations
 
-.. code:: cpp
-
-   #include <iostreams>
-
-The classes in **iostreams** are defined in the **std::** namespace, so
-if we want to use them directly they have to be prefixed with **std::**.
-For the examples in this chapter we will avoid this by adding the
-following statement in before use:
-
-.. code:: cpp
-
-   using namespace std;
-
+This chapter will first introduce the modern approach for console output,
+then cover traditional stream-based I/O, and finally explore file operations
+where streams are particularly powerful.
 
 .. note:: 
-   Adding this statement is not recommended for larger projects, as it can bring in unnecessary namespaces in the code. This is especially important in header files.
+   The ``std::print`` and ``std::println`` functions require C++23 support. If you're using an older compiler or standard, you can use the stream-based approach or the {fmt} library as an alternative.
 
-Reading and writing to the console
-----------------------------------
+Modern console output (C++23)
+------------------------------
 
-There are 3 built-in stream objects available for reading and writing to
-standard input - **cin**, standard output - **cout** and standard error
-- **cerr**. We have already used these objects in the previous sections
-without going into the details of how these work.
+C++23 introduces ``std::print`` and ``std::println`` as modern alternatives
+for console output. These functions use a format string syntax similar to
+Python's f-strings and are generally easier to use than stream operators.
 
-Writing to a stream is accomplished using the **<<** operator followed
-by the variable, scalable or string that you want to write. Writing is
-done continuously on a single line until a special manipulator,
-**endl**, is passed to the stream. In the following example 3 variables
-are written to 2 lines of output:
+To use these functions, include the ``<print>`` header:
+
+.. code:: cpp
+
+   #include <print>
+
+Basic printing
+~~~~~~~~~~~~~~
+
+The ``std::println`` function prints text followed by a newline:
+
+.. code:: cpp
+
+   #include <print>
+
+   int main()
+   {
+       std::println("Hello, World!");
+       std::println("Another line");
+   }
+
+Output:
+
+::
+
+   Hello, World!
+   Another line
+
+For output without a trailing newline, use ``std::print``:
+
+.. code:: cpp
+
+   std::print("No newline here");
+   std::print(" - continuing on same line");
+
+Printing variables
+~~~~~~~~~~~~~~~~~~
+
+Variables are inserted using placeholders ``{}`` in the format string:
+
+.. code:: cpp
+
+   #include <print>
+
+   int main()
+   {
+       int a = 1;
+       int b = 2;
+       double c = 3.14159;
+       
+       std::println("{} {} {}", a, b, c);
+       std::println("a = {}, b = {}, c = {}", a, b, c);
+   }
+
+Output:
+
+::
+
+   1 2 3.14159
+   a = 1, b = 2, c = 3.14159
+
+Formatting with format specifiers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Format specifiers inside ``{}`` control how values are displayed:
+
+.. code:: cpp
+
+   #include <print>
+   #include <cmath>
+
+   int main()
+   {
+       double pi = 4 * std::atan(1);
+       int n = 42;
+       
+       // Width and precision
+       std::println("{:10.3f}", pi);        // Width 10, 3 decimals
+       std::println("{:.6f}", pi);          // 6 decimal places
+       
+       // Alignment
+       std::println("{:<10} left", n);      // Left aligned
+       std::println("{:>10} right", n);     // Right aligned
+       std::println("{:^10} center", n);    // Center aligned
+       
+       // Number bases
+       std::println("{:x}", n);             // Hexadecimal
+       std::println("{:#x}", n);            // Hex with 0x prefix
+       std::println("{:o}", n);             // Octal
+       std::println("{:b}", n);             // Binary
+   }
+
+Output:
+
+::
+
+      3.142
+   3.141593
+   42         left
+            42 right
+       42     center
+   2a
+   0x2a
+   52
+   101010
+
+Formatting tables
+~~~~~~~~~~~~~~~~~
+
+Format specifiers make it easy to create aligned tables:
+
+.. code:: cpp
+
+   #include <print>
+   #include <cmath>
+
+   int main()
+   {
+       double x = 0.0;
+       double dx = 0.1;
+       double pi = 4 * std::atan(1);
+       
+       std::println("{:<15} {:>10}", "X", "f(x)");
+       std::println("{:-<25}", "");
+       
+       while (x <= pi * 0.25)
+       {
+           std::println("{:<15.6f} {:>10.6f}", x, std::sin(x));
+           x += dx;
+       }
+   }
+
+Output:
+
+::
+
+   X                    f(x)
+   -------------------------
+   0.000000         0.000000
+   0.100000         0.099833
+   0.200000         0.198669
+   0.300000         0.295520
+   0.400000         0.389418
+   0.500000         0.479426
+   0.600000         0.564642
+   0.700000         0.644218
+
+Boolean and pointer formatting
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code:: cpp
+
+   #include <print>
+
+   int main()
+   {
+       bool flag = true;
+       int value = 42;
+       
+       std::println("flag = {}", flag);      // Prints: 1
+       std::println("flag = {:s}", flag);    // Prints: true
+       std::println("address = {}", (void*)&value);  // Pointer as hex
+   }
+
+Traditional stream-based console I/O
+------------------------------------
+
+While ``std::print`` and ``std::println`` are the modern approach for console
+output, the traditional stream-based I/O using ``cout``, ``cin``, and ``cerr``
+remains widely used and is particularly important for:
+
+- Reading input from the console (``std::cin``)
+- Legacy codebases and compatibility
+- File I/O operations (covered later in this chapter)
+
+The stream classes are defined in the ``iostream`` header:
 
 .. code:: cpp
 
    #include <iostream>
 
-   using namespace std;
+The classes in ``iostream`` are defined in the ``std::`` namespace, so
+if we want to use them directly they have to be prefixed with ``std::``. 
+
+Stream objects
+~~~~~~~~~~~~~~
+
+There are 3 built-in stream objects available for console I/O:
+
+- ``std::cin`` - standard input
+- ``std::cout`` - standard output  
+- ``std::cerr`` - standard error
+
+We have already used these objects in previous sections. Now we'll explore
+the details of how these work.
+
+Writing to a stream is accomplished using the ``<<`` operator followed
+by the variable, scalable or string that you want to write. Writing is
+done continuously on a single line until a special manipulator,
+``std::"\n"`` or "\n" is passed to the stream. It is recommended to avoid the ``std::"\n"`` manipulator as this force a flush of the output buffers which can be costly. 
+
+In the following example 3 variables
+are written to 2 lines of output:
+
+.. code:: cpp
+
+   #include <iostream>
 
    int main()
    {
@@ -57,9 +239,9 @@ are written to 2 lines of output:
        int b = 2;
        double c = 3.0;
        
-       cout << a << " " << b;
-       cout << " " << c << endl;
-       cout << &c << endl;
+       std::cout << a << " " << b;
+       std::cout << " " << c << std::"\n";
+       std::cout << &c << "\n"; // Recommended
    }
 
 Which gives the following output.
@@ -70,19 +252,17 @@ Which gives the following output.
    0x559fff6f0
 
 The variables a, b and c are all written on the same line as the
-**endl** marker is passed after writing the **c** variable. You can also
+``"\n"`` marker is passed after writing the ``c`` variable. You can also
 notice that passing a memory address to the stream will automatically
 format it as a hexadecimal memory address.
 
-Reading from a stream is done by using the **>>** operator followed by
-the variables that should be assigned from the input stream. How **cin**
+Reading from a stream is done by using the ``>>`` operator followed by
+the variables that should be assigned from the input stream. How ``cin``
 is used is shown in the example below:
 
 .. code:: cpp
 
    #include <iostream>
-
-   using namespace std;
 
    int main()
    {
@@ -90,19 +270,19 @@ is used is shown in the example below:
        int b;
        double c;
        
-       cin >> a >> b >> c;
+       std::cin >> a >> b >> c;
        
-       cout << "a = " << a;
-       cout << ", b = " << b;
-       cout << ", c = " << c << endl;
+       std::cout << "a = " << a;
+       std::cout << ", b = " << b;
+       std::cout << ", c = " << "\n";
    }
 
 In the example above the program will wait for 2 integers and a floating
 point number to be entered in the console before printing out the values
-in the **cout** statements.
+in the ``std::cout`` statements.
 
 Formatting output using manipulators
-------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To better control how output is written C++ provides a special
 manipulator operators that can be passed in the stream output to control
@@ -113,13 +293,13 @@ need to use the following include:
 
    #include <iomanip>
 
-To control the width the output variables, the **setw(…)** manipulator
+To control the width the output variables, the ``std::setw(…)`` manipulator
 can be used. This manipulator often needs to be called mutiple times as
-the width is usually reset if a **>>** or **<<** operators are used. It
-is also possible to control left and right alignment using the **left**
-and **right** manipulators. The character used to pad the output is set
-by the **setfill(…)** method and the precision of floating point values
-are set by the **setprecision(…)** manipulator. A complete example of
+the width is usually reset if a ``>>`` or ``<<`` operators are used. It
+is also possible to control left and right alignment using the ``std::left``
+and ``std::right`` manipulators. The character used to pad the output is set
+by the ``std::setfill(…)`` method and the precision of floating point values
+are set by the ``std::setprecision(…)`` manipulator. A complete example of
 using these manipulators is shown below:
 
 .. code:: cpp
@@ -128,32 +308,30 @@ using these manipulators is shown below:
    #include <iomanip>
    #include <cmath>
 
-   using namespace std;
-
    int main()
    {
        double pi = 4 * std::atan(1);
        double x = 0.0;
        double dx = 0.1;
        
-       cout << setw(15) << left << "X";
-       cout << setw(10) << right << "f(x)" << endl;
-       cout << setfill('-');
-       cout << setw(25) << "" << endl;
-       cout << setfill(' ');
-       cout << setprecision(6) << fixed;
+       std::cout << std::setw(15) << std::left << "X";
+       std::cout << std::setw(10) << std::right << "f(x)\n";
+       std::cout << std::setfill('-');
+       std::cout << std::setw(25) << "" << "\n";
+       std::cout << std::setfill(' ');
+       std::cout << std::setprecision(6) << std::fixed;
        //cout.unsetf(ios_base::fixed);
        
        while (x<=pi*0.25)
        {
-           cout << setw(15) << left << x;
-           cout << setw(10) << right << sin(x);
-           cout << endl;
+           std::cout << std::setw(15) << std::left << x;
+           std::cout << std::setw(10) << std::right << std::sin(x);
+           std::cout << "\n";
            x += dx;
        }
    }
 
-The code shown above will print a function table of the **sin(x)**
+The code shown above will print a function table of the ``std::sin(x)``
 function.
 
 ::
@@ -176,9 +354,9 @@ It is also possible to specifiy if a boolean value should be printed as
 
    bool flag = true;
 
-   cout << "flag = " << flag << endl;
-   cout << boolalpha;
-   cout << "flag = " << flag << endl;
+   std::cout << "flag = " << flag << "\n";
+   std::cout << std::boolalpha;
+   std::cout << "flag = " << flag << "\n;
 
 This prints:
 
@@ -188,18 +366,18 @@ This prints:
    flag = true
 
 It is also possible to output values in different numerical bases using
-the **hex**, **dec** and **oct** manipulators. The **showbase**
+the ``hex``, ``dec`` and ``oct`` manipulators. The ``showbase``
 manipulator determines if output show the base in the output. The
-following code outputs the **n** integer in different bases.
+following code outputs the ``n`` integer in different bases.
 
 .. code:: cpp
 
    int n = 42;
 
-   cout << hex << "n = " << n << endl;
-   cout << hex << showbase << "n = " << n << endl;
-   cout << oct << "n = " << n << endl;
-   cout << dec << "n = " << n << endl;
+   std::cout << std::hex << "n = " << n << "\n";
+   std::cout << std::hex << std::showbase << "n = " << n << "\n";
+   std::cout << std::oct << "n = " << n << "\n";
+   std::cout << std::dec << "n = " << n << "\n";
 
 This outputs the following:
 
@@ -217,25 +395,23 @@ The complete example is shown below:
    #include <iostream>
    #include <iomanip>
 
-   using namespace std;
-
    int main()
    {
        bool flag = true;
        
-       cout << "flag = " << flag << endl;
-       cout << boolalpha;
-       cout << "flag = " << flag << endl;
+       std::cout << "flag = " << flag << "\n";
+       std::cout << std::boolalpha;
+       std::cout << "flag = " << flag << "\n";
 
        int n = 42;
        
-       cout << hex << "n = " << n << endl;
-       cout << hex << showbase << "n = " << n << endl;
-       cout << oct << "n = " << n << endl;
-       cout << dec << "n = " << n << endl;
+       std::cout << std::hex << "n = " << n << "\n";
+       std::cout << std::hex << std::showbase << "n = " << n << "\n";
+       std::cout << std::oct << "n = " << n << "\n";
+       std::cout << std::dec << "n = " << n << "\n";
    }
 
-There are a lot more manipulators available in the **iomanip** header.
+There are a lot more manipulators available in the ``iomanip`` header.
 For more information please see:
 
 .. button-link:: https://en.cppreference.com/w/cpp/header/iomanip
@@ -245,52 +421,57 @@ For more information please see:
     cppreference.com
 
 
-Reading and writing to files (streams)
+File I/O with streams
 --------------------------------------
+
+While modern ``std::print`` is excellent for console output, stream-based I/O
+really shines when working with files. The stream classes provide a consistent
+interface for reading and writing various data formats, making them ideal for
+file operations.
 
 To read and write data to files we need to instantiate stream instances
 for each file operation. There are 3 main file stream classes in C++:
 
-- **ofstream** – output file stream
-- **ifstream** – input file stream
-- **fstream** – generic file stream
+- ``std::ofstream`` – output file stream
+- ``std::ifstream`` – input file stream
+- ``std::fstream`` – generic file stream
 
-These classes are defined in the **fstream** standard header. Just like
-the **cout** and **cin** streams the file streams also use **<<** and
-**>>** operators for input and output.
+These classes are defined in the ``fstream`` standard header. Just like
+the ``std::cout`` and ``std::cin`` streams the file streams also use ``<<`` and
+``>>`` operators for input and output.
 
 Writing to a file (ofstream)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To open a file for writing we can use the **ofstream** class. The first
+To open a file for writing we can use the ``std::ofstream`` class. The first
 step in writing to the file is to instantiate an output file stream.
 
 .. code:: cpp
 
-   ofstream myfile;
+   std::ofstream myfile;
 
-Next, we open the file using the **open()**-method.
+Next, we open the file using the ``.open()``-method.
 
 .. code:: cpp
 
    myfile.open("myfile.txt");
 
 As this is an output file stream we don’t have to give any more
-arguments to the **open()**-method. The file is now open for writing and
-we can use the **<<**-operator for writing to the output stream.
+arguments to the ``.open()``-method. The file is now open for writing and
+we can use the ``<<``-operator for writing to the output stream.
 
 .. code:: cpp
 
-   myfile << "Hello file!" << endl;
-   myfile << "Second line" << endl;
+   myfile << "Hello file!" << "\n";
+   myfile << "Second line" << "\n";
 
 In the output to the file we can use the same manipulators as when we
-were outputting to the **cout** standard output stream. The last
-statements will write 2 rows to the file **myfile.txt**.
+were outputting to the ``cout`` standard output stream. The last
+statements will write 2 rows to the file ``myfile.txt``.
 
 The final step when reading and writing files is to tell the operating
 system that we will not work with the file anymore. This is done using
-the **.close()** method of the ofstream instance.
+the ``.close()`` method of the ofstream instance.
 
 .. code:: cpp
 
@@ -314,37 +495,37 @@ The complete example is shown below:
 Appending to a file
 ~~~~~~~~~~~~~~~~~~~
 
-The default behavior when writing to a file using the **ofstream** is to
+The default behavior when writing to a file using the ``std::ofstream`` is to
 overwrite any existing file. If we want to append data to an existing
 file we can specify this using the second argument to the
-**.open()**-method, **ios::app**.
+``.open()``-method, ``std::ios::app``.
 
 .. code:: cpp
 
-   myfile.open("myfile.txt", ios::app);
+   myfile.open("myfile.txt", std::ios::app);
 
 Everything we write to the stream will now be appended to the existing
 file.
 
 .. code:: cpp
 
-   outfile << "Third line" << endl;
+   outfile << "Third line" << "\n";
    outfile.close();
 
-This will add “Third line” as the third line of the **myfile.txt** file.
+This will add “Third line” as the third line of the ``myfile.txt`` file.
 
 Reading from a file (ifstream)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Reading from a file is done with the same steps as writing to a file.
-First, we instantiate an **ifstream** instance.
+First, we instantiate an ``std::ifstream`` instance.
 
 .. code:: cpp
 
-   ifstream myfile("myfile.txt");
+   std::ifstream myfile("myfile.txt");
 
 When reading from a file it is always a good idea to make sure the file
-has been succesfully opened. This can be done using the **.is_open()**
+has been succesfully opened. This can be done using the ``.is_open()``
 method of the stream instance.
 
 .. code:: cpp
@@ -356,7 +537,7 @@ method of the stream instance.
    }
 
 A more generic way of checking if a file stream is ready for operations
-is to use the **.good()**-method. This method returns **true** if the
+is to use the ``.good()``-method. This method returns ``true`` if the
 file stream is ready for operations.
 
 .. code:: cpp
@@ -367,7 +548,7 @@ file stream is ready for operations.
 Reading from a file requires the file to have the data in a way that the
 file operators can interpret. Reading data types from a file requires
 them to be present in the same way as they were written to the file.
-Writing the variables **a**, **b** and **c** to disk as shown in the
+Writing the variables ``a``, ``b`` and ``c`` to disk as shown in the
 followng example
 
 .. code:: cpp
@@ -414,7 +595,7 @@ A larger example
 
 To illustrate reading and writing values to a file we will create a
 program that will tabulate a function and write this to the file
-**inputfile.dat**. We start by creating an output stream for writing:
+``inputfile.dat``. We start by creating an output stream for writing:
 
 .. code:: cpp
 
@@ -423,8 +604,8 @@ program that will tabulate a function and write this to the file
    double y;
    double dx = 0.1;
 
-   ofstream outfile;
-   outfile.open("inputfile.dat", ios::out);
+   std::ofstream outfile;
+   outfile.open("inputfile.dat", std::ios::out);
 
 Next, we use a while-loop to tabulate sin(x) from 0 to pi/4. For each
 row of the file we write the x value and the corresponding function
@@ -434,13 +615,13 @@ value.
 
    while (x<=pi*0.25)
    {
-       outfile << x << " " << sin(x) << endl;
+       outfile << x << " " << std::sin(x) << "\n";
        x += dx;
    }
    outfile.close(); // Close file when we are done.
 
-Notice that we add an extra space between **x** and **sin(x)**. When
-running this code the file **inputfile.dat** will contain the following:
+Notice that we add an extra space between ``x`` and ``std::sin(x)``. When
+running this code the file ``inputfile.dat`` will contain the following:
 
 ::
 
@@ -453,25 +634,25 @@ running this code the file **inputfile.dat** will contain the following:
    0.6 0.564642
    0.7 0.644218
 
-To read the data back from **inputfile.dat** we instantiate a
-**ifstream** instance.
+To read the data back from ``inputfile.dat`` we instantiate a
+``ifstream`` instance.
 
 .. code:: cpp
 
-   ifstream infile;
+   std::ifstream infile;
    infile.open("inputfile.dat");
 
 Using a while-statement again we will read the file back. We use the
-**.good()** method to determine if we should exit the while-statement.
+``.good()`` method to determine if we should exit the while-statement.
 As the input file contains values in the expected format we easily use
-the **>>**-operator for reading x and function values from the file.
+the ``>>``-operator for reading x and function values from the file.
 
 .. code:: cpp
 
    while (infile.good())
    {
        infile >> x >> y;
-       cout << "x = " << x << ", y = " << y << endl;
+       std::println("x = {}, y = {}", x, y);
    }
    infile.close();
 
@@ -523,8 +704,8 @@ Reading text files
 
 Sometimes you want to read a text file and process the file yourself. To
 do this you can’t use the standard stream operators. To read text from a
-file we use the standard library function **std::getline()** from the
-**sstream** header. This function takes a stream as input and a string
+file we use the standard library function ``std::getline()`` from the
+``sstream`` header. This function takes a stream as input and a string
 containing the line that has been read from the file. In the following
 example we will read from a text file containing power consumtion data
 in CSV format. The first column contains the date for the sample and the
@@ -533,25 +714,25 @@ file:
 
 .. code:: cpp
 
-   string line;
-   ifstream infile;
+   std::string line;
+   std::ifstream infile;
    infile.open("..\\..\\data\\AEP_hourly.csv");
 
    if (!infile.is_open())
    {
-       cout << "Error opening file" << endl;
+       std::println("Error opening file.");
        return 1;
    }
 
-We then do a while-loop over the file calling **std::getline(…)** to
+We then do a while-loop over the file calling ``std::getline(…)`` to
 read the file line by line.
 
 .. code:: cpp
 
    while (infile.good())
    {
-       getline(infile, line);
-       cout << line << endl;
+       std::getline(infile, line);
+       std::println(line);
    }
    infile.close();
 
@@ -577,25 +758,25 @@ Splitting lines
 
 To separate the date from the value we need to do some basic string
 manipulation. First we need to find the position of the comma in the
-line. We can do this with the **std::find(…)** method. This function
+line. We can do this with the ``std::find(…)`` method. This function
 will return a string iterator at the position of the comma or end
-**end()** iterator. We can then use the **.substr()** method of the
+``end()`` iterator. We can then use the ``.substr()`` method of the
 string to extract the date and value fields. The code then becomes:
 
 .. code:: cpp
 
    while (infile.good())
    {
-       getline(infile, line);
+       std::getline(infile, line);
 
        auto pos = std::find(line.begin(), line.end(), ',');
 
        if (pos != line.end())
        {
-           string date = line.substr(0, pos - line.begin());
-           string value = line.substr(pos - line.begin() + 1);
-
-           std::cout << "date:  " << date << " value: " << value << "\n";
+           std::string date = line.substr(0, pos - line.begin());
+           std::string value = line.substr(pos - line.begin() + 1);
+           
+           std::println("date: {} value: {}", date, value);
        }
    }
 
@@ -621,8 +802,8 @@ Converting from string to float
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If we want to convert the value field to a floating point type we can
-use the **std::stod(…)** or **std::stof(…)** functions. They throw an
-**std::invalid_argument** exception if the value can’t be converted. The
+use the ``std::stod(…)`` or ``std::stof(…)`` functions. They throw an
+``std::invalid_argument`` exception if the value can’t be converted. The
 conversion can be handled using the following code:
 
 .. code:: cpp
@@ -635,10 +816,10 @@ conversion can be handled using the following code:
    }
    catch (const std::exception& e)
    {
-       std::cerr << e.what() << '\n';
+       std::println("{}", e.what());
    }
 
-   std::cout << "date:  " << date << " value: " << dval << "\n";
+   std::println("date: {} value: {}", date, value);
 
 Reading binary files
 --------------------
@@ -646,13 +827,13 @@ Reading binary files
 In the previous chapters we have seen how we can read and write data to
 text files. In many cases you will need to read and write data in binary
 format. Reading and writing to binary files are similar to the previous
-approach except that we add the **ios::binary** flag in the
-open-statement. and instead of using the **<<** and **>>** operators we
-use the stream methods **.read(…)** and **.write(…)** methods for read
+approach except that we add the ``std::ios::binary`` flag in the
+open-statement. and instead of using the ``<<`` and ``>>`` operators we
+use the stream methods ``.read(…)`` and ``.write(…)`` methods for read
 and write. I binary file can also consist of multiple parts with
 different data (records). To be able to read data at different parts of
 the file we use an invisble cursor that we can place at the location we
-want to read. This cursor can be set using the **.seekg(…)** method of
+want to read. This cursor can be set using the ``.seekg(…)`` method of
 the stream.
 
 Writing data to a binary file
@@ -675,13 +856,13 @@ we initialise the random number generator.
 
 .. code:: cpp
 
-   srand((unsigned)time(0));
+   std::srand((unsigned)time(0));
 
-Next, we open a stream for binary write using the **ios::binary** flag.
+Next, we open a stream for binary write using the ``std::ios::binary`` flag.
 
 .. code:: cpp
 
-   ofstream particlesFile("particles.dat", ios::out | ios::binary);
+   std::ofstream particlesFile("particles.dat", std::ios::out | std::ios::binary);
 
 To write particle data to the file we need create a variable to hold the
 data to be written:
@@ -690,66 +871,65 @@ data to be written:
 
    Particle p;
 
-To write data to a binary file the **.write()** method takes a pointer
+To write data to a binary file the ``.write()`` method takes a pointer
 to a buffer of the data to write and the size of the buffer. To get a
-size of a buffer we can use the **sizeof()** function in C++ to query
+size of a buffer we can use the ``sizeof()`` function in C++ to query
 and variable for its size. In the following code we write 10 particles
-to the binary file, **particles.dat**.
+to the binary file, ``particles.dat``.
 
 .. code:: cpp
 
    for (auto i = 0; i < 10; i++)
    {
-       p.x = 100.0 * (double)rand() / (double)RAND_MAX;
-       p.y = 100.0 * (double)rand() / (double)RAND_MAX;
-       p.mass = 1.0 + (double)rand() / (double)RAND_MAX;
+       p.x = 100.0 * (double)std::rand() / (double)RAND_MAX;
+       p.y = 100.0 * (double)std::rand() / (double)RAND_MAX;
+       p.mass = 1.0 + (double)std::rand() / (double)RAND_MAX;
 
        particlesFile.write((char*)&p, sizeof(p));
    }
    particlesFile.close();
 
 Please note that we reuse the same variable with different data for each
-write, which is not always the case. The **.write()**-method requires a
-char pointer, which is why we need the cast **p** before passing it in
-the call. Also **p** is a local variable (on the stack), which is the
-reason we pass it as reference using the **&** operator.
+write, which is not always the case. The ``.write()``-method requires a
+char pointer, which is why we need the cast ``p`` before passing it in
+the call. Also ``p`` is a local variable (on the stack), which is the
+reason we pass it as reference using the ``&`` operator.
 
 When writing to a binary file the invisible file pointer is moved the
-size of the data writting every time you call the **.write()**-method.
+size of the data writting every time you call the ``.write()``-method.
 
 Reading data from a binary file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Reading data is very similar to writing data, except now we read from
-the file using the **.read()**-method and write data to a buffer of the
+the file using the ``.read()``-method and write data to a buffer of the
 right size. Be default the file pointer will be placed at the beginning
 of the file. In the following code a file object is opened for reading
-using the **ios::binary** flag.
+using the ``std::ios::binary`` flag.
 
 .. code:: cpp
 
-   ifstream inputParticlesFile("particles.dat", ios::in | ios::binary);
+   std::ifstream inputParticlesFile("particles.dat", std::ios::in | std::ios::binary);
 
    if (inputParticlesFile.is_open())
    {
        while (inputParticlesFile.good())
        {
            inputParticlesFile.read((char*)&p, sizeof(p));
-           cout << "x = " << p.x;
-           cout << ", y = " << p.y;
-           cout << ", m = " << p.mass << endl;
+
+           std::println("x = {}, y = {}, m = {}", p.x, p.y, p.mass);
        }
    }
    else
-       cout << "Could not open file." << endl;
+       std::println("Could not open file.");
 
 if we want to write more entries to the file at the end we can add the
-**ios::ate** flag when opening the file. The file pointer is then moved
+``std::ios::ate`` flag when opening the file. The file pointer is then moved
 to the end of the file and the next entry written will be added after
 the last buffer written to the file.
 
 It is also possible to move the file pointer to the end of the file
-using the **.seekg()**-method of the file stream object. The following
+using the ``.seekg()``-method of the file stream object. The following
 statement moves the file pointer to the beginning of the file. The first
 argument is the offset to move from the position and direction given by
 the second argument.
@@ -760,19 +940,19 @@ the second argument.
 
 The second argument can be on of three alternatives
 
-- **ios::beg** - search from the beginning of the file.
-- **ios::cur** - search from the current position forward (+) and
+- ``std::ios::beg`` - search from the beginning of the file.
+- ``std::ios::cur`` - search from the current position forward (+) and
   backwards (-).
-- **iso::end** - search backwards from the end of the file.
+- ``std::iso::end`` - search backwards from the end of the file.
 
-If only a single argument is given to the **.seekg()**-method, this
+If only a single argument is given to the ``.seekg()``-method, this
 argument is the absolute position in the file.
 
 Reading elevations from a binary file
 -------------------------------------
 
 To illustrate real-world usage of how to read data from binary file, we
-will open the the file **../data/colorado_elev.vit**, which contains
+will open the the file ``../data/colorado_elev.vit``, which contains
 elevation values in a 400 x 400 image file. The first 268 bytes contains
 a header, which we will need to skip. The rest of the data contains the
 height values stored as unsigned bytes.
@@ -782,18 +962,18 @@ opened.
 
 .. code:: cpp
 
-   ifstream infile;
-   infile.open("../data/colorado_elev.vit", ios::in | ios::binary);
+   std::ifstream infile;
+   infile.open("../data/colorado_elev.vit", std::ios::in | std::ios::binary);
 
    if (!infile.is_open())
    {
-       cout << "Error opening file" << endl;
+       std::println("Error opening file.");
        return 1;
    }
 
 To be able to read the data from the file we need a buffer to store the
-unsigned bytes into. In this case we use a **std::array** with 400 x 400
-in size. An unsigned byte is defined as **uint8_t** in C++, which we
+unsigned bytes into. In this case we use a ``std::array`` with 400 x 400
+in size. An unsigned byte is defined as ``uint8_t`` in C++, which we
 will use when we declare the array.
 
 .. code:: cpp
@@ -809,11 +989,11 @@ beginning of the file.
    infile.seekg(268, ios::beg);
 
 Now we are in a position to be able to read the data. To read we use the
-**.read()** method, which takes a pointer to a buffer and the size of
-the buffer. The data in the **std::array** can be accessed by the
-**.data()**-method, but needs to be cast to the correct pointer type. We
-do this with the **reinterpret_cast()** function in C++. The size of the
-buffer is returned by the **.size()**-method.
+``.read()`` method, which takes a pointer to a buffer and the size of
+the buffer. The data in the ``std::array`` can be accessed by the
+``.data()``-method, but needs to be cast to the correct pointer type. We
+do this with the ``reinterpret_cast()`` function in C++. The size of the
+buffer is returned by the ``.size()``-method.
 
 .. code:: cpp
 
@@ -822,25 +1002,25 @@ buffer is returned by the **.size()**-method.
    infile.close();
 
 This is everything required to read all the data from the binary file
-into our **std::array**. To use the data we write it back to a text file
+into our ``std::array``. To use the data we write it back to a text file
 storing the data separated by commas (CSV).
 
 To do this we open a output file stream.
 
 .. code:: cpp
 
-   fstream outfile;
-   outfile.open("../data/colorado_elev.csv", ios::out);
+   std::fstream outfile;
+   outfile.open("../data/colorado_elev.csv", std::ios::out);
 
    if (!outfile.is_open())
    {
-       cout << "Error opening file" << endl;
+       cout << "Error opening file" << "\n";
        return 1;
    }
 
 Next we loop over the data in the file and write it to a text file with
-400 values per row. To be able to write our **uint8_t** values we need
-to cast them to **int**. We do this with the **static_cast()** function.
+400 values per row. To be able to write our ``uint8_t`` values we need
+to cast them to ``int``. We do this with the ``static_cast()`` function.
 The final code is shown below:
 
 .. code:: cpp

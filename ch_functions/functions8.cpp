@@ -1,6 +1,5 @@
 #include <iostream>
-
-using namespace std;
+#include <print>
 
 void simple(int* a)
 {
@@ -11,5 +10,5 @@ int main()
 {
     int a[] = { 1, 2, 3, 4 };
     simple(a);
-    cout << "a[3] = " << a[3] << endl;
+    std::println("a[3] = {}", a[3]);
 }

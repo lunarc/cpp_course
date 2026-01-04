@@ -1,6 +1,4 @@
-#include <iostream>
-
-using namespace std;
+#include <print>
 
 int main()
 {
@@ -11,20 +9,20 @@ int main()
     
     b = a;
     
-    cout << "a = " << a << "\n";
-    cout << "b = " << b << "\n";
-    cout << "a[0] = " << a[0] << "\n";
-    cout << "b[0] = " << b[0] << "\n";
-    cout << "*b = " << *b << "\n";
-    cout << "*a = " << *a << "\n";
+    std::println("a = {}", static_cast<void*>(a));
+    std::println("b = {}", static_cast<void*>(b));
+    std::println("a[0] = {}", a[0]);
+    std::println("b[0] = {}", b[0]);
+    std::println("*b = {}", *b);
+    std::println("*a = {}", *a);
     
     c = &a[2];
 
-    cout << "c = " << c << "\n";
-    cout << "*c = " << *c << "\n";
+    std::println("c = {}", static_cast<void*>(c));
+    std::println("*c = {}", *c);
 
     d = b + 2;
 
-    cout << "d = " << d << "\n";
-    cout << "*d = " << *d << "\n";
+    std::println("d = {}", static_cast<void*>(d));
+    std::println("*d = {}", *d);
 }

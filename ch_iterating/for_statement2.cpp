@@ -1,6 +1,4 @@
-#include <iostream>
-
-using namespace std;
+#include <print>
 
 int main()
 {
@@ -8,5 +6,5 @@ int main()
     
     for (auto i=0; i<=10000; sum += ++i);
     
-    cout << "sum = " << sum << endl;
+    std::println("sum = {}", sum);
 }

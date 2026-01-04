@@ -100,7 +100,7 @@ the iterator we can use the star operator (\*).
 
 .. code:: cpp
 
-       cout << *it << "\n";
+       std::println("{}", *it);
 
 .. button-link:: https://godbolt.org/z/sbTMab6v7
     :color: primary
@@ -115,8 +115,8 @@ bound checking.
 
 .. code:: cpp
 
-   cout << v[0] << "\n";    // random acces to element 0 without bounds check.
-   cout << v.at(1) << "\n"; // radnom access to element 1 with bounds check.
+   std::println("{}", v[0]);    // random acces to element 0 without bounds check.
+   std::println("{}", v.at(1)); // radnom access to element 1 with bounds check.
 
 We can simplify the code a bit using some of the more modern features of
 C++. First we don’t have to specify the type of the vector if the
@@ -134,7 +134,7 @@ can be deduced by the compiler.
 
    for (auto it=v.begin(); it!=v.end(); it++)
    {
-       cout << *it << "\n";
+       std::println("{}", *it);
    }
 
 .. button-link:: https://godbolt.org/z/rvYM6Yzzo
@@ -166,7 +166,7 @@ that we will iterate over. A simple example iterating over a vector.
    std::vector vec = { 1, 2, 3, 4, 5 };
 
    for (auto value : vec)
-       std::cout << value << "\n";
+       std::println("{}", value);
 
 .. button-link:: https://godbolt.org/z/rMY87bEsq
     :color: primary
@@ -186,7 +186,7 @@ becomes:
    std::vector vec = { 1, 2, 3, 4, 5 };
 
    for (auto& value : vec)
-       std::cout << value << "\n";
+       std::println("{}", value);
 
 .. button-link:: https://godbolt.org/z/aMTh88one
     :color: primary
@@ -207,7 +207,7 @@ assigning a value to **value**.
        value = 0;
 
    for (auto& value : vec)
-       cout << value << "\n";
+       std::println("{}", value);
 
 .. button-link:: https://godbolt.org/z/G4GTh7cc1
     :color: primary
@@ -248,7 +248,7 @@ possible to use a range-based for loop to iterate over the values.
 .. code:: cpp
 
    for (auto& value : arr)
-       cout << value << "\n";
+       std::println("{}", value);
 
 It is also possible to use C++ type deduction to automatically create an
 array without specifying data type and size.
@@ -261,7 +261,7 @@ The size of an array can be queried using the **.size()** method.
 
 .. code:: cpp
 
-   cout << "array size = " << arr.size() << "\n";
+   std::println("array size = {}", arr.size());
 
 .. button-link:: https://godbolt.org/z/Pr9KWKxoG
     :color: primary
@@ -276,7 +276,7 @@ The size of an array can be queried using the **.size()** method.
 .. code:: cpp
 
    for (auto i=0; i<arr.size(); i++)
-       cout << arr[i] << "\n";
+       std::println("{}", arr[i]);
 
 
 .. button-link:: https://godbolt.org/z/9faqKnPYP
@@ -296,7 +296,7 @@ array.
    auto* parr = arr.data();
 
    for (auto i=0; i<10; i++)
-       cout << parr[i] << "\n";
+       std::println("{}", parr[i]);
 
 .. button-link:: https://godbolt.org/z/b9nsqozfG
     :color: primary
@@ -310,7 +310,7 @@ range-based loops as shown in the following example:
 .. code:: cpp
 
    for (auto &v : arr)
-       std::cout << v << "\n";
+       std::println("{}", v);
 
 Using range-based loops with arrays prevents errors where you access
 your arrays outside their defined range (bound checking errors).
@@ -369,7 +369,7 @@ The size of the array can be queried using the **.size()** method.
 
 .. code:: cpp
 
-   std::cout << vec.size() "\n";
+   std::println("{}", vec.size());
 
 We can iterate over the vector using both iterators and direct access
 loops. Iterating using a loop variable.
@@ -377,27 +377,27 @@ loops. Iterating using a loop variable.
 ::
 
    for (auto i=0; i<vec.size(); i++)
-       std::cout << vec[i] << ", ";
+       std::print("{}, ", vec[i]);
 
-   std::cout << "\n";
+   std::println("");
 
 Iterating using iterator is shown below:
 
 .. code:: cpp
 
    for (auto it=vec.begin(); it!=vec.end(); it++)
-       std::cout << *it << ", ";
+       std::print("{}, ", *it);
 
-   std::cout << "\n";
+   std::println("");
 
 Finally, we can use a range-based for-loop as well:
 
 .. code:: cpp
 
    for (auto& v : vec)
-       std::cout << v << ", ";
+       std::print("{}, ", v);
 
-   std::cout <<"\n";
+   std::println("");
 
 .. button-link:: https://godbolt.org/z/43ajYMM3r
     :color: primary
@@ -747,9 +747,9 @@ this is shown below:
    it = m.find("carl");
 
    if (it != m.end())
-       std::cout << "found: " << it->first << ", " << it->second << "\n";
+       std::println("found: {}, {}", it->first, it->second);
    else
-       std::cout << "Could not find Carl." << std::endl;
+       std::println("Could not find Carl.");
 
 I the example above you can also see how you access the key and value of
 an iterator using the **->first** and **->second** accessors.
@@ -760,7 +760,7 @@ can be done using iterators. As shown in the following code:
 .. code:: cpp
 
    for (auto it = m.begin(); it != m.end(); it++)
-       std::cout << it->first << ", " << it->second << "\n";
+       std::println("{}, {}", it->first, it->second);
 
 Using the new modern features of C++ we can also use the range based
 for-loop to iterate over the **std::map**. In the following example we
@@ -770,7 +770,7 @@ structure.
 .. code:: cpp
 
    for (auto &item : m)
-       std::cout << item.first << ", " << item.second << "\n"
+       std::println("{}, {}", item.first, item.second);
 
 Please note that now can use the dot-operator to access the **first**
 and **second** fields of the item variable.
@@ -781,7 +781,7 @@ the value in a range-based loop.
 .. code:: cpp
 
    for (auto &[key, value] : m)
-       std::cout << key << ", " << value << "\n";
+       std::println("{}, {}", key, value);
 
 This almost looks line the range-based loop in Python.
 
@@ -834,7 +834,7 @@ be called just like any other function:
 .. code:: cpp
 
    auto f = [](int x) { return x * x; };
-   std::cout << f(5) << std::endl;
+   std::println("{}", f(5));
 
 The function in this example takes **int** x as input and returns and
 **int**. The function can also be specified with a return type as shown
@@ -843,7 +843,7 @@ in the following example:
 .. code:: cpp
 
    auto f = [](int x) -> int { return x * x; };
-   std::cout << f(5) << std::endl;
+   std::println("{}", f(5));
 
 In the next example, we declare a function **g** that has a capture
 clause [=], which enables the function to access all variables outside
@@ -854,7 +854,7 @@ the lambda function by value.
    int c = 42;
 
    auto g = [=](int x) { return x * x + c; };
-   std::cout << g(5) << std::endl;
+   std::println("{}", g(5));
 
 Accessing variables by references is achieved similarly in the following
 example:
@@ -864,7 +864,7 @@ example:
    int c = 42;
 
    auto h = [&](int x) { return x * x + c; };
-   std::cout << h(5) << std::endl;
+   std::println("{}", h(5));
 
 If the lambda function should only access specific variables they can be
 specified in explicetly in the capture clause as in this example:
@@ -874,7 +874,7 @@ specified in explicetly in the capture clause as in this example:
    int c = 42;
 
    auto p = [&c](int x) -> int { return x * x + c; };
-   std::cout << p(5) << std::endl;
+   std::println("{}", p(5));
 
 Here, the variable **c** is accessed by reference in the lambda
 function.
@@ -1003,7 +1003,7 @@ than 10.
    std::vector v = { 6, 4, 7, 3, 9, 0, 1, 5 };
 
    if (std::all_of(v.begin(), v.end(), [](int i) { return i < 10; }))
-       std::cout << "All values of v are less than 10." << std::endl;
+       std::println("All values of v are less than 10.");
 
 This will display:
 
@@ -1020,7 +1020,7 @@ evaluation function.
    std::vector v = { 6, 4, 7, 3, 9, 0, 1, 5 };
 
    if (std::any_of(v.begin(), v.end(), [](int i) { return i % 2 == 0; }))
-       std::cout << "Some of the values are even." << std::endl;
+       std::println("Some of the values are even.");
 
 This will display:
 
@@ -1036,7 +1036,7 @@ true no of the values return true in the evaluation function.
    std::vector v = { 6, 4, 7, 3, 9, 0, 1, 5 };
 
    if (std::none_of(v.begin(), v.end(), [](int i) { return i < 0; }))
-       std::cout << "No numbers are less than zero." << std::endl;
+       std::println("No numbers are less than zero.");
 
 This will display:
 
@@ -1052,7 +1052,7 @@ of the function.
 .. code:: cpp
 
    auto number_of_values = std::count(v.begin(), v.end(), 5);
-   std::cout << number_of_values << " items with the value 5 in v2. " << std::endl;
+   std::println("{} items with the value 5 in v2. ", number_of_values);
 
 This will display:
 
@@ -1066,7 +1066,7 @@ true in the evaluation function.
 .. code:: cpp
 
    auto even_numbers = std::count_if(v.begin(), v.end(), [](int i) {return i % 2 == 0; });
-   std::cout << even_numbers << " even numbers in v2." << std::endl;
+   std::println("{} even numbers in v2.", even_numbers);
 
 This will display:
 
@@ -1118,8 +1118,8 @@ current item.
 
    std::vector v = { 6, 4, 7, 3, 9, 0, 1, 5 };
 
-   std::for_each(v.begin(), v.end(), [](int i) { std::cout << i << " "; });
-   std::cout << std::endl;
+   std::for_each(v.begin(), v.end(), [](int i) { std::print("{} ", i); });
+   std::println("");
 
 This will display:
 
@@ -1152,7 +1152,7 @@ vector.
    auto sum = 0;
 
    std::for_each(v.begin(), v.end(), [&sum](int n) { sum += n; });
-   std::cout << "Them sum is " << sum << std::endl;
+   std::println("Them sum is {}", sum);
 
 
 .. note:: 
@@ -1508,7 +1508,7 @@ total sum of the values will be calculated as shown below:
 
    auto sum = std::accumulate(v1.begin(), v1.end(), 0.0);
 
-   std::cout << "sum = " << sum << "\n";
+   std::println("sum = {}", sum);
 
 Which will display the following output
 
@@ -1523,7 +1523,7 @@ standard operation as an additional argument
 
    auto prod = std::accumulate(v1.begin(), v1.end(), 1.0, std::multiplies<double>());
 
-   std::cout << "prod = " << prod << "\n";
+   std::println("prod = {}", prod);
 
 this prints
 
@@ -1565,15 +1565,15 @@ following **std::for_each()** call
 
 .. code:: cpp
 
-   std::for_each(v.begin(), v.end(), [](int i) { std::cout << i << " "; });
-   std::cout << std::endl;
+   std::for_each(v.begin(), v.end(), [](int i) { std::print("{} ", i); });
+   std::println("");
 
 can be converted to
 
 .. code:: cpp
 
-   std::ranges::for_each(v, [](int i) { std::cout << i << " "; });
-   std::cout << std::endl;
+   std::ranges::for_each(v, [](int i) { std::print("{} ", i); });
+   std::println("");
 
 It is also possible to sort a container by a simple
 

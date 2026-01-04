@@ -1,29 +1,27 @@
-#include <iostream>
-
-using namespace std;
+#include <print>
 
 int main()
 {
     enum { Red, Green, Blue, Yellow };
 
-    cout << "RED = " << Red << endl;
-    cout << "GREEN = " << Green << endl;
-    cout << "BLUE = " << Blue << endl;
-    cout << "YELLOW = " << Yellow << endl;
+    std::println("RED = {}", static_cast<int>(Red));
+    std::println("GREEN = {}", static_cast<int>(Green));
+    std::println("BLUE = {}", static_cast<int>(Blue));
+    std::println("YELLOW = {}", static_cast<int>(Yellow));
 
     int simple_color = Green;
 
-    cout << "simple_color = " << simple_color << endl;
+    std::println("simple_color = {}", simple_color);
 
     enum flavor { Vanilla, Chocolate, Orange, Strawberry };
 
     flavor selectedFlavor = Orange;
 
-    cout << "selectedFlavor = " << selectedFlavor << endl;
+    std::println("selectedFlavor = {}", static_cast<int>(selectedFlavor));
 
     enum status { Finished = 0, Error = 15 };
 
     status currentStatus = Error;
 
-    cout << "currentStatus = " << currentStatus << endl;
+    std::println("currentStatus = {}", static_cast<int>(currentStatus));
 }

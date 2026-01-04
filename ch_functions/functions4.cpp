@@ -1,11 +1,9 @@
-#include <iostream>
-
-using namespace std;
+#include <print>
 
 void simple(int* a)
 {
-    cout << "The value of a = " << a << endl;
-    cout << "*a = " << *a << endl;
+    std::println("The value of a = {}", static_cast<void*>(a));
+    std::println("*a = {}", *a);
 }
 
 int main()

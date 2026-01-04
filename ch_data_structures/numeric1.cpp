@@ -1,13 +1,13 @@
 #include <algorithm>
-#include <iostream>
+#include <print>
 #include <numeric>
 #include <vector>
 
 void print_vector(auto v)
 {
     for (auto& item : v)
-        std::cout << item << " ";
-    std::cout << std::endl;
+        std::print("{} ", item);
+    std::println("");
 }
 
 int main()
@@ -20,9 +20,9 @@ int main()
 
     auto sum = std::accumulate(v1.begin(), v1.end(), 0.0);
 
-    std::cout << "sum = " << sum << "\n";
+    std::println("sum = {}", sum);
 
     auto prod = std::accumulate(v1.begin(), v1.end(), 1.0, std::multiplies<double>());
 
-    std::cout << "prod = " << prod << "\n";
+    std::println("prod = {}", prod);
 }

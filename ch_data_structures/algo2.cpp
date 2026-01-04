@@ -4,7 +4,7 @@
 
 void myfunc(int i)
 {
-    std::print("{}\n", i);
+    std::println("{}", i);
 }
 
 bool greaterThan5(int i)

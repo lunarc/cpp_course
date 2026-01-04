@@ -1,4 +1,4 @@
-#include <iostream>
+#include <print>
 #include <vector>
 #include <cstdlib>
 #include <ctime>
@@ -15,5 +15,5 @@ int main()
     std::vector<int>::iterator it;
 
     for (it=vec.begin(); it!=vec.end(); it++)
-        std::cout << *it << "\n";
+        std::println("{}", *it);
 }

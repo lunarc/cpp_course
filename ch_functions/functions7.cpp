@@ -1,19 +1,17 @@
-#include <iostream>
-
-using namespace std;
+#include <print>
 
 void print_array_1(int* a)
 {
     for (int i=0; i<4; i++)
-        cout << a[i] << ", ";
-    cout << endl;
+        std::print("{}, ", a[i]);
+    std::println("");
 }
 
 void print_array_2(int a[])
 {
     for (int i=0; i<4; i++)
-        cout << a[i] << ", ";
-    cout << endl;
+        std::print("{}, ", a[i]);
+    std::println("");
 }
 
 int main()

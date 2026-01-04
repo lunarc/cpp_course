@@ -1,16 +1,15 @@
 #include <iostream>
-
-using namespace std;
+#include <print>
 
 int main()
 {
     int number;
     
-    cout << "Enter a number : ";
+    std::print("Enter a number : ");
     
-    cin >> number;
+    std::cin >> number;
     
     int outValue = (number>50) ? 42 : 21;
     
-    cout << "outValue = " << outValue;
+    std::println("outValue = {}", outValue);
 }

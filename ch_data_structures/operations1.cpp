@@ -1,12 +1,10 @@
-#include <iostream>
+#include <print>
 #include <map>
 #include <string>
 
-using namespace std;
-
 int main()
 {
-    map<string,int> m;
+    std::map<std::string,int> m;
     
     m["bob"] = 42;
     m["alice"] = 40;
@@ -14,29 +12,29 @@ int main()
     m["richard"] = 25;
     
     for (auto it=m.begin(); it!=m.end(); it++)
-        cout << it->first << ", " << it->second << endl;
+        std::println("{}, {}", it->first, it->second);
     
     m.erase(m.find("mike"));
 
-    cout << "--" << endl;
+    std::println("--");
     
     for (auto it=m.begin(); it!=m.end(); it++)
-        cout << it->first << ", " << it->second << endl;
+        std::println("{}, {}", it->first, it->second);
     
-    m.insert(pair<string,int>("carl", 43));
+    m.insert(std::pair<std::string,int>("carl", 43));
 
-    cout << "--" << endl;
+    std::println("--");
     
     for (auto it=m.begin(); it!=m.end(); it++)
-        cout << it->first << ", " << it->second << endl;
+        std::println("{}, {}", it->first, it->second);
     
     m.clear();
     
-    cout << "--" << endl;
+    std::println("--");
     
     for (auto it=m.begin(); it!=m.end(); it++)
-        cout << it->first << ", " << it->second << endl;
+        std::println("{}, {}", it->first, it->second);
     
-    cout << "m.size() = " << m.size() << endl;
+    std::println("m.size() = {}", m.size());
 
 }

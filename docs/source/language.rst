@@ -16,7 +16,7 @@ offers similar expressiveness while maintaining the performance advantages
 of a compiled language.
 
 Example of Modern C++ Code
----------------------------
+--------------------------
 
 An example of a simple modern C++ program is shown in the following example.
 
@@ -36,7 +36,7 @@ An example of a simple modern C++ program is shown in the following example.
              
              // Range-based for loop (modern C++)
              for (const auto& num : numbers) 
-                 std::println(num);
+                 std::println("{}", num);
 
              std::println("Hello, Modern C++");
              return 0;
@@ -52,9 +52,9 @@ An example of a simple modern C++ program is shown in the following example.
          int main()
          {
              for (int i = 0; i < 10; i++) 
-                 cout << i << endl;
+                 std::println("{}", i);
 
-             cout << "Hello, C++" << endl;
+             std::println("Hello, C++");
              return 0;
          }
 
@@ -80,9 +80,7 @@ The modern example includes the **print** header for terminal output and
 **int main()** is the C++ main function (entry point) called when the
 application starts.
 
-**std::cout** is the standard output stream object. In modern C++, we explicitly
-use the **std::** prefix rather than **using namespace std**, which can cause
-name conflicts in larger projects. The **<<** operator sends data to the output.
+**std::print()** and ``std::println()`` is the modern way of printing output to the console. In modern C++, we explicitly use the **std::** prefix rather than **using namespace std**, which can cause name conflicts in larger projects. 
 
 The **range-based for loop** (**for (const auto& num : numbers)**) is the modern
 way to iterate over containers - similar to Python's **for num in numbers**.
@@ -802,7 +800,7 @@ following code.
 
 .. code:: cpp
 
-   cout << typeid(a).name() << endl;
+   std::println("{}", typeid(a).name());
 
 This will print out
 
@@ -820,9 +818,9 @@ variable.
    auto c = 42.0;  // no suffix denotes a double
    auto d = 42.0f; // f suffix denotes a float
 
-   cout << typeid(b).name() << endl;
-   cout << typeid(c).name() << endl;
-   cout << typeid(d).name() << endl;
+   std::println("{}", typeid(b).name());
+   std::println("{}", typeid(c).name());
+   std::println("{}", typeid(d).name());
 
 Which gives the following output:
 
@@ -999,15 +997,15 @@ The length of a string can be queried using the **.length()** method.
 
 .. code:: cpp
 
-   cout << fun.lentgth() << "\n"; // Prints the string length
+   std::println("{}", fun.lentgth()); // Prints the string length
 
 Individual string characters can be accessed using the bracket operator
 or using the **.at()** method.
 
 .. code:: cpp
 
-   cout << fun[0] << "\n";    // Prints first character
-   cout << fun.at(1) << "\n"; // Prints second character
+   std::println("{}", fun[0]);    // Prints first character
+   std::println("{}", fun.at(1))"; // Prints second character
 
 The following example illustrates more string operations.
 
@@ -1432,9 +1430,7 @@ The following example uses a **for**-statement to illustrate the use of **break*
          :linenos:
          :emphasize-lines: 10,13
 
-         #include <iostream>
-
-         using namespace std;
+         #include <print>
 
          int main()
          {
@@ -1446,7 +1442,7 @@ The following example uses a **for**-statement to illustrate the use of **break*
                   if (i==10)
                      break;
 
-                  cout << i << "\n";
+                  std::println("{}", i);
                }
          }    
 
@@ -1557,12 +1553,14 @@ and arrays. It's safer and more readable than index-based loops:
    std::vector<int> data{1, 2, 3, 4, 5};
    
    // Modern range-based for loop (recommended)
-   for (const auto& value : data) {
-       std::cout << value << '\n';
+   for (const auto& value : data) 
+   {
+       std::println("{}", value);
    }
    
    // For modifying elements
-   for (auto& value : data) {
+   for (auto& value : data) 
+   {
        value *= 2;    // Double each element
    }
 
@@ -1586,12 +1584,12 @@ Use traditional for loops when you need the index or specific control:
 
    // When you need indices
    for (size_t i = 0; i < data.size(); i++) {
-       std::cout << "Element " << i << ": " << data[i] << '\n';
+       std::println("Element {}: {}", i, data[i]);
    }
    
    // Custom step or reverse iteration
    for (int i = 10; i > 0; i--) {
-       std::cout << i << '\n';
+       std::println("{}", i);
    }
 
 To create a shorter version of the **do/while**-statements which also can initialise and update a loop variable we can use the **for**-statement instead. The syntax of this statement is as follows:
@@ -1604,7 +1602,7 @@ The *start expression* is executed before the iteration. *conditional expression
 .. code:: cpp
 
    for (int i=0; i<10; i++)
-         cout << i << "\n";
+         std::println("{}", i);
 
 In this loop *i* is initialised to **0** before the iteration. The
 iteration continues if *i* is less than 10. On every iteration *i* is
@@ -1616,7 +1614,7 @@ If we want to iterate starting from one we can use the following
 .. code:: cpp
 
    for (int i=1; i<=10; i++)
-       cout << i << "\n";
+       std::println("{}", i);
 
 Using the **for**-statement makes it unnessecary to declare a special
 loop variable outside the iteration statement and creates a single
@@ -1727,7 +1725,7 @@ is shown below:
 
 .. code:: cpp
 
-   if (answer==42) cout << "The answer was 42.\n";
+   if (answer==42) std::println("The answer was 42.");
 
 It is also possible to use **else** to execute statements if the
 *condition* is false as in the following example:
@@ -1735,9 +1733,9 @@ It is also possible to use **else** to execute statements if the
 .. code:: cpp
 
    if (answer==42)
-       cout << "The answer was 42.\n";
+       std::println("The answer was 42.");
    else
-       cout << "The answer was not 42.\n";
+       std::println("The answer was not 42.");
 
 
 .. note::
@@ -1750,12 +1748,12 @@ to the **if**-statement as shown in the following example:
 
    if (answer>42)
    {
-       cout << "The answer was greater than 42.\n";
-       cout << "This requires a more thorough explanation.\n";
+       std::println("The answer was greater than 42.");
+       std::println("This requires a more thorough explanation.");
    }
    else
    {
-       cout << "The answer could have been 42. You never know?\n";
+       std::println("The answer could have been 42. You never know?");
    }
 
 Multiple conditions can be combined using relational and logical
@@ -1766,7 +1764,7 @@ and logical operations. In the following example we use an
 .. code:: cpp
 
    if ((x>=-1.0)&&(x<1.0))
-       cout << "x is in the interval -1.0 <= x < 1.0\n";
+       std::println("x is in the interval -1.0 <= x < 1.0");
 
 In the following example, we use an **if**-statement to output when the
 loop counter, *i*, is 5.
@@ -1869,11 +1867,11 @@ example of this:
    switch (state) 
    {
        case 0:
-           cout << "state = 0\n";
+           std::println("state = 0");
        case 1: 
-           cout << "state = 1\n";
+           std::println("state = 1");
        default:
-           cout << "state is not 0 or 1\n";
+           std::println("state is not 0 or 1");
    }
 
 If *state* is **0** output will be:
@@ -1908,13 +1906,13 @@ following code:
    switch (state) 
    {
        case 0:
-           cout << "state = 0\n";
+           std::println("state = 0");
            break;
        case 1: 
-           cout << "state = 1\n";
+           std::println("state = 1");
            break;
        default:
-           cout << "state is not 0 or 1\n";
+           std::println("state is not 0 or 1");
            break;
    }
 
@@ -1967,7 +1965,7 @@ return value and no arguments then becomes:
 
    void simple_func()
    {
-       cout << "This function just prints this message...\n";
+       std::println("This function just prints this message...");
    }
 
 The return value is returned using the **return**-statement as shown in
@@ -2039,7 +2037,7 @@ simple function with a single integer argument:
 
    void myfunc(int a)
    {
-       cout << a << "\n";
+       std::println("{}", a);
    }
 
 The function just prints out the value of **a**. It is possible to use
@@ -2049,9 +2047,9 @@ the argument as a variable in the function code block.
 
    void myfunc(int a)
    {
-       cout << a << "\n";
+       std::println("{}", a);
        a = 42;
-       cout << a << "\n";
+       std::println("{}", a);
    }
 
 As the argument **a** is passed by value the assignment of **a** in the
@@ -2106,8 +2104,8 @@ can assign the value of the variable passed in to the function:
 
    void simple(int* a)
    {
-       cout << "The value of a = " << a << endl;
-       cout << "*a = " << *a << endl;
+       std::println("The value of a = {}", (void*)a);
+       std::println("*a = {}", *a);
        *a = 43;
    }
 
@@ -2122,7 +2120,7 @@ operator (&) to pass the address of **a** to the function:
    {
        int a = 42;
        simple(&a);
-       cout << "The value of a = " << a << endl;    
+       std::println("The value of a = {}", a);    
    }
 
 Passing pointer gives us the ability to pass a variable into a function
@@ -2152,7 +2150,7 @@ becomes:
 
    void simple(int& a)
    {
-       cout << "The value of a = " << a << endl;    
+       std::println("The value of a = {}", a);    
        a = 43;
    }
 
@@ -2167,7 +2165,7 @@ function.
    {
        int a = 42;
        simple(a);
-       cout << "The value of a = " << a << endl;    
+       std::println("The value of a = {}", a);    
    }
 
 Running the above code will print out **43** as the function has
@@ -2198,8 +2196,8 @@ an array as input can be defined as
    void print_array(char* a)
    {
        for (int i=0; i<4; i++)
-           cout << a[i] << ", ";
-       cout << endl    
+           std::print("{}, ", a[i]);
+       std::println("");    
    }
 
 or
@@ -2209,8 +2207,8 @@ or
    void print_array(char a[])
    {
        for (int i=0; i<4; i++)
-           cout << a[i] << ", ";
-       cout << endl    
+           std::print("{}, ", a[i]);
+       std::println("");    
    }
 
 The following example shows a complete example with both methods.
@@ -2281,7 +2279,7 @@ strings by reference as the string does not have to be copied.
 
    void log_output(const std::string& context, const std::string& message)
    {
-       cout << context << ": " << message << "\n";
+       std::println("{}: {}", context, message);
    }
 
 Try this yourself in the following example:
@@ -2301,8 +2299,8 @@ accidentally modified in a function:
    void print_array(const int* a)
    {
        for (int i=0; i<4; i++)
-           cout << a[i] << ", ";
-       cout << endl    
+           std::print("{}, ", a[i]);
+       std::println("");    
    }
 
 This is the array example from previous sections using the **const**
@@ -2333,7 +2331,7 @@ useful for functions returning multiple results (common in scientific computing)
    
    // Get min and max in one call
    auto [minIt, maxIt] = std::minmax_element(data.begin(), data.end());
-   std::cout << "Min: " << *minIt << ", Max: " << *maxIt << '\n';
+   std::println("Min: {}, Max: {}", *minIt, *maxIt);
 
 **Returning multiple values from functions**:
 
@@ -2350,7 +2348,7 @@ useful for functions returning multiple results (common in scientific computing)
    
    // Unpack results
    auto [min, max, mean] = computeStats(data);
-   std::cout << "Min: " << min << ", Max: " << max << ", Mean: " << mean << '\n';
+   std::println("Min: {}, Max: {}, Mean: {}", min, max, mean);
 
 .. note::
    **For Python developers**: Similar to tuple unpacking:
@@ -2381,9 +2379,9 @@ may or may not exist - useful for error handling in numerical computations:
    // Use the result
    auto result = safeSqrt(-4.0);
    if (result.has_value()) {
-       std::cout << "Result: " << result.value() << '\n';
+       std::println("Result: {}", result.value());
    } else {
-       std::cout << "No valid result (negative input)\n";
+       std::println("No valid result (negative input)");
    }
    
    // Or use value_or for default
@@ -2402,7 +2400,7 @@ may or may not exist - useful for error handling in numerical computations:
    
    auto result = safeDivide(10.0, 0.0);
    if (result) {  // Implicit conversion to bool
-       std::cout << "Result: " << *result << '\n';  // Dereference like pointer
+       std::println("Result: {}", *result);  // Dereference like pointer
    }
 
 .. note::
@@ -2451,7 +2449,7 @@ references we can use the star (\*) operator dereference the pointer.
 
    a = &b;
 
-   cout << *a << "\n"; // Dereferencing pointer a,
+   std::println("{}", *a); // Dereferencing pointer a,
                        // Displaying the value a points to
 
 In this example the value of **a** is printed, which actually is value
@@ -2538,8 +2536,8 @@ array. If we print out these variables we get:
 
 .. code:: cpp
 
-   cout << "a = " << a << "\n";
-   cout << "b = " << b << "\n";
+   std::println("a = {}", (void*)a);
+   std::println("b = {}", (void*)b);
 
 ::
 
@@ -2555,8 +2553,8 @@ Both **a** and **b** can accessed using array notation. Printing
 
 .. code:: cpp
 
-   cout << "a[0] = " << a[0] << "\n";
-   cout << "b[0] = " << b[0] << "\n";
+   std::println("a[0] = {}", a[0]);
+   std::println("b[0] = {}", b[0]);
 
 ::
 
@@ -2592,13 +2590,13 @@ operator on a pointer variable.
 
    c = &a[2];
 
-   cout << "c = " << c << "\n";
-   cout << "*c = " << *c << "\n";
+   std::println("c = {}", (void*)c);
+   std::println("*c = {}", *c);
 
    d = b + 2;
 
-   cout << "d = " << d << "\n";
-   cout << "*d = " << *d << "\n";
+   std::println("d = {}", (void*)d);
+   std::println("*d = {}", *d);
 
 ::
 
@@ -2856,9 +2854,9 @@ In the following table some approaches for implementing multidimensional arrays 
          // Iterate
          for (auto& row : array) {
              for (auto& elem : row) {
-                 std::cout << elem << ", ";
+                 std::print("{}, ", elem);
              }
-             std::cout << '\n';
+             std::println("");
          }
          
          // Automatic cleanup - no delete needed!
@@ -2888,9 +2886,9 @@ In the following table some approaches for implementing multidimensional arrays 
          // Iterate
          for (int i = 0; i < rows; i++) {
              for (int j = 0; j < cols; j++) {
-                 std::cout << at(i, j) << ", ";
+                 std::print("{}, ", at(i, j));
              }
-             std::cout << '\n';
+             std::println("");
          }
 
    .. tab:: unique_ptr (C API Compatible)
@@ -2978,7 +2976,7 @@ Dynamic Arrays of Structures
    
    // Print
    for (const auto& coord : coords) {
-       std::cout << coord.x << ", " << coord.y << ", " << coord.z << '\n';
+       std::println("{}, {}, {}", coord.x, coord.y, coord.z);
    }
    
    // Automatic cleanup - no delete needed!
@@ -3096,7 +3094,7 @@ Legacy Memory Management (For Reference Only)
    allocation that modern C++ abstracts away.
 
 Manual new/delete Operators
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In C++, manual heap allocation uses the **new** operator. The **new**
 operator has the following syntax:
@@ -3119,7 +3117,7 @@ dereference the pointer.
 .. code:: cpp
 
    *pvalue = 42.0f;
-   cout << *pvalue << "\n";
+   std::println("{}", *pvalue);
 
 When we are done using the allocated memory we need to release it again
 to the operating system. If we don’t release the memory we have created
@@ -3144,7 +3142,7 @@ Modern C++ smart pointers (shown in the modern section above) handle this
 deallocation automatically.
 
 Manual Array Allocation with new[]
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. warning::
    **Modern C++ Recommendation**: Use ``std::vector`` for most cases, or ``std::unique_ptr`` for raw arrays when interfacing with legacy APIs. Avoid manual **new[]** and **delete[]**.
@@ -3187,7 +3185,7 @@ arrays, **delete []**.
    delete [] arr;
 
 Legacy 2D Arrays - Array of Pointers Approach
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. warning::
    **Modern C++ Recommendation**: Use ``std::vector<std::vector<T>>`` (simple) or a flattened ``std::vector<T>`` with index calculation (high performance). The following manual pointer-based approaches are for legacy code understanding only.
@@ -3272,7 +3270,7 @@ A complete example of this is shown below:
     Try example
 
 Legacy 2D Arrays - Fortran-Style Contiguous Allocation
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note::
    **Modern Alternative**: The flattened ``std::vector`` shown in the modern section above is the modern equivalent of this Fortran-style approach, with automatic memory management and better safety.
@@ -3340,7 +3338,7 @@ A complete example is available below:
 
 
 Legacy Helper Functions for 2D Arrays
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note::
    **Modern C++ Alternative**: Instead of manual functions with raw pointers, use a simple wrapper class with ``std::vector`` for automatic memory management:
@@ -3448,9 +3446,9 @@ We can now use the array just like in our previous examples.
    for (auto i=0; i<4; i++)
    {
        for (auto j=0; j<8; j++)
-           cout << array[i][j] << ", ";
+           std::print("{}, ", array[i][j]);
        
-       cout << endl;
+       std::println("");
    }
 
 Finally we destroy the array with:
@@ -3484,7 +3482,7 @@ A complete example of this is shown below:
     Try example
 
 Legacy Dynamic Arrays of Struct
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. warning::
    **Modern C++ Recommendation**: Use ``std::vector<StructType>`` for dynamic arrays of structures. This provides automatic memory management and size tracking.
@@ -3529,7 +3527,7 @@ Printing the values is done in a similar way.
 .. code:: cpp
 
    for (auto i=0; i<10; i++)
-       cout << coords[i].x << ", " << coords[i].y << ", " << coords[i].z << endl;
+       std::println("{}, {}, {}", coords[i].x, coords[i].y, coords[i].z);
 
 As this is a dynamically allocated array we need to delete it using the
 **delete []** statement.
@@ -3570,7 +3568,7 @@ The complete example can found below:
 
 
 Legacy Dynamic Arrays of Struct Pointers
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In some cases it can be required to allocate the individual structs
 themself dynamically. To do this we allocate an array of pointers to the
@@ -3602,7 +3600,7 @@ the arrow operator (->).
 .. code:: cpp
 
    for (auto i=0; i<10; i++)
-       cout << coords[i]->x << ", " << coords[i]->y << ", " << coords[i]->z << endl;
+       std::println("{}, {}, {}", coords[i]->x, coords[i]->y, coords[i]->z);
 
 To delete the array the individual structs must be deleted before we
 delete the outer pointer array.
@@ -3649,7 +3647,7 @@ The complete example is shown below:
     Try example
 
 Modern C++ Best Practices Summary
-----------------------------------
+---------------------------------
 
 For engineers and scientists transitioning to C++ from Python or Fortran,
 here are the key modern C++ practices to adopt:
@@ -3722,7 +3720,7 @@ here are the key modern C++ practices to adopt:
 
 .. code:: cpp
 
-   std::cout << "Hello\n";
+   std::println("Hello");
    std::vector<int> data;
 
 ❌ **Avoid**: ``using namespace std;`` (especially in headers)
@@ -3745,7 +3743,7 @@ here are the key modern C++ practices to adopt:
 ✅ **Do**: Use return values or ``std::tuple`` for multiple outputs
 
 Quick Reference: Python/Fortran to Modern C++
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. list-table::
    :header-rows: 1

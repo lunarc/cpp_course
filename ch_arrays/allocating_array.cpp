@@ -1,6 +1,4 @@
-#include <iostream>
-
-using namespace std;
+#include <print>
 
 int main()
 {
@@ -14,10 +12,10 @@ int main()
     
     b = &a[6];
     
-    cout << "a = " << a << endl;
-    cout << "a[5] = " << a[5] << endl;
-    cout << "b = " << b << endl;
-    cout << "*b = " << *b << endl;
+    std::println("a = {}", static_cast<void*>(a));
+    std::println("a[5] = {}", a[5]);
+    std::println("b = {}", static_cast<void*>(b));
+    std::println("*b = {}", *b);
     
     delete[] a;
 }

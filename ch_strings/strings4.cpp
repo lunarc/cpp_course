@@ -1,21 +1,19 @@
-#include <iostream>
+#include <print>
 #include <string>
-
-using namespace std;
 
 int main()
 {
-    string s = "The quick brown fox jumps over the lazy dog.";
+    std::string s = "The quick brown fox jumps over the lazy dog.";
     
     auto p0 = s.find("o");
     auto p1 = s.find("o", p0+1);
     auto p2 = s.find("xx");
     
-    cout << "The first 'o' is at position " << p0 << "\n";
-    cout << "The next 'o' is at position " << p1 << "\n";
+    std::println("The first 'o' is at position {}", p0);
+    std::println("The next 'o' is at position {}", p1);
 
-    if (p2 == string::npos)
-        cout << "xx was not found.\n";
+    if (p2 == std::string::npos)
+        std::println("xx was not found.");
     else
-        cout << "xx was found.\n";
+        std::println("xx was found.");
 }

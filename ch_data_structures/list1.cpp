@@ -1,11 +1,11 @@
-#include <iostream>
+#include <print>
 #include <list>
 
 void print_items(const auto &list)
 {
     for (auto &v : list)
-        std::cout << v << ", ";
-    std::cout << "\n";
+        std::print("{}, ", v);
+    std::println("");
 }
 
 int main()
@@ -31,33 +31,31 @@ int main()
     // List iteration using iterators
 
     for (auto it = l.begin(); it != l.end(); it++)
-        std::cout << *it << ", ";
+        std::print("{}, ", *it);
 
-    std::cout << "\n";
+    std::println("");
 
     // Range based iteration
 
     for (auto &v : l)
-        std::cout << v << ", ";
+        std::print("{}, ", v);
 
-    std::cout << "\n";
+    std::println("");
 
     // Removing items from the front and back
 
-    std::cout << "l front = " << l.front() << "\n";
-    std::cout << "pop front"
-              << "\n";
+    std::println("l front = {}", l.front());
+    std::println("pop front");
 
     l.pop_front();
 
-    std::cout << "l front = " << l.front() << "\n";
-    std::cout << "l back = " << l.back() << "\n";
-    std::cout << "pop back"
-              << "\n";
+    std::println("l front = {}", l.front());
+    std::println("l back = {}", l.back());
+    std::println("pop back");
 
     l.pop_back();
 
-    std::cout << "l back = " << l.back() << "\n";
+    std::println("l back = {}", l.back());
 
     print_items(l);
 

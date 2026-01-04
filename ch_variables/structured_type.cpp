@@ -1,6 +1,4 @@
-#include <iostream>
-
-using namespace std;
+#include <print>
 
 int main()
 {
@@ -17,7 +15,7 @@ int main()
     c2.x = 1.0;
     c2.y = 1.0;
     
-    cout << "c1.x = " << c1.x << ", c1.y = " << c1.y << endl;
-    cout << "c2.x = " << c2.x << ", c2.y = " << c2.y << endl;
-    cout << "sizeof(c1) = " << sizeof(c1) << endl;
+    std::println("c1.x = {}, c1.y = {}", c1.x, c1.y);
+    std::println("c2.x = {}, c2.y = {}", c2.x, c2.y);
+    std::println("sizeof(c1) = {}", sizeof(c1));
 }

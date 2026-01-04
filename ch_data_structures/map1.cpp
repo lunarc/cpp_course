@@ -1,4 +1,4 @@
-#include <iostream>
+#include <print>
 #include <map>
 #include <string>
 
@@ -14,27 +14,27 @@ int main()
     m.insert({"john", 84});
 
     for (auto it = m.begin(); it != m.end(); it++)
-        std::cout << it->first << ", " << it->second << "\n";
+        std::println("{}, {}", it->first, it->second);
 
-    std::cout << "\n";
+    std::println("");
 
     for (auto &item : m)
-        std::cout << item.first << ", " << item.second << "\n";
+        std::println("{}, {}", item.first, item.second);
 
-    std::cout << "\n";
+    std::println("");
 
     for (auto &[key, value] : m)
-        std::cout << key << ", " << value << "\n";
+        std::println("{}, {}", key, value);
 
-    std::cout << "\n";
+    std::println("");
 
     auto it = m.find("bob");
-    std::cout << "found: " << it->first << ", " << it->second << "\n";
+    std::println("found: {}, {}", it->first, it->second);
 
     it = m.find("carl");
 
     if (it != m.end())
-        std::cout << "found: " << it->first << ", " << it->second << "\n";
+        std::println("found: {}, {}", it->first, it->second);
     else
-        std::cout << "Could not find Carl." << std::endl;
+        std::println("Could not find Carl.");
 }

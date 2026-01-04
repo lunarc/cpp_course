@@ -1,6 +1,6 @@
-#include <iostream>
+#include <print>
 
-using namespace std;
+using std::println;
 
 int main()
 {
@@ -12,8 +12,8 @@ int main()
     a = -1; b = -1;
     c = -1; d = -1;
     
-    cout << "a = " << a << ", sizeof(a) = " << sizeof(a) << endl;
-    cout << "b = " << b << ", sizeof(b) = " << sizeof(b) << endl;
-    cout << "c = " << c << ", sizeof(c) = " << sizeof(c) << endl;
-    cout << "d = " << d << ", sizeof(d) = " << sizeof(d) << endl;
+    println("a = {}, sizeof(a) = {}", a, sizeof(a));
+    println("b = {}, sizeof(b) = {}", b, sizeof(b));
+    println("c = {}, sizeof(c) = {}", c, sizeof(c));
+    println("d = {}, sizeof(d) = {}", d, sizeof(d));
 }

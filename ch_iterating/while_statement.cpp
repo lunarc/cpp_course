@@ -1,6 +1,4 @@
-#include <iostream>
-
-using namespace std;
+#include <print>
 
 int main() 
 {
@@ -8,7 +6,7 @@ int main()
     
     while (counter <= 10) 
     {
-        cout << "counter = " << counter << endl;
+        std::println("counter = {}", counter);
         counter = counter + 1;
     }
 }

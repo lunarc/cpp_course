@@ -1,6 +1,4 @@
-#include <iostream>
-
-using namespace std;
+#include <print>
 
 int** createArray(int rows, int cols)
 {
@@ -36,9 +34,9 @@ int main()
     for (auto i=0; i<4; i++)
     {
         for (auto j=0; j<8; j++)
-            cout << array[i][j] << ", ";
+            std::print("{}, ", array[i][j]);
         
-        cout << endl;
+        std::println("");
     }
 
     deleteArray(array);

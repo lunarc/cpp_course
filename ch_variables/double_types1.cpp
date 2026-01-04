@@ -1,8 +1,5 @@
-#include <iostream>
-#include <iomanip>
+#include <print>
 #include <cmath>
-
-using namespace std;
 
 int main()
 {
@@ -16,7 +13,7 @@ int main()
     d = pi;
     ld = pi;
     
-    cout << setprecision(15) << "f = " << f << endl;
-    cout << setprecision(15) << "d = " << d << endl;
-    cout << setprecision(15) << "ld = " << ld << endl;
+    std::println("f = {:.15}", f);
+    std::println("d = {:.15}", d);
+    std::println("ld = {:.15}", ld);
 }

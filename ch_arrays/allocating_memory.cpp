@@ -1,6 +1,4 @@
-#include <iostream>
-
-using namespace std;
+#include <print>
 
 int main()
 {
@@ -10,8 +8,8 @@ int main()
     
     *a = 42;
     
-    cout << "a = " << a << endl;
-    cout << "*a = " << *a << endl;
+    std::println("a = {}", static_cast<void*>(a));
+    std::println("*a = {}", *a);
     
     delete a;
 }

@@ -1,8 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
-
-using namespace std;
+#include <print>
 
 int main()
 {
@@ -11,21 +10,21 @@ int main()
     double y;
     double dx = 0.1;
 
-    ofstream outfile;
-    outfile.open("inputfile.dat", ios::out);
+    std::ofstream outfile;
+    outfile.open("inputfile.dat", std::ios::out);
     while (x<=pi*0.25)
     {
-        outfile << x << " " << sin(x) << endl;
+        outfile << x << " " << sin(x) << "\n";
         x += dx;
     }
     outfile.close();
         
-    ifstream infile;
+    std::ifstream infile;
     infile.open("inputfile.dat");
     while (infile.good())
     {
         infile >> x >> y;
-        cout << "x = " << x << ", y = " << y << endl;
+        std::print("x = {}, y = {}\n", x, y);
     }
     infile.close();
 }

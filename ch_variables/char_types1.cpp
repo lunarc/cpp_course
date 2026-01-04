@@ -1,6 +1,4 @@
-#include <iostream>
-
-using namespace std;
+#include <print>
 
 int main()
 {
@@ -19,16 +17,10 @@ int main()
     c32 = 'c';
     w32 = 'd';
 
-    cout << "c = " << c << " int(c) = " << int(c);
-    cout << " sizeof(c) = " << sizeof(c) << endl;
-    cout << "uc = " << uc << " int(uc) = " << int(uc);
-    cout << " sizeof(c) = " << sizeof(c) << endl;
-    cout << "sc = " << sc << " int(sc) = " << int(sc);
-    cout << " sizeof(c) = " << sizeof(c) << endl;
-    wcout << "c16 = " << wchar_t(c16) << " int(c16) = " << int(c16);
-    cout << " sizeof(c16) = " << sizeof(c16) << endl;
-    wcout << "c32 = " << wchar_t(c32) << " int(c32) = " << int(c32);
-    cout << " sizeof(c32) = " << sizeof(c16) << endl;
-    wcout << "w32 = " << wchar_t(w32) << " int(w32) = " << int(w32);
-    cout << " sizeof(w32) = " << sizeof(w32) << endl;
+    std::println("c = {} int(c) = {} sizeof(c) = {}", c, int(c), sizeof(c));
+    std::println("uc = {} int(uc) = {} sizeof(c) = {}", uc, int(uc), sizeof(c));
+    std::println("sc = {} int(sc) = {} sizeof(c) = {}", sc, int(sc), sizeof(c));
+    std::println("c16 = {} int(c16) = {} sizeof(c16) = {}", char(c16), int(c16), sizeof(c16));
+    std::println("c32 = {} int(c32) = {} sizeof(c32) = {}", char(c32), int(c32), sizeof(c16));
+    std::println("w32 = {} int(w32) = {} sizeof(w32) = {}", char(w32), int(w32), sizeof(w32));
 }
