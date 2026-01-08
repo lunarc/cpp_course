@@ -67,3 +67,4 @@ build/*
 /.vscode
 /ch_qt/.vscode
 /ch_mixed_language/python/build
+docs/source/mixed_language_notes.txt
