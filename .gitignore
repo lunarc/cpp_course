@@ -66,3 +66,4 @@ build/*
 /docs/build
 /.vscode
 /ch_qt/.vscode
+/ch_mixed_language/python/build

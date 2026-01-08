@@ -42,8 +42,8 @@ Jonas Lindemann, 2025
    oop
    qt
    concurrency
+   mixed_language
    code_org
    debugging
-   mixed_language
    build_examples
    
