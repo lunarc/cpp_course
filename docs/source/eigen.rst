@@ -90,6 +90,8 @@ This will output:
    4 5 6
    7 8 9
 
+https://godbolt.org/z/zxvdeacqx
+
 Working with Matrices and Vectors
 ---------------------------------
 
