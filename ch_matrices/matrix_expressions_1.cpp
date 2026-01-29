@@ -1,11 +1,13 @@
-#include <iostream>
+#include <print>
 #include <Eigen/Dense>
 
-using namespace std;
-using namespace Eigen;
+#include <egcpp/utils_print.h>
 
 int main()
 {
+    using Eigen::Matrix3d;
+    using Eigen::Vector3d;
+
     Matrix3d A;
 
     A << 1, 2, 3,
@@ -19,19 +21,20 @@ int main()
          7, 8, 9;
 
     auto C = A + B;
-	cout << C << endl;
+
+    utils::print("C = A + B:", C);
 
     auto D = A * 3.0;
-    cout << D << endl;
+    utils::print("D = A * 3.0:", D);
 
     auto E = A * B;
-    cout << E << endl;
+    utils::print("E = A * B:", E);
 
-    auto F = E + Matrix3d::Constant(1.0);   
-    cout << F << endl;
+    auto F = E + Matrix3d::Constant(1.0);
+    utils::print("F = E + 1.0:", F);
 
     Matrix3d G = E.array() + 3.0;
-    cout << G << endl;
+    utils::print("G = E + 3.0:", G);
 
     Matrix3d H;
 
@@ -39,7 +42,7 @@ int main()
 		 4, 5, 6,
 		 7, 8, 9;
 
-    std::cout << "H^T = " << std::endl << H.transpose() << std::endl;
+    utils::print("H^T =", H.transpose());
 
     Vector3d s(1, 2, 3);
     Vector3d t(1, 0, 0);
@@ -47,8 +50,8 @@ int main()
     auto u = s.cross(t);
     auto p = s.dot(t);
 
-    cout << u << endl;
-    cout << p << endl;
+    utils::print("u =", u);
+    std::println("p = {}", p);
 
     Matrix3d J;
 
@@ -56,7 +59,7 @@ int main()
          23, 52, 81,
          33, 63, 91;
 
-    cout << J.inverse() << endl;
+    utils::print("J.inverse() = {}", J.inverse());
 
     Matrix3d K;
 
@@ -64,15 +67,15 @@ int main()
 		 4, 5, 6,
 		 7, 8, 9;
 
-    cout << "K.sum()\n" << K.sum() << endl;
-    cout << "K.prod()\n" << K.prod() << endl;
-    cout << "K.mean()\n" << K.mean() << endl;
-    cout << "K.norm()\n" << K.norm() << endl;
-    cout << "K.maxCoeff()\n" << K.maxCoeff() << endl;
-    cout << "K.minCoeff()\n" << K.minCoeff() << endl;
-    cout << "K.trace()\n" << K.trace() << endl;
-    cout << "K.diagonal()\n" << K.diagonal() << endl;
-    cout << "K.determinant()\n" << K.determinant() << endl;
+    std::println("K.sum() = {}", K.sum());
+    std::println("K.prod() = {}", K.prod());
+    std::println("K.mean() = {}", K.mean());
+    std::println("K.norm() = {}", K.norm());
+    std::println("K.maxCoeff() = {}", K.maxCoeff());
+    std::println("K.minCoeff() = {}", K.minCoeff());
+    std::println("K.trace() = {}", K.trace());
+    std::println("K.diagonal() = {}", K.diagonal());
+    std::println("K.determinant() = {}", K.determinant());
 
 	return 0;
 

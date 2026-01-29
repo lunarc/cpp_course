@@ -1,11 +1,12 @@
 #include <Eigen/Dense>
-#include <iostream>
-
-using namespace std;
-using namespace Eigen;
+#include <print>
+#include <egcpp/utils_print.h>
 
 int main()
 {
+    using Eigen::MatrixXd;
+    using Eigen::FullPivLU;
+
     MatrixXd A(10, 10);
     A.setRandom();
 
@@ -15,15 +16,9 @@ int main()
     FullPivLU<MatrixXd> ldlt(A);
     MatrixXd x = ldlt.solve(b);
 
-    cout << "The solution is:\n"
-         << x << endl;
+    utils::print("The solution is", x);
+    utils::print("b is", b);
+    utils::print("A * x is", A * x);
 
-    cout << "b is:\n"
-         << b << endl;
-
-    cout << "A * x is:\n"
-         << A * x << endl;
-
-    cout << "The error is:\n"
-         << (A * x - b).norm() << endl;
+    std::print("The error is:\n{}\n", (A * x - b).norm());
 }

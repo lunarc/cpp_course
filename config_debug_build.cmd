@@ -1,9 +1,4 @@
-if exist build-debug (
-    rmdir /Q /S build-debug
-)
+@echo off
+REM Configure Debug build using CMake presets
 
-mkdir build-debug
-
-pushd build-debug
-cmake -DCMAKE_BUILD_TYPE=Debug ..
-popd
+cmake --preset vs2026-debug

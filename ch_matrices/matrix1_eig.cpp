@@ -1,96 +1,104 @@
 #include <Eigen/Dense>
-#include <iostream>
-
-using std::cout;
+#include <print>
+#include <egcpp/utils_print.h>
 
 int main()
 {
-    Eigen::Matrix3d A;
+    using Eigen::Matrix3d;
+    using Eigen::Matrix3i;
+    using Eigen::Matrix3f;
+    using Eigen::Matrix;
+    using Eigen::Vector;
+    using Eigen::Vector3d;
+    using Eigen::Dynamic;
+    using Eigen::RowVector3d;
 
-    cout << "Here is the matrix A (uninitialised):\n" << A << "\n";
+    Matrix3d A;
+
+    utils::print("Here is the matrix A (uninitialised)", A);
 
     A.setOnes();
 
-    cout << "Here is the matrix A:\n" << A << "\n";
+    utils::print("Here is the matrix A", A);
 
-    Eigen::Matrix3i B = Eigen::Matrix3i::Zero();
+    Matrix3i B = Matrix3i::Zero();
 
-    cout << "Here is the matrix B:\n" << B << "\n";
+    utils::print("Here is the matrix B", B);
 
-    Eigen::Matrix3f C;
+    Matrix3f C;
     C.setIdentity();
 
-    cout << "Here is the matrix C:\n" << C << "\n";
+    utils::print("Here is the matrix C", C);
 
-    Eigen::Matrix3d D;
+    Matrix3d D;
 
     D << 1, 2, 3, 4, 5, 6, 7, 8, 9;
 
-    cout << "Here is the matrix D:\n" << D << "\n";
+    utils::print("Here is the matrix D", D);
 
     D.col(0) << 1, 2, 3;
     D.col(1) << 4, 5, 6;
     D.col(2) << 7, 8, 9;
 
-    cout << "Here is the matrix D:\n" << D << "\n";
+    utils::print("Here is the matrix D", D);
 
-    Eigen::Matrix< double, 6, 3 > E;
+    Matrix< double, 6, 3 > E;
 
     E.col(0) << 1, 2, 3, 4, 5, 6;
     E.col(1) << 7, 8, 9, 10, 11, 12;
     E.col(2) << 13, 14, 15, 16, 17, 18;
 
-    cout << "Here is the matrix E:\n" << E << "\n";
+    utils::print("Here is the matrix E", E);
 
-    Eigen::Matrix< int, 3, 6 > F;
+    Matrix< int, 3, 6 > F;
 
     F.row(0) << 1, 2, 3, 4, 5, 6;
     F.row(1) << 7, 8, 9, 10, 11, 12;
     F.row(2) << 13, 14, 15, 16, 17, 18;
 
-    cout << "Here is the matrix F:\n" << F << "\n";
+    utils::print("Here is the matrix F", F);
 
-    Eigen::Vector< double, 3 > v;
+    Vector< double, 3 > v;
 
     v << 1, 2, 3;
 
-    cout << "Here is the vector v:\n" << v << "\n";
+    utils::print("Here is the vector v", v);
 
-    Eigen::Vector3d w(1, 2, 3);
+    Vector3d w(1, 2, 3);
 
-    cout << "Here is the vector w:\n" << w << "\n";
+    utils::print("Here is the vector w", w);
 
-    Eigen::Matrix< double, Eigen::Dynamic, Eigen::Dynamic > A_dyn(3, 3); // Shorthand for MatrixXd
+    Matrix< double, Dynamic, Dynamic > A_dyn(3, 3); // Shorthand for MatrixXd
 
     A_dyn << 1, 2, 3, 4, 5, 6, 7, 8, 9;
 
-    cout << "Here is the matrix A_dyn:\n" << A_dyn << "\n";
+    utils::print("Here is the matrix A_dyn", A_dyn);
 
     A_dyn.resize(1, 9); // No reallocation
 
-    cout << "Here is the matrix A_dyn after resizing:\n" << A_dyn << "\n";
+    utils::print("Here is the matrix A_dyn after resizing", A_dyn);
 
     A_dyn.resize(6, 6); // Reallocation.
 
-    cout << "Here is the matrix A_dyn after resizing:\n" << A_dyn << "\n";
+    utils::print("Here is the matrix A_dyn after resizing", A_dyn);
 
     A_dyn.setZero();
 
-    cout << "Here is the matrix A_dyn after setting to zero:\n" << A_dyn << "\n";
+    utils::print("Here is the matrix A_dyn after setting to zero", A_dyn);
 
-    Eigen::Matrix< int, Eigen::Dynamic, 3 > B_dyn;
+    Matrix< int, Dynamic, 3 > B_dyn;
 
     B_dyn.resize(10, 3);
 
     B_dyn.setRandom();
 
-    cout << "Here is the matrix B_dyn:\n" << B_dyn << "\n";
+    utils::print("Here is the matrix B_dyn", B_dyn);
 
-    Eigen::RowVector3d v_row(1.0, 2.0, 3.0);
+    RowVector3d v_row(1.0, 2.0, 3.0);
 
-    cout << "Here is the row vector v_row:\n" << v_row << "\n";
+    utils::print("Here is the row vector v_row", v_row);
 
-    Eigen::Vector3d v_col(1.0, 2.0, 3.0);
+    Vector3d v_col(1.0, 2.0, 3.0);
 
-    cout << "Here is the row vector v_col:\n" << v_col << "\n";
+    utils::print("Here is the row vector v_col", v_col);
 }

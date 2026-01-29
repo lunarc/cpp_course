@@ -25,6 +25,71 @@ To use Eigen in your own application you first have to include the Eigen header 
 
 This includes the dense matrix module of Eigen. There are other modules, but we will cover them later. The ``Eigen/Dense`` module includes all the basic matrix operations and is the most commonly used module.
 
+Matrix printing
+~~~~~~~~~~~~~~~
+
+The default method of outputting matrices in Eigen is by using the ``<<`` operator. However, the default output format is not very user friendly. The following code illustrates how to output a matrix using the default method:
+
+.. code:: cpp
+
+   #include <iostream>
+   #include <Eigen/Dense>
+
+   int main() {
+       Eigen::Matrix3d A;
+       A << 1, 2, 3,
+            4, 5, 6,
+            7, 8, 9;
+
+       std::cout << A << "\n";
+
+       return 0;
+   }
+
+This will output:
+
+.. code:: text
+
+   1 2 3
+   4 5 6
+   7 8 9
+
+In modern C++ the use of cout is often replaced by the use of the ``std::print`` function from the C++20 standard library. However, Eigen does not yet support this method of outputting matrices. The examples in this book will use a special header-only library, ``egcpp/utils_pring.h``,  to make printing matrices easier. To use this library you have to include the header file:
+
+.. code:: cpp
+
+   #include <egcpp/utils_print.h>
+
+The library adds support for a ``utils::print()`` function that can be used to print matrices in a more user friendly way. The following code illustrates how to use the ``utils::print()`` function: 
+
+.. code:: cpp
+
+   #include <print>
+   #include <Eigen/Dense>
+   #include <egcpp/utils_print.h>
+
+   int main() 
+   {
+      Eigen::Matrix3d A;
+
+      A << 1, 2, 3,
+           4, 5, 6,
+           7, 8, 9;
+
+      utils::print("Matrix A:", A);
+
+      return 0;
+   }
+
+This will output:
+
+.. code:: text
+
+   Matrix A:
+   1 2 3
+   4 5 6
+   7 8 9
+
 Working with Matrices and Vectors
 ---------------------------------
 
@@ -34,7 +99,12 @@ Eigen has several classes for different types of matrix and vector types. Most c
 
    using namespace Eigen;
 
-However, this is not recommended as it can lead to name clashes with other libraries. For smaller examples it is ok, but for larger projects it is recommended to use the ``Eigen::`` prefix.
+However, this is not recommended as it can lead to name clashes with other libraries. For smaller examples it is ok, but for larger projects it is recommended to use the ``Eigen::`` prefix. There is also a possibility to include only specific classes from the Eigen namespace. For example, to include only the Matrix and Vector classes you can use the following code:
+
+.. code:: cpp
+
+   using Eigen::Matrix;
+   using Eigen::Vector;
 
 A typical Matrix declaration of a 3 by 3 matrix of double values looks like this:
 
