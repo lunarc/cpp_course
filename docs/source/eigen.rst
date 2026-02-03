@@ -86,9 +86,10 @@ This will output:
 .. code:: text
 
    Matrix A:
-   1 2 3
-   4 5 6
-   7 8 9
+
+   [[1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]]
 
 https://godbolt.org/z/zxvdeacqx
 
@@ -143,15 +144,17 @@ When you declare a matrices in Eigen they are not automatically set to zero. Thi
 
    Eigen::Matrix3d A;
 
-   std::cout << A << "\n";
+   utils::print("Matrix A:", A);
 
 This will output:
 
 .. code:: text
 
-   -9.25596e+61 -9.25596e+61 -9.25596e+61
-   -9.25596e+61 -9.25596e+61 -9.25596e+61
-   -9.25596e+61 -9.25596e+61 -9.25596e+61
+   Matrix A:
+
+   [[2.964e-323, 1.976e-323, 7.064e-304],
+    [2.964e-323, 9.881e-324,          0],
+    [1.976e-323, 9.881e-324, 8.224e-317]]
 
 If you want to initialize the matrix to zero you can use the ``.setZero()`` method:
 
@@ -221,44 +224,51 @@ Just like the fixed size arrays the data in the array is not initialized. You ca
             4, 5, 6,
             7, 8, 9; 
 
-   cout << "Here is the matrix A_dyn:\n" << A_dyn << "\n";
+   utils::print("Here is the matrix A_dyn:", A_dyn);
 
    A_dyn.resize(1, 9); // No reallocation
 
-   cout << "Here is the matrix A_dyn after resizing:\n" << A_dyn << "\n";
+   utils::print("Here is the matrix A_dyn after resizing:", A_dyn);
 
    A_dyn.resize(6, 6); // Reallocation.
 
-   cout << "Here is the matrix A_dyn after resizing:\n" << A_dyn << "\n";
+   utils::print("Here is the matrix A_dyn after resizing:", A_dyn);
 
    A_dyn.setZero();
 
-   cout << "Here is the matrix A_dyn after setting to zero:\n" << A_dyn << "\n";
+   utils::print("Here is the matrix A_dyn after setting to zero:", A_dyn);
 
 This will output:
 
 .. code:: text
 
    Here is the matrix A_dyn:
-   1 2 3
-   4 5 6
-   7 8 9
+
+   [[1, 2, 3],
+   [4, 5, 6],
+   [7, 8, 9]]
+
    Here is the matrix A_dyn after resizing:
-   1 4 7 2 5 8 3 6 9
+
+   [[1, 4, 7, 2, 5, 8, 3, 6, 9]]
+
    Here is the matrix A_dyn after resizing:
-   -6.27744e+66 -6.27744e+66 -6.27744e+66 -6.27744e+66 -6.27744e+66 -6.27744e+66
-   -6.27744e+66 -6.27744e+66 -6.27744e+66 -6.27744e+66 -6.27744e+66 -6.27744e+66
-   -6.27744e+66 -6.27744e+66 -6.27744e+66 -6.27744e+66 -6.27744e+66 -6.27744e+66
-   -6.27744e+66 -6.27744e+66 -6.27744e+66 -6.27744e+66 -6.27744e+66 -6.27744e+66
-   -6.27744e+66 -6.27744e+66 -6.27744e+66 -6.27744e+66 -6.27744e+66 -6.27744e+66
-   -6.27744e+66 -6.27744e+66 -6.27744e+66 -6.27744e+66 -6.27744e+66 -6.27744e+66
+
+   [[0, 0, 0, 0, 0, 0],
+   [0, 0, 0, 0, 0, 0],
+   [0, 0, 0, 0, 0, 0],
+   [0, 0, 0, 0, 0, 0],
+   [0, 0, 0, 0, 0, 0],
+   [0, 0, 0, 0, 0, 0]]
+
    Here is the matrix A_dyn after setting to zero:
-   0 0 0 0 0 0
-   0 0 0 0 0 0
-   0 0 0 0 0 0
-   0 0 0 0 0 0
-   0 0 0 0 0 0
-   0 0 0 0 0 0
+
+   [[0, 0, 0, 0, 0, 0],
+   [0, 0, 0, 0, 0, 0],
+   [0, 0, 0, 0, 0, 0],
+   [0, 0, 0, 0, 0, 0],
+   [0, 0, 0, 0, 0, 0],
+   [0, 0, 0, 0, 0, 0]]
 
 As you can observe, as long as the number of elements in the array is not changed the data is preserved. If the number of elements is changed the data is lost and have to be reinitialized.
 
@@ -316,19 +326,20 @@ There is also a specialised version of the ``Vector`` class called ``RowVector``
 .. code:: cpp
 
    Eigen::RowVector3d r(1.0, 2.0, 3.0);
-   std::cout << r << "\n";
+   utils::print(r);
 
    Eigen::Vector3d s(1.0, 2.0, 3.0);
-   std::cout << s << "\n";
+   utils::print(s);
 
 This will output:
 
 .. code:: text
 
-   1 2 3
-   1
-   2
-   3
+   [[1, 2, 3]]
+
+   [[1],
+    [2],
+    [3]]
 
 Matrix expressions and operations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -350,44 +361,52 @@ In the Eigen Matrix classes most normal C++ operators are overloaded, so that yo
         7, 8, 9;
 
    auto C = A + B;
-   std::cout << C << "\n";
+
+   utils::print(C);
 
 This outputs:
 
 .. code:: text
 
-    2  4  6
-    8 10 12
-   14 16 18
+   [[ 2,  4,  6],
+    [ 8, 10, 12],
+    [14, 16, 18]]
 
 For matrix and vector classes you can only perform linear algebra expressions. This means that you can only add matrices of the same size or multiply a matrix with a vector of the correct size. You can also multiply matrices with each other. Multiplying a matrix with a scalar is also possible, but adding a scalar to a matrix is not possible. The following code illustrates some of these operations:
 
 .. code:: cpp
 
    auto D = A * 3.0;
-   cout << D << "\n";
+   utils::print(D);
 
    auto E = A * B;
-   cout << E << "\n";
+   utils::print(E);
 
 which produces the following output:
 
 .. code:: text
 
-    3  6  9
-   12 15 18
-   21 24 27
-    30  36  42
-    66  81  96
-   102 126 150
+   [[ 3,  6,  9],
+    [12, 15, 18],
+    [21, 24, 27]]
+
+   [[ 30,  36,  42],
+    [ 66,  81,  96],
+    [102, 126, 150]]
 
 If you want to add a scalar to all element you can use the following
 code:
 
 .. code:: cpp
 
-   auto F = E + Eigen::Matrix3d::Constant(1.0);   
-   cout << F << "\n";
+   auto F = E + Eigen::Matrix3d::Constant(1.0);
+   utils::print(F);  
+
+Output::
+
+   [[ 31,  37,  43],
+    [ 67,  82,  97],
+    [103, 127, 151]]
 
 This will add 1.0 to all elements in the matrix. The ``Constant()`` method is a static method that creates a matrix with all elements set to the specified value. The ``Array`` class is a special class that allows you to perform element wise operations. Elementwise addition of a scalar can be done using the following code:
 
@@ -404,15 +423,15 @@ It is also possible to initialise vectors using the ``.setLinSpaced()`` method. 
    Eigen::Vector3d v;
    v.setLinSpaced(3, 1, 2);
 
-   cout << v << "\n";
+   utils::print(v);
 
 This produces the following output:
 
 .. code:: text
 
-   1
-   1.5
-   2
+   [[  1],
+    [1.5],
+    [  2]]
 
 In the example above the method ``.setLinSpaced()`` takes three arguments. The first argument is the number of elements in the vector. The second argument is the start value and the third argument is the end value.
 
@@ -429,9 +448,9 @@ This produces the following output:
 
 .. code:: text
 
-   0.680375
-   0.340187
-   0.510281
+   [[ 0.6804],
+    [-0.2112],
+    [ 0.5662]]
 
 The Vector classes also have special component wise operations. For example, you can compute the square root of all elements in the vector using the ``.cwiseSqrt()`` method. There are several other component wise operations available. The following code illustrates this:
 
@@ -441,15 +460,15 @@ The Vector classes also have special component wise operations. For example, you
 
    auto y = x.cwiseSqrt();
 
-   std::cout << y << "\n";
+   utils::print(y);
 
 This produces the following output:
 
 .. code:: text
 
-   1
-   2
-   3
+   [[1],
+    [2],
+    [3]]
 
 It is also possible to perform the same operations by usiing .array() method. The following code illustrates this:
 
