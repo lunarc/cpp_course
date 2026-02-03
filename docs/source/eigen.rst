@@ -245,8 +245,8 @@ This will output:
    Here is the matrix A_dyn:
 
    [[1, 2, 3],
-   [4, 5, 6],
-   [7, 8, 9]]
+    [4, 5, 6],
+    [7, 8, 9]]
 
    Here is the matrix A_dyn after resizing:
 
@@ -255,20 +255,20 @@ This will output:
    Here is the matrix A_dyn after resizing:
 
    [[0, 0, 0, 0, 0, 0],
-   [0, 0, 0, 0, 0, 0],
-   [0, 0, 0, 0, 0, 0],
-   [0, 0, 0, 0, 0, 0],
-   [0, 0, 0, 0, 0, 0],
-   [0, 0, 0, 0, 0, 0]]
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0]]
 
    Here is the matrix A_dyn after setting to zero:
 
    [[0, 0, 0, 0, 0, 0],
-   [0, 0, 0, 0, 0, 0],
-   [0, 0, 0, 0, 0, 0],
-   [0, 0, 0, 0, 0, 0],
-   [0, 0, 0, 0, 0, 0],
-   [0, 0, 0, 0, 0, 0]]
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0]]
 
 As you can observe, as long as the number of elements in the array is not changed the data is preserved. If the number of elements is changed the data is lost and have to be reinitialized.
 
@@ -402,7 +402,9 @@ code:
    auto F = E + Eigen::Matrix3d::Constant(1.0);
    utils::print(F);  
 
-Output::
+This will output:
+
+.. code:: text
 
    [[ 31,  37,  43],
     [ 67,  82,  97],
@@ -442,7 +444,7 @@ The Vector class also has a ``.setRandom()`` method that can be used to initiali
    Eigen::Vector3d w;
    w.setRandom();
 
-   std::cout << w << "\n";
+   utils::print(w);
 
 This produces the following output:
 
@@ -478,7 +480,7 @@ It is also possible to perform the same operations by usiing .array() method. Th
 
    auto w = z.array().sqrt();
 
-   std::cout << w << "\n";
+   utils::print(w);
    
 Eigen also has many special methods for matrices. For example, you can transpose a matrix using the ``.transpose()`` method. The following code illustrates this:
 
@@ -490,16 +492,15 @@ Eigen also has many special methods for matrices. For example, you can transpose
         4, 5, 6,
         7, 8, 9;
 
-   std::cout << "H^T = " << "\n" << H.transpose() << "\n";
+   utils::print(H.transpose());
 
 This produces the following output:
 
 .. code:: text
 
-   H^T =
-   1 4 7
-   2 5 8
-   3 6 9
+   [[1, 4, 7],
+    [2, 5, 8],
+    [3, 6, 9]]
 
 It is also possible to compute the dot product and cross product or matrices using the ``.dot()`` and ``.cross()`` methods. The following code illustrates this:
 
@@ -511,17 +512,17 @@ It is also possible to compute the dot product and cross product or matrices usi
    auto u = s.cross(t);
    auto p = s.dot(t);
 
-   std::cout << u << "\n";
-   std::cout << p << "\n";
+   utils::print(u);
+   std::println("p = {}", p);
 
 This produces the following output:
 
 .. code:: text
 
-    0
-    3
-   -2
-   1
+   [[0],
+    [3],
+    [-2]]
+   p = 1
 
 It is also possible to compute the inverse of a matrix using the ``.inverse()`` method. The following code shows how this is done.
 
@@ -529,19 +530,19 @@ It is also possible to compute the inverse of a matrix using the ``.inverse()`` 
 
    Eigen::Matrix3d J;
 
-   J << 15, 42, 71,
+   J << 14, 42, 71,
         23, 52, 81,
         33, 63, 91;
 
-   std::cout << J.inverse() << "\n";
+    utils::print(J.inverse());
 
 This produces the following output:
 
 .. code:: text
 
-    2.29012 -4.01852  1.79012
-   -3.58025  6.03704 -2.58025
-    1.64815 -2.72222  1.14815
+   [[-1.775,  3.115, -1.388],
+    [ 2.775, -5.115,  2.388],
+    [-1.278,  2.411, -1.139]]
 
 Some other useful function are reduction operations such as ``.sum()``, ``.mean()``, ``.minCoeff()``, ``.maxCoeff()`` and ``.norm()``. The following code illustrates how these functions are used:
 
@@ -553,15 +554,15 @@ Some other useful function are reduction operations such as ``.sum()``, ``.mean(
         4, 5, 6,
         7, 8, 9;
 
-   std::cout << "K.sum()\n" << K.sum() << "\n";
-   std::cout << "K.prod()\n" << K.prod() << "\n";
-   std::cout << "K.mean()\n" << K.mean() << "\n";
-   std::cout << "K.norm()\n" << K.norm() << "\n";
-   std::cout << "K.maxCoeff()\n" << K.maxCoeff() << "\n";
-   std::cout << "K.minCoeff()\n" << K.minCoeff() << "\n";
-   std::cout << "K.trace()\n" << K.trace() << "\n";
-   std::cout << "K.diagonal()\n" << K.diagonal() << "\n";
-   std::cout << "K.determinant()\n" << K.determinant() << "\n";
+   std::println("K.sum()\n{}", K.sum());
+   std::println("K.prod()\n{}", K.prod());
+   std::println("K.mean()\n{}", K.mean());
+   std::println("K.norm()\n{}", K.norm());
+   std::println("K.maxCoeff()\n{}", K.maxCoeff());
+   std::println("K.minCoeff()\n{}", K.minCoeff());
+   std::println("K.trace()\n{}", K.trace());
+   utils::print("K.diagonal()\n", K.diagonal());
+   std::println("K.determinant()\n{}", K.determinant());
 
 This produces the following output:
 
@@ -582,9 +583,9 @@ This produces the following output:
    K.trace()
    15
    K.diagonal()
-   1
-   5
-   9
+   [[1],
+    [5],
+    [9]]
    K.determinant()
    0
 
@@ -653,7 +654,7 @@ Some times existing matrices must be used in expressions where the current shape
 
    auto B = A.reshaped(1, 9);
 
-   std::cout << B << "\n";
+   utils::print(B);
 
 I this example we have a 3x3 matrix that we want to reshape into a 1x9 matrix. The ``.reshaped()`` method takes two arguments. The first argument is the number of rows and the second argument is the number of columns. The B variables in the above example is actually a special class Eigen::Reshaped<> that is a view into the original matrix. This means that the data is not copied and that the reshaped matrix is a view into the original matrix. This also means that if you change the reshaped matrix the original matrix is also changed.
 
@@ -661,7 +662,7 @@ Running the previous code produces the following output:
 
 .. code:: text
 
-   1 2 3 4 5 6 7 8 9
+   [[1, 2, 3, 4, 5, 6, 7, 8, 9]]
 
 If we want to use the ``B`` matrix to assign a new matrix the matrix to be assigned needs to be of the ``MatrixXd`` type. In the following code we assign the reshaped matrix to a new matrix:
 
@@ -669,15 +670,15 @@ If we want to use the ``B`` matrix to assign a new matrix the matrix to be assig
 
    Eigen::MatrixXd C = B.reshaped(3, 3);
 
-   std::cout << C << "\n";
+   utils::print(C);
 
 This produces the following output:
 
 .. code:: text
 
-   1 2 3
-   4 5 6
-   7 8 9
+   [[1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]]
 
 We can also reshape the created matrix and transpose it. The following code illustrates this:
 
@@ -685,21 +686,21 @@ We can also reshape the created matrix and transpose it. The following code illu
 
    Eigen::MatrixXd D = C.reshaped(1, 9).transpose();
 
-   std::cout << D << "\n";
+   utils::print(D);
 
 This produces the following output:
 
 .. code:: text
 
-   1
-   4
-   7
-   2
-   5
-   8
-   3
-   6
-   9
+   [[1],
+    [4],
+    [7],
+    [2],
+    [5],
+    [8],
+    [3],
+    [6],
+    [9]]
 
 Notice the ordering of numbers. This is due to the fact that matrices are stored in column major order in Eigen. This means that the first column is stored first, then the second column and so on. This is the opposite of row major order where the first row is stored first, then the second row and so on.
 
@@ -721,39 +722,39 @@ One of the more common operations in matrix computing is indexing and slicing. E
 
    A.row(3) << 1, 2, 3, 4, 5, 6, 7, 8, 9, 10;
 
-   std::cout << A << "\n";
-   std::cout << "\n";
+   utils::print(A);
+   utils::print("\n");
 
    A.col(3) << 1, 2, 3, 4, 5, 6, 7, 8, 9, 10;
 
-   std::cout << A << "\n";
-   std::cout << "\n";
+   utils::print(A);
+   utils::print("\n");
 
 This produces the following output:
 
 .. code:: text
 
-    0  0  0  0  0  0  0  0  0  0
-    0  0  0  0  0  0  0  0  0  0
-    0  0  0  0  0  0  0  0  0  0
-    1  2  3  4  5  6  7  8  9 10
-    0  0  0  0  0  0  0  0  0  0
-    0  0  0  0  0  0  0  0  0  0
-    0  0  0  0  0  0  0  0  0  0
-    0  0  0  0  0  0  0  0  0  0
-    0  0  0  0  0  0  0  0  0  0
-    0  0  0  0  0  0  0  0  0  0
+   [[ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+    [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+    [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+    [ 1,  2,  3,  4,  5,  6,  7,  8,  9, 10],
+    [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+    [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+    [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+    [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+    [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
+    [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0]]
 
-    0  0  0  1  0  0  0  0  0  0
-    0  0  0  2  0  0  0  0  0  0
-    0  0  0  3  0  0  0  0  0  0
-    1  2  3  4  5  6  7  8  9 10
-    0  0  0  5  0  0  0  0  0  0
-    0  0  0  6  0  0  0  0  0  0
-    0  0  0  7  0  0  0  0  0  0
-    0  0  0  8  0  0  0  0  0  0
-    0  0  0  9  0  0  0  0  0  0
-    0  0  0 10  0  0  0  0  0  0
+   [[ 0,  0,  0,  1,  0,  0,  0,  0,  0,  0],
+    [ 0,  0,  0,  2,  0,  0,  0,  0,  0,  0],
+    [ 0,  0,  0,  3,  0,  0,  0,  0,  0,  0],
+    [ 1,  2,  3,  4,  5,  6,  7,  8,  9, 10],
+    [ 0,  0,  0,  5,  0,  0,  0,  0,  0,  0],
+    [ 0,  0,  0,  6,  0,  0,  0,  0,  0,  0],
+    [ 0,  0,  0,  7,  0,  0,  0,  0,  0,  0],
+    [ 0,  0,  0,  8,  0,  0,  0,  0,  0,  0],
+    [ 0,  0,  0,  9,  0,  0,  0,  0,  0,  0],
+    [ 0,  0,  0, 10,  0,  0,  0,  0,  0,  0]]
 
 In this example we used the ``<<`` operator to assign values to the rows.
 
@@ -763,23 +764,23 @@ It is also possible to assign multiple values at the same time using for example
 
    A.col(1).setOnes();
 
-   std::cout << A << "\n";
-   std::cout << "\n";
+   utils::print(A);
+   utils::print("\n");
 
 This produces the following output:
 
 .. code:: text
 
-    0  1  0  1  0  0  0  0  0  0
-    0  1  0  2  0  0  0  0  0  0
-    0  1  0  3  0  0  0  0  0  0
-    1  1  3  4  5  6  7  8  9 10
-    0  1  0  5  0  0  0  0  0  0
-    0  1  0  6  0  0  0  0  0  0
-    0  1  0  7  0  0  0  0  0  0
-    0  1  0  8  0  0  0  0  0  0
-    0  1  0  9  0  0  0  0  0  0
-    0  1  0 10  0  0  0  0  0  0
+   [[ 0,  1,  0,  1,  0,  0,  0,  0,  0,  0],
+    [ 0,  1,  0,  2,  0,  0,  0,  0,  0,  0],
+    [ 0,  1,  0,  3,  0,  0,  0,  0,  0,  0],
+    [ 1,  1,  3,  4,  5,  6,  7,  8,  9, 10],
+    [ 0,  1,  0,  5,  0,  0,  0,  0,  0,  0],
+    [ 0,  1,  0,  6,  0,  0,  0,  0,  0,  0],
+    [ 0,  1,  0,  7,  0,  0,  0,  0,  0,  0],
+    [ 0,  1,  0,  8,  0,  0,  0,  0,  0,  0],
+    [ 0,  1,  0,  9,  0,  0,  0,  0,  0,  0],
+    [ 0,  1,  0, 10,  0,  0,  0,  0,  0,  0]]
 
 Indexing can also be done using the special function Eigen::seq(). In its simplest form it can be used to select a range of values. The following code illustrates this:
 
@@ -790,22 +791,22 @@ Indexing can also be done using the special function Eigen::seq(). In its simple
 
    B(seq(3, 5), seq(3, 5)).setConstant(1);
 
-   std::cout << B << "\n";
+   utils::print(B);
 
 This produces the following output:
 
 .. code:: text
 
-   0 0 0 0 0 0 0 0 0 0
-   0 0 0 0 0 0 0 0 0 0
-   0 0 0 0 0 0 0 0 0 0
-   0 0 0 1 1 1 0 0 0 0
-   0 0 0 1 1 1 0 0 0 0
-   0 0 0 1 1 1 0 0 0 0
-   0 0 0 0 0 0 0 0 0 0
-   0 0 0 0 0 0 0 0 0 0
-   0 0 0 0 0 0 0 0 0 0
-   0 0 0 0 0 0 0 0 0 0
+   [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
+    [0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
+    [0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
 It is also possible to use a step value in the ``seq()`` function, which is shown in the following code:
 
@@ -813,22 +814,22 @@ It is also possible to use a step value in the ``seq()`` function, which is show
 
    B(seq(0, 9, 2), seq(0, 9, 2)).setConstant(2);
 
-   std::cout << B << "\n";
+   utils::print(B);
 
 This produces the following output:
 
 .. code:: text
 
-   2 0 2 0 2 0 2 0 2 0
-   0 0 0 0 0 0 0 0 0 0
-   2 0 2 0 2 0 2 0 2 0
-   0 0 0 1 1 1 0 0 0 0
-   2 0 2 1 2 1 2 0 2 0
-   0 0 0 1 1 1 0 0 0 0
-   2 0 2 0 2 0 2 0 2 0
-   0 0 0 0 0 0 0 0 0 0
-   2 0 2 0 2 0 2 0 2 0
-   0 0 0 0 0 0 0 0 0 0
+   [[2, 0, 2, 0, 2, 0, 2, 0, 2, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [2, 0, 2, 0, 2, 0, 2, 0, 2, 0],
+    [0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
+    [2, 0, 2, 1, 2, 1, 2, 0, 2, 0],
+    [0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
+    [2, 0, 2, 0, 2, 0, 2, 0, 2, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [2, 0, 2, 0, 2, 0, 2, 0, 2, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
 There are also special selectors for selecting rows and columns. The ``all`` selector selects all rows or columns. The ``last`` selector selects the last column or row. The following code illustrates this:
 
@@ -836,38 +837,38 @@ There are also special selectors for selecting rows and columns. The ``all`` sel
 
    B(all, last).setConstant(3);
 
-   std::cout << B << "\n";
-   std::cout << "\n";
+   utils::print(B);
+   utils::print("\n");
 
    B(all, last - 1).setConstant(4);
 
-   std::cout << B << "\n";
+   utils::print(B);
 
 This produces the following output:
 
 .. code:: text
 
-   2 0 2 0 2 0 2 0 2 3
-   0 0 0 0 0 0 0 0 0 3
-   2 0 2 0 2 0 2 0 2 3
-   0 0 0 1 1 1 0 0 0 3
-   2 0 2 1 2 1 2 0 2 3
-   0 0 0 1 1 1 0 0 0 3
-   2 0 2 0 2 0 2 0 2 3
-   0 0 0 0 0 0 0 0 0 3
-   2 0 2 0 2 0 2 0 2 3
-   0 0 0 0 0 0 0 0 0 3
+   [[2, 0, 2, 0, 2, 0, 2, 0, 2, 3],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 3],
+    [2, 0, 2, 0, 2, 0, 2, 0, 2, 3],
+    [0, 0, 0, 1, 1, 1, 0, 0, 0, 3],
+    [2, 0, 2, 1, 2, 1, 2, 0, 2, 3],
+    [0, 0, 0, 1, 1, 1, 0, 0, 0, 3],
+    [2, 0, 2, 0, 2, 0, 2, 0, 2, 3],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 3],
+    [2, 0, 2, 0, 2, 0, 2, 0, 2, 3],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 3]]
 
-   2 0 2 0 2 0 2 0 4 3
-   0 0 0 0 0 0 0 0 4 3
-   2 0 2 0 2 0 2 0 4 3
-   0 0 0 1 1 1 0 0 4 3
-   2 0 2 1 2 1 2 0 4 3
-   0 0 0 1 1 1 0 0 4 3
-   2 0 2 0 2 0 2 0 4 3
-   0 0 0 0 0 0 0 0 4 3
-   2 0 2 0 2 0 2 0 4 3
-   0 0 0 0 0 0 0 0 4 3
+   [[2, 0, 2, 0, 2, 0, 2, 0, 4, 3],
+    [0, 0, 0, 0, 0, 0, 0, 0, 4, 3],
+    [2, 0, 2, 0, 2, 0, 2, 0, 4, 3],
+    [0, 0, 0, 1, 1, 1, 0, 0, 4, 3],
+    [2, 0, 2, 1, 2, 1, 2, 0, 4, 3],
+    [0, 0, 0, 1, 1, 1, 0, 0, 4, 3],
+    [2, 0, 2, 0, 2, 0, 2, 0, 4, 3],
+    [0, 0, 0, 0, 0, 0, 0, 0, 4, 3],
+    [2, 0, 2, 0, 2, 0, 2, 0, 4, 3],
+    [0, 0, 0, 0, 0, 0, 0, 0, 4, 3]]
 
 It is also possible to use std::vector based indeces to select a submatrix from a matrix. This is shown in the following code:
 
@@ -875,8 +876,8 @@ It is also possible to use std::vector based indeces to select a submatrix from 
 
    std::vector<int> idx = { 1, 3, 4, 6, 7, 9 };
 
-   std::cout << C(idx, idx) << "\n";
-   std::cout << "\n";
+   utils::print(C(idx, idx));
+   utils::print("\n");
 
    auto D = C(idx, idx);
 
@@ -884,23 +885,23 @@ This produces the following output:
 
 .. code:: text
 
-     1  11  21  31  41  51  61  71  81  91
-     2  12  22  32  42  52  62  72  82  92
-     3  13  23  33  43  53  63  73  83  93
-     4  14  24  34  44  54  64  74  84  94
-     5  15  25  35  45  55  65  75  85  95
-     6  16  26  36  46  56  66  76  86  96
-     7  17  27  37  47  57  67  77  87  97
-     8  18  28  38  48  58  68  78  88  98
-     9  19  29  39  49  59  69  79  89  99
-    10  20  30  40  50  60  70  80  90 100
+   [[  1,  11,  21,  31,  41,  51,  61,  71,  81,  91],
+    [  2,  12,  22,  32,  42,  52,  62,  72,  82,  92],
+    [  3,  13,  23,  33,  43,  53,  63,  73,  83,  93],
+    [  4,  14,  24,  34,  44,  54,  64,  74,  84,  94],
+    [  5,  15,  25,  35,  45,  55,  65,  75,  85,  95],
+    [  6,  16,  26,  36,  46,  56,  66,  76,  86,  96],
+    [  7,  17,  27,  37,  47,  57,  67,  77,  87,  97],
+    [  8,  18,  28,  38,  48,  58,  68,  78,  88,  98],
+    [  9,  19,  29,  39,  49,  59,  69,  79,  89,  99],
+    [ 10,  20,  30,  40,  50,  60,  70,  80,  90, 100]]
 
-    12  32  42  62  72  92
-    14  34  44  64  74  94
-    15  35  45  65  75  95
-    17  37  47  67  77  97
-    18  38  48  68  78  98
-    20  40  50  70  80 100
+   [[12, 32, 42, 62, 72, 92],
+    [14, 34, 44, 64, 74, 94],
+    [15, 35, 45, 65, 75, 95],
+    [17, 37, 47, 67, 77, 97],
+    [18, 38, 48, 68, 78, 98],
+    [20, 40, 50, 70, 80, 100]]
 
 Linear System Solving
 ~~~~~~~~~~~~~~~~~~~~~
@@ -920,17 +921,13 @@ Eigen has a library of decomposition methods that can be used to solve linear sy
 
        Eigen::Vector3d x = A.inverse() * b;
 
-       std::cout << "The solution is:\n"
-            << x << "\n";
+       utils::print("The solution is:\n", x);
 
-       std::cout << "b is:\n"
-            << b << "\n";
+       utils::print("b is:\n", b);
 
-       std::cout << "A * x is:\n"
-            << A * x << "\n";
+       utils::print("A * x is:\n", A * x);
 
-       std::cout << "The error is:\n"
-            << (A * x - b).norm() << "\n";
+       std::println("The error is:\n{}", (A * x - b).norm());
    }
 
 This produces the following output:
@@ -938,17 +935,17 @@ This produces the following output:
 .. code:: text
 
    The solution is:
-    -1.36005
-    -1.53203
-   -0.275723
+   [[-1.36005],
+    [-1.53203],
+    [-0.275723]]
    b is:
-     0.49321
-   -0.651784
-    0.717887
+   [[ 0.49321],
+    [-0.651784],
+    [ 0.717887]]
    A * x is:
-     0.49321
-   -0.651784
-    0.717887
+   [[ 0.49321],
+    [-0.651784],
+    [ 0.717887]]
    The error is:
    0
 
@@ -969,17 +966,13 @@ For larger matrices it is better to use the decomposition methods. Which decompo
 
        Eigen::VectorXd x = A.colPivHouseholderQr().solve(b);
 
-       std::cout << "The solution is:\n"
-            << x << "\n";
+       utils::print("The solution is:\n", x);
 
-       std::cout << "b is:\n"
-            << b << "\n";
+       utils::print("b is:\n", b);
 
-       std::cout << "A * x is:\n"
-            << A * x << "\n";
+       utils::print("A * x is:\n", A * x);
 
-       std::cout << "The error is:\n"
-            << (A * x - b).norm() << "\n";
+       std::println("The error is:\n{}", (A * x - b).norm());
    }
 
 The key is the line:
@@ -1018,24 +1011,23 @@ The advantage of separating the construction from solving the system is that the
    std::FullPivLU<MatrixXd> ldlt(A);
    MatrixXd x = ldlt.solve(b);
 
-   std::cout << "The solution is:\n"
-           << x << "\n";
+   utils::print("The solution is:\n", x);
 
 This produces the following output:
 
 .. code:: text
 
    The solution is:
-      1.18453  -0.410319  -0.623361  -0.321932 -0.0895882  0.0497296  -0.648823   0.124508   0.493074   0.480588
-     0.535632  0.0616908   -0.28512  -0.318507 0.00406816  0.0258458 -0.0848685  -0.477436    1.24756   0.838648
-   -0.0107144  -0.367311   0.244476   0.137709  -0.815272  -0.280075  -0.628219   0.208019  -0.206337  -0.640611
-     -2.13074    1.62113 -0.0941863       1.03   -0.03775    1.03846   0.293851    1.14827   -3.90631   -1.16682
-     0.879087   0.477271   -1.28075    1.28879    2.52322    -1.4507    1.27269  -0.578986    0.24615    2.08061
-    -0.732436  -0.704311    1.06786  -0.596086    -2.3671    1.43309   -1.39648  0.0979355  -0.356579   -1.55783
-     0.127638  -0.668733  -0.507232 -0.0496553   0.521617   0.220945   -0.16289  -0.664471    1.69368   0.876999
-    -0.569963 -0.0353519  -0.507716  0.0109401   0.415603   0.829978  -0.209561  0.0241958  -0.291877 -0.0407887
-     -2.30094    1.32775  -0.272818   0.388941   -0.53578    1.08094   0.510719   0.903556   -4.88332   -1.75593
-      1.01693   0.242351  -0.251851   -1.13456    0.28466  -0.149436   -0.17369   0.721883   0.108984  0.0144817
+   [[  1.18453,  -0.410319,  -0.623361,  -0.321932, -0.0895882,  0.0497296,  -0.648823,   0.124508,   0.493074,   0.480588],
+    [ 0.535632,  0.0616908,   -0.28512,  -0.318507, 0.00406816,  0.0258458, -0.0848685,  -0.477436,    1.24756,   0.838648],
+    [-0.0107144,  -0.367311,   0.244476,   0.137709,  -0.815272,  -0.280075,  -0.628219,   0.208019,  -0.206337,  -0.640611],
+    [  -2.13074,    1.62113, -0.0941863,       1.03,   -0.03775,    1.03846,   0.293851,    1.14827,   -3.90631,   -1.16682],
+    [  0.879087,   0.477271,   -1.28075,    1.28879,    2.52322,    -1.4507,    1.27269,  -0.578986,    0.24615,    2.08061],
+    [ -0.732436,  -0.704311,    1.06786,  -0.596086,    -2.3671,    1.43309,   -1.39648,  0.0979355,  -0.356579,   -1.55783],
+    [  0.127638,  -0.668733,  -0.507232, -0.0496553,   0.521617,   0.220945,   -0.16289,  -0.664471,    1.69368,   0.876999],
+    [ -0.569963, -0.0353519,  -0.507716,  0.0109401,   0.415603,   0.829978,  -0.209561,  0.0241958,  -0.291877, -0.0407887],
+    [  -2.30094,    1.32775,  -0.272818,   0.388941,   -0.53578,    1.08094,   0.510719,   0.903556,   -4.88332,   -1.75593],
+    [   1.01693,   0.242351,  -0.251851,   -1.13456,    0.28466,  -0.149436,   -0.17369,   0.721883,   0.108984,  0.0144817]]
 
 
 Best Practices and Integration
@@ -1060,7 +1052,7 @@ The preferred way of returning Eigen-arrays from functions is to return them by 
    int main()
    {
        Eigen::MatrixXd B = foo();
-       std::cout << B << "\n";
+       utils::print(B);
    }
 
 
@@ -1073,7 +1065,7 @@ If you really want to make sure no copying is performed it is recommended to pas
 
    void bar(const Eigen::MatrixXd& A)
    {
-       std::cout << A << "\n";
+       utils::print(A);
    }
 
    int main()
@@ -1128,10 +1120,8 @@ There are some considerations to think about when passing matrices and vector to
             Eigen::MatrixXd Dpstress = hooke(PLANE_STRESS, 2.1e9, 0.35);
             Eigen::MatrixXd Dpstrain = hooke(PLANE_STRAIN, 2.1e9, 0.35);
             
-            std::cout << "D,pstress = " << "\n";
-            std::cout << Dpstress << "\n";
-            std::cout << "D,pstrain = " << "\n";
-            std::cout << Dpstrain << "\n";
+            utils::print("D,pstress = \n", Dpstress);
+            utils::print("D,pstrain = \n", Dpstrain);
          }
 
    .. tab:: Output
@@ -1139,14 +1129,14 @@ There are some considerations to think about when passing matrices and vector to
       .. code:: text
 
          D,pstress = 
-            1  0.35     0
-         0.35     1     0
-            0     0 0.325
+         [[   1, 0.35,    0],
+          [0.35,    1,    0],
+          [   0,    0, 0.325]]
          D,pstrain = 
-         0.65 0.35 0.35    0
-         0.35 0.65 0.35    0
-         0.35 0.35 0.65    0
-            0    0    0 0.15
+         [[0.65, 0.35, 0.35,    0],
+          [0.35, 0.65, 0.35,    0],
+          [0.35, 0.35, 0.65,    0],
+          [   0,    0,    0, 0.15]]
 
 .. raw:: html
 
@@ -1198,17 +1188,17 @@ and returns a matrix.
             
             Eigen::MatrixXd Ke = bar2e(ex, ey, ep);
             
-            cout << Ke << "\n";
+            utils::print(Ke);
          }
 
    .. tab:: Output
       
       .. code:: text
 
-         0.353553  0.353553 -0.353553 -0.353553
-         0.353553  0.353553 -0.353553 -0.353553
-        -0.353553 -0.353553  0.353553  0.353553
-        -0.353553 -0.353553  0.353553  0.353553   
+         [[ 0.353553,  0.353553, -0.353553, -0.353553],
+          [ 0.353553,  0.353553, -0.353553, -0.353553],
+          [-0.353553, -0.353553,  0.353553,  0.353553],
+          [-0.353553, -0.353553,  0.353553,  0.353553]]   
 
 .. raw:: html
 
@@ -1428,7 +1418,7 @@ Using Eigen with OpenMP is very easy if you are using the Eigen operations that 
                C = A * B;
                double end = omp_get_wtime();
 
-               std::cout << n_threads << ";" << end - start << "\n";
+               std::println("{};{}", n_threads, end - start);
             }
 
             return 0;
@@ -1552,11 +1542,11 @@ A complete example with a comparison with corresponding Eigen operation is shown
                // Verify results
                double error = (result_omp - result_eigen).norm() / result_eigen.norm();
                
-               std::cout << "Matrix size: " << size << "x" << size << "\n";
-               std::cout << "OpenMP implementation time: " << duration_omp.count() << "ms" << "\n";
-               std::cout << "Eigen implementation time: " << duration_eigen.count() << "ms" << "\n";
-               std::cout << "Relative error: " << error << "\n";
-               std::cout << "------------------------" << "\n";
+               std::println("Matrix size: {}x{}", size, size);
+               std::println("OpenMP implementation time: {}ms", duration_omp.count());
+               std::println("Eigen implementation time: {}ms", duration_eigen.count());
+               std::println("Relative error: {}", error);
+               std::println("------------------------");
             }
             
             return 0;
@@ -1674,7 +1664,7 @@ To print the complete result vector we need to gather the local results vectors 
 
       if (m_rank == 0) 
       {
-         std::cout << "First few elements of result: \n" << globalResult.head(5).transpose() << "\n";
+         utils::print("First few elements of result: \n", globalResult.head(5).transpose());
       }
    }   
 
@@ -1739,9 +1729,9 @@ Now we are ready to call our multiplication method and measure the time it takes
          auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
                endTime - startTime);
 
-         std::cout << "Matrix size (rows x cols): " << MatrixSize << " x " << MatrixSize << "\n";
-         std::cout << "Matrix memory size (MB): " << sizeof(double) * MatrixSize * MatrixSize / 1e6 << "\n";
-         std::cout << "Matrix-vector multiplication completed in " << duration.count() << " ms\n";
+         std::println("Matrix size (rows x cols): {} x {}", MatrixSize, MatrixSize);
+         std::println("Matrix memory size (MB): {}", sizeof(double) * MatrixSize * MatrixSize / 1e6);
+         std::println("Matrix-vector multiplication completed in {} ms", duration.count());
       }
       
       distMatrix.printResult();
@@ -1843,7 +1833,7 @@ The complete code is shown below:
 
          if (m_rank == 0) 
          {
-               std::cout << "First few elements of result: \n" << globalResult.head(5).transpose() << "\n";
+               utils::print("First few elements of result: \n", globalResult.head(5).transpose());
          }
       }
       
@@ -1897,9 +1887,9 @@ The complete code is shown below:
                auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
                   endTime - startTime);
 
-               std::cout << "Matrix size (rows x cols): " << MatrixSize << " x " << MatrixSize << "\n";
-               std::cout << "Matrix memory size (MB): " << sizeof(double) * MatrixSize * MatrixSize / 1e6 << "\n";
-               std::cout << "Matrix-vector multiplication completed in " << duration.count() << " ms\n";
+               std::println("Matrix size (rows x cols): {} x {}", MatrixSize, MatrixSize);
+               std::println("Matrix memory size (MB): {}", sizeof(double) * MatrixSize * MatrixSize / 1e6);
+               std::println("Matrix-vector multiplication completed in {} ms", duration.count());
          }
          distMatrix.printResult();
          
