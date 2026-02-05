@@ -51,7 +51,7 @@ if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
             CACHE STRING "Vcpkg toolchain file")
         message(STATUS "Using vcpkg from home directory")
       elseif(EXISTS "/opt/vcpkg/scripts/buildsystems/vcpkg.cmake")
-        set(CMAKE_TOOLCHAIN_FILE "/opt/vcpkg/scripts/buildsystems/vcpkg.cmake"
+        set(CMAKE_TOOsLCHAIN_FILE "/opt/vcpkg/scripts/buildsystems/vcpkg.cmake"
             CACHE STRING "Vcpkg toolchain file")
         message(STATUS "Using vcpkg from /opt/vcpkg")
       endif()
