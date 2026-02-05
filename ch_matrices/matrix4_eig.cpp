@@ -1,13 +1,14 @@
-#include <iostream>
 #include <Eigen/Dense>
+#include <print>
+#include <egcpp/utils_print.h>
 
 #include "calfem_eig.h"
 
-using namespace std;
-using namespace Eigen;
-
 int main()
 {
+    using Eigen::VectorXd;
+    using Eigen::MatrixXd;
+
     VectorXd ex(2);
     VectorXd ey(2);
     VectorXd ep(2);
@@ -18,11 +19,10 @@ int main()
     ep << 1.0, 1.0;
     ed << 0.0, 0.0, 0.01, 0.01;
     
-    MatrixXd Ke = bar2e(ex, ey, ep);
-    cout << "Ke=" << endl;
-    cout << Ke << endl;
+    MatrixXd Ke = calfem::bar2e(ex, ey, ep);
+    utils::print("Ke=", Ke);
     
-    double N = bar2s(ex, ey, ep, ed);
+    double N = calfem::bar2s(ex, ey, ep, ed);
     
-    cout << "N = " << N << endl;
+    std::print("N = {:.4g}\n", N);
 }

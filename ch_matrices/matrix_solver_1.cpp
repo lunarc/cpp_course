@@ -1,11 +1,14 @@
-#include <Eigen/Dense>
-#include <iostream>
+#include <print>
 
-using namespace std;
-using namespace Eigen;
+#include <Eigen/Dense>
+
+#include <egcpp/utils_print.h>
 
 int main()
 {
+    using Eigen::Matrix3d;
+    using Eigen::Vector3d;
+
     Matrix3d A;
     A.setRandom();
 
@@ -15,15 +18,11 @@ int main()
 
     Vector3d x = A.inverse() * b;
 
-    cout << "The solution is:\n"
-         << x << endl;
+    utils::print("The solution is:", x);
 
-    cout << "b is:\n"
-         << b << endl;
+    utils::print("b is:", b);
 
-    cout << "A * x is:\n"
-         << A * x << endl;
+    utils::print("A * x is:", A * x);
 
-    cout << "The error is:\n"
-         << (A * x - b).norm() << endl;
+    std::println("The error is: {:.8e}", (A * x - b).norm());
 }

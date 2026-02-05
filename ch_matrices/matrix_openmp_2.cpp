@@ -1,16 +1,18 @@
+#include <print>
+
 #include <Eigen/Dense>
-#include <iostream>
 #include <omp.h>
 
-using namespace Eigen;
-using namespace std;
+#include <egcpp/utils_print.h>
 
 int main()
 {
+    using Eigen::MatrixXd;
+
     MatrixXd A(10, 10);
     A.setRandom();
 
-    cout << "Number of threads: " << omp_get_max_threads() << "\n\n";
+    std::println("Number of threads: {}", omp_get_max_threads());
 
 #pragma omp parallel for
     for (int i = 0; i < A.rows(); i++)
@@ -21,5 +23,5 @@ int main()
         }
     }
 
-    cout << A << endl;
+    utils::print("A", A);
 }

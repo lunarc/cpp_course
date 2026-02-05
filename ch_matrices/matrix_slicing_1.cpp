@@ -1,66 +1,65 @@
-#include <Eigen/Dense>
-#include <iostream>
+#include <print>
+#include <vector>
 
-using namespace std;
-using namespace Eigen;
+#include <Eigen/Dense>
+
+#include <egcpp/utils_print.h>
 
 int main()
 {
+    using Eigen::MatrixXd;
+    using Eigen::VectorXd;
+    using Eigen::seq;
+    using Eigen::all;
+    using Eigen::last;
+
     MatrixXd A(10, 10);
     A.setZero();
 
     A.row(3) << 1, 2, 3, 4, 5, 6, 7, 8, 9, 10;
 
-    cout << A << endl;
-    cout << "\n";
+    utils::print("A", A);
 
     A.col(3) << 1, 2, 3, 4, 5, 6, 7, 8, 9, 10;
 
-    cout << A << endl;
-    cout << "\n";
+    utils::print("A", A);
 
     A.col(1).setOnes();
 
-    cout << A << endl;
-    cout << "\n";
+    utils::print("A", A);
 
     MatrixXd B(10, 10);
     B.setZero();
 
     B(seq(3, 5), seq(3, 5)).setConstant(1);
 
-    cout << B << endl;
-    cout << "\n";
+    utils::print("B", B);
 
     B(seq(0, 9, 2), seq(0, 9, 2)).setConstant(2);
 
-    cout << B << endl;
-    cout << "\n";
+    utils::print("B", B);
 
     B(all, last).setConstant(3);
 
-    cout << B << endl;
-    cout << "\n";
+    utils::print("B", B);
 
     B(all, last - 1).setConstant(4);
 
-    cout << B << endl;
-    cout << "\n";
+    utils::print("B", B);
 
     VectorXd v(100);
     v.setLinSpaced(100, 1, 100);
 
     MatrixXd C(10, 10);
     C.reshaped(100, 1).col(0) = v;
-    cout << C << endl;
-    cout << "\n";
 
-    vector<int> idx = { 1, 3, 4, 6, 7, 9 };
+    utils::print("C", C);
 
-    cout << C(idx, idx) << endl;
-    cout << "\n";
+    std::vector<int> idx = { 1, 3, 4, 6, 7, 9 };
+
+    utils::print("C(idx, idx)", C(idx, idx));
 
     auto D = C(idx, idx);
 
-    return 0;
+    utils::print("D", D);
 }

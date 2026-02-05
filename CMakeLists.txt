@@ -2,36 +2,59 @@ cmake_minimum_required(VERSION 3.20)
 
 # Autodetect vcpkg if not already configured
 if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
-  # Check common vcpkg installation locations
-  if(DEFINED ENV{VCPKG_ROOT})
-    set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
-        CACHE STRING "Vcpkg toolchain file")
-    message(STATUS "Using vcpkg from VCPKG_ROOT: $ENV{VCPKG_ROOT}")
-  elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake")
-    set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake"
-        CACHE STRING "Vcpkg toolchain file")
-    message(STATUS "Using vcpkg from project directory")
-  elseif(WIN32)
-    # Check common Windows locations
-    if(EXISTS "C:/vcpkg/scripts/buildsystems/vcpkg.cmake")
-      set(CMAKE_TOOLCHAIN_FILE "C:/vcpkg/scripts/buildsystems/vcpkg.cmake"
+  # Try to find vcpkg in PATH first
+  find_program(VCPKG_EXECUTABLE vcpkg)
+  if(VCPKG_EXECUTABLE)
+    get_filename_component(VCPKG_DIR "${VCPKG_EXECUTABLE}" DIRECTORY)
+    if(EXISTS "${VCPKG_DIR}/scripts/buildsystems/vcpkg.cmake")
+      set(CMAKE_TOOLCHAIN_FILE "${VCPKG_DIR}/scripts/buildsystems/vcpkg.cmake"
           CACHE STRING "Vcpkg toolchain file")
-      message(STATUS "Using vcpkg from C:/vcpkg")
-    elseif(EXISTS "E:/vcpkg/scripts/buildsystems/vcpkg.cmake")
-      set(CMAKE_TOOLCHAIN_FILE "E:/vcpkg/scripts/buildsystems/vcpkg.cmake"
-          CACHE STRING "Vcpkg toolchain file")
-      message(STATUS "Using vcpkg from E:/vcpkg")
+      message(STATUS "Using vcpkg from PATH: ${VCPKG_DIR}")
     endif()
-  elseif(UNIX)
-    # Check common Unix/Linux locations
-    if(EXISTS "$ENV{HOME}/vcpkg/scripts/buildsystems/vcpkg.cmake")
-      set(CMAKE_TOOLCHAIN_FILE "$ENV{HOME}/vcpkg/scripts/buildsystems/vcpkg.cmake"
+  endif()
+  
+  # Check project directory
+  if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake")
+      set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake"
           CACHE STRING "Vcpkg toolchain file")
-      message(STATUS "Using vcpkg from home directory")
-    elseif(EXISTS "/opt/vcpkg/scripts/buildsystems/vcpkg.cmake")
-      set(CMAKE_TOOLCHAIN_FILE "/opt/vcpkg/scripts/buildsystems/vcpkg.cmake"
+      message(STATUS "Using vcpkg from project directory")
+    endif()
+  endif()
+  
+  # Check VCPKG_ROOT environment variable
+  if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+    if(DEFINED ENV{VCPKG_ROOT})
+      set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
           CACHE STRING "Vcpkg toolchain file")
-      message(STATUS "Using vcpkg from /opt/vcpkg")
+      message(STATUS "Using vcpkg from VCPKG_ROOT: $ENV{VCPKG_ROOT}")
+    endif()
+  endif()
+  
+  # Check common installation locations as fallback
+  if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+    if(WIN32)
+      # Check common Windows locations
+      if(EXISTS "C:/vcpkg/scripts/buildsystems/vcpkg.cmake")
+        set(CMAKE_TOOLCHAIN_FILE "C:/vcpkg/scripts/buildsystems/vcpkg.cmake"
+            CACHE STRING "Vcpkg toolchain file")
+        message(STATUS "Using vcpkg from C:/vcpkg")
+      elseif(EXISTS "E:/vcpkg/scripts/buildsystems/vcpkg.cmake")
+        set(CMAKE_TOOLCHAIN_FILE "E:/vcpkg/scripts/buildsystems/vcpkg.cmake"
+            CACHE STRING "Vcpkg toolchain file")
+        message(STATUS "Using vcpkg from E:/vcpkg")
+      endif()
+    elseif(UNIX)
+      # Check common Unix/Linux locations
+      if(EXISTS "$ENV{HOME}/vcpkg/scripts/buildsystems/vcpkg.cmake")
+        set(CMAKE_TOOLCHAIN_FILE "$ENV{HOME}/vcpkg/scripts/buildsystems/vcpkg.cmake"
+            CACHE STRING "Vcpkg toolchain file")
+        message(STATUS "Using vcpkg from home directory")
+      elseif(EXISTS "/opt/vcpkg/scripts/buildsystems/vcpkg.cmake")
+        set(CMAKE_TOOsLCHAIN_FILE "/opt/vcpkg/scripts/buildsystems/vcpkg.cmake"
+            CACHE STRING "Vcpkg toolchain file")
+        message(STATUS "Using vcpkg from /opt/vcpkg")
+      endif()
     endif()
   endif()
   

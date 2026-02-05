@@ -28,7 +28,9 @@ else()
         mainwindow.cpp
         main.cpp
     )
-    target_compile_options(qt_step4 PRIVATE /bigobj)
+    if (MSVC)
+        target_compile_options(qt_step4 PRIVATE /bigobj)
+    endif()
     target_include_directories(qt_step4 PRIVATE ${EXPRTK_INCLUDE_DIRS})
     target_link_libraries(qt_step4 PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui)
 

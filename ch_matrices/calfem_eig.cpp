@@ -8,7 +8,7 @@ using namespace std;
 
 // https://stackoverflow.com/questions/13290395/how-to-remove-a-certain-row-or-column-while-using-eigen-library-c
 
-void removeRow(MatrixXd& matrix, unsigned int rowToRemove)
+void calfem::removeRow(MatrixXd& matrix, unsigned int rowToRemove)
 {
     Index numRows = matrix.rows()-1;
     Index numCols = matrix.cols();
@@ -19,7 +19,7 @@ void removeRow(MatrixXd& matrix, unsigned int rowToRemove)
     matrix.conservativeResize(numRows,numCols);
 }
 
-void removeColumn(MatrixXd& matrix, unsigned int colToRemove)
+void calfem::removeColumn(MatrixXd &matrix, unsigned int colToRemove)
 {
     Index numRows = matrix.rows();
     Index numCols = matrix.cols()-1;
@@ -30,7 +30,7 @@ void removeColumn(MatrixXd& matrix, unsigned int colToRemove)
     matrix.conservativeResize(numRows,numCols);
 }
 
-MatrixXd hooke(TAnalysisType ptype, double E, double v)
+MatrixXd calfem::hooke(TAnalysisType ptype, double E, double v)
 {
     MatrixXd D;
     switch (ptype) {
@@ -53,7 +53,7 @@ MatrixXd hooke(TAnalysisType ptype, double E, double v)
     return D;
 }
 
-Matrix4d bar2e(const Vector2d& ex, const Vector2d& ey, const Vector2d& ep)
+Matrix4d calfem::bar2e(const Vector2d &ex, const Vector2d &ey, const Vector2d &ep)
 {
     double E = ep(0);
     double A = ep(1);
@@ -77,7 +77,7 @@ Matrix4d bar2e(const Vector2d& ex, const Vector2d& ey, const Vector2d& ep)
     return Ke;
 }
 
-double bar2s(const Vector2d& ex, const Vector2d& ey, const Vector2d& ep, const Vector4d& ed)
+double calfem::bar2s(const Vector2d &ex, const Vector2d &ey, const Vector2d &ep, const Vector4d &ed)
 {
     double E = ep(0);
     double A = ep(1);
@@ -102,14 +102,15 @@ double bar2s(const Vector2d& ex, const Vector2d& ey, const Vector2d& ep, const V
     return (temp * G * edm)(0,0);
 }
 
-void assem(const MatrixXi& topo, MatrixXd& K, const MatrixXd& Ke)
+void calfem::assem(const MatrixXi &topo, MatrixXd &K, const MatrixXd &Ke)
 {
     for (int row=0; row<Ke.rows(); row++)
         for (int col=0; col<Ke.cols(); col++)
             K(topo(row), topo(col)) += Ke(row,col);
 }
 
-void solveq(const MatrixXd& K, const MatrixXd&f, const VectorXi& bcDofs, const VectorXi& bcValues, MatrixXd& a, MatrixXd& r)
+void calfem::solveq(const MatrixXd &K, const MatrixXd &f, const VectorXi &bcDofs, const VectorXi &bcValues, MatrixXd &a,
+                    MatrixXd &r)
 {
     set<int> bc;
     
@@ -144,7 +145,7 @@ void solveq(const MatrixXd& K, const MatrixXd&f, const VectorXi& bcDofs, const V
     r = K*a-f;
 }
 
-void extractEldisp(const MatrixXi& edof, const MatrixXd& a, MatrixXd& ed)
+void calfem::extractEldisp(const MatrixXi &edof, const MatrixXd &a, MatrixXd &ed)
 {
     Index nDofs = edof.cols();
     Index nElements = edof.rows();
