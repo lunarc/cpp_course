@@ -7,22 +7,11 @@ set(CMAKE_AUTOUIC ON)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-if (LINUX)
-    find_package(Qt5 COMPONENTS Widgets REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui)
 
-    add_executable(plotting
-        mainwindow.ui
-        mainwindow.cpp
-        main.cpp
-    )
+qt_standard_project_setup()
 
-    target_link_libraries(plotting PRIVATE Qt5::Widgets)
-else()
-    find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui)
-
-    qt_standard_project_setup()
-
-    qt_add_executable(plotting
+qt_add_executable(plotting
     drawing_kit.h
     drawing_kit.cpp
     drawing_area.h
@@ -33,14 +22,15 @@ else()
     mainwindow.cpp
     mainwindow.h
     main.cpp
-    )
-    target_link_libraries(plotting PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui Qt6::Qml Qt6::Quick Qt6::Charts)
+)
+target_link_libraries(plotting PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui Qt6::Qml Qt6::Quick Qt6::Charts)
 
-    set_target_properties(plotting PROPERTIES
-        WIN32_EXECUTABLE ON
-        MACOSX_BUNDLE ON
-    )
+set_target_properties(plotting PROPERTIES
+    WIN32_EXECUTABLE ON
+    MACOSX_BUNDLE ON
+)
 
+if(WIN32)
     add_custom_command(TARGET plotting POST_BUILD 
         COMMAND Qt6::windeployqt
         ARGS $<TARGET_FILE:plotting>

@@ -63,8 +63,10 @@ if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
   endif()
 endif()
 
-# set(CMAKE_C_COMPILER /opt/local/bin/gcc)
-# set(CMAKE_CXX_COMPILER /opt/local/bin/g++)
+if (LINUX)
+set(CMAKE_C_COMPILER /usr/bin/gcc)
+set(CMAKE_CXX_COMPILER /usr/bin/g++-14)
+endif()
 
 project(cpp_course C CXX) 
 
@@ -90,11 +92,7 @@ if (BUILD_EIGEN_EXAMPLES)
 endif()
 
 if (BUILD_QT_EXAMPLES)
-  if (LINUX)
-    find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
-  else()
-    find_package(Qt6 CONFIG REQUIRED)
-  endif()
+  find_package(Qt6 CONFIG REQUIRED)
 endif()
 
 #find_package(VTK REQUIRED)

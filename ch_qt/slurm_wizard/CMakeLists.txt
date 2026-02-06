@@ -7,39 +7,26 @@ set(CMAKE_AUTOUIC ON)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-if (LINUX)
-    find_package(Qt5 COMPONENTS Widgets REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui)
 
-    add_executable(calculator
-        slurm_task_farm.h
-        slurm_task_farm.cpp
-        slurm_wizard.h
-        slurm_wizard.ui
-        slurm_wizard.cpp
-        main.cpp
-    )
+qt_standard_project_setup()
 
-    target_link_libraries(slurm_wizard PRIVATE Qt5::Widgets)
-else()
-    find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui)
+qt_add_executable(slurm_wizard
+    slurm_task_farm.h
+    slurm_task_farm.cpp
+    slurm_wizard.h
+    slurm_wizard.ui
+    slurm_wizard.cpp
+    main.cpp
+)
+target_link_libraries(slurm_wizard PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui)
 
-    qt_standard_project_setup()
+set_target_properties(slurm_wizard PROPERTIES
+    WIN32_EXECUTABLE ON
+    MACOSX_BUNDLE ON
+)
 
-    qt_add_executable(slurm_wizard
-        slurm_task_farm.h
-        slurm_task_farm.cpp
-        slurm_wizard.h
-        slurm_wizard.ui
-        slurm_wizard.cpp
-        main.cpp
-    )
-    target_link_libraries(slurm_wizard PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui)
-
-    set_target_properties(slurm_wizard PROPERTIES
-        WIN32_EXECUTABLE ON
-        MACOSX_BUNDLE ON
-    )
-
+if(WIN32)
     add_custom_command(TARGET slurm_wizard POST_BUILD 
         COMMAND Qt6::windeployqt
         ARGS $<TARGET_FILE:slurm_wizard>

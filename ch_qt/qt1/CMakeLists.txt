@@ -7,35 +7,24 @@ set(CMAKE_AUTOUIC ON)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-if (LINUX)
-    find_package(Qt5 COMPONENTS Widgets REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui)
 
-    add_executable(qt1
-        mainwindow.ui
-        mainwindow.h
-        mainwindow.cpp
-        main.cpp
-    )
+qt_standard_project_setup()
 
-    target_link_libraries(qt1 PRIVATE Qt5::Widgets Qt5::Core Qt5::Gui)
-else()
-    find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui)
+qt_add_executable(qt1
+    mainwindow.ui
+    mainwindow.h
+    mainwindow.cpp
+    main.cpp
+)
+target_link_libraries(qt1 PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui)
 
-    qt_standard_project_setup()
+set_target_properties(qt1 PROPERTIES
+    WIN32_EXECUTABLE ON
+    MACOSX_BUNDLE ON
+)
 
-    qt_add_executable(qt1
-        mainwindow.ui
-        mainwindow.h
-        mainwindow.cpp
-        main.cpp
-    )
-    target_link_libraries(qt1 PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui)
-
-    set_target_properties(qt1 PROPERTIES
-        WIN32_EXECUTABLE ON
-        MACOSX_BUNDLE ON
-    )
-
+if(WIN32)
     add_custom_command(TARGET qt1 POST_BUILD 
         COMMAND Qt6::windeployqt
         ARGS $<TARGET_FILE:qt1>

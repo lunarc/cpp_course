@@ -5,7 +5,8 @@
 #include <chrono>
 #include <print>
 #include <random>
-#include <cmath>
+#include <cmath>                                                                                                                                                                                                                                                                                                            
+#include <thread>
 
 int main() 
 {
@@ -17,7 +18,7 @@ int main()
         std::vector<double> dataPar(size);
 
         // Initialize with simple values first
-        std::iota(dataSeq.begin(), dataSeq.end(), 0.0);
+        std::iota(dataSeq.begin(), dataSeq.end(), 0.0);                                                     
         std::iota(dataPar.begin(), dataPar.end(), 0.0);
 
         // Computationally intensive transformation
@@ -31,7 +32,7 @@ int main()
 
         // Sequential execution
         auto startSeq = std::chrono::high_resolution_clock::now();
-        std::transform(std::execution::seq, dataSeq.begin(), dataSeq.end(), 
+        std::transform(std::execution::seq, dataSeq.begin(), dataSeq.end(),                                                                                                                                                                                                     
                       dataSeq.begin(), heavyTransform);
         auto endSeq = std::chrono::high_resolution_clock::now();
 

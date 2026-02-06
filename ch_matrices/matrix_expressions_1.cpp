@@ -74,7 +74,7 @@ int main()
     std::println("K.maxCoeff() = {}", K.maxCoeff());
     std::println("K.minCoeff() = {}", K.minCoeff());
     std::println("K.trace() = {}", K.trace());
-    std::println("K.diagonal() = {}", K.diagonal());
+    utils::print("K.diagonal() = {}", K.diagonal());
     std::println("K.determinant() = {}", K.determinant());
 
 	return 0;

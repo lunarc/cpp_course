@@ -1,9 +1,9 @@
 #include <chrono>
 #include <iostream>
-#include <utils/print.h>
 #include <thread>
 #include <vector>
 #include <sstream>
+#include <print>
 
 void myfunc()
 {

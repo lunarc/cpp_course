@@ -7,36 +7,11 @@ set(CMAKE_AUTOUIC ON)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-if (LINUX)
-    find_package(Qt5 COMPONENTS Widgets REQUIRED)
+find_package(Qt6 COMPONENTS Widgets REQUIRED)
 
-    add_executable(beam_app
-    beam_app_resource.qrc
-    logger.h
-    logger.cpp
-    output_redirector.h
-    output_redirector.cpp
-    calfem.h
-    calfem.cpp
-    beam_model.h
-    beam_model.cpp
-    beam_view.h
-    beam_view.cpp
-    result_table_model.h
-    result_table_model.cpp
-    mainwindow.ui
-    mainwindow.cpp
-    mainwindow.h
-    main.cpp
-    )
+qt_standard_project_setup()
 
-    target_link_libraries(beam_app PRIVATE Qt5::Widgets Qt5::Core Qt5::Gui)
-else()
-    find_package(Qt6 COMPONENTS Widgets REQUIRED)
-
-    qt_standard_project_setup()
-
-    qt_add_executable(beam_app
+qt_add_executable(beam_app
     beam_app_resource.qrc
     beam_app_toolbar.qss
     beam_app_menus.qss
@@ -58,14 +33,15 @@ else()
     mainwindow.cpp
     mainwindow.h
     main.cpp 
-    )
-    target_link_libraries(beam_app PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui)
+)
+target_link_libraries(beam_app PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui)
 
-    set_target_properties(beam_app PROPERTIES
-        WIN32_EXECUTABLE ON
-        MACOSX_BUNDLE ON
-    )
+set_target_properties(beam_app PROPERTIES
+    WIN32_EXECUTABLE ON
+    MACOSX_BUNDLE ON
+)
 
+if(WIN32)
     add_custom_command(TARGET beam_app POST_BUILD 
         COMMAND Qt6::windeployqt
         ARGS $<TARGET_FILE:beam_app>
