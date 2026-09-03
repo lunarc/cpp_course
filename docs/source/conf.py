@@ -10,7 +10,7 @@ sys.path.append(os.path.abspath('.'))
 
 
 project = "The Engineer's Guide to C++"
-copyright = '2024-25, Jonas Lindemann'
+copyright = '2024-26, Jonas Lindemann'
 author = 'Jonas Lindemann'
 release = '0.2'
 
@@ -47,41 +47,32 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'sphinx_material'
+html_theme = 'shibuya'
+
+html_title = "The Engineer's Guide to C++"
 
 html_show_copyright = True
-
 html_show_sourcelink = True
-html_sidebars = {
-    "**": ["logo-text.html", "globaltoc.html", "localtoc.html", "searchbox.html"]
-}
+
+html_logo = "_static/cpp_logo.svg"
 
 html_theme_options = {
+    # Colour scheme: yellow/amber accent to match the light yellow header
+    # (the header colour itself is set in _static/custom.css).
+    'accent_color': 'amber',
+    'color_mode': 'light',
 
-    # Set the name of the project to appear in the navigation.
-    'nav_title': "The Engineer's Guide to C++",
+    # Repository shown in the sidebar / header.
+    'github_url': 'https://github.com/lunarc/cpp_course',
 
-    # Specify a base_url used to generate sitemap.xml. If not
-    # specified, then no sitemap will be built.
-    'base_url': 'https://project.github.io/project',
+    # Global table of contents in the left sidebar.
+    'toctree_collapse': True,
+    'toctree_maxdepth': 2,
+    'toctree_titles_only': True,
+    'toctree_includehidden': True,
 
-    # Set the color and the accent color
-    'color_primary': 'yellow',
-    'color_accent': 'yellow',
-
-    # Set the repo location to get a badge with stats
-    'repo_url': 'https://github.com/lunarc/cpp_course',
-    'repo_name': "The Engineer's Guide to C++",
-
-    # Visible levels of the global TOC; -1 means unlimited
-    'globaltoc_depth': 2,
-    # If False, expand all TOC entries
-    'globaltoc_collapse': True,
-    # If True, show hidden TOC entries
-    'globaltoc_includehidden': True,
-    'master_doc': False,
-    'logo_icon': '&#xe869',
-
+    # Don't advertise "open this page in an LLM" links.
+    'show_ai_links': False,
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,

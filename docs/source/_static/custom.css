@@ -1,17 +1,94 @@
-/* Add to your custom.css */
+/* --- Light yellow site header ------------------------------------------- */
+
+/* The header bar is .sy-head-blur, whose background comes from this variable
+   (it is used nowhere else in the theme). */
+:root,
+html.light {
+    --sy-c-background-dropback: #faeda8e6;
+}
+
+html.dark {
+    --sy-c-background-dropback: #342e14e6;
+}
+
+/* The expanded mobile nav panel drops down as a full-height overlay using the
+   plain page background, so tint it to match. This MUST stay inside the same
+   max-width query the theme uses: above 768px .sy-head-nav is just a flex row
+   inside the bar, and giving it a background paints an opaque block over the
+   translucent header. */
+@media (max-width: 767px) {
+    .sy-head-nav {
+        background-color: #faeda8;
+    }
+
+    html.dark .sy-head-nav {
+        background-color: #342e14;
+    }
+}
+
+/* --- Logo + title in the header ----------------------------------------- */
+
+/* Shibuya always renders <img><strong>Project name</strong> in the brand link,
+   then hides the title whenever a logo is present. Un-hide it so the two show
+   side by side, and lay the link out as a flex row so they align on centre
+   rather than on the text baseline. Inert until a logo is configured. */
+.sy-head-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sy-head-brand img + strong {
+    display: inline;
+    white-space: nowrap;
+}
+
+/* Narrow screens: keep the mark, drop the words, so the header doesn't wrap. */
+@media (max-width: 480px) {
+    .sy-head-brand img + strong {
+        display: none;
+    }
+}
+
+/* --- Code blocks: neutral grey rather than accent-tinted ---------------- */
+
+/* Shibuya derives the whole code-block palette from the accent colour
+   (--accent-a2 / --accent-3), so choosing 'amber' tints every code block
+   yellow. Repoint them at the grey scale instead. These are Radix tokens the
+   theme already redefines for dark mode, so light/dark both stay correct. */
+:root {
+    --code-block-background: var(--gray-3);
+    --code-block-caption-background: var(--gray-4);
+    --code-block-highlight: var(--gray-a3);
+
+    /* Inline ``literals`` are tinted separately, via the yue text styles.
+       Drop this line to keep inline code amber while blocks stay grey. */
+    --yue-c-code-background: var(--gray-a3);
+}
+
+/* The theme re-tints code inside sphinx-design tabs and Jupyter cell output
+   with a second, more specific accent rule; match those to the above. */
+html.light .sd-tab-content,
+html.light .jupyter_container .cell_output {
+    --code-block-background: var(--gray-3);
+    --code-block-caption-background: var(--gray-4);
+}
+
+/* --- sphinx-tabs tightening --------------------------------------------- */
+
 .sphinx-tabs-tab {
-    padding: 0.2em 0.8em !important;  /* Reduce padding around tab labels */
- }
- 
- .sphinx-tabs-panel {
+    padding: 0.2em 0.8em !important; /* Reduce padding around tab labels */
+}
+
+.sphinx-tabs-panel {
     padding: 0 !important;
- }
- 
- .sphinx-tabs-panel .highlight {
+}
+
+.sphinx-tabs-panel .highlight {
     margin: 0 !important;
- }
- 
- .sphinx-tabs-panel .highlight pre {
+}
+
+.sphinx-tabs-panel .highlight pre {
     margin: 0 !important;
     border-radius: 0;
- }
+}
