@@ -1,0 +1,9 @@
+{
+  "name": "truss-solver",
+  "version": "1.0.0",
+  "description": "CMake chapter example 09: dependencies declared in a vcpkg manifest",
+  "dependencies": [
+    "eigen3",
+    "nlohmann-json"
+  ]
+}

@@ -1,0 +1,15 @@
+// This file is a template. CMake generates build/generated/config.h
+// from it - edit this file, not the generated one.
+#pragma once
+
+#define LORENZ_VERSION "@PROJECT_VERSION@"
+#define LORENZ_VERSION_MAJOR @PROJECT_VERSION_MAJOR@
+#define LORENZ_VERSION_MINOR @PROJECT_VERSION_MINOR@
+
+#define LORENZ_COMPILER "@CMAKE_CXX_COMPILER_ID@ @CMAKE_CXX_COMPILER_VERSION@"
+#define LORENZ_SYSTEM "@CMAKE_SYSTEM_NAME@"
+
+// Becomes "#define LORENZ_USE_FLOAT" if the option is ON,
+// otherwise "/* #undef LORENZ_USE_FLOAT */".
+#cmakedefine LORENZ_USE_FLOAT
+#cmakedefine LORENZ_USE_RK4

@@ -1,0 +1,50 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}"
+    },
+    {
+      "name": "debug",
+      "displayName": "Debug",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "release",
+      "displayName": "Release",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "release-float",
+      "displayName": "Release, single precision",
+      "inherits": "release",
+      "cacheVariables": {
+        "LORENZ_USE_FLOAT": "ON"
+      }
+    },
+    {
+      "name": "debug-euler",
+      "displayName": "Debug, Euler integrator, warnings as errors",
+      "inherits": "debug",
+      "cacheVariables": {
+        "LORENZ_INTEGRATOR": "euler",
+        "LORENZ_WARNINGS_AS_ERRORS": "ON"
+      }
+    }
+  ],
+  "buildPresets": [
+    { "name": "debug", "configurePreset": "debug" },
+    { "name": "release", "configurePreset": "release" },
+    { "name": "release-float", "configurePreset": "release-float" },
+    { "name": "debug-euler", "configurePreset": "debug-euler" }
+  ]
+}

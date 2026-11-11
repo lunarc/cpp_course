@@ -1,0 +1,19 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "vcpkg",
+      "displayName": "Default (vcpkg)",
+      "description": "Configure with the vcpkg toolchain. Requires the VCPKG_ROOT environment variable.",
+      "binaryDir": "${sourceDir}/build",
+      "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "release",
+      "configurePreset": "vcpkg",
+      "configuration": "Release"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+# Read by find_package(Materials). @PACKAGE_INIT@ is replaced with
+# helper code by configure_package_config_file().
+@PACKAGE_INIT@
+
+# If the library depended on other packages, they would be found here
+# with find_dependency(), e.g.
+#
+#   include(CMakeFindDependencyMacro)
+#   find_dependency(Eigen3 3.3)
+
+include("${CMAKE_CURRENT_LIST_DIR}/MaterialsTargets.cmake")
+
+check_required_components(Materials)

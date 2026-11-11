@@ -1,0 +1,5 @@
+# Build and install directories created when trying the examples
+build/
+build-*/
+install/
+positions.txt

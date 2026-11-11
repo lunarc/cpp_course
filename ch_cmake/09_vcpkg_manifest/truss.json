@@ -1,0 +1,18 @@
+{
+  "description": "Simple two-bar truss, node 2 loaded downwards",
+  "E": 210e9,
+  "A": 1e-4,
+  "nodes": [
+    [0.0, 0.0],
+    [2.0, 0.0],
+    [1.0, 1.0]
+  ],
+  "bars": [
+    [0, 2],
+    [1, 2]
+  ],
+  "fixed_dofs": [0, 1, 2, 3],
+  "loads": [
+    { "node": 2, "fx": 0.0, "fy": -10000.0 }
+  ]
+}

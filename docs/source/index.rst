@@ -44,6 +44,7 @@ Jonas Lindemann, 2025
    concurrency
    mixed_language
    code_org
+   cmake_cpp
    debugging
    build_examples
    
