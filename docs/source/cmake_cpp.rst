@@ -327,3 +327,536 @@ We are also going to specify compiler options for each target. Here is it import
             target_compile_options(${target} PRIVATE -Wall -Wextra -Wpedantic)
         endif()
     endforeach()    
+
+Lets now build the project using the commands we discussed earlier. The binaries will be placed in the ``build/bin`` directory as specified. This time we are running the commands on an Ubuntu machine.
+
+.. code:: text
+
+    $ cmake -S . -B build
+    -- The CXX compiler identification is GNU 15.3.0
+    -- Detecting CXX compiler ABI info
+    -- Detecting CXX compiler ABI info - done
+    -- Check for working CXX compiler: /usr/bin/c++ - skipped
+    -- Detecting CXX compile features
+    -- Detecting CXX compile features - done
+    -- Configuring done (0.1s)
+    -- Generating done (0.0s)
+    -- Build files have been written to: /home/.../cpp_course/ch_cmake/03_multiple_targets/build
+    
+    $ cmake --build build
+    [ 12%] Building CXX object CMakeFiles/simulate.dir/simulate.cpp.o
+    [ 25%] Building CXX object CMakeFiles/simulate.dir/random_walk.cpp.o
+    [ 37%] Linking CXX executable bin/simulate
+    [ 37%] Built target simulate
+    [ 50%] Building CXX object CMakeFiles/analyse.dir/analyse.cpp.o
+    [ 62%] Linking CXX executable bin/analyse
+    [ 62%] Built target analyse
+    [ 75%] Building CXX object CMakeFiles/check_walk.dir/check_walk.cpp.o
+    [ 87%] Building CXX object CMakeFiles/check_walk.dir/random_walk.cpp.o
+    [100%] Linking CXX executable bin/check_walk
+    [100%] Built target check_walk
+
+
+After building, you can run the executables from the ``build/bin`` directory:
+
+.. code:: text
+
+    $ ./build/bin/simulate 
+    Wrote 10000 positions to positions.txt
+    $ ./build/bin/analyse 
+    Samples  : 10000
+    Mean     : 0.1046
+    Std. dev.: 10.0587  (theory for 100 steps: 10)
+    $ ./build/bin/check_walk 
+    OK
+
+With this example we have shown that you can use the same ``CMakeLists.txt`` for multiple platforms without any changes. 
+
+Static libraries
+----------------
+
+Another common task in software development is to build libraries that can be used by other applications. CMake also supports building libraries using the ``add_library()`` function. The function works in a similar way to ``add_executable()`` but instead builds a library.
+
+In this example we are going to build a single library, ``stats``, that is going to be used by 2 target executables. ``describe`` and ``fit_line``. The source code is shown below:
+
+.. tabs::
+
+   .. tab:: apps/describe.cpp
+
+      .. code-block:: cpp
+
+        #include <stats/descriptive.h>
+
+        #include <print>
+        #include <vector>
+
+        int main()
+        {
+            // Measured yield stress [MPa] from a series of tensile tests.
+            std::vector<double> yield = {251.3, 248.9, 255.1, 249.7, 252.4, 247.2, 253.8, 250.6};
+
+            std::println("Mean   : {:.2f} MPa", stats::mean(yield));
+            std::println("Median : {:.2f} MPa", stats::median(yield));
+            std::println("Std dev: {:.2f} MPa", stats::stddev(yield));
+
+            return 0;
+        }
+
+   .. tab:: apps/fit_line.cpp
+
+      .. code-block:: cpp
+
+        #include <stats/regression.h>
+
+        #include <print>
+        #include <vector>
+
+        int main()
+        {
+            // Strain [-] and stress [MPa] in the elastic region of a steel specimen.
+            std::vector<double> strain = {0.0000, 0.0002, 0.0004, 0.0006, 0.0008, 0.0010};
+            std::vector<double> stress = {0.0, 41.8, 83.1, 124.9, 165.7, 208.2};
+
+            auto fit = stats::linear_fit(strain, stress);
+
+            std::println("Young's modulus E = {:.1f} GPa", fit.slope / 1000.0);
+            std::println("Intercept         = {:.3f} MPa", fit.intercept);
+            std::println("R^2               = {:.6f}", fit.r2);
+
+            return 0;
+        }
+
+   .. tab:: stats/include/descriptive.h
+
+      .. code-block:: cpp
+
+        #pragma once
+
+        #include <span>
+
+        namespace stats {
+
+        double mean(std::span<const double> x);
+        double variance(std::span<const double> x); // sample variance (n - 1)
+        double stddev(std::span<const double> x);
+        double median(std::span<const double> x);
+
+        } // namespace stats
+
+   .. tab:: stats/include/regression.h
+
+      .. code-block:: cpp
+
+        #pragma once
+
+        #include <span>
+
+        namespace stats {
+
+        struct LinearFit
+        {
+            double slope;
+            double intercept;
+            double r2; // coefficient of determination
+        };
+
+        // Least squares fit of y = slope * x + intercept.
+        LinearFit linear_fit(std::span<const double> x, std::span<const double> y);
+
+        } // namespace stats
+
+   .. tab:: stats/src/descriptive.cpp
+
+      .. code-block:: cpp
+
+        #include <stats/descriptive.h>
+
+        #include <algorithm>
+        #include <cmath>
+        #include <numeric>
+        #include <vector>
+
+        namespace stats {
+
+        double mean(std::span<const double> x)
+        {
+            return std::accumulate(x.begin(), x.end(), 0.0) / static_cast<double>(x.size());
+        }
+
+        double variance(std::span<const double> x)
+        {
+            const double m = mean(x);
+            double sum = 0.0;
+            for (double v : x)
+                sum += (v - m) * (v - m);
+            return sum / static_cast<double>(x.size() - 1);
+        }
+
+        double stddev(std::span<const double> x)
+        {
+            return std::sqrt(variance(x));
+        }
+
+        double median(std::span<const double> x)
+        {
+            std::vector<double> sorted(x.begin(), x.end());
+            std::sort(sorted.begin(), sorted.end());
+
+            const auto n = sorted.size();
+            return n % 2 == 1 ? sorted[n / 2] : 0.5 * (sorted[n / 2 - 1] + sorted[n / 2]);
+        }
+
+        } // namespace stats
+
+   .. tab:: stats/src/regression.cpp
+
+      .. code-block:: cpp
+
+        #include <stats/descriptive.h>
+        #include <stats/regression.h>
+
+        namespace stats {
+
+        LinearFit linear_fit(std::span<const double> x, std::span<const double> y)
+        {
+            const double mx = mean(x);
+            const double my = mean(y);
+
+            double sxy = 0.0, sxx = 0.0, syy = 0.0;
+            for (std::size_t i = 0; i < x.size(); ++i)
+            {
+                sxy += (x[i] - mx) * (y[i] - my);
+                sxx += (x[i] - mx) * (x[i] - mx);
+                syy += (y[i] - my) * (y[i] - my);
+            }
+
+            LinearFit fit;
+            fit.slope = sxy / sxx;
+            fit.intercept = my - fit.slope * mx;
+            fit.r2 = (sxy * sxy) / (sxx * syy);
+            return fit;
+        }
+
+        } // namespace stats
+
+To create our ``CMakeLists.txt`` we start with the standard statements defining version, project name and where to place our binaries. 
+
+.. code:: cmake
+
+    cmake_minimum_required(VERSION 3.20)
+
+    project(StatsDemo VERSION 1.0 LANGUAGES CXX)   
+
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin) 
+
+Next, we add our library definition using the ``add_library()`` function.
+
+.. code:: cmake
+
+    add_library(stats STATIC
+        stats/src/descriptive.cpp
+        stats/src/regression.cpp
+        stats/include/stats/descriptive.h
+        stats/include/stats/regression.h
+    )    
+
+The ``STATIC`` attribut indicates that it is a static libary, which means it is linked directly with the binary and not loaded dynamically at runtime. 
+
+We also need to specify how the users of the library can include the library. This is done by using the ``target_include_directories()`` command. In this case we will use the ``PUBLIC`` directive to indicate that the include files should be added to the system path and they will also be added when the library is installed.
+
+.. code:: cmake
+
+    target_include_directories(stats PUBLIC stats/include)
+
+As we are using C++23 we need to indicate that this library needs this standard, so any target is also compiled using C++23. We can indicate this by using the ``target_compile_feature()`` function.
+
+.. code:: cmake
+
+    target_compile_features(stats PUBLIC cxx_std_23)
+
+We are now ready to add our executable targets. 
+
+.. code:: cmake
+
+    add_executable(describe apps/describe.cpp)
+    add_executable(fit_line apps/fit_line.cpp)
+
+The final step in this example is to make sure that our targets links with our static library, ``stats``. This is done using the ``target_link_libraries()`` function.
+
+.. code:: cmake
+
+    target_link_libraries(describe PRIVATE stats)
+    target_link_libraries(fit_line PRIVATE stats)
+
+These functions will add the required include and library directories when compiling. We can now compile the library just like before.
+
+.. code:: text
+
+    $ cmake -S . -B build
+    -- The CXX compiler identification is GNU 15.3.0
+    -- Detecting CXX compiler ABI info
+    -- Detecting CXX compiler ABI info - done
+    -- Check for working CXX compiler: /usr/bin/c++ - skipped
+    -- Detecting CXX compile features
+    -- Detecting CXX compile features - done
+    -- Configuring done (0.1s)
+    -- Generating done (0.0s)
+    -- Build files have been written to: /home/lindemann/Development/cpp_course/ch_cmake/04_static_library/build
+
+    $ cmake --build build
+    [ 14%] Building CXX object CMakeFiles/stats.dir/stats/src/descriptive.cpp.o
+    [ 28%] Building CXX object CMakeFiles/stats.dir/stats/src/regression.cpp.o
+    [ 42%] Linking CXX static library libstats.a
+    [ 42%] Built target stats
+    [ 57%] Building CXX object CMakeFiles/describe.dir/apps/describe.cpp.o
+    [ 71%] Linking CXX executable bin/describe
+    [ 71%] Built target describe
+    [ 85%] Building CXX object CMakeFiles/fit_line.dir/apps/fit_line.cpp.o
+    [100%] Linking CXX executable bin/fit_line
+    [100%] Built target fit_line
+
+We see here that it builds the library ``libstats.a``. Running this on a Windows machine would produce a library called ``stats.lib`` instead.
+
+Shared library
+--------------
+
+A shared library is loaded when the program runs instead of being included in the built executable. On Windows a shared library is what is known as a ``.dll``-file. On Linux shared libraries are identified with the extension ``.so`` and on macOS they have the extension ``.dylib``. 
+
+Shared libraries differ slightly between the platforms. On Windows, functions in a DLL needs to be explicetly exported from a DLL. On Windows the library must be in the same directory as the executable or available in the ``PATH``. On Linux they location of the library must be added to the environment variable ``LD_LIBRARY_PATH`` unless they are installed in the system directories.
+
+Shared libraries are defined in mostly the same way as for static libraries. It is also possible to add an option what type of library to build in the ``CMakeLists.txt`` file. For the Windows platform CMake can also generate a special header file for the exported functions.
+
+In this example we will build an ode-solver that is loaded from a shared library, ``ode``. We have the following source files:
+
+.. tabs::
+
+   .. tab:: ode/include/solvers.h
+
+      .. code-block:: cpp
+
+            #pragma once
+
+            #include <ode_export.h> // generated by CMake, defines ODE_EXPORT
+
+            #include <functional>
+            #include <vector>
+
+            namespace ode {
+
+            using State = std::vector<double>;
+
+            // Right-hand side of the system dy/dt = f(t, y).
+            using RHS = std::function<State(double t, const State& y)>;
+
+            // Advance the solution one step of size h.
+            ODE_EXPORT State euler_step(const RHS& f, double t, const State& y, double h);
+            ODE_EXPORT State rk4_step(const RHS& f, double t, const State& y, double h);
+
+            } // namespace ode
+
+   .. tab:: ode/src/solvers.cpp
+
+      .. code-block:: cpp
+
+            #include <ode/solvers.h>
+
+            namespace ode {
+
+            namespace {
+
+            // y + a * k, element by element. Lives in an anonymous namespace and is
+            // therefore not visible outside the library.
+            State axpy(const State& y, double a, const State& k)
+            {
+                State result(y.size());
+                for (std::size_t i = 0; i < y.size(); ++i)
+                    result[i] = y[i] + a * k[i];
+                return result;
+            }
+
+            } // namespace
+
+            State euler_step(const RHS& f, double t, const State& y, double h)
+            {
+                return axpy(y, h, f(t, y));
+            }
+
+            State rk4_step(const RHS& f, double t, const State& y, double h)
+            {
+                const State k1 = f(t, y);
+                const State k2 = f(t + h / 2, axpy(y, h / 2, k1));
+                const State k3 = f(t + h / 2, axpy(y, h / 2, k2));
+                const State k4 = f(t + h, axpy(y, h, k3));
+
+                State result(y.size());
+                for (std::size_t i = 0; i < y.size(); ++i)
+                    result[i] = y[i] + h / 6.0 * (k1[i] + 2 * k2[i] + 2 * k3[i] + k4[i]);
+                return result;
+            }
+
+            } // namespace ode
+
+   .. tab:: apps/oscillator.cpp
+
+      .. code-block:: cpp
+
+            #include <ode/solvers.h>
+
+            #include <cmath>
+            #include <print>
+
+            int main()
+            {
+                // Undamped harmonic oscillator x'' = -omega^2 x written as a system
+                // y = [x, v], y' = [v, -omega^2 x].
+                const double omega = 2.0;
+                ode::RHS f = [omega](double, const ode::State& y) {
+                    return ode::State{y[1], -omega * omega * y[0]};
+                };
+
+                const double h = 0.05;
+                const int n_steps = 200; // integrate to t = 10
+
+                ode::State y_euler = {1.0, 0.0};
+                ode::State y_rk4 = {1.0, 0.0};
+
+                double t = 0.0;
+                for (int i = 0; i < n_steps; ++i)
+                {
+                    y_euler = ode::euler_step(f, t, y_euler, h);
+                    y_rk4 = ode::rk4_step(f, t, y_rk4, h);
+                    t += h;
+                }
+
+                const double exact = std::cos(omega * t);
+
+                std::println("x({:.1f}) exact : {:9.6f}", t, exact);
+                std::println("x({:.1f}) Euler : {:9.6f}  error {:.2e}", t, y_euler[0], std::abs(y_euler[0] - exact));
+                std::println("x({:.1f}) RK4   : {:9.6f}  error {:.2e}", t, y_rk4[0], std::abs(y_rk4[0] - exact));
+
+                return 0;
+            }
+
+To implement the ``CMakeLists.txt`` we add our standard project and version information.
+
+.. code:: cmake
+
+    cmake_minimum_required(VERSION 3.20)
+
+    project(OdeDemo VERSION 1.0 LANGUAGES CXX)
+
+Next we set a special CMake variable, ``BUILD_SHARED_LIBS``, that controls how libraries should be build. There is no need to specify and special directives when definting the library targets if this option is set to ``ON``.
+
+.. code:: cmake
+
+    option(BUILD_SHARED_LIBS "Build libraries as shared libraries" ON)
+
+To keep track of all the built files we set the output directories explicetly.
+
+.. code:: cmake
+
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+
+Next we define our library and compile features.
+
+.. code:: cmake
+
+    add_library(ode
+        ode/src/solvers.cpp
+        ode/include/ode/solvers.h
+    )
+
+    target_include_directories(ode PUBLIC
+        ode/include
+        ${CMAKE_CURRENT_BINARY_DIR}   # location of the generated ode_export.h
+    )
+
+    target_compile_features(ode PUBLIC cxx_std_23)  
+
+To make sure only functions marked with ``ODE_EXPORT`` are visible to user we set special properties of the target using ``set_target_properties``.
+
+.. code:: cmake
+
+    set_target_properties(ode PROPERTIES
+        CXX_VISIBILITY_PRESET hidden
+        VISIBILITY_INLINES_HIDDEN ON
+        VERSION ${PROJECT_VERSION}            # libode.so.1.0
+        SOVERSION ${PROJECT_VERSION_MAJOR}    # libode.so.1
+    )
+
+Next we need to generate the ``build/ode_export.h`` file, which done using the following functions.
+
+.. code:: cmake
+
+    include(GenerateExportHeader)
+    generate_export_header(ode)
+
+Finally we add are executabel target and link it with our new shared library.
+
+.. code:: cmake
+
+    add_executable(oscillator apps/oscillator.cpp)
+    target_link_libraries(oscillator PRIVATE ode)
+
+Lets build our library.
+
+.. code:: text
+
+    $ cmake -S . -B build
+    -- The CXX compiler identification is GNU 15.3.0
+    -- Detecting CXX compiler ABI info
+    -- Detecting CXX compiler ABI info - done
+    -- Check for working CXX compiler: /usr/bin/c++ - skipped
+    -- Detecting CXX compile features
+    -- Detecting CXX compile features - done
+    -- Performing Test COMPILER_HAS_HIDDEN_VISIBILITY
+    -- Performing Test COMPILER_HAS_HIDDEN_VISIBILITY - Success
+    -- Performing Test COMPILER_HAS_HIDDEN_INLINE_VISIBILITY
+    -- Performing Test COMPILER_HAS_HIDDEN_INLINE_VISIBILITY - Success
+    -- Performing Test COMPILER_HAS_DEPRECATED_ATTR
+    -- Performing Test COMPILER_HAS_DEPRECATED_ATTR - Success
+    -- Configuring done (0.3s)
+    -- Generating done (0.0s)
+    -- Build files have been written to: /home/.../cpp_course/ch_cmake/05_shared_library/build
+    
+    $ cmake --build build
+    [ 25%] Building CXX object CMakeFiles/ode.dir/ode/src/solvers.cpp.o
+    [ 50%] Linking CXX shared library lib/libode.so
+    [ 50%] Built target ode
+    [ 75%] Building CXX object CMakeFiles/oscillator.dir/apps/oscillator.cpp.o
+    [100%] Linking CXX executable bin/oscillator
+    [100%] Built target oscillator
+
+We can see here that the build generated the shared library ``lib/libode.so`` and the executable ``bin/oscillator``. Running the executable gives us.
+
+.. code:: text
+
+    $ ./oscillator 
+    x(10.0) exact :  0.408082
+    x(10.0) Euler :  1.264886  error 8.57e-01
+    x(10.0) RK4   :  0.408097  error 1.46e-05
+
+So how can we see that our executable uses our shared library? In Linux there is a tool, ``ldd``, for querying which libraries will be loaded by the executable. Running this tool on our ``oscillator`` binary produces the following output.
+
+.. code:: text
+    
+    $ ldd oscillator 
+        linux-vdso.so.1 (0x00007449faa32000)
+        libode.so.1 => /home/.../build/lib/libode.so.1 (0x00007449fa9e3000)
+        libstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007449fa600000)
+        libm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x00007449fa4d5000)
+        libgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007449fa9b5000)
+        libc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x00007449fa200000)
+        /lib64/ld-linux-x86-64.so.2 (0x00007449faa35000)
+
+We can clearly see that the executable links against ``libode.so.1``, which it should. ``ldd`` is a good tool for debugging dynamic linking issues.
+
+Our build also generated a special header file, ``ode_export.h``, to handle the exported functions, which is located in the build directory. The library contains the definition of the ``ODE_EXPORT`` depending on platform and if we are building or using the library. If we look in the header file of our library we can see how it is used.
+
+.. code:: cpp
+
+    ODE_EXPORT State euler_step(const RHS& f, double t, const State& y, double h);
+    ODE_EXPORT State rk4_step(const RHS& f, double t, const State& y, double h); 
+
