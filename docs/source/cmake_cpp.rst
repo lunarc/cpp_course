@@ -860,3 +860,152 @@ Our build also generated a special header file, ``ode_export.h``, to handle the 
     ODE_EXPORT State euler_step(const RHS& f, double t, const State& y, double h);
     ODE_EXPORT State rk4_step(const RHS& f, double t, const State& y, double h); 
 
+Project structure
+-----------------
+
+When your project grows it can be complicated to maintain all parts using a single ``CMakeLists.txt`` file. To handle this you can divide up CMake functionality into multiple ``CMakeLists.txt`` located in subdirectories in your project. Each of these will operate relative to the subdirectory it is running in. You add a subdirectory with a ``CMakeLists.txt`` using the ``add_subdiretory()`` function in CMake. 
+
+To illustrate how this can be accomplished, consider the following project layout.
+
+.. code:: text
+
+    06_project_structure/
+    ├── CMakeLists.txt        <- top level: project settings
+    ├── libs/heat/            <- reusable library code
+    │   ├── CMakeLists.txt
+    │   ├── include/heat/
+    │   └── src/
+    ├── apps/                 <- programs using the library
+    │   └── CMakeLists.txt
+    └── tests/                <- automatic tests run with ctest
+        └── CMakeLists.txt
+
+We have 3 parts.
+
+- ``libs`` -- Cointaining the source for reusable library code.
+- ``apps`` -- Applications using our library.
+- ``tests`` -- Tests for our project. 
+
+For each subdirectory there is a separate ``CMakeLists.txt``. Lets go through them step by step. We start with the main file. First, we add the standard declaration for the project:
+
+.. code:: cmake
+
+    cmake_minimum_required(VERSION 3.20)
+
+    project(HeatEquation VERSION 0.1 LANGUAGES CXX)
+
+As this example also uses tests we add an option ``HEAT_BUILD_TESTS`` for enabling the tests of the example. We also set the output for the binary files.
+
+.. code:: cmake
+
+    option(HEAT_BUILD_TESTS "Build the unit tests" ON)
+
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+Next, we add our subdirectories with our additional ``CMakeLists.txt`` directories. We use a if-statement in CMake to enable the tests when this option is set.
+
+.. code:: cmake
+
+    add_subdirectory(libs/heat)
+    add_subdirectory(apps)
+
+    if(HEAT_BUILD_TESTS)
+        # enable_testing() must be called in the top-level CMakeLists.txt,
+        # otherwise ctest will not find any tests.
+        enable_testing()
+        add_subdirectory(tests)
+    endif()
+
+The ``CMakeLists.txt`` the subdirectories are part of the main project and will have access to all variables defined in the main project, so we can just define our targets just like in a single file. Note that the paths are relative to the subdirectory.
+
+.. code:: cmake
+
+    add_library(heat STATIC
+        src/heat1d.cpp
+        include/heat/heat1d.h
+    )
+
+    target_include_directories(heat PUBLIC include)
+    target_compile_features(heat PUBLIC cxx_std_23)
+
+When defining a library it can be be a good idea to also defining a library alias to get a clear error when linking with the library. Without an alias a wrong library name can actually success if there is a similar system library. Below is an example of an alias library.
+
+.. code:: cmake
+
+    add_library(heat::heat ALIAS heat)
+
+The ``apps``-directory is handled in the same way.
+
+.. code:: 
+
+    add_executable(heat_rod heat_rod.cpp)
+    target_link_libraries(heat_rod PRIVATE heat::heat)
+
+Here we also see how the alias, ``heat::heat``, is used. 
+
+In the final subdirectory, ``tests`` will contain our tests. Tests are added using the ``add_test()``-function. A test is a program that is run and returns 0 for a succesfull test and non-zero for a test failure. In the following code we add 2 test that we link with the heat library.
+
+.. code:: cmake
+
+    add_executable(test_steady_state test_steady_state.cpp)
+    target_link_libraries(test_steady_state PRIVATE heat::heat)
+    add_test(NAME steady_state COMMAND test_steady_state)
+
+    add_executable(test_invalid_input test_invalid_input.cpp)
+    target_link_libraries(test_invalid_input PRIVATE heat::heat)
+    add_test(NAME invalid_input COMMAND test_invalid_input)
+
+It is also possible to run tests where we evaluate the output using a regular expression. This is what is done in the code below:
+
+.. code:: cmake
+
+    add_test(NAME heat_rod_runs COMMAND heat_rod)
+    set_tests_properties(heat_rod_runs PROPERTIES PASS_REGULAR_EXPRESSION "t = +24\\.0 h")
+
+Building is done in the same way as before. See below:
+
+.. code:: text
+
+    $ cmake -S . -B build
+    -- The CXX compiler identification is AppleClang 17.0.0.17000603
+    -- Detecting CXX compiler ABI info
+    -- Detecting CXX compiler ABI info - done
+    -- Check for working CXX compiler: /usr/bin/c++ - skipped
+    -- Detecting CXX compile features
+    -- Detecting CXX compile features - done
+    -- Configuring done (0.9s)
+    -- Generating done (0.0s)
+    -- Build files have been written to: /Users/lindemann/Development/cpp_course/ch_cmake/06_project_structure/build
+ 
+    $ cmake --build build --config Release
+    [ 12%] Building CXX object libs/heat/CMakeFiles/heat.dir/src/heat1d.cpp.o
+    [ 25%] Linking CXX static library libheat.a
+    [ 25%] Built target heat
+    [ 37%] Building CXX object apps/CMakeFiles/heat_rod.dir/heat_rod.cpp.o
+    [ 50%] Linking CXX executable ../bin/heat_rod
+    [ 50%] Built target heat_rod
+    [ 62%] Building CXX object tests/CMakeFiles/test_steady_state.dir/test_steady_state.cpp.o
+    [ 75%] Linking CXX executable ../bin/test_steady_state
+    [ 75%] Built target test_steady_state
+    [ 87%] Building CXX object tests/CMakeFiles/test_invalid_input.dir/test_invalid_input.cpp.o
+    [100%] Linking CXX executable ../bin/test_invalid_input
+    [100%] Built target test_invalid_input
+
+We see here that CMake walks through the subdirectories and uses each of the provided ``CMakeLists.txt`` as it was a single project. As the option for building tests was enabled CMake also built the test executables. 
+
+To run the tests we need to use another CMake provided tool ctest as shown below.
+
+.. code:: text
+
+    $ ctest --test-dir build -C Release
+    Test project /Users/lindemann/Development/cpp_course/ch_cmake/06_project_structure/build
+        Start 1: steady_state
+    1/3 Test #1: steady_state .....................   Passed    0.20 sec
+        Start 2: invalid_input
+    2/3 Test #2: invalid_input ....................   Passed    0.14 sec
+        Start 3: heat_rod_runs
+    3/3 Test #3: heat_rod_runs ....................   Passed    0.14 sec
+
+    100% tests passed, 0 tests failed out of 3
+
+    Total Test time (real) =   0.49 sec

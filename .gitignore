@@ -69,3 +69,5 @@ build/*
 /ch_mixed_language/python/build
 docs/source/mixed_language_notes.txt
 /docs/source/.vscode
+/.qtcreator
+.DS_Store
