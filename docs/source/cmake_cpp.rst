@@ -1009,3 +1009,400 @@ To run the tests we need to use another CMake provided tool ctest as shown below
     100% tests passed, 0 tests failed out of 3
 
     Total Test time (real) =   0.49 sec
+
+Finding required packages
+-------------------------
+
+Many application depends on other packages to build. Finding and configuring packages can be complicated and platformdependent. CMake includes a mechanism for searching for packages with the ´´find_package()`` function. In the easiest form you just give the name of the package that you want to find.
+
+.. code:: cmake
+
+    find_package(OpenMP)
+
+If CMake doesn't find the package the configuration doesn't fail. The result of the find is stored in the variable ``OpenMP_CXX_FOUND``. We can use this to take a different configuration path.
+
+.. code:: cmake
+
+    find_package(OpenMP)
+
+    if(OpenMP_CXX_FOUND)
+        message(STATUS "OpenMP ${OpenMP_CXX_VERSION} found - building parallel version")
+        target_link_libraries(mc_pi PRIVATE OpenMP::OpenMP_CXX)
+    else()
+        message(WARNING "OpenMP not found - building serial version")
+    endif()    
+
+If a package is required you can add the keyword ``REQUIRED`` to the function.
+
+.. code:: cmake
+
+    find_package(Threads REQUIRED)
+
+    add_executable(mc_pi_threads mc_pi_threads.cpp)
+    target_compile_features(mc_pi_threads PRIVATE cxx_std_23)
+    target_link_libraries(mc_pi_threads PRIVATE Threads::Threads)
+
+If the package can't be find the CMake configuration will fail.
+
+What packages are available to find is not clear cut. You can get an idea by running the following command in a terminal.
+
+.. code:: text
+
+    $ cmake --help-module-list
+    ...
+    FindALSA
+    FindASPELL
+    FindAVIFile
+    FindArmadillo
+    FindBISON
+    FindBLAS
+    FindBZip2
+    FindBacktrace
+    FindBoost
+    FindBullet
+    FindCABLE
+    FindCUDA
+    ...
+
+The Find-modules give you a hint on what packages you can search for.
+
+If libraries are not installed in standard location you need to tell CMake where to find these packages. You can provide the location of the installed libraries using the ``CMAKE_PREFIX_PATH`` variable when configuring the build.
+
+.. code:: text
+
+    cmake -S . -B build -DCMAKE_PREFIX_PATH=/path/to/eigen/install
+    cmake -S . -B build -DCMAKE_PREFIX_PATH=$CONDA_PREFIX
+
+Using the vcpkg package manager
+-------------------------------
+
+It is often very cumbersome to install packages on different platforms. To overcome this you can use the vcpkg tool to automatically download and build the dependencies. 
+
+To install vcpkg you have to peform the following commands. The commands can differ a bit depending on platform, so check the vcpkg documentation.
+
+.. code:: text
+
+    $ git clone https://github.com/microsoft/vcpkg
+    $ cd vcpkg
+    $ git pull
+    $ ./bootstrap-vcpkg.sh
+
+When this is done set the ``VCPKG_ROOT`` to the directory of the installation.
+
+Next, we are going to use a new feature of CMake, the ``CMakePresets.json`` file. This file simplifies the build configuration and the required options you need to specify for configuring the build. We are now going to configure a preset file for using the vcpkg package manager. The file is shown below:
+
+.. code:: json
+
+    {
+        "version": 6,
+        "configurePresets": [
+            {
+            "name": "vcpkg",
+            "displayName": "Default (vcpkg)",
+            "description": "Configure with the vcpkg toolchain. Requires the VCPKG_ROOT environment variable.",
+            "binaryDir": "${sourceDir}/build",
+            "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+            }
+        ],
+        "buildPresets": [
+            {
+            "name": "release",
+            "configurePreset": "vcpkg",
+            "configuration": "Release"
+            }
+        ]
+    }
+
+There are 2 section in this file the first defines the configuration settings and the second the build settings.
+
+We also need to create a ``vcpkg.json`` file containing the required packages. This file will have the following content:
+
+.. code:: json
+
+    {
+        "name": "truss-solver",
+        "version": "1.0.0",
+        "description": "CMake chapter example 09: dependencies declared in a vcpkg manifest",
+        "dependencies": [
+            "eigen3",
+            "nlohmann-json"
+        ]
+    }
+
+The important entries are contained int the ``dependencies`` dictionary. Here we list that we need the ``eigen3`` and ``nlohmann-json`` libraries.  
+
+The nice thing with using vcpkg is that we don't need to do any changes in the ``CMakeLists.txt`` file specifically for the application. The complete build is specified in the preset file. 
+
+To illustrate the usage we are going to build an application that requires the libraries described above. 
+
+We start with the standard configurations.
+
+.. code:: cmake
+
+    cmake_minimum_required(VERSION 3.20)
+
+    project(TrussSolver LANGUAGES CXX)
+
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+Next, we use ``find_package()`` find and configure the required packages.
+
+.. code:: cmake
+
+    find_package(Eigen3 CONFIG REQUIRED)
+    find_package(nlohmann_json CONFIG REQUIRED) 
+
+As the application requires both libraries to work we give the ``REQUIRED`` attribute. The ``CONFIG`` attribute tells the command to use the library provided configuration information. 
+
+Next, we define are target and link options. Please note we use the new namespace method of listing libraries so we avoid clashes with system installed libraries.
+
+.. code:: cmake
+
+    add_executable(truss truss.cpp)
+    target_compile_features(truss PRIVATE cxx_std_23)
+    target_link_libraries(truss PRIVATE Eigen3::Eigen nlohmann_json::nlohmann_json)    
+
+The application also comes with a sample configuration file ``truss.json`` which should be copied next to the executable file. This can also be handled by CMake using the ``add_custom_command()`` function. Using this command we can specifies operations that can be performed before and after the build. In this case we want the file to be copied post build, so we give the attribute ``POST_BUILD`` in the call. In the attribute ``COMMAND`` we specify the command to be executed. The complete call is shown below:
+
+.. code:: cmake
+
+    add_custom_command(TARGET truss POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                ${CMAKE_CURRENT_SOURCE_DIR}/truss.json
+                $<TARGET_FILE_DIR:truss>
+        COMMENT "Copying truss.json to the output directory"
+    )    
+
+To configure and build our application using preset we give the following commands:
+
+.. code:: text
+
+    $ export VCPKG_ROOT=/Users/lindemann/vcpkg
+    $ cmake --preset vcpkg
+    -- Running vcpkg install
+    Detecting compiler hash for triplet arm64-osx...
+    Compiler found: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++
+    The following packages will be built and installed:
+        eigen3:arm64-osx@5.0.1
+        nlohmann-json:arm64-osx@3.12.0#2
+
+    [ ---- cut ---- ]
+
+    Waiting for 1 remaining binary cache submissions...
+    Completed submission of eigen3:arm64-osx@5.0.1 to 1 binary cache(s) in 251 ms (1/1)
+    All requested installations completed successfully in: 2.6 s
+    -- Running vcpkg install - done
+    -- The CXX compiler identification is AppleClang 17.0.0.17000603
+    -- Detecting CXX compiler ABI info
+    -- Detecting CXX compiler ABI info - done
+    -- Check for working CXX compiler: /usr/bin/c++ - skipped
+    -- Detecting CXX compile features
+    -- Detecting CXX compile features - done
+    -- Found nlohmann_json: /Users/lindemann/Development/cpp_course/ch_cmake/09_vcpkg_manifest/build/vcpkg_installed/arm64-osx/share/nlohmann_json/nlohmann_jsonConfig.cmake (found version "3.12.0")
+    -- Configuring done (5.2s)
+    -- Generating done (0.0s)
+    -- Build files have been written to: /Users/lindemann/Development/cpp_course/ch_cmake/09_vcpkg_manifest/build
+
+Please not that the vcpkg configuration will print out the ``CMakeLists.txt`` function calls required to configure and find the packages as shown below:
+
+.. code:: text
+
+    # this is heuristically generated, and may not be correct
+    find_package(Eigen3 CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE Eigen3::Eigen)
+
+    eigen3 provides pkg-config modules:
+
+    # A C++ template library for linear algebra: vectors, matrices, and related algorithms
+    eigen3
+
+    The package nlohmann-json provides CMake targets:
+
+        find_package(nlohmann_json CONFIG REQUIRED)
+        target_link_libraries(main PRIVATE nlohmann_json::nlohmann_json)
+
+    The package nlohmann-json can be configured to not provide implicit conversions via a custom triplet file:
+
+        set(nlohmann-json_IMPLICIT_CONVERSIONS OFF)
+
+    For more information, see the docs here:
+
+        https://json.nlohmann.me/api/macros/json_use_implicit_conversions/
+
+To build the package we also use the preset configuration:
+
+.. code:: text
+
+    $ cmake --build --preset release
+    [ 50%] Building CXX object CMakeFiles/truss.dir/truss.cpp.o
+    [100%] Linking CXX executable bin/truss
+    Copying truss.json to the output directory
+    [100%] Built target truss
+
+We also see that the ``truss.json`` file is automatically copied to the same directory as the application binary.
+
+Downloading dependencies using FetchContent
+-------------------------------------------
+
+Another option to handle dependencies automatically is to use the FetchContent functionality of CMake. Using this method we can download libraries and automatically build them together with the application. To illustrate this we will go through a complete example. First we declare the normal CMake declarations. 
+
+.. code:: cmake
+
+    cmake_minimum_required(VERSION 3.20)
+
+    project(Projectile LANGUAGES CXX)
+
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+To use FetchContent we must firs include the CMake library using the ``ìnclude()`` function. 
+
+.. code:: cmake
+
+    include(FetchContent)
+
+Next, we need to declare the URL and version to download from GitHub. A typical declaration is shown below:
+
+.. code:: cmake
+
+    FetchContent_Declare(cli11
+        URL https://github.com/CLIUtils/CLI11/archive/refs/tags/v2.4.2.tar.gz
+        DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+    )
+
+In the next step we download (first time only) the dependency and make the targets available to our builed. 
+
+.. code:: cmake
+
+    FetchContent_MakeAvailable(cli11)
+
+All targets available in the archive are now available for us to use directly in our application as well. See below:
+
+.. code:: cmake
+
+    add_executable(projectile projectile.cpp)
+    target_compile_features(projectile PRIVATE cxx_std_23)
+    target_link_libraries(projectile PRIVATE CLI11::CLI11)
+
+We build the project just like before:
+
+.. code:: text
+
+    $ cmake -S . -B build
+    -- The CXX compiler identification is AppleClang 17.0.0.17000603
+    -- Detecting CXX compiler ABI info
+    -- Detecting CXX compiler ABI info - done
+    -- Check for working CXX compiler: /usr/bin/c++ - skipped
+    -- Detecting CXX compile features
+    -- Detecting CXX compile features - done
+    CMake Deprecation Warning at build/_deps/cli11-src/CMakeLists.txt:1 (cmake_minimum_required):
+    Compatibility with CMake < 3.10 will be removed from a future version of
+    CMake.
+
+    Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+    to tell CMake that the project requires at least <min> but has been updated
+    to work with policies introduced by <max> or earlier.
+
+
+    -- Configuring done (1.5s)
+    -- Generating done (0.0s)
+    -- Build files have been written to: /Users/lindemann/Development/cpp_course/ch_cmake/10_fetchcontent/build
+
+    $ cmake --build build
+    [  0%] Built target CLI11
+    [ 50%] Building CXX object CMakeFiles/projectile.dir/projectile.cpp.o
+    [100%] Linking CXX executable bin/projectile
+    [100%] Built target projectile
+
+As we can see the CMake files from the CLI project is a bet outdates, but it downloaded and built the library.
+
+Unit-testing with CTest and Catch2
+----------------------------------
+
+We have already covered basic test functionality of CMake using the ``ctest``. However for numerical libraries it is more complicated to implement these tests. To make it easier to write tests for these libraries we can use the Catch2 test framework to help us. To illustrate how to use this framework we implement test functions for a quadrature library. The tests can be implemented in separate source files or in a single source. In this example we will provide the test cases in a single source file ``test_quadrature.cpp``. We first we add all required include files:
+
+.. code:: cpp
+
+    #include <quadrature.h>
+
+    #include <catch2/catch_test_macros.hpp>
+    #include <catch2/matchers/catch_matchers_floating_point.hpp>
+
+    #include <cmath>
+    #include <numbers>
+    #include <stdexcept>
+
+    using Catch::Matchers::WithinAbs;
+    using Catch::Matchers::WithinRel;
+
+    // Floating point results must never be compared with ==. Catch2
+    // provides matchers for absolute and relative tolerances.    
+
+The concept is that we define test cases where we call our libraries and evaluate the functionality. A test is defined using the macro ``TEST_CASE()``. In the test we perform our function call which we then evaluate with ``REQUIRE_XXX()`` macros. Below is a simple example of a test case.
+
+.. code:: cpp
+
+    TEST_CASE("Trapezoidal rule is exact for linear functions", "[trapezoidal]")
+    {
+        auto f = [](double x) { return 3.0 * x + 2.0; };
+        REQUIRE_THAT(quad::trapezoidal(f, 0.0, 2.0, 1), WithinAbs(10.0, 1e-12));
+    }
+
+In this case we require the result from a call to ``quad::trapezoidal(f, 0.0, 2.0, 1)`` should be ``10.0`` with an absolute tolerance of ``1e-12``. 
+
+To implement the test functionality in our ``CMakeLists.txt`` we use FetchContent to download and install the Catch2 framework.
+
+.. code:: cmake
+
+    enable_testing()
+
+    include(FetchContent)
+    FetchContent_Declare(Catch2
+        URL https://github.com/catchorg/Catch2/archive/refs/tags/v3.7.1.tar.gz
+        DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+    )
+    FetchContent_MakeAvailable(Catch2)
+
+    add_executable(test_quadrature tests/test_quadrature.cpp)
+
+    # Catch2::Catch2WithMain provides main(), so the test file only
+    # contains test cases.
+    target_link_libraries(test_quadrature PRIVATE quadrature Catch2::Catch2WithMain)
+
+    # catch_discover_tests() asks the test program which test cases it
+    # contains and registers each of them as a separate CTest test.
+    # Compared to a single add_test() this gives a clear report of
+    # exactly which test case failed.
+    list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
+    include(Catch)
+    catch_discover_tests(test_quadrature)
+
+We can now build and test our library.
+
+.. code:: text
+
+    $ cmake --build build --config Release
+    [  2%] Built target quadrature
+    [ 96%] Built target Catch2
+    [ 98%] Built target Catch2WithMain
+    [100%] Built target test_quadrature    
+
+    $ ctest --test-dir build -C Release --output-on-failure
+    Test project /Users/lindemann/Development/cpp_course/ch_cmake/11_testing/build
+        Start 1: Trapezoidal rule is exact for linear functions
+    1/7 Test #1: Trapezoidal rule is exact for linear functions ..........   Passed    0.01 sec
+        Start 2: Simpson's rule is exact for cubic polynomials
+    2/7 Test #2: Simpson's rule is exact for cubic polynomials ...........   Passed    0.00 sec
+        Start 3: Gauss-Legendre 2-point is exact for cubic polynomials
+    3/7 Test #3: Gauss-Legendre 2-point is exact for cubic polynomials ...   Passed    0.00 sec
+        Start 4: Methods agree on the integral of sin(x) over [0, pi]
+    4/7 Test #4: Methods agree on the integral of sin(x) over [0, pi] ....   Passed    0.00 sec
+        Start 5: Trapezoidal rule converges with order 2
+    5/7 Test #5: Trapezoidal rule converges with order 2 .................   Passed    0.00 sec
+        Start 6: Simpson's rule converges with order 4
+    6/7 Test #6: Simpson's rule converges with order 4 ...................   Passed    0.00 sec
+        Start 7: Invalid number of intervals throws
+    7/7 Test #7: Invalid number of intervals throws ......................   Passed    0.00 sec
+
+    100% tests passed, 0 tests failed out of 7
+
+    Total Test time (real) =   0.04 sec
