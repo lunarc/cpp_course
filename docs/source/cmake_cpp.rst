@@ -1,9 +1,89 @@
 CMake and C++
 =============
 
-Building C++ applications and libraries for multiple platforms and development environments can be a complicate process. There are multiple different build tools and development tools with different build files and settings. A common tool to solve this problem is CMake. CMake solves this problem by providing a platform neutral way of specifying build requirements and build rules. Instead of relying of complicated build tools with complicated syntax such as Make, the build description is implemented in a full fledged programming language that supports variables, iteration and logic. The language also has an extensive runtime library for interacting with the system and generating build files. 
+Building C++ applications and libraries for multiple platforms and development environments can be a complicated process. There are multiple different build tools and development tools with different build files and settings. A common tool to solve this problem is CMake. CMake solves this problem by providing a platform-neutral way of specifying build requirements and build rules. Instead of relying on complicated build tools with complicated syntax such as Make, the build description is implemented in a full-fledged programming language that supports variables, iteration and logic. The language also has an extensive runtime library for interacting with the system and generating build files. 
 
-The process is build around a ``CMakeLists.txt`` file which contains source for the build definition. To run the build generation you use the ``cmake`` command in the source tree, which then builds the required build files. These can be Makefiles, Ninja-files and project files for different development environments.
+The process is built around a ``CMakeLists.txt`` file which contains the source for the build definition. To run the build generation you use the ``cmake`` command in the source tree, which then generates the required build files. These can be Makefiles, Ninja files or project files for different development environments.
+
+.. admonition:: In this chapter
+
+    After working through this chapter you will be able to:
+
+    * configure and build a CMake project from the command line on Windows, Linux and macOS,
+    * describe a build in terms of *targets* and the properties attached to them,
+    * build executables, static libraries and shared libraries and link them together,
+    * split a larger project into subdirectories,
+    * use third-party libraries with ``find_package()``, vcpkg and FetchContent,
+    * add tests to a project and run them with CTest.
+
+.. admonition:: Prerequisites
+
+    * CMake 3.20 or newer. The preset file in the vcpkg section requires CMake 3.25.
+    * A C++23 compiler with ``<print>`` support: GCC 14 or newer, Clang 18 or newer, or MSVC from Visual Studio 2022 17.7 or newer.
+    * Basic knowledge of compiling and running C++ programs, see :doc:`build_and_run`.
+
+    All examples are available in the ``ch_cmake/`` directory of the course repository. Each subdirectory is a complete, standalone project, and they appear in the same order as in this chapter.
+
+How CMake works
+---------------
+
+Before we write our first ``CMakeLists.txt`` it is useful to have a mental model of what CMake actually does. CMake does not compile any code itself. It is a *build system generator*: it reads a description of your project and writes the input files for a native build tool, which then does the actual compiling and linking.
+
+The three steps
+~~~~~~~~~~~~~~~
+
+Building a CMake project always goes through three steps:
+
+.. code:: text
+
+    CMakeLists.txt --> configure --> generate --> build --> executables and libraries
+                       \______________________/    \___/
+                         cmake -S . -B build      cmake --build build
+
+1. **Configure.** CMake runs the ``CMakeLists.txt`` script. It detects the compilers and tools, checks which features they support, looks for dependencies and evaluates options. The results are stored in the file ``CMakeCache.txt`` in the build directory, so later runs are faster.
+2. **Generate.** CMake writes the build files for the selected *generator*: Makefiles, Ninja files, or a Visual Studio or Xcode project. Configure and generate are run by the same command, so they are often treated as a single step.
+3. **Build.** The native build tool compiles and links the code. You can call the tool directly (``make``, ``ninja`` or Visual Studio), but ``cmake --build build`` works the same way with every generator.
+
+You only need to rerun the configure step yourself when you want to change an option. If you edit a ``CMakeLists.txt`` file, the build step detects this and reruns the configure step automatically.
+
+Source and build directories
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The *source directory* contains your code and the top-level ``CMakeLists.txt``. The *build directory* contains everything that CMake and the build tool generate: the cache, the build files, object files, libraries and executables. Keeping the two apart is called an *out-of-source build* and has several advantages:
+
+* The source tree stays clean, and generated files don't end up in version control. Add ``build/`` to your ``.gitignore``.
+* You can start from scratch at any time by deleting the build directory.
+* You can have several build directories for the same source, for example one for debug builds and one for release builds, or one per compiler.
+
+This is why we always give both the source directory (``-S``) and the build directory (``-B``) when configuring in this chapter.
+
+Generators
+~~~~~~~~~~
+
+CMake picks a default generator for each platform: the newest installed Visual Studio on Windows, and Makefiles on Linux and macOS. You can choose another generator with the ``-G`` switch. Ninja is a popular choice, as it is fast and works the same on all platforms:
+
+.. code:: text
+
+    cmake -S . -B build -G Ninja
+
+The available generators are listed at the end of the output of ``cmake --help``. The generator is fixed once a build directory has been configured. To switch generator, delete the build directory or use a new one. The ``CMakeLists.txt`` file stays the same whatever generator you use.
+
+Targets and properties
+~~~~~~~~~~~~~~~~~~~~~~
+
+The central concept in modern CMake is the *target*. A target is either something that should be built, such as an executable (``add_executable()``) or a library (``add_library()``), or something that already exists, such as a library found on the system with ``find_package()``.
+
+Each target has *properties*: its source files, include directories, compiler options, the required C++ standard, the libraries it links against and so on. Most commands in this chapter set properties on a target, and you can recognise them by their ``target_`` prefix:
+
+.. code:: cmake
+
+    add_executable(hello hello.cpp)                     # create a target
+    target_compile_features(hello PRIVATE cxx_std_23)   # set a property on it
+    target_link_libraries(hello PRIVATE mylib)          # make it depend on another target
+
+When one target links against another, CMake can pass properties on automatically. A program that links against a library then also gets, for example, the include directories of the library. The keywords ``PRIVATE``, ``PUBLIC`` and ``INTERFACE`` control which properties are passed on. We will see how they work in the sections on libraries.
+
+Some settings can also be made for the whole project with variables such as ``CMAKE_CXX_STANDARD``, which provide default values for all targets. This is convenient in small projects, but the ``target_`` commands make it clear which target needs what. A good habit is to think of a ``CMakeLists.txt`` as a list of targets and the relationships between them, not as a list of compiler flags.
 
 A first example
 ---------------
@@ -36,7 +116,7 @@ In this example we are going to build the following C++ application:
 
 The application just depends on the C++ standard library, so we don't have to specify any additional libraries. 
 
-In the next step we are going to create a ``CMakeLists.txt`` file describing our build. As there are many versions of the CMake tool the first thing we are going to add in this file is a special statement for specifying the mininum version of CMake that the script requires.
+In the next step we are going to create a ``CMakeLists.txt`` file describing our build. As there are many versions of the CMake tool, the first thing we are going to add in this file is a special statement for specifying the minimum version of CMake that the script requires.
 
 .. code-block:: cmake
 
@@ -48,19 +128,19 @@ By keeping the version low we enable the script to be used in more environments 
 
     project(Hello LANGUAGES CXX) # LANGUAGES is optional
 
-As this example uses modern C++ features we need to set a special variable ``CMAKE_CXX_STANDARD`` that defines the standard we want to use when compiling our example. We will compile against C++23.
+As this example uses modern C++ features, we need to set a special variable ``CMAKE_CXX_STANDARD`` that defines the standard we want to use when compiling our example. We will compile against C++23.
 
 .. code-block:: cmake
 
     set(CMAKE_CXX_STANDARD 23)
 
-In the final part of the script we will define the target and which source files required to build the target. This is done using the ``add_executable()`` function. This function takes the target name (executable name) and a list of source code files required to build the target.
+In the final part of the script we will define the target and which source files are required to build the target. This is done using the ``add_executable()`` function. This function takes the target name (executable name) and a list of source code files required to build the target.
 
 .. code-block:: cmake
 
     add_executable(hello hello.cpp)
 
-That's it. We are now ready to build our application. The first step is to run ``CMakeLists.txt`` script to configure the build. In this step CMake examines the system and figures out what build tools and compilers are availble. There are some things to consider when calling CMake. By default all build files are generated in the current working directory. This is not optimal as it will pollute the source tree. The recommended way of building your application is to use a build directory, which is specified with the ``-B`` switch. It is also a good idea to indicate where the source directory is located, which is done with the ``-S`` switch. The CMake build command then becomes.
+That's it. We are now ready to build our application. The first step is to run the ``CMakeLists.txt`` script to configure the build. In this step CMake examines the system and figures out what build tools and compilers are available. There are some things to consider when calling CMake. By default, all build files are generated in the current working directory. This is not optimal as it will pollute the source tree. The recommended way of building your application is to use a build directory, which is specified with the ``-B`` switch. It is also a good idea to indicate where the source directory is located, which is done with the ``-S`` switch. The CMake build command then becomes:
 
 .. code:: text
 
@@ -77,7 +157,7 @@ That's it. We are now ready to build our application. The first step is to run `
     -- Generating done (0.0s)
     -- Build files have been written to: D:/Users/Jonas/Development/cpp_course/ch_cmake/01_single_target/build
 
-The above output is run on a Windows machine, but the output will be similar on Linux or macOS. If we examine the generated build directory we get:
+The above output is from a Windows machine, but the output will be similar on Linux or macOS. If we examine the generated build directory we get:
 
 .. code:: text
 
@@ -95,7 +175,7 @@ The above output is run on a Windows machine, but the output will be similar on 
     2026-11-11  22:26            41 487 ZERO_CHECK.vcxproj
     2026-11-11  22:26               561 ZERO_CHECK.vcxproj.filters    
 
-This is a standard Visual Studio solution directory, which is the default generator on Windows. Running the same generation on Linux or macOS will produce a make file based build.
+This is a standard Visual Studio solution directory, which is the default generator on Windows. Running the same generation on Linux or macOS will produce a Makefile-based build.
 
 We have now configured the build. The next step is to perform the actual build. This is done by using the CMake ``--build`` switch. 
 
@@ -110,7 +190,7 @@ We have now configured the build. The next step is to perform the actual build. 
     hello.vcxproj -> D:\Users\Jonas\...\ch_cmake\01_single_target\build\Debug\hello.exe
     Building Custom Rule D:/Users/Jonas/.../ch_cmake/01_single_target/CMakeLists.txt    
 
-The executable file is placed in the build/Debug directory. Running the program produces the following output:
+The executable file is placed in the ``build/Debug`` directory. Running the program produces the following output:
 
 .. code:: text
 
@@ -124,10 +204,35 @@ The executable file is placed in the build/Debug directory. Running the program 
     Error compared to std::sqrt(2): 2.220446049250313e-16
     Final approximation: x = 1.414213562373095  
 
+.. dropdown:: Complete example: ch_cmake/01_single_target
+    :icon: code
+
+    .. literalinclude:: ../../ch_cmake/01_single_target/CMakeLists.txt
+        :language: cmake
+        :caption: CMakeLists.txt
+
+    .. literalinclude:: ../../ch_cmake/01_single_target/hello.cpp
+        :language: cpp
+        :caption: hello.cpp
+
+.. admonition:: Key points
+
+    * A minimal project needs ``cmake_minimum_required()``, ``project()`` and at least one target.
+    * ``add_executable()`` creates an executable target from a list of source files.
+    * Configure with ``cmake -S . -B build`` and build with ``cmake --build build``.
+    * Where the executable ends up depends on the generator: ``build/`` for Makefiles and Ninja, ``build/Debug/`` for Visual Studio.
+
+.. admonition:: Exercise
+    :class: tip
+
+    1. Build ``ch_cmake/01_single_target``, find the executable and run it.
+    2. Change the number of iterations in ``hello.cpp`` and run ``cmake --build build`` again. Notice that you don't have to rerun the configure step.
+    3. Configure a second build directory with ``cmake -S . -B build-ninja -G Ninja`` (if Ninja is installed) and compare its contents with the first one.
+
 Multiple source files
 ---------------------
 
-In the previous example we just had a single source code file. This is probarbly the exception. In most cases we have multiple source files perhaps also placed in different directories. In this example we are going to expand on our previous example and rely function placed in separate source files, which also provide header files. Below all files are shown.
+In the previous example we just had a single source code file. This is probably the exception. In most cases we have multiple source files perhaps also placed in different directories. In this example we are going to expand on our previous example and rely on functions placed in separate source files, which also provide header files. All files are shown below.
 
 .. tabs::
 
@@ -239,7 +344,7 @@ Just like the previous project we start by specifying the version numbers and th
     cmake_minimum_required(VERSION 3.20)
     project(Integrate VERSION 1.0 LANGUAGES CXX)
 
-We have also added a version tag in the project specification, which can be used when installing or building packages. Next, we add some C++ variables for specifying ths standards.
+We have also added a version tag in the project specification, which can be used when installing or building packages. Next, we add some variables for specifying the C++ standard.
 
 .. code:: cmake
 
@@ -247,7 +352,7 @@ We have also added a version tag in the project specification, which can be used
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
     set(CMAKE_CXX_EXTENSIONS OFF)  # use -std=c++23, not -std=gnu++23
 
-As this example consist of several source files, we add them as a list after the target name in ``add_executable()``.
+As this example consists of several source files, we add them as a list after the target name in ``add_executable()``.
 
 .. code:: cmake
 
@@ -274,10 +379,49 @@ We configure and build using the following commands:
     cmake -S . -B build
     cmake --build build
 
+.. dropdown:: Complete example: ch_cmake/02_multiple_sources
+    :icon: code
+
+    .. literalinclude:: ../../ch_cmake/02_multiple_sources/CMakeLists.txt
+        :language: cmake
+        :caption: CMakeLists.txt
+
+    .. literalinclude:: ../../ch_cmake/02_multiple_sources/src/functions.h
+        :language: cpp
+        :caption: src/functions.h
+
+    .. literalinclude:: ../../ch_cmake/02_multiple_sources/src/integration.h
+        :language: cpp
+        :caption: src/integration.h
+
+    .. literalinclude:: ../../ch_cmake/02_multiple_sources/src/functions.cpp
+        :language: cpp
+        :caption: src/functions.cpp
+
+    .. literalinclude:: ../../ch_cmake/02_multiple_sources/src/integration.cpp
+        :language: cpp
+        :caption: src/integration.cpp
+
+    .. literalinclude:: ../../ch_cmake/02_multiple_sources/src/main.cpp
+        :language: cpp
+        :caption: src/main.cpp
+
+.. admonition:: Key points
+
+    * List all source files of a target in ``add_executable()``. Header files are listed as well, so that they show up in IDEs.
+    * ``target_include_directories()`` tells the compiler where to find header files for a specific target.
+    * ``CMAKE_CXX_STANDARD`` sets the C++ standard for all targets in the project.
+
+.. admonition:: Exercise
+    :class: tip
+
+    1. In ``ch_cmake/02_multiple_sources``, remove ``src/functions.cpp`` from ``add_executable()`` and build. Read the error message: does it come from the compiler or the linker?
+    2. Restore the file, then add a new test function with a known integral to ``functions.h`` and ``functions.cpp`` and integrate it in ``main.cpp``.
+
 Multiple targets
 ----------------
 
-In many project multiple targets are built. This is well supported by CMake as well. By adding multiple ``add_executable()`` statements we can add multiple targets to build. In this example we have 3 targets:
+In many projects multiple targets are built. This is well supported by CMake as well. By adding multiple ``add_executable()`` statements we can add multiple targets to build. In this example we have 3 targets:
 
 * ``simulate`` consisting of ``simulate.cpp``, ``random_walk.cpp`` and ``random_walk.h``.
 * ``analyse`` consisting of ``analyse.cpp``
@@ -301,7 +445,7 @@ Next we change the output directory of the build.
 
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-I thing to notice is that paths in the ``CMakeLists.txt`` scripts are always using ``/`` on all platforms. The reason for this is to avoid specific code for each platform. CMake will automatically convert the separator to the correct version depending on the platform CMake is run.
+One thing to notice is that paths in the ``CMakeLists.txt`` scripts always use ``/`` on all platforms. The reason for this is to avoid specific code for each platform. CMake will automatically convert the separator to the correct version depending on the platform CMake is run on.
 
 In the next step we specify our executable targets.
 
@@ -316,7 +460,7 @@ In the next step we specify our executable targets.
     # Program 3: a quick self-check of the random walk code.
     add_executable(check_walk check_walk.cpp random_walk.cpp random_walk.h)    
 
-We are also going to specify compiler options for each target. Here is it important to note that the compiler options are platform specific and we need to check the platform before applying these. To do this we will be using ``if()``-statements in CMake. The actual compiler flags are specified using the ``target_compile_options()`` function in CMake. We will also be using a loop construct, ``foreach`` to loop over our targets. The following code shows how the compiler options are applied.
+We are also going to specify compiler options for each target. Here it is important to note that the compiler options are platform specific and we need to check the platform before applying these. To do this we will be using ``if()``-statements in CMake. The actual compiler flags are specified using the ``target_compile_options()`` function in CMake. We will also be using a loop construct, ``foreach()``, to loop over our targets. The following code shows how the compiler options are applied.
 
 .. code:: cmake
 
@@ -328,7 +472,7 @@ We are also going to specify compiler options for each target. Here is it import
         endif()
     endforeach()    
 
-Lets now build the project using the commands we discussed earlier. The binaries will be placed in the ``build/bin`` directory as specified. This time we are running the commands on an Ubuntu machine.
+Let's now build the project using the commands we discussed earlier. The binaries will be placed in the ``build/bin`` directory as specified. This time we are running the commands on an Ubuntu machine.
 
 .. code:: text
 
@@ -372,12 +516,52 @@ After building, you can run the executables from the ``build/bin`` directory:
 
 With this example we have shown that you can use the same ``CMakeLists.txt`` for multiple platforms without any changes. 
 
+.. dropdown:: Complete example: ch_cmake/03_multiple_targets
+    :icon: code
+
+    .. literalinclude:: ../../ch_cmake/03_multiple_targets/CMakeLists.txt
+        :language: cmake
+        :caption: CMakeLists.txt
+
+    .. literalinclude:: ../../ch_cmake/03_multiple_targets/random_walk.h
+        :language: cpp
+        :caption: random_walk.h
+
+    .. literalinclude:: ../../ch_cmake/03_multiple_targets/analyse.cpp
+        :language: cpp
+        :caption: analyse.cpp
+
+    .. literalinclude:: ../../ch_cmake/03_multiple_targets/check_walk.cpp
+        :language: cpp
+        :caption: check_walk.cpp
+
+    .. literalinclude:: ../../ch_cmake/03_multiple_targets/random_walk.cpp
+        :language: cpp
+        :caption: random_walk.cpp
+
+    .. literalinclude:: ../../ch_cmake/03_multiple_targets/simulate.cpp
+        :language: cpp
+        :caption: simulate.cpp
+
+.. admonition:: Key points
+
+    * A project can contain any number of targets, each defined with its own ``add_executable()``.
+    * ``CMAKE_RUNTIME_OUTPUT_DIRECTORY`` collects all executables in one directory.
+    * Compiler options are platform specific. Use ``if(MSVC)`` to select the right ones, and ``target_compile_options()`` to set them.
+    * Paths in ``CMakeLists.txt`` always use ``/``, on all platforms.
+
+.. admonition:: Exercise
+    :class: tip
+
+    1. In ``ch_cmake/03_multiple_targets``, build only one of the programs with ``cmake --build build --target analyse``.
+    2. Introduce an unused variable in ``analyse.cpp`` and check that the compiler now gives a warning. Then make warnings into errors by adding ``-Werror`` (or ``/WX`` for MSVC) to the compiler options.
+
 Static libraries
 ----------------
 
 Another common task in software development is to build libraries that can be used by other applications. CMake also supports building libraries using the ``add_library()`` function. The function works in a similar way to ``add_executable()`` but instead builds a library.
 
-In this example we are going to build a single library, ``stats``, that is going to be used by 2 target executables. ``describe`` and ``fit_line``. The source code is shown below:
+In this example we are going to build a single library, ``stats``, that is going to be used by two executable targets: ``describe`` and ``fit_line``. The source code is shown below:
 
 .. tabs::
 
@@ -560,7 +744,7 @@ Next, we add our library definition using the ``add_library()`` function.
         stats/include/stats/regression.h
     )    
 
-The ``STATIC`` attribut indicates that it is a static libary, which means it is linked directly with the binary and not loaded dynamically at runtime. 
+The ``STATIC`` attribute indicates that it is a static library, which means it is linked directly with the binary and not loaded dynamically at runtime. 
 
 We also need to specify how the users of the library can include the library. This is done by using the ``target_include_directories()`` command. In this case we will use the ``PUBLIC`` directive to indicate that the include files should be added to the system path and they will also be added when the library is installed.
 
@@ -568,7 +752,7 @@ We also need to specify how the users of the library can include the library. Th
 
     target_include_directories(stats PUBLIC stats/include)
 
-As we are using C++23 we need to indicate that this library needs this standard, so any target is also compiled using C++23. We can indicate this by using the ``target_compile_feature()`` function.
+As we are using C++23, we need to indicate that this library needs this standard, so any target is also compiled using C++23. We can indicate this by using the ``target_compile_features()`` function.
 
 .. code:: cmake
 
@@ -581,7 +765,7 @@ We are now ready to add our executable targets.
     add_executable(describe apps/describe.cpp)
     add_executable(fit_line apps/fit_line.cpp)
 
-The final step in this example is to make sure that our targets links with our static library, ``stats``. This is done using the ``target_link_libraries()`` function.
+The final step in this example is to make sure that our targets link with our static library, ``stats``. This is done using the ``target_link_libraries()`` function.
 
 .. code:: cmake
 
@@ -617,16 +801,59 @@ These functions will add the required include and library directories when compi
 
 We see here that it builds the library ``libstats.a``. Running this on a Windows machine would produce a library called ``stats.lib`` instead.
 
+.. dropdown:: Complete example: ch_cmake/04_static_library
+    :icon: code
+
+    .. literalinclude:: ../../ch_cmake/04_static_library/CMakeLists.txt
+        :language: cmake
+        :caption: CMakeLists.txt
+
+    .. literalinclude:: ../../ch_cmake/04_static_library/stats/include/stats/descriptive.h
+        :language: cpp
+        :caption: stats/include/stats/descriptive.h
+
+    .. literalinclude:: ../../ch_cmake/04_static_library/stats/include/stats/regression.h
+        :language: cpp
+        :caption: stats/include/stats/regression.h
+
+    .. literalinclude:: ../../ch_cmake/04_static_library/apps/describe.cpp
+        :language: cpp
+        :caption: apps/describe.cpp
+
+    .. literalinclude:: ../../ch_cmake/04_static_library/apps/fit_line.cpp
+        :language: cpp
+        :caption: apps/fit_line.cpp
+
+    .. literalinclude:: ../../ch_cmake/04_static_library/stats/src/descriptive.cpp
+        :language: cpp
+        :caption: stats/src/descriptive.cpp
+
+    .. literalinclude:: ../../ch_cmake/04_static_library/stats/src/regression.cpp
+        :language: cpp
+        :caption: stats/src/regression.cpp
+
+.. admonition:: Key points
+
+    * ``add_library(name STATIC ...)`` builds a static library that is linked into each executable using it.
+    * ``target_link_libraries()`` links a target with a library. Include directories and compile features marked ``PUBLIC`` on the library are passed on to the targets linking with it.
+    * ``target_compile_features()`` states which C++ standard a target needs.
+
+.. admonition:: Exercise
+    :class: tip
+
+    1. In ``ch_cmake/04_static_library``, change ``PUBLIC`` to ``PRIVATE`` in the ``target_include_directories()`` call for ``stats``. Which targets fail to build now, and why?
+    2. Add a new function, for example the median, to the ``stats`` library and use it in ``describe.cpp``. Which ``CMakeLists.txt`` changes are needed?
+
 Shared library
 --------------
 
 A shared library is loaded when the program runs instead of being included in the built executable. On Windows a shared library is what is known as a ``.dll``-file. On Linux shared libraries are identified with the extension ``.so`` and on macOS they have the extension ``.dylib``. 
 
-Shared libraries differ slightly between the platforms. On Windows, functions in a DLL needs to be explicetly exported from a DLL. On Windows the library must be in the same directory as the executable or available in the ``PATH``. On Linux they location of the library must be added to the environment variable ``LD_LIBRARY_PATH`` unless they are installed in the system directories.
+Shared libraries differ slightly between the platforms. On Windows, functions in a DLL need to be explicitly exported from a DLL. On Windows the library must be in the same directory as the executable or available in the ``PATH``. On Linux the location of the library must be added to the environment variable ``LD_LIBRARY_PATH`` unless they are installed in the system directories.
 
-Shared libraries are defined in mostly the same way as for static libraries. It is also possible to add an option what type of library to build in the ``CMakeLists.txt`` file. For the Windows platform CMake can also generate a special header file for the exported functions.
+Shared libraries are defined in mostly the same way as for static libraries. It is also possible to add an option for which type of library to build in the ``CMakeLists.txt`` file. For the Windows platform CMake can also generate a special header file for the exported functions.
 
-In this example we will build an ode-solver that is loaded from a shared library, ``ode``. We have the following source files:
+In this example we will build an ODE solver that is loaded from a shared library, ``ode``. We have the following source files:
 
 .. tabs::
 
@@ -745,13 +972,13 @@ To implement the ``CMakeLists.txt`` we add our standard project and version info
 
     project(OdeDemo VERSION 1.0 LANGUAGES CXX)
 
-Next we set a special CMake variable, ``BUILD_SHARED_LIBS``, that controls how libraries should be build. There is no need to specify and special directives when definting the library targets if this option is set to ``ON``.
+Next we set a special CMake variable, ``BUILD_SHARED_LIBS``, that controls how libraries should be built. There is no need to specify any special directives when defining the library targets if this option is set to ``ON``.
 
 .. code:: cmake
 
     option(BUILD_SHARED_LIBS "Build libraries as shared libraries" ON)
 
-To keep track of all the built files we set the output directories explicetly.
+To keep track of all the built files we set the output directories explicitly.
 
 .. code:: cmake
 
@@ -775,7 +1002,7 @@ Next we define our library and compile features.
 
     target_compile_features(ode PUBLIC cxx_std_23)  
 
-To make sure only functions marked with ``ODE_EXPORT`` are visible to user we set special properties of the target using ``set_target_properties``.
+To make sure only functions marked with ``ODE_EXPORT`` are visible to users we set special properties of the target using ``set_target_properties``.
 
 .. code:: cmake
 
@@ -786,21 +1013,21 @@ To make sure only functions marked with ``ODE_EXPORT`` are visible to user we se
         SOVERSION ${PROJECT_VERSION_MAJOR}    # libode.so.1
     )
 
-Next we need to generate the ``build/ode_export.h`` file, which done using the following functions.
+Next we need to generate the ``build/ode_export.h`` file, which is done using the following functions.
 
 .. code:: cmake
 
     include(GenerateExportHeader)
     generate_export_header(ode)
 
-Finally we add are executabel target and link it with our new shared library.
+Finally we add our executable target and link it with our new shared library.
 
 .. code:: cmake
 
     add_executable(oscillator apps/oscillator.cpp)
     target_link_libraries(oscillator PRIVATE ode)
 
-Lets build our library.
+Let's build our library.
 
 .. code:: text
 
@@ -853,17 +1080,49 @@ So how can we see that our executable uses our shared library? In Linux there is
 
 We can clearly see that the executable links against ``libode.so.1``, which it should. ``ldd`` is a good tool for debugging dynamic linking issues.
 
-Our build also generated a special header file, ``ode_export.h``, to handle the exported functions, which is located in the build directory. The library contains the definition of the ``ODE_EXPORT`` depending on platform and if we are building or using the library. If we look in the header file of our library we can see how it is used.
+Our build also generated a special header file, ``ode_export.h``, to handle the exported functions, which is located in the build directory. The header contains the definition of ``ODE_EXPORT`` depending on the platform and whether we are building or using the library. If we look in the header file of our library we can see how it is used.
 
 .. code:: cpp
 
     ODE_EXPORT State euler_step(const RHS& f, double t, const State& y, double h);
     ODE_EXPORT State rk4_step(const RHS& f, double t, const State& y, double h); 
 
+.. dropdown:: Complete example: ch_cmake/05_shared_library
+    :icon: code
+
+    .. literalinclude:: ../../ch_cmake/05_shared_library/CMakeLists.txt
+        :language: cmake
+        :caption: CMakeLists.txt
+
+    .. literalinclude:: ../../ch_cmake/05_shared_library/ode/include/ode/solvers.h
+        :language: cpp
+        :caption: ode/include/ode/solvers.h
+
+    .. literalinclude:: ../../ch_cmake/05_shared_library/apps/oscillator.cpp
+        :language: cpp
+        :caption: apps/oscillator.cpp
+
+    .. literalinclude:: ../../ch_cmake/05_shared_library/ode/src/solvers.cpp
+        :language: cpp
+        :caption: ode/src/solvers.cpp
+
+.. admonition:: Key points
+
+    * A shared library is loaded at runtime. Executables using it must be able to find it, on Windows typically in the same directory.
+    * ``BUILD_SHARED_LIBS`` decides whether ``add_library()`` without ``STATIC`` or ``SHARED`` builds a static or a shared library.
+    * ``generate_export_header()`` creates the ``ODE_EXPORT`` macro that marks which functions are exported from the library.
+    * On Linux, ``ldd`` shows which shared libraries an executable will load.
+
+.. admonition:: Exercise
+    :class: tip
+
+    1. In ``ch_cmake/05_shared_library``, configure a new build directory with ``-DBUILD_SHARED_LIBS=OFF``. Compare the build output and, on Linux, the output of ``ldd`` with the shared build.
+    2. Remove ``ODE_EXPORT`` from ``rk4_step`` in ``solvers.h`` and build again. What error do you get, and why?
+
 Project structure
 -----------------
 
-When your project grows it can be complicated to maintain all parts using a single ``CMakeLists.txt`` file. To handle this you can divide up CMake functionality into multiple ``CMakeLists.txt`` located in subdirectories in your project. Each of these will operate relative to the subdirectory it is running in. You add a subdirectory with a ``CMakeLists.txt`` using the ``add_subdiretory()`` function in CMake. 
+When your project grows it can be complicated to maintain all parts using a single ``CMakeLists.txt`` file. To handle this you can divide up CMake functionality into multiple ``CMakeLists.txt`` files located in subdirectories in your project. Each of these will operate relative to the subdirectory it is running in. You add a subdirectory with a ``CMakeLists.txt`` using the ``add_subdirectory()`` function in CMake. 
 
 To illustrate how this can be accomplished, consider the following project layout.
 
@@ -880,13 +1139,13 @@ To illustrate how this can be accomplished, consider the following project layou
     └── tests/                <- automatic tests run with ctest
         └── CMakeLists.txt
 
-We have 3 parts.
+We have three parts:
 
-- ``libs`` -- Cointaining the source for reusable library code.
+- ``libs`` -- Containing the source for reusable library code.
 - ``apps`` -- Applications using our library.
 - ``tests`` -- Tests for our project. 
 
-For each subdirectory there is a separate ``CMakeLists.txt``. Lets go through them step by step. We start with the main file. First, we add the standard declaration for the project:
+For each subdirectory there is a separate ``CMakeLists.txt``. Let's go through them step by step. We start with the main file. First, we add the standard declaration for the project:
 
 .. code:: cmake
 
@@ -902,7 +1161,7 @@ As this example also uses tests we add an option ``HEAT_BUILD_TESTS`` for enabli
 
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-Next, we add our subdirectories with our additional ``CMakeLists.txt`` directories. We use a if-statement in CMake to enable the tests when this option is set.
+Next, we add our subdirectories containing the additional ``CMakeLists.txt`` files. We use an if-statement in CMake to enable the tests when this option is set.
 
 .. code:: cmake
 
@@ -916,7 +1175,7 @@ Next, we add our subdirectories with our additional ``CMakeLists.txt`` directori
         add_subdirectory(tests)
     endif()
 
-The ``CMakeLists.txt`` the subdirectories are part of the main project and will have access to all variables defined in the main project, so we can just define our targets just like in a single file. Note that the paths are relative to the subdirectory.
+The ``CMakeLists.txt`` files in the subdirectories are part of the main project and will have access to all variables defined in the main project, so we can define our targets just like in a single file. Note that the paths are relative to the subdirectory.
 
 .. code:: cmake
 
@@ -928,7 +1187,7 @@ The ``CMakeLists.txt`` the subdirectories are part of the main project and will 
     target_include_directories(heat PUBLIC include)
     target_compile_features(heat PUBLIC cxx_std_23)
 
-When defining a library it can be be a good idea to also defining a library alias to get a clear error when linking with the library. Without an alias a wrong library name can actually success if there is a similar system library. Below is an example of an alias library.
+When defining a library it can be a good idea to also define a library alias to get a clear error when linking with the library. Without an alias a wrong library name can actually succeed if there is a similar system library. Below is an example of an alias library.
 
 .. code:: cmake
 
@@ -943,7 +1202,7 @@ The ``apps``-directory is handled in the same way.
 
 Here we also see how the alias, ``heat::heat``, is used. 
 
-In the final subdirectory, ``tests`` will contain our tests. Tests are added using the ``add_test()``-function. A test is a program that is run and returns 0 for a succesfull test and non-zero for a test failure. In the following code we add 2 test that we link with the heat library.
+The final subdirectory, ``tests``, contains our tests. Tests are added using the ``add_test()``-function. A test is a program that is run and returns 0 for a successful test and non-zero for a test failure. In the following code we add two tests that we link with the heat library.
 
 .. code:: cmake
 
@@ -991,9 +1250,9 @@ Building is done in the same way as before. See below:
     [100%] Linking CXX executable ../bin/test_invalid_input
     [100%] Built target test_invalid_input
 
-We see here that CMake walks through the subdirectories and uses each of the provided ``CMakeLists.txt`` as it was a single project. As the option for building tests was enabled CMake also built the test executables. 
+We see here that CMake walks through the subdirectories and uses each of the provided ``CMakeLists.txt`` as if it were a single project. As the option for building tests was enabled CMake also built the test executables. 
 
-To run the tests we need to use another CMake provided tool ctest as shown below.
+To run the tests we need to use another CMake-provided tool, ``ctest``, as shown below.
 
 .. code:: text
 
@@ -1010,10 +1269,63 @@ To run the tests we need to use another CMake provided tool ctest as shown below
 
     Total Test time (real) =   0.49 sec
 
+.. dropdown:: Complete example: ch_cmake/06_project_structure
+    :icon: code
+
+    .. literalinclude:: ../../ch_cmake/06_project_structure/CMakeLists.txt
+        :language: cmake
+        :caption: CMakeLists.txt
+
+    .. literalinclude:: ../../ch_cmake/06_project_structure/apps/CMakeLists.txt
+        :language: cmake
+        :caption: apps/CMakeLists.txt
+
+    .. literalinclude:: ../../ch_cmake/06_project_structure/libs/heat/CMakeLists.txt
+        :language: cmake
+        :caption: libs/heat/CMakeLists.txt
+
+    .. literalinclude:: ../../ch_cmake/06_project_structure/tests/CMakeLists.txt
+        :language: cmake
+        :caption: tests/CMakeLists.txt
+
+    .. literalinclude:: ../../ch_cmake/06_project_structure/libs/heat/include/heat/heat1d.h
+        :language: cpp
+        :caption: libs/heat/include/heat/heat1d.h
+
+    .. literalinclude:: ../../ch_cmake/06_project_structure/apps/heat_rod.cpp
+        :language: cpp
+        :caption: apps/heat_rod.cpp
+
+    .. literalinclude:: ../../ch_cmake/06_project_structure/libs/heat/src/heat1d.cpp
+        :language: cpp
+        :caption: libs/heat/src/heat1d.cpp
+
+    .. literalinclude:: ../../ch_cmake/06_project_structure/tests/test_invalid_input.cpp
+        :language: cpp
+        :caption: tests/test_invalid_input.cpp
+
+    .. literalinclude:: ../../ch_cmake/06_project_structure/tests/test_steady_state.cpp
+        :language: cpp
+        :caption: tests/test_steady_state.cpp
+
+.. admonition:: Key points
+
+    * ``add_subdirectory()`` adds a directory with its own ``CMakeLists.txt``. It sees all variables of its parent.
+    * Paths in a subdirectory ``CMakeLists.txt`` are relative to that subdirectory.
+    * Alias targets like ``heat::heat`` give a clear error message when a library name is misspelled.
+    * ``enable_testing()`` and ``add_test()`` define tests, and ``ctest`` runs them.
+
+.. admonition:: Exercise
+    :class: tip
+
+    1. In ``ch_cmake/06_project_structure``, misspell ``heat::heat`` in ``apps/CMakeLists.txt`` and configure. Then misspell ``heat`` (without the alias) and compare the error messages.
+    2. Configure with ``-DHEAT_BUILD_TESTS=OFF`` and check that the test executables are no longer built.
+    3. Run a single test with ``ctest --test-dir build -R steady``.
+
 Finding required packages
 -------------------------
 
-Many application depends on other packages to build. Finding and configuring packages can be complicated and platformdependent. CMake includes a mechanism for searching for packages with the ´´find_package()`` function. In the easiest form you just give the name of the package that you want to find.
+Many applications depend on other packages to build. Finding and configuring packages can be complicated and platform-dependent. CMake includes a mechanism for searching for packages with the ``find_package()`` function. In the easiest form you just give the name of the package that you want to find.
 
 .. code:: cmake
 
@@ -1042,7 +1354,7 @@ If a package is required you can add the keyword ``REQUIRED`` to the function.
     target_compile_features(mc_pi_threads PRIVATE cxx_std_23)
     target_link_libraries(mc_pi_threads PRIVATE Threads::Threads)
 
-If the package can't be find the CMake configuration will fail.
+If the package can't be found, the CMake configuration will fail.
 
 What packages are available to find is not clear cut. You can get an idea by running the following command in a terminal.
 
@@ -1066,19 +1378,57 @@ What packages are available to find is not clear cut. You can get an idea by run
 
 The Find-modules give you a hint on what packages you can search for.
 
-If libraries are not installed in standard location you need to tell CMake where to find these packages. You can provide the location of the installed libraries using the ``CMAKE_PREFIX_PATH`` variable when configuring the build.
+If libraries are not installed in a standard location you need to tell CMake where to find these packages. You can provide the location of the installed libraries using the ``CMAKE_PREFIX_PATH`` variable when configuring the build.
 
 .. code:: text
 
     cmake -S . -B build -DCMAKE_PREFIX_PATH=/path/to/eigen/install
     cmake -S . -B build -DCMAKE_PREFIX_PATH=$CONDA_PREFIX
 
+.. dropdown:: Complete example: ch_cmake/07_find_package_openmp
+    :icon: code
+
+    .. literalinclude:: ../../ch_cmake/07_find_package_openmp/CMakeLists.txt
+        :language: cmake
+        :caption: CMakeLists.txt
+
+    .. literalinclude:: ../../ch_cmake/07_find_package_openmp/mc_pi.cpp
+        :language: cpp
+        :caption: mc_pi.cpp
+
+    .. literalinclude:: ../../ch_cmake/07_find_package_openmp/mc_pi_threads.cpp
+        :language: cpp
+        :caption: mc_pi_threads.cpp
+
+.. dropdown:: Complete example: ch_cmake/08_find_package_eigen
+    :icon: code
+
+    .. literalinclude:: ../../ch_cmake/08_find_package_eigen/CMakeLists.txt
+        :language: cmake
+        :caption: CMakeLists.txt
+
+    .. literalinclude:: ../../ch_cmake/08_find_package_eigen/spring_chain.cpp
+        :language: cpp
+        :caption: spring_chain.cpp
+
+.. admonition:: Key points
+
+    * ``find_package()`` looks for a library installed on the system. Without ``REQUIRED`` the configure step continues even if the package is missing.
+    * Found packages usually provide *imported targets*, such as ``OpenMP::OpenMP_CXX``, which are used with ``target_link_libraries()`` like any other target.
+    * ``CMAKE_PREFIX_PATH`` tells CMake where to look for libraries installed in non-standard locations.
+
+.. admonition:: Exercise
+    :class: tip
+
+    1. In ``ch_cmake/07_find_package_openmp``, configure with ``-DCMAKE_DISABLE_FIND_PACKAGE_OpenMP=ON`` to simulate a system without OpenMP. Check that the serial version is built, and compare the run times.
+    2. Try to configure ``ch_cmake/08_find_package_eigen``. If Eigen is not found, install it and point CMake to it with ``CMAKE_PREFIX_PATH``.
+
 Using the vcpkg package manager
 -------------------------------
 
 It is often very cumbersome to install packages on different platforms. To overcome this you can use the vcpkg tool to automatically download and build the dependencies. 
 
-To install vcpkg you have to peform the following commands. The commands can differ a bit depending on platform, so check the vcpkg documentation.
+To install vcpkg you have to perform the following commands. The commands can differ a bit depending on platform, so check the vcpkg documentation.
 
 .. code:: text
 
@@ -1087,7 +1437,7 @@ To install vcpkg you have to peform the following commands. The commands can dif
     $ git pull
     $ ./bootstrap-vcpkg.sh
 
-When this is done set the ``VCPKG_ROOT`` to the directory of the installation.
+When this is done set the ``VCPKG_ROOT`` environment variable to the directory of the installation.
 
 Next, we are going to use a new feature of CMake, the ``CMakePresets.json`` file. This file simplifies the build configuration and the required options you need to specify for configuring the build. We are now going to configure a preset file for using the vcpkg package manager. The file is shown below:
 
@@ -1113,7 +1463,7 @@ Next, we are going to use a new feature of CMake, the ``CMakePresets.json`` file
         ]
     }
 
-There are 2 section in this file the first defines the configuration settings and the second the build settings.
+There are two sections in this file: the first defines the configuration settings and the second the build settings.
 
 We also need to create a ``vcpkg.json`` file containing the required packages. This file will have the following content:
 
@@ -1129,9 +1479,9 @@ We also need to create a ``vcpkg.json`` file containing the required packages. T
         ]
     }
 
-The important entries are contained int the ``dependencies`` dictionary. Here we list that we need the ``eigen3`` and ``nlohmann-json`` libraries.  
+The important entries are contained in the ``dependencies`` dictionary. Here we list that we need the ``eigen3`` and ``nlohmann-json`` libraries.  
 
-The nice thing with using vcpkg is that we don't need to do any changes in the ``CMakeLists.txt`` file specifically for the application. The complete build is specified in the preset file. 
+The nice thing with using vcpkg is that we don't need to make any changes in the ``CMakeLists.txt`` file specifically for the application. The complete build is specified in the preset file. 
 
 To illustrate the usage we are going to build an application that requires the libraries described above. 
 
@@ -1145,7 +1495,7 @@ We start with the standard configurations.
 
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-Next, we use ``find_package()`` find and configure the required packages.
+Next, we use ``find_package()`` to find and configure the required packages.
 
 .. code:: cmake
 
@@ -1154,7 +1504,7 @@ Next, we use ``find_package()`` find and configure the required packages.
 
 As the application requires both libraries to work we give the ``REQUIRED`` attribute. The ``CONFIG`` attribute tells the command to use the library provided configuration information. 
 
-Next, we define are target and link options. Please note we use the new namespace method of listing libraries so we avoid clashes with system installed libraries.
+Next, we define our target and link options. Please note that we use the new namespace method of listing libraries so we avoid clashes with system installed libraries.
 
 .. code:: cmake
 
@@ -1162,7 +1512,7 @@ Next, we define are target and link options. Please note we use the new namespac
     target_compile_features(truss PRIVATE cxx_std_23)
     target_link_libraries(truss PRIVATE Eigen3::Eigen nlohmann_json::nlohmann_json)    
 
-The application also comes with a sample configuration file ``truss.json`` which should be copied next to the executable file. This can also be handled by CMake using the ``add_custom_command()`` function. Using this command we can specifies operations that can be performed before and after the build. In this case we want the file to be copied post build, so we give the attribute ``POST_BUILD`` in the call. In the attribute ``COMMAND`` we specify the command to be executed. The complete call is shown below:
+The application also comes with a sample configuration file ``truss.json`` which should be copied next to the executable file. This can also be handled by CMake using the ``add_custom_command()`` function. Using this command we can specify operations that can be performed before and after the build. In this case we want the file to be copied post build, so we give the attribute ``POST_BUILD`` in the call. In the attribute ``COMMAND`` we specify the command to be executed. The complete call is shown below:
 
 .. code:: cmake
 
@@ -1173,7 +1523,7 @@ The application also comes with a sample configuration file ``truss.json`` which
         COMMENT "Copying truss.json to the output directory"
     )    
 
-To configure and build our application using preset we give the following commands:
+To configure and build our application using the preset we give the following commands:
 
 .. code:: text
 
@@ -1203,7 +1553,7 @@ To configure and build our application using preset we give the following comman
     -- Generating done (0.0s)
     -- Build files have been written to: /Users/lindemann/Development/cpp_course/ch_cmake/09_vcpkg_manifest/build
 
-Please not that the vcpkg configuration will print out the ``CMakeLists.txt`` function calls required to configure and find the packages as shown below:
+Please note that the vcpkg configuration will print out the ``CMakeLists.txt`` function calls required to configure and find the packages as shown below:
 
 .. code:: text
 
@@ -1241,6 +1591,42 @@ To build the package we also use the preset configuration:
 
 We also see that the ``truss.json`` file is automatically copied to the same directory as the application binary.
 
+.. dropdown:: Complete example: ch_cmake/09_vcpkg_manifest
+    :icon: code
+
+    .. literalinclude:: ../../ch_cmake/09_vcpkg_manifest/CMakeLists.txt
+        :language: cmake
+        :caption: CMakeLists.txt
+
+    .. literalinclude:: ../../ch_cmake/09_vcpkg_manifest/CMakePresets.json
+        :language: json
+        :caption: CMakePresets.json
+
+    .. literalinclude:: ../../ch_cmake/09_vcpkg_manifest/truss.json
+        :language: json
+        :caption: truss.json
+
+    .. literalinclude:: ../../ch_cmake/09_vcpkg_manifest/vcpkg.json
+        :language: json
+        :caption: vcpkg.json
+
+    .. literalinclude:: ../../ch_cmake/09_vcpkg_manifest/truss.cpp
+        :language: cpp
+        :caption: truss.cpp
+
+.. admonition:: Key points
+
+    * vcpkg downloads and builds the dependencies listed in ``vcpkg.json`` during the configure step.
+    * vcpkg is enabled through a toolchain file, conveniently set in a ``CMakePresets.json`` file. ``CMakeLists.txt`` still uses ordinary ``find_package()`` calls.
+    * Presets are used with ``cmake --preset <name>`` and ``cmake --build --preset <name>``.
+    * ``add_custom_command()`` can run commands before or after a target is built, for example to copy data files.
+
+.. admonition:: Exercise
+    :class: tip
+
+    1. In ``ch_cmake/09_vcpkg_manifest``, list the available presets with ``cmake --list-presets``.
+    2. Add the ``fmt`` library to ``vcpkg.json``, find it with ``find_package(fmt CONFIG REQUIRED)``, link with ``fmt::fmt`` and use ``fmt::print()`` in ``truss.cpp``.
+
 Downloading dependencies using FetchContent
 -------------------------------------------
 
@@ -1254,7 +1640,7 @@ Another option to handle dependencies automatically is to use the FetchContent f
 
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-To use FetchContent we must firs include the CMake library using the ``ìnclude()`` function. 
+To use FetchContent we must first include the CMake module using the ``include()`` function. 
 
 .. code:: cmake
 
@@ -1269,7 +1655,7 @@ Next, we need to declare the URL and version to download from GitHub. A typical 
         DOWNLOAD_EXTRACT_TIMESTAMP TRUE
     )
 
-In the next step we download (first time only) the dependency and make the targets available to our builed. 
+In the next step we download (first time only) the dependency and make the targets available to our build. 
 
 .. code:: cmake
 
@@ -1313,12 +1699,35 @@ We build the project just like before:
     [100%] Linking CXX executable bin/projectile
     [100%] Built target projectile
 
-As we can see the CMake files from the CLI project is a bet outdates, but it downloaded and built the library.
+As we can see, the CMake files from the CLI project are a bit outdated, but it downloaded and built the library.
+
+.. dropdown:: Complete example: ch_cmake/10_fetchcontent
+    :icon: code
+
+    .. literalinclude:: ../../ch_cmake/10_fetchcontent/CMakeLists.txt
+        :language: cmake
+        :caption: CMakeLists.txt
+
+    .. literalinclude:: ../../ch_cmake/10_fetchcontent/projectile.cpp
+        :language: cpp
+        :caption: projectile.cpp
+
+.. admonition:: Key points
+
+    * FetchContent downloads a dependency during the configure step and builds it together with your project.
+    * ``FetchContent_Declare()`` says where to get the dependency, and ``FetchContent_MakeAvailable()`` downloads it and makes its targets available.
+    * The download only happens the first time. The source code is stored in ``build/_deps``.
+
+.. admonition:: Exercise
+    :class: tip
+
+    1. In ``ch_cmake/10_fetchcontent``, look in ``build/_deps`` to see what was downloaded.
+    2. Change the CLI11 version in ``FetchContent_Declare()`` to a newer release, delete the build directory and build again.
 
 Unit-testing with CTest and Catch2
 ----------------------------------
 
-We have already covered basic test functionality of CMake using the ``ctest``. However for numerical libraries it is more complicated to implement these tests. To make it easier to write tests for these libraries we can use the Catch2 test framework to help us. To illustrate how to use this framework we implement test functions for a quadrature library. The tests can be implemented in separate source files or in a single source. In this example we will provide the test cases in a single source file ``test_quadrature.cpp``. We first we add all required include files:
+We have already covered basic test functionality of CMake using ``ctest``. However, for numerical libraries it is more complicated to implement these tests. To make it easier to write tests for these libraries we can use the Catch2 test framework to help us. To illustrate how to use this framework we implement test functions for a quadrature library. The tests can be implemented in separate source files or in a single source. In this example we will provide the test cases in a single source file ``test_quadrature.cpp``. First, we add all required include files:
 
 .. code:: cpp
 
@@ -1347,7 +1756,7 @@ The concept is that we define test cases where we call our libraries and evaluat
         REQUIRE_THAT(quad::trapezoidal(f, 0.0, 2.0, 1), WithinAbs(10.0, 1e-12));
     }
 
-In this case we require the result from a call to ``quad::trapezoidal(f, 0.0, 2.0, 1)`` should be ``10.0`` with an absolute tolerance of ``1e-12``. 
+In this case we require that the result from a call to ``quad::trapezoidal(f, 0.0, 2.0, 1)`` is ``10.0`` with an absolute tolerance of ``1e-12``. 
 
 To implement the test functionality in our ``CMakeLists.txt`` we use FetchContent to download and install the Catch2 framework.
 
@@ -1406,3 +1815,119 @@ We can now build and test our library.
     100% tests passed, 0 tests failed out of 7
 
     Total Test time (real) =   0.04 sec
+
+.. dropdown:: Complete example: ch_cmake/11_testing
+    :icon: code
+
+    .. literalinclude:: ../../ch_cmake/11_testing/CMakeLists.txt
+        :language: cmake
+        :caption: CMakeLists.txt
+
+    .. literalinclude:: ../../ch_cmake/11_testing/include/quadrature.h
+        :language: cpp
+        :caption: include/quadrature.h
+
+    .. literalinclude:: ../../ch_cmake/11_testing/src/quadrature.cpp
+        :language: cpp
+        :caption: src/quadrature.cpp
+
+    .. literalinclude:: ../../ch_cmake/11_testing/tests/test_quadrature.cpp
+        :language: cpp
+        :caption: tests/test_quadrature.cpp
+
+.. admonition:: Key points
+
+    * Catch2 test cases are defined with ``TEST_CASE()`` and checked with ``REQUIRE()`` and ``REQUIRE_THAT()``.
+    * Floating-point results should be compared with a tolerance using Catch2 matchers, never with ``==``.
+    * ``catch_discover_tests()`` registers each test case as a separate CTest test.
+    * ``ctest --output-on-failure`` shows the output of failing tests.
+
+.. admonition:: Exercise
+    :class: tip
+
+    1. In ``ch_cmake/11_testing``, add a test case that fails on purpose and read the output of ``ctest --test-dir build -C Release --output-on-failure``.
+    2. Run only the tests for Simpson's rule with ``ctest --test-dir build -C Release -R Simpson``.
+    3. Write a test case checking that all three methods compute the integral of :math:`e^x` over :math:`[0, 1]`, which is :math:`e - 1`, to a relative tolerance of ``1e-6``.
+
+Quick reference
+---------------
+
+Command line
+~~~~~~~~~~~~
+
+.. list-table::
+    :header-rows: 1
+    :widths: 50 50
+
+    * - Command
+      - Description
+    * - ``cmake -S . -B build``
+      - Configure the project in the current directory into ``build``.
+    * - ``cmake -S . -B build -G Ninja``
+      - Configure with a specific generator.
+    * - ``cmake -S . -B build -DNAME=VALUE``
+      - Set an option or a cache variable, e.g. ``-DBUILD_SHARED_LIBS=ON``.
+    * - ``cmake --build build``
+      - Build all targets.
+    * - ``cmake --build build --config Release``
+      - Build the Release configuration (Visual Studio and Xcode).
+    * - ``cmake --build build --target name``
+      - Build a single target.
+    * - ``cmake --build build --parallel``
+      - Build using several processor cores.
+    * - ``cmake --list-presets``
+      - List the configure presets in ``CMakePresets.json``.
+    * - ``cmake --preset name``
+      - Configure using a preset.
+    * - ``cmake --build --preset name``
+      - Build using a build preset.
+    * - ``ctest --test-dir build -C Release``
+      - Run all tests.
+    * - ``ctest --test-dir build -R regex``
+      - Run the tests whose names match a regular expression.
+    * - ``ctest --test-dir build --output-on-failure``
+      - Show the output of failing tests.
+    * - ``cmake --help-module-list``
+      - List the modules shipped with CMake, including the Find-modules.
+
+CMake commands
+~~~~~~~~~~~~~~
+
+.. list-table::
+    :header-rows: 1
+    :widths: 50 50
+
+    * - Command
+      - Description
+    * - ``cmake_minimum_required(VERSION 3.20)``
+      - Oldest CMake version the project supports. Always the first line.
+    * - ``project(Name VERSION 1.0 LANGUAGES CXX)``
+      - Project name, version and languages.
+    * - ``add_executable(name src...)``
+      - Create an executable target.
+    * - ``add_library(name [STATIC|SHARED] src...)``
+      - Create a library target.
+    * - ``add_library(ns::name ALIAS name)``
+      - Create an alias for a library target.
+    * - ``target_include_directories(t PRIVATE|PUBLIC dir...)``
+      - Where the compiler finds header files.
+    * - ``target_compile_features(t PRIVATE|PUBLIC cxx_std_23)``
+      - Required C++ standard.
+    * - ``target_compile_options(t PRIVATE flags...)``
+      - Extra compiler flags.
+    * - ``target_link_libraries(t PRIVATE|PUBLIC lib...)``
+      - Link with libraries and use their public properties.
+    * - ``set_target_properties(t PROPERTIES ...)``
+      - Set other target properties.
+    * - ``add_subdirectory(dir)``
+      - Process the ``CMakeLists.txt`` in a subdirectory.
+    * - ``option(NAME "description" ON)``
+      - Define an option the user can set on the command line.
+    * - ``find_package(Name [CONFIG] [REQUIRED])``
+      - Find a library installed on the system.
+    * - ``FetchContent_Declare()`` / ``FetchContent_MakeAvailable()``
+      - Download a dependency and build it with the project.
+    * - ``add_custom_command(TARGET t POST_BUILD COMMAND ...)``
+      - Run a command after a target has been built.
+    * - ``enable_testing()`` / ``add_test(NAME n COMMAND cmd)``
+      - Define tests to be run by CTest.
