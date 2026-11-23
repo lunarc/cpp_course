@@ -1849,6 +1849,16 @@ We can now build and test our library.
     2. Run only the tests for Simpson's rule with ``ctest --test-dir build -C Release -R Simpson``.
     3. Write a test case checking that all three methods compute the integral of :math:`e^x` over :math:`[0, 1]`, which is :math:`e - 1`, to a relative tolerance of ``1e-6``.
 
+Build configurations
+--------------------
+
+Install and export
+------------------
+
+C++ and Fortran
+---------------
+
+
 Quick reference
 ---------------
 
