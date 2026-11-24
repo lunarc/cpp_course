@@ -2196,11 +2196,210 @@ The binary is located in ``build/release-float``. Running it produced the follow
     Try reconfiguring with -DLORENZ_USE_FLOAT=ON or -DLORENZ_INTEGRATOR=euler
     and compare - chaotic systems are very sensitive to small errors.
 
-
-
+As we can see above the project version is included in the build source as well as the compiler version used. Using presets is very convenient solution to complicated CMake switches for controlling the configuration.
 
 Install and export
 ------------------
+
+In addition to being able to configure, test and build CMake can also install and create packages for different platforms. Consider the following project defining a `materials` library.
+
+.. tabs::
+
+    .. tab:: src/materials.cpp
+
+        .. code-block:: cpp
+
+            #include <materials/materials.h>
+
+            #include <cmath>
+            #include <stdexcept>
+
+            namespace materials {
+
+            const std::vector<Material>& all()
+            {
+                static const std::vector<Material> database = {
+                    {"steel", 7850.0, 210e9, 0.30, 250e6},
+                    {"aluminium", 2700.0, 70e9, 0.33, 95e6},
+                    {"titanium", 4500.0, 116e9, 0.34, 880e6},
+                    {"copper", 8960.0, 117e9, 0.34, 70e6},
+                    {"concrete", 2400.0, 30e9, 0.20, 3e6},
+                };
+                return database;
+            }
+
+            const Material& find(const std::string& name)
+            {
+                for (const auto& m : all())
+                    if (m.name == name)
+                        return m;
+                throw std::out_of_range("Unknown material: " + name);
+            }
+
+            double shear_modulus(const Material& m)
+            {
+                return m.youngs_modulus / (2.0 * (1.0 + m.poissons_ratio));
+            }
+
+            double bulk_modulus(const Material& m)
+            {
+                return m.youngs_modulus / (3.0 * (1.0 - 2.0 * m.poissons_ratio));
+            }
+
+            double rod_wave_speed(const Material& m)
+            {
+                return std::sqrt(m.youngs_modulus / m.density);
+            }
+
+            } // namespace materials
+
+    .. tab:: include/materials/materials.h
+
+        .. code-block:: cpp
+
+            #pragma once
+
+            #include <string>
+            #include <vector>
+
+            namespace materials {
+
+            // Linear elastic, isotropic material.
+            struct Material
+            {
+                std::string name;
+                double density;        // [kg/m^3]
+                double youngs_modulus; // [Pa]
+                double poissons_ratio; // [-]
+                double yield_stress;   // [Pa]
+            };
+
+            // Look up a material by name. Throws std::out_of_range if unknown.
+            const Material& find(const std::string& name);
+
+            // All materials in the database.
+            const std::vector<Material>& all();
+
+            // Derived elastic properties.
+            double shear_modulus(const Material& m);
+            double bulk_modulus(const Material& m);
+
+            // Speed of longitudinal waves in a thin rod, sqrt(E / rho) [m/s].
+            double rod_wave_speed(const Material& m);
+
+            } // namespace materials
+
+To create a CMake configuration that can configure, build and install the library we do our standard configuration providing CMake version and project version:
+
+.. code:: cmake
+
+    cmake_minimum_required(VERSION 3.20)
+
+    project(Materials VERSION 1.2.0 LANGUAGES CXX)
+
+Next we include a file that sets up tandard install directory names (lib, lib64, include, bin, ...) following the conventions of the platform.
+
+.. code:: cmake
+
+    include(GNUInstallDirs)
+
+Next we declare our target library and properties.
+
+.. code:: cmake
+
+    add_library(materials STATIC src/materials.cpp include/materials/materials.h)
+    add_library(Materials::materials ALIAS materials)
+
+    target_compile_features(materials PUBLIC cxx_std_23)
+
+When we setup our include directories there are two interfaces to consider, the build interface and the install interface. These will have different locations one is the source tree and the other is the install location. We can use macro variable sin the CMake code to make the distinction.
+
+.. code:: cmake
+
+    target_include_directories(materials PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+    )
+
+The macros ``BUILD_INTERFACE`` and ``INSTALL_INTERFACE`` control what directories are chosen depending if you are building or installing the library.
+
+In the next steps we define the installation rules. Most of this functionality is handled by the ``install()`` function in CMake. First we define the library itself:
+
+.. code:: cmake
+
+    install(TARGETS materials
+        EXPORT MaterialsTargets
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    )    
+
+The ``TARGETS`` option indicates to CMake which targets to install, in this case ``materials``. The EXPORT attribute creates a installable set of files, stored in ``MaterialTargets``. The other options lists where the files should be installed. 
+
+We also have to specify where the include are found and where they should be installed.
+
+.. code:: cmake
+
+    install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+Here we copy the contents in the include directory including the materials folder with the include file to the install destination. We also need to create ``MaterialsTargets.cmake`` file which defined the imported target ``Materials::materials`` for users of the installed library. 
+
+.. code:: cmake
+
+    install(EXPORT MaterialsTargets
+        NAMESPACE Materials::
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Materials
+    )
+
+This will create a ``MaterialsTarget.cmake`` in the ``lib/cmake/Materials`` directory of the installation. 
+
+We also need to create configuration and version information for the ``find_package()`` command so that users can search for the library in their own CMake files. This is done with the following commands:
+
+.. code:: cmake
+
+    configure_package_config_file(
+        cmake/MaterialsConfig.cmake.in
+        ${CMAKE_CURRENT_BINARY_DIR}/MaterialsConfig.cmake
+        INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Materials
+    )
+
+    write_basic_package_version_file(
+        ${CMAKE_CURRENT_BINARY_DIR}/MaterialsConfigVersion.cmake
+        VERSION ${PROJECT_VERSION}
+        COMPATIBILITY SameMajorVersion
+    )
+
+    install(FILES
+        ${CMAKE_CURRENT_BINARY_DIR}/MaterialsConfig.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/MaterialsConfigVersion.cmake
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Materials
+    )    
+
+To install the library we use the install option of CMake as shown below. In this example the destination is one directory below the source tree ``../install``.
+
+.. code:: text
+
+    $ cmake --install build --config Release --prefix ../install
+    -- Installing: /home/.../materials/../install/lib64/libmaterials.a
+    -- Installing: /home/.../materials/../install/include
+    -- Installing: /home/.../materials/../install/include/materials
+    -- Installing: /home/.../materials/../install/include/materials/materials.h
+    -- Installing: /home/.../materials/../install/lib64/cmake/Materials/MaterialsTargets.cmake
+    -- Installing: /home/.../materials/../install/lib64/cmake/Materials/MaterialsConfig.cmake
+    -- Installing: /home/.../materials/../install/lib64/cmake/Materials/MaterialsConfigVersion.cmake
+
+This installs into the following structure:
+
+.. code:: text
+
+   install/
+   ├── include/materials/materials.h
+   ├── lib/materials.lib  (or libmaterials.a)
+   └── lib/cmake/Materials/
+       ├── MaterialsConfig.cmake
+       ├── MaterialsConfigVersion.cmake
+       └── MaterialsTargets.cmake
+
 
 C++ and Fortran
 ---------------
